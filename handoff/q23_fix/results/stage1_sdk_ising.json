@@ -1,0 +1,84 @@
+{
+  "sdk": {
+    "kaiwu_version": "1.4.4",
+    "kaiwu_community": "1.0.8",
+    "numpy": "2.3.5",
+    "python": "3.12.14"
+  },
+  "problems": {
+    "q2": {
+      "pool_rows": 2704,
+      "expected_rows": 2704,
+      "n_variables": 104,
+      "offset": 4.0,
+      "sdk_model": {
+        "n_variables": 104,
+        "model_offset": 0.0,
+        "matrix_roundtrip_max_abs_diff": 0.0,
+        "roundtrip_ok": true
+      },
+      "sdk_ising": {
+        "sdk_matrix_shape": [
+          105,
+          105
+        ],
+        "sdk_spin_count": 105,
+        "sdk_conversion_bias": 2755.0614504896566,
+        "matrix_vs_formula_max_abs_diff": 2.1316282072803006e-14,
+        "matrix_matches_formula": true,
+        "energy_chain_max_abs_diff": 1.4241940959891508e-12,
+        "energy_chain_ok": true,
+        "bias_plus_offset_equals_K": true,
+        "K_archived_was_missing_offset": 2755.0614504896566,
+        "K_with_offset": 2759.0614504896566,
+        "formula_K": 2759.0614504896566,
+        "h_max_abs": 56.88355695365079,
+        "J_max_abs": 1.0,
+        "sdk_bias": 2755.0614504896566,
+        "offset": 4.0
+      },
+      "matrix_file": "sdk_ising_q2.npz",
+      "matrix_sha256": "adffdd831e326b5e0cb23a224bed534febd22015ff45a568d7553043dfffe1c6",
+      "qubo_sha256": "967b13d1957b40dd720de006f26ece2900b2dbaefd8bde793936e635bad6d95a",
+      "nnz_including_diagonal": 5459,
+      "nnz_offdiagonal": 5355
+    },
+    "q3": {
+      "pool_rows": 8112,
+      "expected_rows": 8112,
+      "n_variables": 208,
+      "offset": 4.0,
+      "sdk_model": {
+        "n_variables": 208,
+        "model_offset": 0.0,
+        "matrix_roundtrip_max_abs_diff": 0.0,
+        "roundtrip_ok": true
+      },
+      "sdk_ising": {
+        "sdk_matrix_shape": [
+          209,
+          209
+        ],
+        "sdk_spin_count": 209,
+        "sdk_conversion_bias": 13862.150907748914,
+        "matrix_vs_formula_max_abs_diff": 9.947598300641403e-14,
+        "matrix_matches_formula": true,
+        "energy_chain_max_abs_diff": 4.565237077258644e-12,
+        "energy_chain_ok": true,
+        "bias_plus_offset_equals_K": true,
+        "K_archived_was_missing_offset": 13862.150907748914,
+        "K_with_offset": 13866.150907748914,
+        "formula_K": 13866.150907748914,
+        "h_max_abs": 161.18721837132927,
+        "J_max_abs": 1.0,
+        "sdk_bias": 13862.150907748914,
+        "offset": 4.0
+      },
+      "matrix_file": "sdk_ising_q3.npz",
+      "matrix_sha256": "89cb288a75878a3f6bc02b822296664431a705413e5925ab2419702288a8f35d",
+      "qubo_sha256": "f3b447a1edb675da67cf76ebe09cb8bc4f4c5c908052faa248752f4cfe1b7b32",
+      "nnz_including_diagonal": 21735,
+      "nnz_offdiagonal": 21527
+    }
+  }
+}
