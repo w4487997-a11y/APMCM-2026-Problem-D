@@ -30,8 +30,8 @@ def main():
     with open(os.path.join(ROOT, "logs", "wheels.txt"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines) + "\n")
 
-    include_dirs = ["scripts", "results", "matrices", "logs"]
-    include_files = ["ONE_PAGE.md", "REVIEW_RESPONSE.md"]
+    include_dirs = ["scripts", "results", "matrices", "logs", "data"]
+    include_files = ["ONE_PAGE.md", "REVIEW_RESPONSE.md", "RECHECK_RESPONSE.md"]
     manifest = {}
     for f in include_files:
         p = os.path.join(ROOT, f)
@@ -52,7 +52,7 @@ def main():
                    "note": "Kaiwu SDK 安装目录 sdk_pkgs/ 与 wheels/ 不在包内，见 logs/wheels.txt",
                    "files": manifest}, fh, ensure_ascii=False, indent=2)
 
-    zpath = os.path.join(ROOT, "Q23_补做交付_v2.zip")
+    zpath = os.path.join(ROOT, "Q23_补做交付_v3.zip")
     if os.path.exists(zpath):
         os.remove(zpath)
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
