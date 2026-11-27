@@ -38,3 +38,7 @@ A DOI/metadata check, abstract review, publisher preview, full article review an
 - individual_papers/muecke2025_optimum_preserving_qubo_compression.md — theoretical optimum-preserving coefficient compression.
 - individual_papers/ohno2026_quantum_annealing_precision.md — coefficient reduction after minor embedding and chain-strength effects (D-Wave-specific).
 - individual_papers/doucet2026_qubo_penalty_thermodynamics.md — penalty-weight regimes and energy-scale trade-offs.
+
+
+## Writing examples and quality-review references
+See [paper/reference_materials/README.md](../reference_materials/README.md) for the 2022/2024 D-paper structural analyses and the AI-style / 16-dimension self-review implementation notes. These materials are supplementary to, and do not override, the official competition rules.
