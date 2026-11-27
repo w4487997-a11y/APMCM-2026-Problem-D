@@ -59,3 +59,27 @@ This is an initial evidence-bounded comparison. It must be updated after full-te
 
 ## Reproducibility comparison
 Persaud et al. (2024) documents the importance of dependency/version logs, complete scripts, and links between paper claims and executable artifacts. This directly supports the project's evidence-index and experiment-freeze requirements.
+
+
+---
+
+## Q2/Q3 hardware-aware encoding and precision comparison
+
+| Study | Main variable | Method | Result/insight | Relevance to this project | Transfer caution |
+|---|---|---|---|---|---|
+| Lucas 2014 | Constraint penalty | Ising mappings and penalty Hamiltonians | Constraint penalties must dominate objective improvement; auxiliary bits may encode inequalities | Mathematical foundation for one-hot penalties and feasibility | Need derive a bound for the actual V-hat cost and coefficient ranges |
+| Glover et al. 2019 | QUBO formulation | Tutorial/survey | QUBO unifies many combinatorial optimization problems | Defines notation and formulation workflow | Does not establish quantum advantage |
+| Ceselli & Premoli 2023 | Encoding and constraint form | Alternative QUBO encodings; quantum/digital solver comparison | Encoding and penalty design affect feasibility and solution quality | Supports comparing encodings and post-solve feasibility checks | Different knapsack problem and D-Wave hardware |
+| Mücke et al. 2025 | Coefficient dynamic range | Optimum-preserving parameter updates and compression | Can reduce precision demand while preserving argmin if derived bounds hold | Direct candidate for testing after D-01 int8 failure | Must prove preservation for full legal set and all constraints; Kaiwu transfer untested |
+| Ohno & Togawa 2026 | Embedded Hamiltonian range | Coefficient reduction after minor embedding; chain-strength search | Logical-level compression may behave differently after embedding | Motivates post-transformation precision audit | D-Wave-specific; Kaiwu embedding pipeline may differ |
+| Doucet et al. 2026 | One-hot/precedence penalty weights | Penalty-plane sweeps; D-Wave and classical solvers | Weak penalties cause infeasible minima; excessive penalties reduce effective objective scale | Directly contextualizes D-01 penalty-vs-objective tension | Different problem and hardware; not a parameter prescription |
+
+## Project-specific evidence crosswalk (D-01)
+The repository file Kaiwu_Precheck_Phase1_Summary.md records:
+- SPQC fixed-model signed 8-bit coefficients in [-128,127] and nominal spin capacities 550/1000;
+- 104/208 QUBO variables become 105/209 spins under the tested reference-spin Ising conversion;
+- one-hot penalty terms produce local-field contributions that scale with group size (for lambda=2, reported contributions 50 and 154);
+- direct int8 quantization of the tested 104/208-variable artificial matrices destroyed most or all material-interaction coefficients and produced lower-energy infeasible states;
+- finite tested penalty/transform variants did not restore the original optimum in those artificial stress cases.
+
+These are D-01 pre-feasibility results, not proof that every final Q2/Q3 encoding fails. The formal Q2/Q3 method must be based on the latest final matrices, solver logs and acceptance reports. Literature is used to motivate alternative encoding/precision experiments, not to claim a solution has already been found.
