@@ -49,3 +49,45 @@ The D-00 README also states that Kaiwu SDK, quantization and hardware tests had 
 4. State the exact binary-variable order and Q-matrix convention to avoid factor-of-two errors in off-diagonal terms.
 5. If the final solver is classical simulated annealing or hybrid, name it accurately; do not call it quantum annealing unless the execution logs show that backend.
 6. Separate exact enumeration on toy instances from full-scale optimization results.
+
+
+## 5. Additional literature directly relevant to D-01 precision findings
+
+### Optimum-preserving parameter compression
+Mücke, Gerlach and Piatkowski (2025) formalize how QUBO coefficient changes can preserve a set of minimizing binary vectors, derive allowable parameter-update bounds, and use greedy updates to reduce dynamic range. This is the strongest identified theoretical lead for testing coefficient compression on the project's matrix. It is not a drop-in routine: its guarantees require bounds for the actual QUBO instance and must preserve the full feasible optimum set.
+
+### Precision after minor embedding
+Ohno and Togawa (2026) emphasize that coefficient precision must be examined after minor embedding, including chain-strength effects. Their experiments are on D-Wave Advantage. The project must first determine the actual Kaiwu SPQC mapping pipeline; do not assume the same embedding or chain-strength controls.
+
+### Penalty strength as an encoding design variable
+Doucet et al. (2026) show on a Job Shop QUBO that weak penalties permit infeasible low-energy states, while overly strong penalties can suppress the effective objective scale. This supports sweeping penalty pairs and measuring feasibility, original-objective regret and coefficient resolution jointly.
+
+### Alternative encodings and feasibility
+Ceselli and Premoli (2023) compare different constraint encodings and show that QUBO solutions require post-solve feasibility checks. Their results support a controlled encoding comparison but do not directly prescribe a replacement for the project's one-hot encoding.
+
+## 6. D-01 repository evidence and its interpretation
+
+The current GitHub main branch contains Kaiwu_Precheck_Phase1_Summary.md. Its D-01 report records:
+- fixed SPQC coefficient precision of signed int8, [-128,127], and nominal 550/1000 spin capacity;
+- tested 104/208 logical variables mapping to 105/209 spins with a reference-spin Ising conversion;
+- for the tested one-hot penalty lambda=2, local-field contributions reported as 50 and 154 for group sizes 52 and 156;
+- direct int8 quantization destroyed 90.751% of Q2 material couplings and 100% of Q3 material couplings in the artificial stress matrices;
+- measured quantized minima included infeasible states below every legal candidate;
+- finite tested penalty and monotonic transform variants did not restore the original optimum.
+
+These findings are bounded to the artificial D-01 stress matrices and the tested conversion/quantization pipeline. They are not proof that every possible final Q2/Q3 encoding fails. The report itself marks the overall D-01 result CONDITIONAL PASS and identifies formal real-model plus hardware validation as pending.
+
+## 7. Required Q2/Q3 literature-to-experiment translation
+
+For every candidate precision/encoding method, the project must test:
+1. exact mathematical equivalence before quantization;
+2. a sufficient penalty bound or explicit feasible-optimum proof;
+3. all legal candidates' original cost and quantized cost;
+4. minimum illegal-state energy versus minimum legal-state energy;
+5. argmin preservation and near-optimal ranking preservation;
+6. dynamic range and coefficient distribution before and after every hardware transformation;
+7. original-objective regret after decoding;
+8. feasible rate, solver hit rate, repeatability and cost under matched budgets;
+9. compatibility with the actual Kaiwu SPQC SDK and platform, not merely a D-Wave paper's API.
+
+Do not claim that parameter compression, IEM, BCE, ALM, alternate one-hot encodings or penalty sweeps have solved the project's int8 issue until these checks pass on the final Q2/Q3 matrices.
