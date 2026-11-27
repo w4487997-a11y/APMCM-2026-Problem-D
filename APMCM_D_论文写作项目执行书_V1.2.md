@@ -1377,3 +1377,12 @@ GitHub现有Kaiwu_Precheck_Phase1_Summary.md记录D-01整体CONDITIONAL PASS，�
 - 不因矩阵满足[-128,127]就称硬件模型保真；必须报告量化后合法最优、非法能量下界/反例、原目标regret和候选排序保持率。
 - 不将D-Wave论文中的chain strength、minor embedding、IEM/BCE/ALM直接写成Kaiwu已支持的功能。
 - 不宣称量子优势；仅报告本项目实际可核验的SDK/本地/真机执行层级。
+
+
+---
+
+## 24. 文献阅读状态总索引（交接辅助）
+
+新增统一状态表：paper/literature/literature_status_matrix.md。
+
+聊天1和后续写作代理在引用文献前，先读取该表，确认每篇论文是全文、出版社预览、摘要级还是补充材料级。不得把摘要级或预览级文献表述成完整精读。完整优先级和章节入口仍以第22节为准。
