@@ -1,0 +1,80 @@
+{
+  "q2": {
+    "passed": {
+      "rows": 2704,
+      "unique_ids": 2704,
+      "scores_finite": true,
+      "score_span": 66.40095511886202,
+      "first_gap": 0.31381863133865195,
+      "ties_at_minimum": 1,
+      "model_version": "q23_final_v1_hgb_gap_mix",
+      "top3": [
+        {
+          "id": "15567",
+          "material": "Y|Ti|NO2",
+          "V_hat": 1.4919281724855757
+        },
+        {
+          "id": "11304",
+          "material": "Y|Zr|NO2",
+          "V_hat": 1.8057468038242277
+        },
+        {
+          "id": "15668",
+          "material": "La|Si|NO2",
+          "V_hat": 1.8673409762125297
+        }
+      ]
+    },
+    "negative_checks": {
+      "duplicate_id": "存在重复 id",
+      "missing_row": "行数不符: 2703 != 2704",
+      "nan_score": "存在非有限分数",
+      "negative_score": "存在负分数",
+      "mixed_version": "版本不唯一或为空: {'x2', 'q23_final_v1_hgb_gap_mix'}",
+      "constant_table": "常量表：分数全相同，拒绝归一化",
+      "wrong_pool": "pool 字段不符: {'07', '08'} != {07}"
+    },
+    "all_defects_caught": true,
+    "file_sha256": "361c7ecd186634b320c5a91b3e781b89e0afa2fea3a7d859b0b61cbaa207fda2"
+  },
+  "q3": {
+    "passed": {
+      "rows": 8112,
+      "unique_ids": 8112,
+      "scores_finite": true,
+      "score_span": 67.35286029728007,
+      "first_gap": 0.013123245502714043,
+      "ties_at_minimum": 1,
+      "model_version": "q23_final_v1_hgb_gap_mix",
+      "top3": [
+        {
+          "id": "4159",
+          "material": "Na|Nb|O3",
+          "V_hat": 0.5400229940675169
+        },
+        {
+          "id": "8760",
+          "material": "Sn|Ti|O3",
+          "V_hat": 0.5531462395702309
+        },
+        {
+          "id": "3545",
+          "material": "Ge|Ti|O3",
+          "V_hat": 0.6039033526902742
+        }
+      ]
+    },
+    "negative_checks": {
+      "duplicate_id": "存在重复 id",
+      "missing_row": "行数不符: 8111 != 8112",
+      "nan_score": "存在非有限分数",
+      "negative_score": "存在负分数",
+      "mixed_version": "版本不唯一或为空: {'x2', 'q23_final_v1_hgb_gap_mix'}",
+      "constant_table": "常量表：分数全相同，拒绝归一化",
+      "wrong_pool": "pool 字段不符: {'07', '08'} != {08}"
+    },
+    "all_defects_caught": true,
+    "file_sha256": "840fd96bb6437d35d4878ad516e950119521626b1cef8f52e2f1a9f0942f72be"
+  }
+}
