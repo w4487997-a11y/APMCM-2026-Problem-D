@@ -1,0 +1,5 @@
+﻿problem,group,backend,scheme,n_candidates,legal_samples,samples,legal_ratio,seeds_with_hit,seed_hit_ratio,best_returned_material,best_returned_V_hat,enumeration_V_hat,illegal_minus_legal,status
+q2,NO2,local,verified,2704,219,300,0.73,30,1.0,Y|Ti|NO2,1.4919281724855757,1.4919281724855757,2.0,ok
+q3,O3,local,verified,2704,236,300,0.7866666666666666,30,1.0,Na|Nb|O3,0.5400229940675169,0.5400229940675169,2.0,ok
+q3,NO2,local,verified,2704,219,300,0.73,30,1.0,Y|Ti|NO2,1.4919281724855757,1.4919281724855757,2.0,ok
+q3,FO2,local,verified,2704,233,300,0.7766666666666666,30,1.0,Na|Ti|FO2,0.8785262049668419,0.8785262049668419,2.0,ok
