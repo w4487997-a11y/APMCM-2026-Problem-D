@@ -1,0 +1,21 @@
+\section{Problem Formulation}
+
+\subsection{Research question}
+How should the violation score and the ordered composition choices be represented without changing the official task boundary?
+
+\subsection{Frozen mathematical definition}
+For a deviation $d$, define
+\begin{equation}
+  p(d)=\left[\frac{\max(0,d)}{0.5}\right]^2.
+\end{equation}
+The official violation score is
+\begin{equation}
+\begin{split}
+V={}&p(e_{\mathrm{form}}-0.21)+p(1.4-\mathrm{gap})+p(\mathrm{gap}-3.1)\\
+   &+p(5.73-\mathrm{vbm})+p(\mathrm{cbm}-4.50).
+\end{split}
+\end{equation}
+The final text must distinguish $V=0$ from strict threshold satisfaction, retain the ordered roles of A and B, and treat A=B as legal in the main candidate domain.
+
+\subsection{Evidence required}
+The formula, boundary tests, units, and any wording differences between the official problem and data README must be linked to tasks O-04 and O-05 before L4 prose is frozen.

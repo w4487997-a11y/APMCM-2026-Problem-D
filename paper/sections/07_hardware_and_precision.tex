@@ -1,0 +1,10 @@
+\section{Hardware Mapping and Precision}
+
+\subsection{Research question}
+What accuracy and feasibility are lost when the accepted floating-point QUBO is converted, quantized, and sampled through the actual Kaiwu workflow?
+
+\subsection{Required evidence}
+\textbf{[TO BE COMPLETED --- O-11]} Scaling, rounding, penalty sweeps, legal-state ranking retention, and constraint preservation require a real-matrix precision audit. \textbf{[TO BE COMPLETED --- O-12]} Kaiwu SDK modeling and local solving require versioned logs, raw samples, and independent decoding. \textbf{[TO BE COMPLETED --- O-13]} A real hardware result requires a job receipt, device metadata, matrix hash, raw return, and independent recomputation.
+
+\subsection{Independent blind-pool rule}
+\textbf{[TO BE COMPLETED --- O-14]} If pools 11 or 12 are included, each must have its own legal mask, matrix, scaling metadata, and independent solver call. Post-filtering a full-pool run is not an independent blind-pool optimization.

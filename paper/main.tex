@@ -1,0 +1,42 @@
+% !Mode:: "TeX:UTF-8"
+% Working manuscript derived from the official 2026 APMCM main.tex.
+% Official originals are preserved in ../official_template/ and template_original/.
+\documentclass{apmcmthesis}
+
+\usepackage{url}
+
+\tihao{D}
+\baominghao{TEAM-NUMBER-PLACEHOLDER}
+
+\begin{document}
+
+\pagestyle{frontmatterstyle}
+\begin{abstract}
+This document is the L1 engineering scaffold for the 2026 APMCM Problem D paper. It preserves the official Summary Sheet, contents page, page geometry, typography, and running-header mechanism. Scientific claims will be inserted only from reviewed repository evidence. Results that still depend on the final QUBO matrices, Kaiwu runs, hardware precision adaptation, or cost audit remain explicitly linked to their V1.2 task identifiers and are not presented as completed experiments.
+
+\keywords{perovskite screening\quad surrogate modeling\quad QUBO\quad reproducibility}
+\end{abstract}
+
+\newpage
+\tableofcontents
+
+\newpage
+\pagestyle{mainmatterstyle}
+\setcounter{page}{1}
+
+\input{sections/01_introduction}
+\input{sections/02_problem_formulation}
+\input{sections/03_data_and_audit}
+\input{sections/04_q1_surrogate}
+\input{sections/05_q2_qubo}
+\input{sections/06_q3_qubo}
+\input{sections/07_hardware_and_precision}
+\input{sections/08_results_and_discussion}
+\input{sections/09_conclusion}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\input{appendix/appendix}
+
+\end{document}

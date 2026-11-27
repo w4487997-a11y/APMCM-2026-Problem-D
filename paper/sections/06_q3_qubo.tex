@@ -1,0 +1,15 @@
+\section{Q3: Joint-State QUBO}
+
+\subsection{Research question}
+How can A, B, and one of the three permitted X states be selected without projection error on legal states?
+
+\subsection{Method framework}
+The primary formulation combines $(A,X)$ into 156 variables and uses 52 B variables. Its planned energy is
+\begin{equation}
+E_3(u,b)=\sum_{i,k,j}C_{ikj}u_{ik}b_j
++\lambda\left(\sum_{i,k}u_{ik}-1\right)^2
++\lambda\left(\sum_j b_j-1\right)^2.
+\end{equation}
+
+\subsection{Pending comparisons}
+\textbf{[TO BE COMPLETED --- O-08 and O-09]} The 208-variable exact formulation requires final matrix and energy acceptance. \textbf{[TO BE COMPLETED --- O-10]} The 107-variable second-order projection remains a P1 comparison and cannot replace the exact formulation without the specified fit, penalty-bound, ranking, and resource audits.

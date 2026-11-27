@@ -1,0 +1,95 @@
+{
+  "run_id": "sdk_v1_frozen_30x10",
+  "backend": "sdk",
+  "samples_verified": 1200,
+  "q3_winner": {
+    "status": "ok",
+    "group": "O3",
+    "candidate_id": 4159,
+    "material": "Na|Nb|O3",
+    "V_hat": 0.5400229940675169,
+    "basis": "solver-returned legal samples"
+  },
+  "results": {
+    "q2": [
+      {
+        "group": "NO2",
+        "model_shape": [
+          104,
+          104
+        ],
+        "candidates": 2704,
+        "legal": 23,
+        "samples": 300,
+        "attempts_with_optimum": 23,
+        "minimum_legal": 0,
+        "minimum_illegal": 2,
+        "signed_energy_difference_max": 0.0,
+        "h_max": 102,
+        "J_max": 1,
+        "best": 1.4919281724855757,
+        "id": 15567,
+        "material": "Y|Ti|NO2"
+      }
+    ],
+    "q3": [
+      {
+        "group": "O3",
+        "model_shape": [
+          104,
+          104
+        ],
+        "candidates": 2704,
+        "legal": 28,
+        "samples": 300,
+        "attempts_with_optimum": 28,
+        "minimum_legal": 0,
+        "minimum_illegal": 2,
+        "signed_energy_difference_max": 0.0,
+        "h_max": 102,
+        "J_max": 1,
+        "best": 0.5400229940675169,
+        "id": 4159,
+        "material": "Na|Nb|O3"
+      },
+      {
+        "group": "NO2",
+        "model_shape": [
+          104,
+          104
+        ],
+        "candidates": 2704,
+        "legal": 23,
+        "samples": 300,
+        "attempts_with_optimum": 23,
+        "minimum_legal": 0,
+        "minimum_illegal": 2,
+        "signed_energy_difference_max": 0.0,
+        "h_max": 102,
+        "J_max": 1,
+        "best": 1.4919281724855757,
+        "id": 15567,
+        "material": "Y|Ti|NO2"
+      },
+      {
+        "group": "FO2",
+        "model_shape": [
+          104,
+          104
+        ],
+        "candidates": 2704,
+        "legal": 25,
+        "samples": 300,
+        "attempts_with_optimum": 25,
+        "minimum_legal": 0,
+        "minimum_illegal": 2,
+        "signed_energy_difference_max": 0.0,
+        "h_max": 102,
+        "J_max": 1,
+        "best": 0.8785262049668419,
+        "id": 8797,
+        "material": "Na|Ti|FO2"
+      }
+    ]
+  }
+}

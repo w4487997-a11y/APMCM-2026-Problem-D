@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "source_archive": {
+    "path": "2026 APMCM 论文提交规范、论文模板、承诺书.zip",
+    "sha256": "8afaef1208964095f5bae06e2a47d294fe3affd979d6b05ade4c91973f0aee7c"
+  },
+  "files": [
+    {
+      "path": "official_template/main.tex",
+      "size_bytes": 6336,
+      "sha256": "35ef7b39a32b6ddd7bf851a732644d0fba972f7d1251881489c717214b8fc5bf",
+      "role": "official_source"
+    },
+    {
+      "path": "official_template/apmcmthesis.cls",
+      "size_bytes": 13415,
+      "sha256": "22bb5c34ee56760d2cd6af3286083e05084ea5bddf78160d8e7a4ef9b7220f26",
+      "role": "official_source"
+    },
+    {
+      "path": "official_template/apmcmthesis.cfg",
+      "size_bytes": 3135,
+      "sha256": "5977897c04bcdcf0e34dbd7958ddbf636cd9d2413f2250a126e8b0bbd5fc882a",
+      "role": "official_source"
+    },
+    {
+      "path": "official_template/ControlSheet.tex",
+      "size_bytes": 949,
+      "sha256": "4ee85a304372f31f2b1a1effbcedcc0ce4ba57100069190c75655c81d104d89c",
+      "role": "official_source"
+    },
+    {
+      "path": "official_template/main.pdf",
+      "size_bytes": 145153,
+      "sha256": "040a9e0a002bc25d2305c72a07a7aec4890984cc085d5f794eba0d1503cc8a6e",
+      "role": "official_reference_pdf"
+    },
+    {
+      "path": "official_template/ControlSheet.pdf",
+      "size_bytes": 79697,
+      "sha256": "4ec4731d93225480e387247977a6c343f39f762087e966147324ee8857f31da3",
+      "role": "official_reference_pdf"
+    },
+    {
+      "path": "official_template/official_submission_specifications.pdf",
+      "size_bytes": 82928,
+      "sha256": "fd4171d3d379893351f267c2b1f78a4d347a4fe92767af765b7897ea63ef6fc5",
+      "role": "official_rules"
+    },
+    {
+      "path": "official_template/Summary Sheet.docx",
+      "size_bytes": 19341,
+      "sha256": "ea025a124a2c366da26c91ed94f20ec393145297b623300d134ad649a5d3a1b4",
+      "role": "official_form"
+    },
+    {
+      "path": "official_template/Control Sheet.docx",
+      "size_bytes": 13219,
+      "sha256": "4481243991499fba7a41b906f1bcb0ae15f872231c3ec9a38e43abdd2de887a4",
+      "role": "official_form"
+    }
+  ]
+}

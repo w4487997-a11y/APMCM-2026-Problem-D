@@ -1,0 +1,15 @@
+\section{Q2: Fixed-Anion QUBO}
+
+\subsection{Research question}
+How can one ordered pair $(A,B)$ be selected for fixed $X=\mathrm{NO}_2$ while preserving the exact candidate score on legal one-hot states?
+
+\subsection{Method framework}
+The frozen design uses 52 A variables and 52 B variables. With normalized cost $C_{ij}$ and penalty weight $\lambda=2$, the planned energy is
+\begin{equation}
+E_2(a,b)=\sum_{i,j}C_{ij}a_i b_j
++\lambda\left(\sum_i a_i-1\right)^2
++\lambda\left(\sum_j b_j-1\right)^2.
+\end{equation}
+
+\subsection{Acceptance evidence required}
+\textbf{[TO BE COMPLETED --- O-08 and O-09]} The final 104-variable matrix, mapping, offset convention, legal-state energy audit, and enumerated oracle must be rebuilt from the accepted V1.2 candidate scores. No solver result is claimed in L1.

@@ -1,0 +1,28 @@
+\section{Data and Audit}
+
+\subsection{Research question}
+Which records may be used for training, validation, blind inference, and candidate scoring while preventing target leakage?
+
+\subsection{Current evidence map}
+Repository evidence already includes the phase-1 audit, the data contract, label checks, and the V1.2 handoff manifest. The final chapter must independently confirm the official hashes, ordered-pair split, unique keys, row counts, and pool relationships.
+Table~\ref{tab:dataset-roles} records the V1.2 roles and row counts that the final audit must verify.
+
+\begin{table}[!ht]
+\centering
+\caption{Dataset roles defined by the V1.2 execution specification.}
+\label{tab:dataset-roles}
+\begin{tabular}{lrl}
+\toprule
+Pool & Rows & Intended role \\
+\midrule
+02 & 11,256 & Q1 training \\
+03 & 3,969 & Q1 validation and model selection \\
+04 & 3,703 & Blind Q1 inference only \\
+07 / 08 & 2,704 / 8,112 & Full Q2 / Q3 candidate pools \\
+11 / 12 & 529 / 1,587 & Independent blind-pool comparisons \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Pending acceptance}
+Tasks O-03, O-04, and O-05 remain the acceptance gates for the final data narrative. Unknown labels in pool 04 must not be inferred or reported as observed outcomes.

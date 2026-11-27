@@ -1,0 +1,72 @@
+{
+  "handoff_version": "v1.2",
+  "model_release": "v1",
+  "models_sha256": {
+    "models/q1_final.joblib": "f32dcb430aad07ce68c59a46ecf383bc1e52602bfda7bf75326ba28f1ae2e742",
+    "models/q23_final.joblib": "07f8bdd5e9aba2a723c7bd3bee11cd8d18b972cd57917f0adf1d4eb3075f2805"
+  },
+  "environment": {
+    "python": "3.10.11",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.5.2",
+    "threadpoolctl": "3.6.0"
+  },
+  "pools": {
+    "04": {
+      "rows": 3703,
+      "model_version": "q1_final_v1_hgb_gap_mix",
+      "training_splits": [
+        "02"
+      ],
+      "max_abs_difference": 0.0,
+      "frozen_prediction_sha256": "6732d73856f6ec01b3ef51118faa457c8ed005ad6a96a04b3c0e51e1a896cad7",
+      "frozen_file": "handoff/v1_2/q1_holdout_predictions.csv"
+    },
+    "07": {
+      "rows": 2704,
+      "model_version": "q23_final_v1_hgb_gap_mix",
+      "training_splits": [
+        "02",
+        "03"
+      ],
+      "max_abs_difference": 0.0,
+      "frozen_prediction_sha256": "361c7ecd186634b320c5a91b3e781b89e0afa2fea3a7d859b0b61cbaa207fda2",
+      "frozen_file": "handoff/v1_2/q2_pool_predictions.csv"
+    },
+    "08": {
+      "rows": 8112,
+      "model_version": "q23_final_v1_hgb_gap_mix",
+      "training_splits": [
+        "02",
+        "03"
+      ],
+      "max_abs_difference": 0.0,
+      "frozen_prediction_sha256": "840fd96bb6437d35d4878ad516e950119521626b1cef8f52e2f1a9f0942f72be",
+      "frozen_file": "handoff/v1_2/q3_pool_predictions.csv"
+    },
+    "11": {
+      "rows": 529,
+      "model_version": "q23_final_v1_hgb_gap_mix",
+      "training_splits": [
+        "02",
+        "03"
+      ],
+      "max_abs_difference": 0.0,
+      "frozen_prediction_sha256": "e721beaae7b581af7420be15618f8f60f3efcd4a46b22bf4b6ece293d9f764be",
+      "frozen_file": "handoff/v1_2/q2_blind_predictions.csv"
+    },
+    "12": {
+      "rows": 1587,
+      "model_version": "q23_final_v1_hgb_gap_mix",
+      "training_splits": [
+        "02",
+        "03"
+      ],
+      "max_abs_difference": 0.0,
+      "frozen_prediction_sha256": "76eab11f687a7b90f96e6d7384fa6777776f65602529396edba4a5e3da4090f4",
+      "frozen_file": "handoff/v1_2/q3_blind_predictions.csv"
+    }
+  }
+}

@@ -10,9 +10,10 @@ composition $z=(A,B,X)$, let
   p(d)=\left(\frac{\max(0,d)}{0.5}\right)^2 .
   \label{eq:q1-hinge}
 \end{equation}
-Using formation energy $e_{\mathrm{form}}$, band gap $E_g$, valence-band
-maximum $E_{\mathrm{VBM}}$, and conduction-band minimum
-$E_{\mathrm{CBM}}$, the official violation score is
+Four predicted properties enter the score.  We denote formation energy and
+band gap by $e_{\mathrm{form}}$ and $E_g$, respectively.  The valence- and
+conduction-band edges are $E_{\mathrm{VBM}}$ and $E_{\mathrm{CBM}}$.  The
+official violation score is
 \begin{align}
   V={}&p(e_{\mathrm{form}}-0.21)
       +p(1.4-E_g)+p(E_g-3.1) \notag\\
@@ -265,7 +266,7 @@ $V<5$ records than the random expectation.
 are exact distributional medians for sampling without replacement.}
 \label{tab:q1-budget}
 \small
-\begin{tabular}{@{}rrrrrr@{}}
+\begin{tabularx}{\textwidth}{@{}r*{5}{>{\centering\arraybackslash}X}@{}}
 \toprule
 $K$ & Proxy $V<5$ hits & Random mean hits & Enrichment & Proxy min. $V$ & Random median min. $V$ \\
 \midrule
@@ -274,7 +275,7 @@ $K$ & Proxy $V<5$ hits & Random mean hits & Enrichment & Proxy min. $V$ & Random
 50  & 23 & 0.8818 & 26.08 & 0.0196 &  3.4175 \\
 100 & 34 & 1.7637 & 19.28 & 0.0196 &  1.2500 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 The same retrospective calculation was repeated under the Q2-like
