@@ -73,3 +73,20 @@ Ziliang Deng et al. “Prediction of ABX3 Perovskite Formation Energy Using Mach
 “Quantum Bridge Analytics I: a tutorial on formulating and using QUBO models.” *4OR* 17 (2019), 335–371. DOI: 10.1007/s10288-019-00424-y.
 
 Full individual notes are in individual_papers/; Q2/Q3 theory summary is q2_q3_qubo_foundations.md.
+
+
+## Q2/Q3: encoding, finite precision and penalty design
+
+### Ceselli & Premoli (2023) — OPEN-ACCESS FULLTEXT-REVIEWED
+Alberto Ceselli and Marco Premoli. “On good encodings for quantum annealer and digital optimization solvers.” *Scientific Reports* 13, 5628 (2023). DOI: 10.1038/s41598-023-32232-0. Compares QUBO encodings and constraint penalties for a cardinality-constrained quadratic knapsack, with D-Wave and digital solvers. Relevant to encoding choice and feasibility checks.
+
+### Mücke, Gerlach & Piatkowski (2025; first published 2024-12-17) — OPEN-ACCESS FULLTEXT-REVIEWED
+“Optimum-preserving QUBO parameter compression.” *Quantum Machine Intelligence* 7, article 1 (2025). DOI: 10.1007/s42484-024-00219-3. Formalizes optimum preservation under coefficient changes and proposes dynamic-range reduction with bounds and greedy updates. Directly relevant to finite precision; transfer to Kaiwu must be proven.
+
+### Ohno & Togawa (2026) — METADATA/ABSTRACT/TECHNICAL EXCERPTS REVIEWED
+“Mitigating Precision Errors in Quantum Annealing via Coefficient Reduction of Embedded Hamiltonians.” *IEEE Transactions on Quantum Engineering* 7 (2026), 1–22. DOI: 10.1109/TQE.2026.3678999. Studies coefficient reduction after minor embedding and chain-strength effects on D-Wave Advantage; full text remains a priority.
+
+### Doucet et al. (2026) — OPEN-ACCESS PUBLISHER FULL-TEXT PREVIEW REVIEWED
+“Thermodynamic significance of QUBO encoding on quantum annealers.” *New Journal of Physics* 28 (2026), 054512. DOI: 10.1088/1367-2630/ae6e98. Studies one-hot and precedence penalty weights, showing that weak penalties permit infeasible low-energy states while overly strong penalties can suppress the objective energy scale.
+
+These are foundational/analogous studies. D-Wave-specific embedding and coefficient results must not be assumed to apply directly to Kaiwu SPQC.
