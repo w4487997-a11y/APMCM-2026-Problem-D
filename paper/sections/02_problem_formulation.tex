@@ -1,21 +1,194 @@
 \section{Problem Formulation}
+\label{sec:problem-formulation}
 
-\subsection{Research question}
-How should the violation score and the ordered composition choices be represented without changing the official task boundary?
+\subsection{Restatement of the three questions}
 
-\subsection{Frozen mathematical definition}
-For a deviation $d$, define
+The candidate universe is a complete factorial grid of cubic perovskite
+compositions.  Let $\mathcal{E}$ denote the common set of 52 elements
+available at the two cation sites, and let
 \begin{equation}
-  p(d)=\left[\frac{\max(0,d)}{0.5}\right]^2.
+  \mathcal{X}=\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2,
+  \mathrm{N}_2\mathrm{O},\mathrm{N}_3,\mathrm{O}_2\mathrm{S},
+  \mathrm{FNO}\}.
 \end{equation}
-The official violation score is
-\begin{equation}
-\begin{split}
-V={}&p(e_{\mathrm{form}}-0.21)+p(1.4-\mathrm{gap})+p(\mathrm{gap}-3.1)\\
-   &+p(5.73-\mathrm{vbm})+p(\mathrm{cbm}-4.50).
-\end{split}
-\end{equation}
-The final text must distinguish $V=0$ from strict threshold satisfaction, retain the ordered roles of A and B, and treat A=B as legal in the main candidate domain.
+A composition is the ordered triple $z=(A,B,X)\in
+\mathcal{E}\times\mathcal{E}\times\mathcal{X}$.  The two cation sites have
+different roles, so $(A,B,X)$ and $(B,A,X)$ are not identified; $A=B$ is
+legal.  The complete domain therefore contains
+$52\times52\times7=18{,}928$ candidates \cite{apmcm2026problemD}.
 
-\subsection{Evidence required}
-The formula, boundary tests, units, and any wording differences between the official problem and data README must be linked to tasks O-04 and O-05 before L4 prose is frozen.
+The three questions form one inference--optimization chain.  Question~1
+constructs a composition-only surrogate $\widehat V(A,B,X)$ for the official
+violation score.  Question~2 fixes $X=\mathrm{NO}_2$ and selects one ordered
+pair $(A,B)$.  Question~3 also selects $X$, but only from
+\begin{equation}
+  \mathcal{X}_3=\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}.
+\end{equation}
+Both optimization questions must be expressed as QUBO models and solved
+through the prescribed Kaiwu workflow.  In this paper, ``Kaiwu solution''
+means the recorded CPU-local Kaiwu SDK run unless a genuine hardware task is
+explicitly identified; no SPQC hardware result is assumed in this chapter.
+
+\subsection{Violation score and strict feasibility}
+
+For a signed deviation $d$ in eV, define the squared hinge penalty
+\begin{equation}
+  \phi(d)=\left(\frac{\max(0,d)}{0.5}\right)^2.
+  \label{eq:formulation-hinge}
+\end{equation}
+Four physical quantities enter the target.  We write formation energy and
+band gap as $e_{\mathrm{form}}$ and $E_g$.  The valence- and conduction-band
+edges are $E_{\mathrm{VBM}}$ and $E_{\mathrm{CBM}}$, respectively.  Then
+\begin{align}
+  V(z)={}&\phi(e_{\mathrm{form}}-0.21)
+       +\phi(1.4-E_g)+\phi(E_g-3.1) \notag\\
+       &+\phi(5.73-E_{\mathrm{VBM}})
+       +\phi(E_{\mathrm{CBM}}-4.50).
+  \label{eq:formulation-V}
+\end{align}
+Thus $V\geq0$, and smaller values indicate less aggregate violation.  The
+condition $V=0$ uses closed boundaries because equality gives zero hinge
+penalty.  By contrast, the official strict target requires
+\begin{equation}
+ e_{\mathrm{form}}<0.21,\qquad
+ 1.4<E_g<3.1,\qquad
+ E_{\mathrm{VBM}}>5.73,\qquad
+ E_{\mathrm{CBM}}<4.50.
+ \label{eq:strict-feasibility}
+\end{equation}
+We report these two notions separately.  In particular, minimizing a
+predicted score does not by itself certify strict physical feasibility.
+
+\subsection{Mathematical objectives}
+
+Let $f_{\theta}(z)$ be a composition-based predictor and write
+$\widehat V(z)=f_{\theta}(z)$.  For Question~1, the model family,
+preprocessing, and selection rule are developed on files~02 and~03, after
+which the frozen release model is fitted on file~02 and applied to the
+unlabeled file~04.  Selection is multi-criteria: global MAE and RMSE control
+pointwise error, Spearman correlation assesses global ordering, and low-tail
+and Top-$K$ metrics assess screening.  It is therefore not represented by a
+single retrospective scalar loss.  Section~\ref{sec:q1-surrogate} gives the
+frozen rule and its validation evidence.
+
+After the model specification is frozen, a separate predictor with the same
+architecture is refitted on files~02 and~03.  Denote this scoring model by
+$\widehat V_{23}$.  The two optimization objectives are then
+\begin{align}
+  z_2^*
+  &=\underset{A,B\in\mathcal{E}}{\arg\min}\;
+    \widehat V_{23}(A,B,\mathrm{NO}_2),
+  \label{eq:q2-objective}\\
+  z_3^*
+  &=\underset{A,B\in\mathcal{E},\,X\in\mathcal{X}_3}{\arg\min}\;
+    \widehat V_{23}(A,B,X).
+  \label{eq:q3-objective}
+\end{align}
+These are optimization objectives under a frozen surrogate, not claims about
+the hidden true values of the selected materials.
+
+\subsection{Binary encoding and QUBO interface}
+
+Index the elements of $\mathcal{E}$ by $i,j\in\{1,\ldots,52\}$.  For a fixed
+anion group $X$, introduce binary variables $a_i$ and $b_j$, where a value of
+one selects the corresponding element at the A or B site.  Legal assignments
+satisfy
+\begin{equation}
+  \sum_{i=1}^{52}a_i=1,\qquad
+  \sum_{j=1}^{52}b_j=1.
+  \label{eq:one-hot-constraints}
+\end{equation}
+Let $c_{ij}^{(X)}$ be the traceable nonnegative integer cost derived from the
+frozen score of candidate $(i,j,X)$.  The group model has the form
+\begin{align}
+ E_X(\bm a,\bm b)
+ ={}&\sum_{i=1}^{52}\sum_{j=1}^{52}c_{ij}^{(X)}a_i b_j
+ \notag\\
+ &+\lambda_A\left(\sum_{i=1}^{52}a_i-1\right)^2
+ +\lambda_B\left(\sum_{j=1}^{52}b_j-1\right)^2.
+ \label{eq:group-qubo}
+\end{align}
+Expanding the squared constraints yields a quadratic polynomial in 104
+binary variables, hence a QUBO model \cite{Glover2019QUBOTutorial,Lucas2014IsingNP}.
+The cost transformation, coefficient bounds, constant offset, and independent
+energy audit are reported with the Q2/Q3 models; original-scale
+$\widehat V_{23}$ is retained for scientific comparison after decoding.
+
+Question~2 requires the single $X=\mathrm{NO}_2$ group.  The adopted
+Question~3 implementation solves the three 104-variable group models
+independently and compares their decoded legal candidates on the same
+original score scale:
+\begin{equation}
+ X^*=\underset{X\in\mathcal{X}_3}{\arg\min}\;
+ \widehat V_{23}(A_X^*,B_X^*,X).
+ \label{eq:q3-group-comparison}
+\end{equation}
+This groupwise formulation covers all 8,112 candidates.  It is the actual
+integrated implementation and should not be confused with the earlier plan
+for one 208-variable joint matrix.
+
+\subsection{Modeling assumptions and scope}
+
+The following assumptions are limited to what is required for a reproducible
+model.
+
+\begin{enumerate}
+  \item The official composition fields, physical labels, thresholds, and
+  pool memberships are taken as the problem definition.  Six-decimal
+  rounding is treated as measurement representation, not as permission to
+  relax the strict inequalities.
+  \item The ordered A and B sites are retained, all seven X variants are kept,
+  and $A=B$ is allowed.  Removing or symmetrizing these cases would change the
+  official candidate domain.
+  \item Only composition-derived predictors are available at deployment.
+  Identifiers, row order, pool membership, and unavailable physical labels
+  are audit fields rather than model inputs.
+  \item The frozen surrogate score is a screening objective.  Its ordering can
+  prioritize expensive follow-up, but neither a small $\widehat V$ nor a QUBO
+  optimum proves the unknown physical properties of a blind candidate.
+  \item QUBO correctness, coefficient adaptation, stochastic solver quality,
+  and physical validity are separate validation layers.  Agreement with
+  enumeration establishes the encoded optimum; it does not establish a
+  quantum advantage or a hardware execution.
+\end{enumerate}
+
+\subsection{Notation and research workflow}
+
+\begin{table}[!htbp]
+\centering
+\caption{Principal notation used throughout the manuscript.}
+\label{tab:notation}
+\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$z=(A,B,X)$ & Ordered perovskite composition; $A=B$ is legal. \\
+$V,\widehat V$ & Observed violation score and its surrogate prediction. \\
+$\widehat V_{23}$ & Frozen architecture refitted on files~02 and~03 for Q2/Q3 scoring. \\
+$\phi(d)$ & Squared hinge penalty in Equation~\eqref{eq:formulation-hinge}. \\
+$\mathcal{E},\mathcal{X},\mathcal{X}_3$ & Cation element set, seven-anion set, and three-anion Q3 set. \\
+$a_i,b_j$ & Binary one-hot variables for the A and B sites. \\
+$c_{ij}^{(X)}$ & Transformed integer QUBO cost for candidate $(i,j,X)$. \\
+$E_X$ & QUBO energy for one fixed-X group. \\
+$K$ & Finite screening or sampling budget. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The overall workflow is
+\begin{equation}
+\begin{aligned}
+ \text{data audit}
+ &\longrightarrow \text{grouped surrogate validation}
+ \longrightarrow \text{frozen candidate scores}\\
+ &\longrightarrow \text{QUBO construction}
+ \longrightarrow \text{solve, decode, and recompute}.
+\end{aligned}
+ \label{eq:overall-workflow}
+\end{equation}
+The first two stages protect the statistical meaning of $\widehat V$; the
+last three protect the equivalence between the candidate objective and the
+returned binary solution.  Hardware execution and resource cost form an
+additional layer and are reported only when corresponding task records
+exist.

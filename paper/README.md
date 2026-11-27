@@ -52,7 +52,7 @@ Put reproducible figures in `figures/` with descriptive English filenames. Every
 
 ## References
 
-Add only verified records to `references.bib`. Cite them with `\cite{key}`. The build invokes BibTeX through Latexmk and uses numbered citations. Record the reference audit in `compliance/reference_audit.md`.
+Add only verified records to the single bibliography at `literature/references.bib`. Cite them with `\cite{key}`. The build invokes BibTeX through Latexmk and uses numbered citations. Record the reference audit in `compliance/reference_audit.md`.
 
 ## Final PDF and page checks
 
