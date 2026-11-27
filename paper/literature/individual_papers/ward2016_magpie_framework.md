@@ -36,3 +36,12 @@ Do not compare reported metrics numerically with competition Q1 results: dataset
 ## Source
 Publisher full text: https://www.nature.com/articles/npjcompumats201628
 DOI: https://doi.org/10.1038/npjcompumats.2016.28
+
+
+## Additional full-text details reviewed
+The publisher article reports 228,676 OQMD compounds selected as lowest-energy entries per unique composition for its crystalline-property example. It evaluates algorithms with 10-fold cross-validation. For a screening demonstration, it compares random selection, a single global model and a chemically partitioned model for selecting 30 compounds from a held-out set: the reported fraction within the target band-gap range rises from just over 12% (random) to about 46% (single model) and about 67% (partitioned model). The hierarchical partition first predicts a band-gap range and then partitions by anion family. This supports the value of screening metrics and chemistry-aware partitioning, but is not the same partition rule as this project's ordered-(A,B) grouped folds.
+
+The paper's 145 attributes comprise stoichiometric attributes, statistics over 22 elemental properties, valence-shell fractions and ionic-compound attributes. The article notes that descriptor importance varies by property and material family; 145 is not a universal complete descriptor set.
+
+## Reproducibility caveat from later literature
+Persaud, Ward and Hattrick-Simpers (2024) specifically revisited reproducibility of this framework and reported that the Ward supplementary package did not contain all band-gap training, prediction and analysis scripts needed for full reproduction. Therefore, distinguish the original article's published method and available SI from a fully executable reproduction package. See paper/literature/individual_papers/persaud2024_materials_informatics_reproducibility.md.
