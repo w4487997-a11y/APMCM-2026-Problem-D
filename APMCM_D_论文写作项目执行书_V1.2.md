@@ -1491,7 +1491,7 @@ GitHub现有Kaiwu_Precheck_Phase1_Summary.md记录D-01整体CONDITIONAL PASS，�
 ### 26.5 聊天1/Codex必须执行的阶段安排
 
 1. 从GitHub `main` 同步本执行书和 `paper/reference_materials/`，保留L1本地工程，不重做L0/L1。
-2. 在实质写作前，先阅读reference_materials/README.md及四份材料分析笔记。
+2. 在实质写作前，先阅读 `paper/reference_materials/README.md` 及四份材料分析笔记。
 3. 形成一页左右的“样例论文结构借鉴映射”，说明哪些写作方法适合本项目、哪些不适合；保存为 `paper/reviews/sample_paper_structure_mapping.md`。
 4. 在L2阶段完成官方格式验收，官方规则冲突以官方文件为准。
 5. 按现有执行书完成证据索引、文献对照和完整英文初稿。
@@ -1514,3 +1514,10 @@ GitHub现有Kaiwu_Precheck_Phase1_Summary.md记录D-01整体CONDITIONAL PASS，�
 - 官方模板原件不修改的要求。
 
 本节不授权重做L1、覆盖已有成果或把计划实验写成已完成结果。
+
+
+### 26.7 文件存储状态与修订记录
+
+- GitHub已保存四份基于本次上传材料整理的Markdown分析/执行要点，以及reference_materials索引；这些文件可直接供聊天1/Codex读取。
+- 本次上传的两份PDF和两份DOCX原始二进制文件尚未存入GitHub。不得把Markdown分析笔记描述成原始PDF/DOCX本体。若负责人后续要求仓库保留原件，应由具备二进制上传能力的GitHub网页/本地Git流程上传，并在README登记原件路径与SHA-256。
+- 2026-11-27：在原V1.2基础上追加第26节，新增优秀论文学习、AI痕迹诊断和APMCM 16维度自查工作流；文件名保持V1.2，未重建执行书版本。
