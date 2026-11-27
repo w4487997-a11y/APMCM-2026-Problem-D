@@ -22,3 +22,18 @@ Identify exact predicted properties and whether the reported dataset mixes ABX3 
 ## Sources
 Publisher record: https://pubs.rsc.org/en/content/articlelanding/2024/tc/d4tc02268h/unauth
 DOI: https://doi.org/10.1039/D4TC02268H
+
+
+## Official supplementary information review (11-page PDF)
+The RSC publisher page links the official 11-page ESI PDF. The ESI separates ABX3 and A2B(I)B(II)X6 results, which prevents the overall abstract metric from being misreported as the ABX3-only score.
+
+- For ABX3 band-gap prediction, Table S4 reports XGBoost R2=0.7995 and RMSE=0.7419 eV; the double-perovskite XGBoost result is R2=0.8688 and RMSE=0.5742 eV.
+- For ABX3 formation-energy prediction, Table S2 reports XGBoost R2=0.9336 and RMSE=0.2546 (units as defined in the article).
+- Table S8 reports standard deviations across 100 band-gap training sessions; the XGBoost values are 0.0567 for R2 and 0.1284 for RMSE under Strategy 1, and 0.0518 / 0.1166 under Strategy 2.
+- Table S1 identifies selected descriptors including Magpie statistics, transition-metal fraction, unfilled d/f electron counts, electronegativity difference and unit-cell volume.
+- The ESI lists model-specific hyperparameters and feature-engineering feature counts.
+
+**Interpretation:** the abstract's R2=0.873 / RMSE=0.5868 eV is the high-level reported result and must not be substituted for the ABX3-only XGBoost values in Table S4. The study uses descriptor-rich inputs and its own split/data protocol; no direct metric ranking against Q1 V is valid.
+
+**Official ESI:** https://www.rsc.org/suppdata/d4/tc/d4tc02268h/d4tc02268h1.pdf
+**Publisher landing page:** https://pubs.rsc.org/en/content/articlelanding/2024/tc/d4tc02268h/unauth
