@@ -1386,3 +1386,17 @@ GitHub现有Kaiwu_Precheck_Phase1_Summary.md记录D-01整体CONDITIONAL PASS，�
 新增统一状态表：paper/literature/literature_status_matrix.md。
 
 聊天1和后续写作代理在引用文献前，先读取该表，确认每篇论文是全文、出版社预览、摘要级还是补充材料级。不得把摘要级或预览级文献表述成完整精读。完整优先级和章节入口仍以第22节为准。
+
+
+---
+
+## 25. L1本地分支与GitHub main同步边界（2026-11-27核验）
+
+聊天1报告L1/A4已通过，完成工程位于本地分支codex/latex-environment-audit；该聊天明确报告尚未push、merge。对GitHub main递归文件树的本次核验显示，当前main已包含本执行书、Word模板及文献库，但尚未包含paper/L1_completion_report.md，也未显示paper下的正式LaTeX工程文件。
+
+因此：
+1. 不得将“L1本地完成”表述为“L1已同步到GitHub main”。
+2. 聊天1必须保留本地codex/latex-environment-audit分支和全部L1成果，不得重建或覆盖。
+3. 聊天1在开始L2前，应先把main最新的本执行书与paper/literature资料同步到其本地工作分支，解决差异时保留两边文件；不要用旧分支快照覆盖main上的文献文件。
+4. 本次研究线只提交了执行书和paper/literature、template_reference内的研究文件，没有推送或合并聊天1的L1分支。
+5. L1分支的push/merge仍由负责人单独审核授权；本节不构成自动push/merge授权。
