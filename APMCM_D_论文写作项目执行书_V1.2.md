@@ -1336,3 +1336,44 @@ Ward 2016全文已进一步核查：
 
 ### 22.5 交接时点
 聊天1在开始L2之后的论文正文写作前，必须再次读取GitHub main的最新执行书和文献目录，避免使用过期快照。所有新增文献由本研究线继续提交main；聊天1只消费和引用，不擅自覆盖文献库。
+
+
+---
+
+## 23. Q2/Q3硬件精度与QUBO编码文献（第三轮补充）
+
+### 23.1 新增文献
+- Ceselli & Premoli (2023)：替代QUBO编码、约束惩罚和可行性检查；全文已读。
+- Mücke, Gerlach & Piatkowski (2025；2024-12-17 online)：最优解保持的QUBO参数压缩与动态范围降低；全文已读。
+- Ohno & Togawa (2026)：嵌入后Hamiltonian系数压缩、动态范围和chain-strength；出版社摘要/技术片段已读，全文待精读。
+- Doucet et al. (2026)：one-hot/precedence罚值权重、可行性和热力学/能量尺度影响；开放全文主要部分已读。
+
+详见：
+- paper/literature/q2_q3_qubo_foundations.md
+- paper/literature/individual_papers/ceselli2023_qubo_encodings.md
+- paper/literature/individual_papers/muecke2025_optimum_preserving_qubo_compression.md
+- paper/literature/individual_papers/ohno2026_quantum_annealing_precision.md
+- paper/literature/individual_papers/doucet2026_qubo_penalty_thermodynamics.md
+
+### 23.2 与仓库D-01实际发现的对应关系
+GitHub现有Kaiwu_Precheck_Phase1_Summary.md记录D-01整体CONDITIONAL PASS，且明确存在以下风险：
+- SPQC固定模型系数精度为有符号int8，范围[-128,127]；名义自旋容量550/1000。
+- 测试的104/208逻辑变量经过参考自旋Ising转换后为105/209自旋。
+- 两组独热罚值lambda=2时，局部场贡献随分组规模增长；报告给出的52和156变量组贡献分别为50和154。
+- 在D-01人工压力矩阵中直接int8量化导致Q2材料耦合90.751%变零、Q3材料耦合100%变零，量化模型出现低于所有合法候选的非法状态。
+- 已测试的有限罚系数/单调压缩补救未恢复原始最优；正式真实模型和真机闭环仍待完成。
+
+上述是人工压力矩阵和已测路径的有限证据，不代表所有编码必然失败。论文必须准确引用D-01原报告及其CONDITIONAL PASS结论，不可将其写成正式Q2/Q3失败定论或已解决的硬件问题。
+
+### 23.3 文献支持的后续研究方向
+1. 使用Mücke et al.的最优解保持界研究QUBO系数压缩；对正式候选集/全体合法解证明argmin保持。
+2. 参考Doucet et al.对one-hot罚值权重作系统扫描，联合评估可行性、原目标尺度、非法低能态和重复求解成功率。
+3. 参考Ceselli & Premoli比较不同变量编码和约束处理方式，所有方案须保留题面合法候选集合。
+4. 参考Ohno & Togawa研究完整硬件转换链路中的系数动态范围，但其D-Wave minor embedding和chain strength不能假定适用于Kaiwu SPQC。
+5. 不把任何外部论文的方法视为已在本项目通过；所有方法必须在真实Q2/Q3矩阵、实际SDK和平台精度约束下重新验收。
+
+### 23.4 论文写作边界
+- 将数学QUBO等价、int8系数可表示、硬件求解可行、解质量合格和真实硬件任务成功区分为不同层级。
+- 不因矩阵满足[-128,127]就称硬件模型保真；必须报告量化后合法最优、非法能量下界/反例、原目标regret和候选排序保持率。
+- 不将D-Wave论文中的chain strength、minor embedding、IEM/BCE/ALM直接写成Kaiwu已支持的功能。
+- 不宣称量子优势；仅报告本项目实际可核验的SDK/本地/真机执行层级。
