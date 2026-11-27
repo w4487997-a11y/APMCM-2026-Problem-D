@@ -82,13 +82,13 @@ def main():
     n_left = int(sum(not s.startswith("b:") for s in names))
     raw_min = float(raw_scores.min())
     key_min = None
-    regimes = {"unadjusted": matrix}
+    regimes, info = {}, {"method": "none"}
+    if args.regime in ("unadjusted", "both"):
+        regimes["unadjusted"] = matrix
     if args.regime in ("adjusted", "both"):
         adj, info = adapt_8bit(matrix)
         regimes["sdk_8bit_adjusted"] = adj
         print("8 位适配:", info)
-    else:
-        info = {"method": "none"}
 
     samples, runs = [], []
     for regime, M in regimes.items():
