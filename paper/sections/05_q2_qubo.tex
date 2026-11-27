@@ -1,15 +1,161 @@
 \section{Q2: Fixed-Anion QUBO}
+\label{sec:q2-qubo}
 
-\subsection{Research question}
-How can one ordered pair $(A,B)$ be selected for fixed $X=\mathrm{NO}_2$ while preserving the exact candidate score on legal one-hot states?
+\subsection{Fixed-anion objective and scoring input}
 
-\subsection{Method framework}
-The frozen design uses 52 A variables and 52 B variables. With normalized cost $C_{ij}$ and penalty weight $\lambda=2$, the planned energy is
+Question~2 fixes the anion group at $X=\mathrm{NO}_2$ and asks for the
+ordered cation pair with the smallest predicted violation.  The candidate
+domain is file~07, which contains every ordered pair from the 52-element
+cation set and therefore has $52^2=2,704$ rows.  The optimization target is
+the frozen candidate-scoring model introduced in
+Section~\ref{sec:problem-formulation}:
 \begin{equation}
-E_2(a,b)=\sum_{i,j}C_{ij}a_i b_j
-+\lambda\left(\sum_i a_i-1\right)^2
-+\lambda\left(\sum_j b_j-1\right)^2.
+  (A_2^*,B_2^*)=
+  \arg\min_{A,B\in\mathcal E}
+  \widehat V_{23}(A,B,\mathrm{NO}_2).
+  \label{eq:q2-fixed-objective}
 \end{equation}
+Here $\widehat V_{23}$ is the selected \texttt{hgb\_gap\_mix} specification
+refitted on files~02 and~03.  Its inputs remain the ordered composition
+fields $(A,B,X)$ and the deterministic composition features used by the
+frozen model.  The resulting file~07 scores are optimization inputs rather
+than new validation observations: no physical labels from files~07, 11, or
+the hidden pool enter the fit.
 
-\subsection{Acceptance evidence required}
-\textbf{[TO BE COMPLETED --- O-08 and O-09]} The final 104-variable matrix, mapping, offset convention, legal-state energy audit, and enumerated oracle must be rebuilt from the accepted V1.2 candidate scores. No solver result is claimed in L1.
+\subsection{One-hot encoding and accepted integer cost}
+
+Let $a_i,b_j\in\{0,1\}$ select the $i$th A-site element and the $j$th
+B-site element.  There are 52 variables in each block, hence 104 logical
+variables in total.  Legal assignments satisfy the two one-hot constraints
+in Equation~\eqref{eq:one-hot-constraints}.  The accepted implementation
+does not place the raw floating-point score directly in the QUBO.  For a
+fixed group $X$, it first subtracts the group minimum
+$m_X=\min_{i,j}\widehat V_{23}(A_i,B_j,X)$ and forms
+\begin{equation}
+ c_{ij}^{(X)} = 4\,\operatorname{nint}\!\left(
+   \frac{\min\{\widehat V_{23}(A_i,B_j,X)-m_X,\,0.02\}}{0.02}
+ \right),
+ \qquad c_{ij}^{(X)}\in\{0,4\},
+ \label{eq:q23-integer-cost}
+\end{equation}
+where $\operatorname{nint}$ is the nearest-integer operation used in the
+matrix generator.  Thus 0.02 is a cap on the score difference before
+normalization, not a claim that $\widehat V$ is measured to 0.02 precision.
+The factor four maps the rounded level to an integer coefficient.  The raw
+score and candidate identifier are retained beside the matrix for decoding
+and scientific reporting.
+
+With $\lambda=2$, the implemented energy is
+\begin{equation}
+ E_X(\boldsymbol a,\boldsymbol b)
+ = \sum_{i=1}^{52}\sum_{j=1}^{52} c_{ij}^{(X)}a_i b_j
+ +2\left(\sum_{i=1}^{52}a_i-1\right)^2
+ +2\left(\sum_{j=1}^{52}b_j-1\right)^2.
+ \label{eq:q23-accepted-qubo}
+\end{equation}
+This is a QUBO because $a_i^2=a_i$ and $b_j^2=b_j$
+\cite{Glover2019QUBOTutorial,Lucas2014IsingNP}.  In the stored upper-triangular
+matrix convention it expands to
+\begin{align}
+ E_X={}&4-2\sum_i a_i-2\sum_j b_j
+ +4\sum_{i<k}a_i a_k+4\sum_{j<\ell}b_j b_\ell
+ +\sum_{i,j}c_{ij}^{(X)}a_i b_j .
+ \label{eq:q23-expanded-qubo}
+\end{align}
+The constant offset is therefore 4.  Matrix diagonal entries are $-2$,
+within-block couplings are 4, and cross-block entries are the quantized
+costs 0 or 4.  For a legal state selecting pair $(i,j)$, the offset and two
+linear terms cancel, leaving
+\begin{equation}
+ E_X(\boldsymbol e_i,\boldsymbol e_j)=c_{ij}^{(X)}.
+ \label{eq:q23-legal-energy}
+\end{equation}
+The offset does not change the optimizer, but it makes the stored legal-state
+energy equal to the integer cost and removes ambiguity when matrix and
+formula energies are compared.
+
+The construction deliberately preserves the group winner rather than every
+raw score difference.  For Q2, the raw gap from the best to the second-best
+file~07 candidate is $0.313819$, so the accepted integer mapping has a
+unique zero-energy legal state.  Because all cost coefficients are
+nonnegative, any violation of at least one one-hot constraint incurs at
+least $\lambda=2$.  The lowest illegal energy is therefore separated from
+the legal minimum by two integer units.
+
+\subsection{Matrix audit and legal-state enumeration}
+
+The archived Q2 matrix has shape $104\times104$, offset 4, and coefficient
+set $\{-2,0,4\}$.  All 2,704 legal one-hot assignments were enumerated.
+Their energies were recomputed both from Equation~\eqref{eq:q23-accepted-qubo}
+and from the stored matrix.  The maximum signed discrepancy was zero.  The
+unique legal minimum decoded to candidate~15567, Y--Ti--NO2, whose retained
+raw score is
+\begin{equation}
+  \widehat V_{23}(\mathrm{Y},\mathrm{Ti},\mathrm{NO}_2)
+  =1.4919281724855757.
+  \label{eq:q2-best-score}
+\end{equation}
+The enumerated matrix optimum and the minimum raw score identify the same
+candidate.  This check establishes equivalence for the frozen surrogate
+objective; it does not establish the unknown physical properties of that
+composition.
+
+The corresponding Ising coefficients produced from the accepted QUBO
+remain integral after the recorded eight-bit preprocessing, with
+$\max|h|=102$ and $\max|J|=1$.  The SDK preprocessing record reports no
+loss of the two-unit legal--illegal separation.  These are coefficient and
+energy audits of the stored model, not a claim about hardware precision.
+
+\subsection{Kaiwu SDK experiment and Q2 result}
+
+The formal run used Kaiwu SDK~1.4.3 on a local CPU.  Thirty fixed random
+seeds were used; each seed requested at most ten returned samples, giving
+300 samples.  The simulated-annealing settings were 300 iterations per
+temperature, cooling factor $\alpha=0.99$, initial temperature twice the
+maximum absolute adapted-matrix entry, and cutoff temperature $10^{-3}$
+times that entry.  Each run used one process.  These settings describe a
+local SDK computation, not an SPQC submission.
+
+\begin{table}[!htbp]
+\centering
+\caption{Accepted Q2 matrix and CPU-local Kaiwu SDK result.  The reported
+score is on the original surrogate scale.}
+\label{tab:q2-sdk-result}
+\small
+\begin{tabularx}{\textwidth}{@{}Xr@{}}
+\toprule
+Quantity & Recorded value \\
+\midrule
+Candidate domain & 2,704 \\
+Logical variables & 104 \\
+Returned samples & 300 \\
+Legal samples & 23 (7.67\%) \\
+Seeds returning the enumerated optimum & 23/30 \\
+SDK solver time & 20.813 s \\
+Best candidate and identifier & Y--Ti--NO2, 15567 \\
+Original $\widehat V_{23}$ & 1.4919281724855757 \\
+Gap to enumerated optimum & 0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+All 23 legal returned samples decoded to candidate~15567, and these samples
+came from 23 distinct SDK seeds.  The run therefore recovered the unique
+enumerated optimum in 23 of 30 attempts.  The remaining returned states
+were rejected by the two one-hot checks rather than interpreted as
+materials.  The legal-sample fraction measures this solver configuration's
+sample quality; it is not a probability that the physical material is
+feasible.
+
+\subsection{Interpretation and limitations}
+
+The fixed-$X$ construction gives a compact, auditable link from every
+ordered composition to a 104-bit state.  Integer coefficients eliminate
+additional coefficient rounding in the recorded eight-bit interface, and
+enumeration supplies an exact oracle over all legal states.  Y--Ti--NO2 is
+therefore the Q2 optimum under the frozen $\widehat V_{23}$ objective and
+the accepted integer mapping.  It is a screening recommendation, not an
+experimental materials claim: $\widehat V_{23}$ is a model prediction,
+not a measured violation score.  File~11 has been scored, but a dedicated
+blind-pool matrix and independent solve have not been completed (O-14).
+No SPQC task receipt exists (O-13), and no quantum advantage is claimed.

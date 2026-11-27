@@ -1,15 +1,149 @@
 \section{Q3: Joint-State QUBO}
+\label{sec:q3-qubo}
 
-\subsection{Research question}
-How can A, B, and one of the three permitted X states be selected without projection error on legal states?
+\subsection{Groupwise formulation over the complete Q3 pool}
 
-\subsection{Method framework}
-The primary formulation combines $(A,X)$ into 156 variables and uses 52 B variables. Its planned energy is
+Question~3 minimizes the frozen candidate score jointly over the ordered
+cation pair and the three permitted anion groups
+$\mathcal X_3=\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$.  File~08
+contains $52^2=2,704$ candidates for each group and 8,112 candidates in
+total.  The adopted implementation partitions this complete domain by
+$X$ and constructs three independent 104-variable models:
 \begin{equation}
-E_3(u,b)=\sum_{i,k,j}C_{ikj}u_{ik}b_j
-+\lambda\left(\sum_{i,k}u_{ik}-1\right)^2
-+\lambda\left(\sum_j b_j-1\right)^2.
+ (A_X^*,B_X^*)=
+ \arg\min_{A,B\in\mathcal E}\widehat V_{23}(A,B,X),
+ \qquad X\in\mathcal X_3.
+ \label{eq:q3-group-objective}
 \end{equation}
+Each model has 52 A-site and 52 B-site one-hot variables and uses exactly
+the integer cost and penalty construction in
+Equations~\eqref{eq:q23-integer-cost}--\eqref{eq:q23-expanded-qubo}.  The
+three models together cover every row of file~08 without projecting anion
+identity into an approximate interaction.
 
-\subsection{Pending comparisons}
-\textbf{[TO BE COMPLETED --- O-08 and O-09]} The 208-variable exact formulation requires final matrix and energy acceptance. \textbf{[TO BE COMPLETED --- O-10]} The 107-variable second-order projection remains a P1 comparison and cannot replace the exact formulation without the specified fit, penalty-bound, ranking, and resource audits.
+This groupwise design also matches the accepted coefficient audit.  Each
+matrix contains only $-2$, 0, and 4, has offset 4, and maps to integral
+Ising coefficients with $\max|h|=102$ and $\max|J|=1$.  The same
+$\lambda=2$ one-hot penalty gives a minimum illegal-state separation of
+two in every group.
+
+\subsection{Why QUBO energies are not compared across groups}
+
+The three integer objectives share a construction but not an absolute
+score origin.  Equation~\eqref{eq:q23-integer-cost} subtracts the minimum
+$m_X$ separately within each anion group and then caps and rounds the
+remaining difference.  Consequently, every group winner has integer QUBO
+energy zero.  Comparing these zero values would discard the information
+needed to choose an anion group.
+
+After decoding the best legal state returned for each group, the final
+comparison therefore returns to the stored original-scale prediction:
+\begin{equation}
+ X^*=\arg\min_{X\in\mathcal X_3}
+ \widehat V_{23}(A_X^*,B_X^*,X).
+ \label{eq:q3-original-scale-comparison}
+\end{equation}
+This separation is important.  The QUBO energy selects a state within one
+matrix, while $\widehat V_{23}$ compares decoded materials across matrices.
+The integer energy is not an alternative physical metric.
+
+\subsection{Matrix construction and enumeration audit}
+
+For each group, the generator sorted the frozen file~08 predictions,
+constructed the complete $52\times52$ A--B interaction block, and archived
+the QUBO, offset, variable names, candidate identifiers, legal-state index
+map, raw scores, and adapted Ising matrix.  Exhaustive enumeration of the
+2,704 legal states in each group gave one minimum-energy state.  Formula,
+QUBO, and independently recomputed energies agreed exactly for all archived
+solver samples; the maximum signed discrepancy was zero.
+
+The group minima on the original surrogate scale were Na--Nb--O3,
+Y--Ti--NO2, and Na--Ti--FO2.  Their raw gaps to the second-ranked candidates
+were respectively $0.013123$, $0.313819$, and $0.028903$.  Each gap is
+large enough for the accepted two-level integer mapping to retain a unique
+zero-energy legal state.  The enumeration is exact over the frozen
+candidate table, but it remains an optimization of $\widehat V_{23}$ rather
+than an enumeration of measured physical feasibility.
+
+\subsection{CPU-local Kaiwu SDK results}
+
+All three formal Q3 runs used the same Kaiwu SDK~1.4.3 CPU-local settings
+as Q2: 30 seeds, at most 10 returned samples per seed, 300 iterations per
+temperature, and $\alpha=0.99$.  Table~\ref{tab:q3-sdk-results} reports the
+original-scale result after legal decoding.  Solver time is the recorded
+wall time for the SDK solve of the corresponding group.
+
+\begin{table}[!htbp]
+\centering
+\caption{Groupwise Q3 results from the CPU-local Kaiwu SDK run.}
+\label{tab:q3-sdk-results}
+\small
+\begin{tabularx}{\textwidth}{@{}lXrrrr@{}}
+\toprule
+$X$ & Best decoded candidate & $\widehat V_{23}$ & Legal/300 & Optimum seeds/30 & Time (s) \\
+\midrule
+O3  & Na--Nb--O3   & 0.540023 & 28 & 28 & 20.830 \\
+NO2 & Y--Ti--NO2   & 1.491928 & 23 & 23 & 20.811 \\
+FO2 & Na--Ti--FO2  & 0.878526 & 25 & 25 & 20.959 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+All legal returned samples in a group decoded to that group's enumerated
+optimum.  The legal fractions were 9.33\% for O3, 7.67\% for NO2, and
+8.33\% for FO2.  The corresponding optimum appeared in 28, 23, and 25 of
+the 30 SDK seeds.  Applying
+Equation~\eqref{eq:q3-original-scale-comparison} selects candidate~4159,
+Na--Nb--O3, with
+$\widehat V_{23}=0.5400229940675169$.  Its difference from the enumerated
+file~08 optimum is zero.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/q23_run_comparison.png}
+\caption{Returned-sample quality for the accepted Q2 and Q3 matrices.  The
+Kaiwu SDK bars use 30 independent SDK seeds with at most ten samples per
+seed.  The local simulated-annealing comparison uses 300 chains divided
+into 30 groups of ten, so an ``attempt'' has a different operational meaning
+for the two backends.  The figure supports a sample-quality comparison only;
+it does not establish a hardware speedup or quantum advantage.}
+\label{fig:q23-run-comparison}
+\end{figure}
+
+Figure~\ref{fig:q23-run-comparison} also shows a separate local
+simulated-annealing control.  That control returned more legal states and
+hit every group optimum in all 30 chain groups.  Its implementation and
+attempt definition differ from the SDK run, so the observed counts and wall
+times are not used to claim a backend speed advantage.
+
+\subsection{Relation to the earlier 208-variable plan}
+
+An earlier design represented the joint $(A,X)$ state with
+$52\times3=156$ variables and B with 52 variables, producing one
+208-variable exact QUBO.  That design remains a planning artifact and is
+not the model used for the reported Q3 result.  The final groupwise method
+uses three 104-variable matrices and performs the anion decision after
+decoding on the raw surrogate scale.
+
+The adopted route has three practical advantages.  It halves the logical
+variables in each solve, keeps the accepted integer coefficients inside the
+recorded eight-bit bounds, and makes every group amenable to direct
+2,704-state legal enumeration.  Its main limitation is that three solves
+and an external raw-score comparison replace one joint optimization.  It
+also does not model cross-group transitions inside a single energy
+landscape.  The proposed 107-variable second-order projection is still an
+uncompleted comparison (O-10); no projection accuracy or solver result is
+reported here.
+
+\subsection{Evidence boundary and future work}
+
+The Q3 conclusion is restricted to the frozen surrogate and the complete
+file~08 pool.  Na--Nb--O3 is the minimum returned and enumerated candidate
+under $\widehat V_{23}$, not a material whose true violation score has been
+measured.  File~12 predictions exist, but selecting file~12 rows after a
+full-pool solve would not constitute an independent blind-pool experiment.
+A dedicated blind matrix and solve remain pending under O-14.  The recorded
+run used the Kaiwu SDK on a CPU; O-13 has no SPQC submission receipt or
+hardware return.  Accordingly, this chapter makes no claim of real-device
+execution, physical feasibility, global hardware optimality, or quantum
+advantage.
