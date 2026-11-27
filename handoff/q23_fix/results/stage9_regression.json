@@ -1,0 +1,82 @@
+{
+  "all_passed": true,
+  "checks": {
+    "R1_no_legal_no_winner": {
+      "winner": {
+        "status": "solver_failed",
+        "reason": "三组均无合法返回样本，不给出冠军"
+      },
+      "passed": true
+    },
+    "R2_sdk_probe": {
+      "probe_ok": false,
+      "reason": "ValueError: EOF when reading a line",
+      "no_exception": true,
+      "reason2": "ValueError: EOF when reading a line",
+      "passed": true
+    },
+    "R3_joint_entry": {
+      "returncode": 0,
+      "tail": [
+        "    FO2  变量 104 适配 local_identity_check |h|=102 见证差=2.0 | 合法 2/15 种子命中 2/3 返回最优 Na|Ti|FO2 V̂=0.8785262049668419 (0.1s)",
+        "[q3 冠军] {'status': 'ok', 'group': 'O3', 'material': 'Na|Nb|O3', 'V_hat': 0.5400229940675169, 'basis': 'solver-returned legal samples'}",
+        "写出 C:\\Users\\wuyik\\Documents\\deepseek-harness\\default-workspace\\q23_fix\\results\\entry_r3.json"
+      ],
+      "detail": {
+        "q2": [
+          {
+            "group": "NO2",
+            "n_candidates": 2704
+          }
+        ],
+        "q3": [
+          {
+            "group": "O3",
+            "n_candidates": 2704
+          },
+          {
+            "group": "NO2",
+            "n_candidates": 2704
+          },
+          {
+            "group": "FO2",
+            "n_candidates": 2704
+          }
+        ]
+      },
+      "passed": [
+        {
+          "group": "O3",
+          "n_candidates": 2704
+        },
+        {
+          "group": "NO2",
+          "n_candidates": 2704
+        },
+        {
+          "group": "FO2",
+          "n_candidates": 2704
+        }
+      ]
+    },
+    "R4_source_fields": {
+      "cases": {
+        "q2": {
+          "wrong_pool": "pool 字段不符: {07,08}",
+          "wrong_source_pool": "source_pool 字段不符: {07,08}",
+          "pool_column_absent": "缺少 pool 列",
+          "source_pool_column_absent": "缺少 source_pool 列",
+          "source_pool_only_wrong": "source_pool 字段不符: {07,08}"
+        },
+        "q3": {
+          "wrong_pool": "pool 字段不符: {07,08}",
+          "wrong_source_pool": "source_pool 字段不符: {07,08}",
+          "pool_column_absent": "缺少 pool 列",
+          "source_pool_column_absent": "缺少 source_pool 列",
+          "source_pool_only_wrong": "source_pool 字段不符: {07,08}"
+        }
+      },
+      "passed": true
+    }
+  }
+}
