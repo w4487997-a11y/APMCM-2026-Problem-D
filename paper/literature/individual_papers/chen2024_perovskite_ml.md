@@ -2,7 +2,7 @@
 
 **Citation:** Chen, Z., Wang, J., Li, C., Liu, B., Luo, D., Min, Y., Fu, N., & Xue, Q. (2024). Highly versatile and accurate machine learning methods for predicting perovskite properties. Journal of Materials Chemistry C, 12, 15444–15453. https://doi.org/10.1039/D4TC02268H
 
-**Reading status:** VERIFIED-METADATA; ABSTRACT-REVIEWED. Full article and supplementary information are still required for full review.
+**Reading status:** VERIFIED-METADATA; ABSTRACT AND OFFICIAL 11-PAGE ESI REVIEWED. Main article full-text review remains pending.
 
 ## Publisher-reported scope
 The publisher abstract reports 3,720 ABX3 perovskites and 2,660 A2B(I)B(II)X6 double perovskites; nearly 300 Matminer-generated descriptors; six ML models including XGBoost; and best reported XGBoost performance of R²=0.873 and RMSE=0.5868 eV for the study's band-gap task. The article also reports SHAP analysis of influential descriptors.
