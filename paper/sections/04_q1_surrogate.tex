@@ -1,0 +1,320 @@
+\section{Q1: Surrogate Modeling and Low-Tail Screening}
+\label{sec:q1-surrogate}
+
+\subsection{Objective and violation score}
+
+Question~1 asks for a composition-based surrogate that ranks candidate
+perovskites by their violation of five material requirements.  For a
+composition $z=(A,B,X)$, let
+\begin{equation}
+  p(d)=\left(\frac{\max(0,d)}{0.5}\right)^2 .
+  \label{eq:q1-hinge}
+\end{equation}
+Using formation energy $e_{\mathrm{form}}$, band gap $E_g$, valence-band
+maximum $E_{\mathrm{VBM}}$, and conduction-band minimum
+$E_{\mathrm{CBM}}$, the official violation score is
+\begin{align}
+  V={}&p(e_{\mathrm{form}}-0.21)
+      +p(1.4-E_g)+p(E_g-3.1) \notag\\
+     &+p(5.73-E_{\mathrm{VBM}})
+      +p(E_{\mathrm{CBM}}-4.50).
+  \label{eq:q1-violation}
+\end{align}
+All energies are measured in eV \cite{apmcm2026problemD}.  A zero score
+allows equality at a threshold, whereas strict feasibility uses open
+inequalities.  We therefore model the continuous score in
+Equation~\eqref{eq:q1-violation} and keep strict feasibility as a separate
+concept.
+
+The labeled training and validation files contain 11,256 and 3,969 rows,
+respectively.  Neither split contains a zero-violation or strictly feasible
+record.  Moreover, $96.16\%$ of the training rows and $96.45\%$ of the
+validation rows have zero band gap.  Since $p(1.4)=7.84$, a metallic
+prediction alone creates a substantial penalty.  These facts make global
+regression error insufficient for model selection: the surrogate must also
+preserve the ordering of the small low-$V$ subset.  File~04 contains 3,703
+unlabeled compositions and is used only for blind inference; its true error
+and target recall are not observable.
+
+\subsection{Composition features and candidate surrogates}
+
+The permitted input is the ordered categorical triple $(A,B,X)$.  The two
+cation sites remain distinct, candidates with $A=B$ are retained, and the
+identifier, row order, pool membership, and physical labels are excluded
+from the feature vector.  We compare three levels of modeling complexity.
+
+First, direct controls predict $V$ itself: a training-set median, one-hot
+Ridge regression, a random forest, and histogram gradient boosting (HGB).
+An additional Ridge ablation includes deterministic $A{:}X$ and $B{:}X$
+interactions and an $A=B$ indicator.  Second, property-based models predict
+the physical quantities and insert them into
+Equation~\eqref{eq:q1-violation}.  Third, two-stage models treat the highly
+imbalanced band-gap term separately.  A tail-weighted direct control uses
+the training weight
+\begin{equation}
+  w(V)=1+4\exp(-V/5),
+  \label{eq:q1-tail-weight}
+\end{equation}
+so that low-score records receive more influence without changing the
+target definition.
+
+All HGB comparisons use the same configuration: learning rate $0.075$,
+180 boosting iterations, at most 31 leaves, a minimum of 20 samples per
+leaf, and $\ell_2$ regularization of $1.0$.  Early stopping is disabled and
+the categorical encoders are fitted separately inside every training
+partition.  This matched design isolates differences in the target
+construction rather than changes in estimator capacity.
+
+\subsection{Two-stage band-gap penalty mixture}
+
+The selected model uses three regression heads for
+$e_{\mathrm{form}}$, $E_{\mathrm{VBM}}$, and $E_{\mathrm{CBM}}$.  Define the
+combined gap penalty
+\begin{equation}
+  G(E_g)=p(1.4-E_g)+p(E_g-3.1).
+  \label{eq:q1-gap-penalty}
+\end{equation}
+A classifier estimates
+$q(z)=\Pr(E_g>0\mid z)$, while a regression head fitted only to positive-gap
+records estimates $\widehat E_g^{+}(z)$.  Negative outputs of this head are
+floored at zero.  Instead of applying a hard class decision, the point
+penalty mixture is
+\begin{equation}
+  \widehat G_{\mathrm{mix}}(z)
+   =[1-q(z)]G(0)+q(z)G\!\left(\max(0,\widehat E_g^{+}(z))\right).
+  \label{eq:q1-gap-mixture}
+\end{equation}
+The final surrogate is therefore
+\begin{align}
+  \widehat V(z)={}&p(\widehat e_{\mathrm{form}}-0.21)
+  +p(5.73-\widehat E_{\mathrm{VBM}})
+  +p(\widehat E_{\mathrm{CBM}}-4.50) \notag\\
+  &+\widehat G_{\mathrm{mix}}(z).
+  \label{eq:q1-surrogate}
+\end{align}
+
+The hard-gate control assigns a positive gap only when $q\geq0.5$, whereas
+the mean-gap control evaluates $G(q\widehat E_g^{+})$.  On file~03 the
+positive-gap classifier had average precision $0.5774$, precision $0.8500$,
+and recall $0.2411$ at the $0.5$ threshold.  It would classify 49 of the 70
+observed $V<5$ rows as zero-gap cases.  The conditional positive-gap
+regressor had an MAE of $0.8290$ eV over 141 positive-gap rows.  These
+diagnostics motivated retaining soft alternatives to the hard gate; they do
+not establish a causal explanation for their ranking performance.
+
+\subsection{Grouped training, validation, and selection}
+
+Development uses five folds on file~02.  Its 1,608 ordered $(A,B)$ pairs are
+kept intact, so all seven $X$ variants of a pair enter the same fold.  Every
+candidate model is evaluated on the same partitions.  Besides MAE, RMSE,
+and Spearman correlation, we report MAE on the observed $V<5$ subset and
+ranking-based screening metrics.  If $T_K$ and $\widehat T_K$ denote the
+true and predicted lowest-$K$ sets, respectively, the overlap is
+\begin{equation}
+  R_K=\frac{|T_K\cap\widehat T_K|}{K},\qquad
+  S=\frac{R_{25}+R_{50}}{2}.
+  \label{eq:q1-screening-score}
+\end{equation}
+Ties are resolved by numerical material identifier.  The screening score
+$S$ is used jointly with global and low-tail errors, rather than as a claim
+that any selected material is physically feasible.
+
+Four configurations were frozen before the formal file~03 comparison:
+direct HGB, tail-weighted direct HGB, the mean-gap property model, and the
+penalty mixture.  The global-MAE acceptance limit was fixed at $1.05$ times
+the best shortlisted direct-model MAE, giving $2.8432$.  Within a
+two-percentage-point screening-score tie band, low-$V$ MAE was the next
+criterion.  Once the specification was selected, the Q1 release model
+\texttt{q1\_final} was fitted only on file~02 and applied to file~04.  A
+separate \texttt{q23\_final} model uses the same frozen specification but is
+refitted on files~02 and~03 for the later candidate pools; its predictions
+are not used as Q1 validation evidence.
+
+\subsection{Grouped ablation results}
+
+Table~\ref{tab:q1-cv-ablation} summarizes the principal five-fold
+comparisons.  The mixture obtained the largest mean screening score,
+$39.8\%$, while maintaining an MAE of $2.649$.  Direct HGB reached
+$27.0\%$ screening with MAE $2.877$.  On matched folds, the mixture's
+screening score exceeded direct HGB by an average of 12.8 percentage points
+(paired standard deviation 9.1 points) and the ordinary-gap property model
+by 6.4 points (standard deviation 3.5 points).  Its 0.8-point mean advantage
+over the mean-gap model changed sign across folds, so this small difference
+is not evidence of uniform superiority.  The ordinary-gap and mean-gap
+models also achieved smaller $V<5$ MAE than the selected mixture, exposing
+the trade-off between pointwise low-tail error and Top-$K$ recovery.
+
+\begin{table}[!htbp]
+\centering
+\caption{Grouped five-fold development results on file~02.  Values are
+fold means; $S$ is defined in Equation~\eqref{eq:q1-screening-score}.}
+\label{tab:q1-cv-ablation}
+\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
+\toprule
+Model & MAE & $\mathrm{MAE}_{V<5}$ & $R_{25}$ & $R_{50}$ & $S$ \\
+\midrule
+Ridge                         & 4.323 & 12.463 & 12.8\% & 16.0\% & 14.4\% \\
+Random forest                 & 4.284 & 13.901 & 16.0\% & 15.2\% & 15.6\% \\
+Direct HGB                    & 2.877 & 11.442 & 28.0\% & 26.0\% & 27.0\% \\
+Tail-weighted direct HGB      & 3.047 &  9.181 & 29.6\% & 33.6\% & 31.6\% \\
+Ordinary-gap property HGB     & 2.860 &  7.327 & 32.8\% & 34.0\% & 33.4\% \\
+Hard-gate property HGB        & 2.617 &  9.473 & 37.6\% & 35.2\% & 36.4\% \\
+Mean-gap property HGB         & 2.705 &  7.969 & 36.8\% & 41.2\% & 39.0\% \\
+Penalty-mixture HGB           & 2.649 &  9.398 & 40.0\% & 39.6\% & 39.8\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{../experiments/q1_ablation_v1/figures/grouped_ablation.png}
+\caption{Matched grouped cross-validation results.  The left panel compares
+global MAE and the mean Top-25/Top-50 overlap; the right panel shows that the
+screening advantage of the selected mixture is present on each of the five
+ordered-pair folds, although its magnitude varies.}
+\label{fig:q1-grouped-ablation}
+\end{figure}
+
+\subsection{File~03 validation and low-tail screening}
+
+The frozen comparison is shown in Table~\ref{tab:q1-validation}.  The
+tail-weighted direct model had the largest screening score, $38\%$, but its
+MAE of $2.8655$ exceeded the predeclared $2.8432$ limit.  The penalty
+mixture passed the limit and achieved the lowest MAE and RMSE among the four
+frozen candidates, together with a screening score of $36\%$.  It was
+therefore selected without revising the rule after observing the results.
+
+\begin{table}[!htbp]
+\centering
+\caption{Frozen-model results on the 3,969 labeled rows of file~03.}
+\label{tab:q1-validation}
+\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
+\toprule
+Model & MAE & RMSE & Spearman & $\mathrm{MAE}_{V<5}$ & Top-25 & Top-50 \\
+\midrule
+Direct HGB                & 2.7078 & 4.6876 & 0.9267 & 11.2603 & 4 & 13 \\
+Tail-weighted direct HGB  & 2.8655 & 4.7992 & 0.9223 &  8.3598 & 10 & 18 \\
+Mean-gap property HGB     & 2.5278 & 4.6885 & 0.9377 &  6.3517 & 7 & 19 \\
+Penalty-mixture HGB       & 2.4715 & 4.5827 & 0.9383 &  8.2654 & 8 & 20 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+At budgets $K=10,25,50,100$, the selected model recovered respectively
+1, 8, 20, and 41 members of the true lowest-$K$ sets.  The minimum observed
+score among its selected candidates was $0.0196$ at every budget.  Relative
+to direct HGB, the selected model was associated with an $8.7\%$ lower MAE,
+twice as many Top-25 hits, and an increase from 13 to 20 Top-50 hits.  The
+number of true zero-gap records in the predicted Top-50 also fell from 29
+to 13.  These are matched empirical comparisons, not causal effects of the
+mixture construction.
+
+Figure~\ref{fig:q1-penalty-decomposition} separates the five predicted
+penalty components.  Across all validation rows, the observed and predicted
+mean components are broadly aligned.  In the 70-row $V<5$ subset, however,
+the predicted lower-gap and CBM penalties are much larger than their
+observed means.  This pattern is consistent with the remaining low-tail
+MAE and cautions against interpreting fine differences within the predicted
+minimum as physical certainty.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{../experiments/q1_v12/figures/five_penalty_decomposition.png}
+\caption{Observed and predicted mean penalty components on file~03.  The
+right panel is restricted to the 70 records with observed $V<5$.  The figure
+uses post-freeze diagnostics and does not alter the frozen model.}
+\label{fig:q1-penalty-decomposition}
+\end{figure}
+
+The expanded post-freeze panel also evaluated a model that directly fits
+the conditional expected positive-gap penalty.  On file~03 it obtained MAE
+$2.4624$ and screening score $41\%$, compared with $2.4715$ and $36\%$ for
+the frozen mixture.  In the original grouped development folds, however,
+its screening score was $35.2\%$, below the mixture's $39.8\%$.  Because
+these additional file~03 comparisons were performed after selection, they
+serve as sensitivity evidence and do not justify replacing the frozen
+release.
+
+\subsection{Stability and finite-budget screening value}
+
+With the original ordered-pair folds fixed, changing the HGB estimator seed
+from 42 to 1729 or 31415 left the compared metrics unchanged.  With the
+estimator seed fixed at 42 and two alternative group allocations, the
+mixture achieved screening scores of $40.2\%$ and $42.6\%$; direct HGB
+obtained $28.0\%$ and $26.0\%$.  This supports stability with respect to the
+tested seeds and partitions, but it is not a distribution-free guarantee.
+
+To measure value under a finite verification budget, we replayed the frozen
+file~03 ranking against uniform sampling without replacement.  For a pool
+of size $N$ containing $H$ records with $V<5$, a random budget of $K$ has
+expected low-tail hits
+\begin{equation}
+  \mathrm{E}[Y]=\frac{KH}{N}.
+  \label{eq:q1-random-hits}
+\end{equation}
+The exact hypergeometric distribution was used rather than Monte Carlo
+sampling.  Table~\ref{tab:q1-budget} shows that the surrogate found the
+validation-set minimum at every tested budget and concentrated many more
+$V<5$ records than the random expectation.
+
+\begin{table}[!htbp]
+\centering
+\caption{Finite-budget replay on all 3,969 rows of file~03.  Random minima
+are exact distributional medians for sampling without replacement.}
+\label{tab:q1-budget}
+\small
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+$K$ & Proxy $V<5$ hits & Random mean hits & Enrichment & Proxy min. $V$ & Random median min. $V$ \\
+\midrule
+10  &  6 & 0.1764 & 34.02 & 0.0196 & 12.6431 \\
+25  & 13 & 0.4409 & 29.48 & 0.0196 & 10.9103 \\
+50  & 23 & 0.8818 & 26.08 & 0.0196 &  3.4175 \\
+100 & 34 & 1.7637 & 19.28 & 0.0196 &  1.2500 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The same retrospective calculation was repeated under the Q2-like
+$X=\mathrm{NO}_2$ subset and the Q3-like
+$X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ subset of file~03.  At
+$K=50$, the proxy found 9 and 14 low-$V$ records, respectively, compared
+with random expectations of $0.9700$ and $1.2346$; the corresponding
+enrichment factors were 9.28 and 11.34.  These subpools overlap and file~03
+was used in model selection, so the replay quantifies screening value on
+this observed validation set only.  It does not estimate success
+probabilities for file~04 or for unseen chemical domains.
+
+\subsection{Strengths, limitations, and Q1 conclusion}
+
+The principal strength of the approach is its auditable separation of data
+roles.  Ordered-pair grouping prevents the seven $X$ variants of a pair from
+crossing development folds; the frozen selection rule combines global
+accuracy with low-tail retrieval; and the probabilistic gap mixture avoids
+making the low-recall hard classifier the sole determinant of the gap
+penalty.  Versioned model files and prediction tables also separate the
+Q1-only fit from the later Q2/Q3 scoring fit.  Within the tested data, the
+results support using the surrogate as a finite-budget ranking device.
+
+Several limitations remain.  First, neither labeled split contains a
+zero-violation or strictly feasible record, so recall of the rare official
+targets cannot be measured.  Second, file~03 served both model selection
+and the reported formal comparison; the later expanded panel and random
+budget replay are therefore descriptive post-freeze evidence rather than a
+new independent validation set.  Third, the positive-gap probabilities
+were not separately calibrated.  Fourth, the VBM and CBM MAEs rise from
+$0.061$ and $0.061$ eV globally to $0.667$ and $0.664$ eV within the
+observed low-$V$ subset, limiting confidence in fine ordering among the
+best-looking candidates.  Finally, the model uses composition categories
+only and provides no guarantee for unfamiliar elements or for physical
+feasibility beyond the supplied labels.
+
+Accordingly, the 3,703 file~04 predictions are blind surrogate scores, not
+verified discoveries.  Their holdout MAE, target recall, and strict
+feasibility rate are unknown.  Machine-level reproduction and artifact
+checks have passed, but independent team sign-off and the official
+platform-field check remain pending.  The Q1 evidence therefore supports
+low-tail prioritization and budgeted follow-up, while any selected material
+still requires independent physical or computational verification.
