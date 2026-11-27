@@ -1,0 +1,199 @@
+{
+  "official_hashes_matched": 9,
+  "archive_hashes_matched": 24,
+  "files": {
+    "02": {
+      "rows": 11256,
+      "columns": 22,
+      "A_eq_B": 217,
+      "V_zero_stored": 0,
+      "V_zero_recomputed": 0,
+      "strict": 0,
+      "V_min": 0.0004,
+      "V_median": 22.313827,
+      "V_below": {
+        "0.5": 49,
+        "1": 83,
+        "2": 128,
+        "5": 222,
+        "7.84": 267
+      },
+      "gap_zero": 10824,
+      "gap_positive": 432,
+      "gap_positive_min_median_max": [
+        0.2,
+        1.3,
+        7.0
+      ],
+      "gap_in_closed_window": 139,
+      "gap_positive_by_X": {
+        "O2S": 103,
+        "FO2": 78,
+        "N2O": 33,
+        "NO2": 52,
+        "O3": 104,
+        "N3": 14,
+        "FNO": 48
+      },
+      "max_formula_error": 1.0189444e-05,
+      "mean_formula_error": 2.4531342007818053e-06,
+      "max_formula_term_error": 1.0189444e-05,
+      "max_stored_sum_error": 1e-06
+    },
+    "03": {
+      "rows": 3969,
+      "columns": 22,
+      "A_eq_B": 77,
+      "V_zero_stored": 0,
+      "V_zero_recomputed": 0,
+      "strict": 0,
+      "V_min": 0.0196,
+      "V_median": 22.420024,
+      "V_below": {
+        "0.5": 18,
+        "1": 27,
+        "2": 41,
+        "5": 70,
+        "7.84": 88
+      },
+      "gap_zero": 3828,
+      "gap_positive": 141,
+      "gap_positive_min_median_max": [
+        0.2,
+        1.4,
+        6.6
+      ],
+      "gap_in_closed_window": 40,
+      "gap_positive_by_X": {
+        "NO2": 18,
+        "O2S": 28,
+        "O3": 28,
+        "N2O": 11,
+        "FO2": 30,
+        "FNO": 22,
+        "N3": 4
+      },
+      "max_formula_error": 1.0189444e-05,
+      "mean_formula_error": 2.4576422564877804e-06,
+      "max_formula_term_error": 1.0189444e-05,
+      "max_stored_sum_error": 1e-06
+    },
+    "04": {
+      "rows": 3703,
+      "columns": 6,
+      "A_eq_B": 70
+    },
+    "06": {
+      "rows": 15225,
+      "columns": 6,
+      "A_eq_B": 294
+    },
+    "07": {
+      "rows": 2704,
+      "columns": 6,
+      "A_eq_B": 52
+    },
+    "08": {
+      "rows": 8112,
+      "columns": 6,
+      "A_eq_B": 156
+    },
+    "11": {
+      "rows": 529,
+      "columns": 6,
+      "A_eq_B": 10
+    },
+    "12": {
+      "rows": 1587,
+      "columns": 6,
+      "A_eq_B": 30
+    }
+  },
+  "ordered_pairs": {
+    "02": 1608,
+    "03": 567,
+    "04": 529
+  },
+  "04_reverse_pair_in_02": 314,
+  "archived_metrics": {
+    "low_10_percent_threshold": 13.68442,
+    "low_10_percent_rows": 397,
+    "models": {
+      "baseline0_median": {
+        "MAE": 7.800104766691862,
+        "RMSE": 11.194427173483492,
+        "Low10_MAE": 12.127831937027707,
+        "Top25_overlap": 0.0,
+        "top_k": {
+          "10": {
+            "overlap": 0.0,
+            "min_true_V": 13.785345
+          },
+          "25": {
+            "overlap": 0.0,
+            "min_true_V": 3.57837
+          },
+          "50": {
+            "overlap": 0.0,
+            "min_true_V": 3.57837
+          },
+          "100": {
+            "overlap": 0.04,
+            "min_true_V": 1.99584
+          }
+        },
+        "negative_predictions": 0
+      },
+      "baseline1_ridge": {
+        "MAE": 4.465602405240615,
+        "RMSE": 6.528383648296265,
+        "Low10_MAE": 5.510947476826197,
+        "Top25_overlap": 0.16,
+        "top_k": {
+          "10": {
+            "overlap": 0.1,
+            "min_true_V": 0.0196
+          },
+          "25": {
+            "overlap": 0.16,
+            "min_true_V": 0.0196
+          },
+          "50": {
+            "overlap": 0.16,
+            "min_true_V": 0.0196
+          },
+          "100": {
+            "overlap": 0.15,
+            "min_true_V": 0.0196
+          }
+        },
+        "negative_predictions": 0
+      },
+      "baseline2_rf": {
+        "MAE": 4.211346773797245,
+        "RMSE": 6.512836540055991,
+        "Low10_MAE": 5.363665786680716,
+        "Top25_overlap": 0.08,
+        "top_k": {
+          "10": {
+            "overlap": 0.1,
+            "min_true_V": 0.0196
+          },
+          "25": {
+            "overlap": 0.08,
+            "min_true_V": 0.0196
+          },
+          "50": {
+            "overlap": 0.08,
+            "min_true_V": 0.0196
+          },
+          "100": {
+            "overlap": 0.13,
+            "min_true_V": 0.0196
+          }
+        },
+        "negative_predictions": 0
+      }
+    }
+  }
+}

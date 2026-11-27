@@ -1,0 +1,14 @@
+{
+  "split": "03",
+  "positives": 141,
+  "average_precision": 0.5773793970270455,
+  "hard_precision": 0.85,
+  "hard_recall": 0.24113475177304963,
+  "true_low_v_rows": 70,
+  "true_low_v_hard_misses": 49,
+  "brier": 0.022621811596633838,
+  "conditional_gap_mae_eV": 0.8293898544311745,
+  "pr_auc_trapezoidal": 0.5762036598586358,
+  "hard_threshold": 0.5,
+  "clipped_conditional_gap_mae_eV": 0.8289956023392886
+}

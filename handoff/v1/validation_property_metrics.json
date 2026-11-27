@@ -1,0 +1,82 @@
+[
+  {
+    "model": "hgb_gap_mix",
+    "split": "03",
+    "property": "e_form",
+    "mae_eV": 0.1596275185184242,
+    "signed_bias_eV": -0.0016257413964457887,
+    "low_v_mae_eV": 0.16664749454612302
+  },
+  {
+    "model": "hgb_gap_mix",
+    "split": "03",
+    "property": "vbm",
+    "mae_eV": 0.061466015844940436,
+    "signed_bias_eV": -0.003974594106831898,
+    "low_v_mae_eV": 0.6670471132228794
+  },
+  {
+    "model": "hgb_gap_mix",
+    "split": "03",
+    "property": "cbm",
+    "mae_eV": 0.061319054888908577,
+    "signed_bias_eV": 0.0016723310778714196,
+    "low_v_mae_eV": 0.6639030387569159
+  },
+  {
+    "model": "hgb_gap_mix",
+    "split": "03",
+    "positives": 141,
+    "average_precision": 0.5773793970270455,
+    "hard_precision": 0.85,
+    "hard_recall": 0.24113475177304963,
+    "true_low_v_rows": 70,
+    "true_low_v_hard_misses": 49,
+    "brier": 0.022621811596633838,
+    "conditional_gap_mae_eV": 0.8293898544311745
+  },
+  {
+    "model": "hgb_gap_soft",
+    "split": "03",
+    "property": "e_form",
+    "mae_eV": 0.1596275185184242,
+    "signed_bias_eV": -0.0016257413964457887,
+    "low_v_mae_eV": 0.16664749454612302
+  },
+  {
+    "model": "hgb_gap_soft",
+    "split": "03",
+    "property": "gap",
+    "mae_eV": 0.06537121780900823,
+    "signed_bias_eV": -0.0266828750943839,
+    "low_v_mae_eV": 1.4605863189537205
+  },
+  {
+    "model": "hgb_gap_soft",
+    "split": "03",
+    "property": "vbm",
+    "mae_eV": 0.061466015844940436,
+    "signed_bias_eV": -0.003974594106831898,
+    "low_v_mae_eV": 0.6670471132228794
+  },
+  {
+    "model": "hgb_gap_soft",
+    "split": "03",
+    "property": "cbm",
+    "mae_eV": 0.061319054888908577,
+    "signed_bias_eV": 0.0016723310778714196,
+    "low_v_mae_eV": 0.6639030387569159
+  },
+  {
+    "model": "hgb_gap_soft",
+    "split": "03",
+    "positives": 141,
+    "average_precision": 0.5773793970270455,
+    "hard_precision": 0.85,
+    "hard_recall": 0.24113475177304963,
+    "true_low_v_rows": 70,
+    "true_low_v_hard_misses": 49,
+    "brier": 0.022621811596633838,
+    "conditional_gap_mae_eV": 0.8293898544311745
+  }
+]

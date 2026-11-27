@@ -1,0 +1,80 @@
+{
+  "q2": [
+    {
+      "tag": "Q2 基准",
+      "vars": 4,
+      "states": 16,
+      "best_energy": 0.1,
+      "argmin": [
+        0,
+        1
+      ],
+      "argmin_cost": 0.1,
+      "all_optima_legal": true,
+      "max_formula_vs_matrix": 4.440892098500626e-16
+    },
+    {
+      "tag": "Q2 禁用最优对 (A1,B2)",
+      "vars": 4,
+      "states": 16,
+      "best_energy": 0.2,
+      "argmin": [
+        1,
+        1
+      ],
+      "argmin_cost": 0.2,
+      "all_optima_legal": true,
+      "max_formula_vs_matrix": 8.881784197001252e-16
+    }
+  ],
+  "q3": [
+    {
+      "tag": "Q3 基准",
+      "vars": 8,
+      "states": 256,
+      "best_energy": 0.05,
+      "argmin": [
+        1,
+        0,
+        2
+      ],
+      "argmin_cost": 0.05,
+      "all_optima_legal": true,
+      "max_formula_vs_matrix": 7.105427357601002e-15
+    },
+    {
+      "tag": "Q3 禁用最优 (A2,B1,X3)",
+      "vars": 8,
+      "states": 256,
+      "best_energy": 0.1,
+      "argmin": [
+        0,
+        0,
+        1
+      ],
+      "argmin_cost": 0.1,
+      "all_optima_legal": true,
+      "max_formula_vs_matrix": 7.105427357601002e-15
+    }
+  ],
+  "pool": [
+    {
+      "mode": "q2",
+      "pairs": 2704,
+      "vars": 104,
+      "max_energy_error": 0.0,
+      "worst": null,
+      "argmin_matches": true,
+      "best_cost": 0.0006567583558413359
+    },
+    {
+      "mode": "q3",
+      "pairs": 8112,
+      "vars": 208,
+      "max_energy_error": 0.0,
+      "worst": null,
+      "argmin_matches": true,
+      "best_cost": 0.0006567583558413359
+    }
+  ]
+}

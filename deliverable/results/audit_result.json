@@ -1,0 +1,979 @@
+{
+  "generated_at": "2026-11-26 17:58:59",
+  "data_dir": "C:\\Users\\wuyik\\Documents\\deepseek-harness\\default-workspace\\task_a\\data_real",
+  "mode": "real",
+  "files": [
+    {
+      "name": "02_castelli_train.csv",
+      "expected": 11256,
+      "rows": 11256,
+      "cols": 22,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b",
+        "a_lat",
+        "volume",
+        "e_form",
+        "gap",
+        "gap_is_direct",
+        "vbm",
+        "cbm",
+        "mu_b",
+        "fermi_level",
+        "fermi_width",
+        "v_form",
+        "v_gap_low",
+        "v_gap_high",
+        "v_vbm",
+        "v_cbm",
+        "V"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": true,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "03_castelli_val.csv",
+      "expected": 3969,
+      "rows": 3969,
+      "cols": 22,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b",
+        "a_lat",
+        "volume",
+        "e_form",
+        "gap",
+        "gap_is_direct",
+        "vbm",
+        "cbm",
+        "mu_b",
+        "fermi_level",
+        "fermi_width",
+        "v_form",
+        "v_gap_low",
+        "v_gap_high",
+        "v_vbm",
+        "v_cbm",
+        "V"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": true,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "04_castelli_test_holdout.csv",
+      "expected": 3703,
+      "rows": 3703,
+      "cols": 6,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": false,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "06_castelli_no_physics.csv",
+      "expected": 15225,
+      "rows": 15225,
+      "cols": 6,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": false,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "07_castelli_q2_pool.csv",
+      "expected": 2704,
+      "rows": 2704,
+      "cols": 6,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": false,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "08_castelli_q3_pool.csv",
+      "expected": 8112,
+      "rows": 8112,
+      "cols": 6,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": false,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "11_castelli_q2_pool_blind.csv",
+      "expected": 529,
+      "rows": 529,
+      "cols": 6,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": false,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    },
+    {
+      "name": "12_castelli_q3_pool_blind.csv",
+      "expected": 1587,
+      "rows": 1587,
+      "cols": 6,
+      "columns": [
+        "id",
+        "formula",
+        "A",
+        "B",
+        "X",
+        "a_eq_b"
+      ],
+      "encoding": "utf-8-sig",
+      "missing_cells": 0,
+      "duplicate_rows": 0,
+      "has_physics": false,
+      "numeric_ok": true,
+      "status": "PASS",
+      "note": ""
+    }
+  ],
+  "checks": [
+    {
+      "id": "A1-02",
+      "name": "行数与字段：02_castelli_train.csv",
+      "status": "PASS",
+      "detail": "11,256 行 × 22 列，编码 utf-8-sig",
+      "evidence": ""
+    },
+    {
+      "id": "A1-03",
+      "name": "行数与字段：03_castelli_val.csv",
+      "status": "PASS",
+      "detail": "3,969 行 × 22 列，编码 utf-8-sig",
+      "evidence": ""
+    },
+    {
+      "id": "A1-04",
+      "name": "行数与字段：04_castelli_test_holdout.csv",
+      "status": "PASS",
+      "detail": "3,703 行 × 6 列，编码 utf-8-sig",
+      "evidence": "id:int64；formula:str；A:str；B:str；X:str；a_eq_b:int64"
+    },
+    {
+      "id": "A1-06",
+      "name": "行数与字段：06_castelli_no_physics.csv",
+      "status": "PASS",
+      "detail": "15,225 行 × 6 列，编码 utf-8-sig",
+      "evidence": "id:int64；formula:str；A:str；B:str；X:str；a_eq_b:int64"
+    },
+    {
+      "id": "A1-07",
+      "name": "行数与字段：07_castelli_q2_pool.csv",
+      "status": "PASS",
+      "detail": "2,704 行 × 6 列，编码 utf-8-sig",
+      "evidence": "id:int64；formula:str；A:str；B:str；X:str；a_eq_b:int64"
+    },
+    {
+      "id": "A1-08",
+      "name": "行数与字段：08_castelli_q3_pool.csv",
+      "status": "PASS",
+      "detail": "8,112 行 × 6 列，编码 utf-8-sig",
+      "evidence": "id:int64；formula:str；A:str；B:str；X:str；a_eq_b:int64"
+    },
+    {
+      "id": "A1-11",
+      "name": "行数与字段：11_castelli_q2_pool_blind.csv",
+      "status": "PASS",
+      "detail": "529 行 × 6 列，编码 utf-8-sig",
+      "evidence": "id:int64；formula:str；A:str；B:str；X:str；a_eq_b:int64"
+    },
+    {
+      "id": "A1-12",
+      "name": "行数与字段：12_castelli_q3_pool_blind.csv",
+      "status": "PASS",
+      "detail": "1,587 行 × 6 列，编码 utf-8-sig",
+      "evidence": "id:int64；formula:str；A:str；B:str；X:str；a_eq_b:int64"
+    },
+    {
+      "id": "A2-1",
+      "name": "材料主键唯一 (A,B,X)",
+      "status": "PASS",
+      "detail": "重复键合计 0 条",
+      "evidence": ""
+    },
+    {
+      "id": "A2-2",
+      "name": "元素编码一致（A、B 同池）",
+      "status": "PASS",
+      "detail": "A 位 52 种、B 位 52 种",
+      "evidence": ""
+    },
+    {
+      "id": "A2-3",
+      "name": "A = B 合法且有序位点",
+      "status": "PASS",
+      "detail": "A=B 记录 217 条，A≠B 记录 11,039 条",
+      "evidence": ""
+    },
+    {
+      "id": "A2-4",
+      "name": "gap = 0 保留（金属性）",
+      "status": "PASS",
+      "detail": "零带隙占比 02=96.16%，03=96.45%",
+      "evidence": "全库基准 18,193 / 18,928 = 96.12%"
+    },
+    {
+      "id": "A2-5",
+      "name": "物性字段可解析、无 inf",
+      "status": "PASS",
+      "detail": "02:0 个 NaN；03:0 个 NaN",
+      "evidence": ""
+    },
+    {
+      "id": "A2-6",
+      "name": "02/03/04 通过主键可关联且不重叠",
+      "status": "PASS",
+      "detail": "并集 18,928 / 18,928；交叠 02∩03=0, 02∩04=0, 03∩04=0",
+      "evidence": ""
+    },
+    {
+      "id": "A3-1",
+      "name": "七项公式单元测试",
+      "status": "PASS",
+      "detail": "7/7 通过",
+      "evidence": "含 /0.5 归一；边界样本期望为 0"
+    },
+    {
+      "id": "A3-2-02",
+      "name": "V 重算与附件对账：02_castelli_train.csv",
+      "status": "PASS",
+      "detail": "max|ΔV|=1.02e-05，mean|ΔV|=2.45e-06，超 5e-05 的 0 条",
+      "evidence": "输入按六位小数落盘，复算偏差上界约 1e-5，实测与此吻合"
+    },
+    {
+      "id": "A3-6-02",
+      "name": "V = 五项惩罚之和：02_castelli_train.csv",
+      "status": "PASS",
+      "detail": "max|Σv_* − V|=1.0e-06",
+      "evidence": ""
+    },
+    {
+      "id": "A3-2-03",
+      "name": "V 重算与附件对账：03_castelli_val.csv",
+      "status": "PASS",
+      "detail": "max|ΔV|=1.02e-05，mean|ΔV|=2.46e-06，超 5e-05 的 0 条",
+      "evidence": "输入按六位小数落盘，复算偏差上界约 1e-5，实测与此吻合"
+    },
+    {
+      "id": "A3-6-03",
+      "name": "V = 五项惩罚之和：03_castelli_val.csv",
+      "status": "PASS",
+      "detail": "max|Σv_* − V|=1.0e-06",
+      "evidence": ""
+    },
+    {
+      "id": "A3-3",
+      "name": "两套口径统计（02∪03）",
+      "status": "PASS",
+      "detail": "V=0 共 0 条，严格目标 0 条",
+      "evidence": "全库基准 19 / 15；最小 V=0.0004"
+    },
+    {
+      "id": "A4-1",
+      "name": "并集覆盖 18,928",
+      "status": "PASS",
+      "detail": "02+03+04 = 18,928",
+      "evidence": ""
+    },
+    {
+      "id": "A4-2",
+      "name": "06 = 02 ∪ 03（组成集合）",
+      "status": "PASS",
+      "detail": "06 15,225，02∪03 15,225，差 0",
+      "evidence": ""
+    },
+    {
+      "id": "A4-3",
+      "name": "11 ⊆ 07",
+      "status": "PASS",
+      "detail": "11 有 0 条不在 07 内",
+      "evidence": ""
+    },
+    {
+      "id": "A4-4",
+      "name": "12 ⊆ 08",
+      "status": "PASS",
+      "detail": "12 有 0 条不在 08 内",
+      "evidence": ""
+    },
+    {
+      "id": "A4-5-07",
+      "name": "07 的 X 必须全为 NO2",
+      "status": "PASS",
+      "detail": "实际 X：NO2",
+      "evidence": ""
+    },
+    {
+      "id": "A4-5-11",
+      "name": "11 的 X 必须全为 NO2",
+      "status": "PASS",
+      "detail": "实际 X：NO2",
+      "evidence": ""
+    },
+    {
+      "id": "A4-5-08",
+      "name": "08 的 X ⊆ {O3,NO2,FO2}",
+      "status": "PASS",
+      "detail": "实际 X：FO2、NO2、O3",
+      "evidence": ""
+    },
+    {
+      "id": "A4-5-12",
+      "name": "12 的 X ⊆ {O3,NO2,FO2}",
+      "status": "PASS",
+      "detail": "实际 X：FO2、NO2、O3",
+      "evidence": ""
+    },
+    {
+      "id": "A4-6-07",
+      "name": "07 覆盖完整网格",
+      "status": "PASS",
+      "detail": "|A|=52, |B|=52, |X|=1, 行数 2,704，构成完整网格",
+      "evidence": ""
+    },
+    {
+      "id": "A4-6-08",
+      "name": "08 覆盖完整网格",
+      "status": "PASS",
+      "detail": "|A|=52, |B|=52, |X|=3, 行数 8,112，构成完整网格",
+      "evidence": ""
+    },
+    {
+      "id": "A5-04",
+      "name": "区块结构：04_castelli_test_holdout.csv",
+      "status": "PASS",
+      "detail": "529 个 (A,B) 对 × 7 个 X 族 = 3,703，行数 3,703；|A|=52、|B|=52，每个元素对都含全部 X 族，各 X 族行数一致",
+      "evidence": ""
+    },
+    {
+      "id": "A5-11",
+      "name": "区块结构：11_castelli_q2_pool_blind.csv",
+      "status": "PASS",
+      "detail": "529 个 (A,B) 对 × 1 个 X 族 = 529，行数 529；|A|=52、|B|=52，每个元素对都含全部 X 族，各 X 族行数一致",
+      "evidence": ""
+    },
+    {
+      "id": "A5-12",
+      "name": "区块结构：12_castelli_q3_pool_blind.csv",
+      "status": "PASS",
+      "detail": "529 个 (A,B) 对 × 3 个 X 族 = 1,587，行数 1,587；|A|=52、|B|=52，每个元素对都含全部 X 族，各 X 族行数一致",
+      "evidence": ""
+    },
+    {
+      "id": "A5-4",
+      "name": "04 的元素是否在 02/03 出现",
+      "status": "PASS",
+      "detail": "A、B 均出现（缺的是组合而非元素）",
+      "evidence": ""
+    },
+    {
+      "id": "A0-1",
+      "name": "文件 sha256 与官方清单一致",
+      "status": "PASS",
+      "detail": "9 个匹配，0 个不一致，0 个缺失",
+      "evidence": ""
+    },
+    {
+      "id": "A2-7",
+      "name": "五项单项惩罚之和 = V",
+      "status": "PASS",
+      "detail": "02: max|Δ|=1.0e-06；03: max|Δ|=1.0e-06",
+      "evidence": "逐项按六位小数落盘后求和，容差 2e-6"
+    },
+    {
+      "id": "A2-8",
+      "name": "a_eq_b 行数与说明一致",
+      "status": "PASS",
+      "detail": "实测 364 行，占 1.92%；说明为 364 行（1.92%）",
+      "evidence": ""
+    },
+    {
+      "id": "A4-7",
+      "name": "每个 X 族在三档中行数均衡",
+      "status": "PASS",
+      "detail": "02: 1608–1608（应全为 1608）；03: 567–567（应全为 567）；04: 529–529（应全为 529）",
+      "evidence": "对应 1,608 / 567 / 529 个 (A,B) 对 × 7 族"
+    },
+    {
+      "id": "A4-8-11",
+      "name": "11 = 07 ∩ 04",
+      "status": "PASS",
+      "detail": "11 529，07∩04 529，对称差 0",
+      "evidence": ""
+    },
+    {
+      "id": "A4-8-12",
+      "name": "12 = 08 ∩ 04",
+      "status": "PASS",
+      "detail": "12 1,587，08∩04 1,587，对称差 0",
+      "evidence": ""
+    },
+    {
+      "id": "A3-4",
+      "name": "V 分布与数据集说明一致（可核对部分）",
+      "status": "PASS",
+      "detail": "15,225 条：max 108.9558（说明 108.9558），<0.5 67 / <1 110 / <2 169 / <5 292",
+      "evidence": "最大值一致；计数缺口 33、42、58、83，均可由 04 的 3,703 条未标注样本解释；中位 22.3405 vs 说明 22.2319 的差异同源，无法本地验证"
+    }
+  ],
+  "quality": {
+    "duplicates": {
+      "02_castelli_train.csv": 0,
+      "03_castelli_val.csv": 0,
+      "04_castelli_test_holdout.csv": 0,
+      "06_castelli_no_physics.csv": 0,
+      "07_castelli_q2_pool.csv": 0,
+      "08_castelli_q3_pool.csv": 0,
+      "11_castelli_q2_pool_blind.csv": 0,
+      "12_castelli_q3_pool_blind.csv": 0
+    },
+    "elements": {
+      "A": [
+        "Ag",
+        "Al",
+        "As",
+        "Au",
+        "B",
+        "Ba",
+        "Be",
+        "Bi",
+        "Ca",
+        "Cd",
+        "Co",
+        "Cr",
+        "Cs",
+        "Cu",
+        "Fe",
+        "Ga",
+        "Ge",
+        "Hf",
+        "Hg",
+        "In",
+        "Ir",
+        "K",
+        "La",
+        "Li",
+        "Mg",
+        "Mn",
+        "Mo",
+        "Na",
+        "Nb",
+        "Ni",
+        "Os",
+        "Pb",
+        "Pd",
+        "Pt",
+        "Rb",
+        "Re",
+        "Rh",
+        "Ru",
+        "Sb",
+        "Sc",
+        "Si",
+        "Sn",
+        "Sr",
+        "Ta",
+        "Te",
+        "Ti",
+        "Tl",
+        "V",
+        "W",
+        "Y",
+        "Zn",
+        "Zr"
+      ],
+      "B": [
+        "Ag",
+        "Al",
+        "As",
+        "Au",
+        "B",
+        "Ba",
+        "Be",
+        "Bi",
+        "Ca",
+        "Cd",
+        "Co",
+        "Cr",
+        "Cs",
+        "Cu",
+        "Fe",
+        "Ga",
+        "Ge",
+        "Hf",
+        "Hg",
+        "In",
+        "Ir",
+        "K",
+        "La",
+        "Li",
+        "Mg",
+        "Mn",
+        "Mo",
+        "Na",
+        "Nb",
+        "Ni",
+        "Os",
+        "Pb",
+        "Pd",
+        "Pt",
+        "Rb",
+        "Re",
+        "Rh",
+        "Ru",
+        "Sb",
+        "Sc",
+        "Si",
+        "Sn",
+        "Sr",
+        "Ta",
+        "Te",
+        "Ti",
+        "Tl",
+        "V",
+        "W",
+        "Y",
+        "Zn",
+        "Zr"
+      ],
+      "n_A": 52,
+      "n_B": 52,
+      "same_pool": true
+    },
+    "a_eq_b": {
+      "same": 217,
+      "diff": 11039
+    },
+    "gap_zero_share": {
+      "02_castelli_train.csv": 0.9616,
+      "03_castelli_val.csv": 0.9645
+    },
+    "nan": {
+      "02_castelli_train.csv": {
+        "e_form": {
+          "nan": 0,
+          "inf": 0
+        },
+        "gap": {
+          "nan": 0,
+          "inf": 0
+        },
+        "vbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "cbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "mu_b": {
+          "nan": 0,
+          "inf": 0
+        },
+        "gap_is_direct": {
+          "nan": 0,
+          "inf": 0
+        },
+        "a_lat": {
+          "nan": 0,
+          "inf": 0
+        },
+        "volume": {
+          "nan": 0,
+          "inf": 0
+        },
+        "fermi_level": {
+          "nan": 0,
+          "inf": 0
+        },
+        "fermi_width": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_form": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_gap_low": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_gap_high": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_vbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_cbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "V": {
+          "nan": 0,
+          "inf": 0
+        }
+      },
+      "03_castelli_val.csv": {
+        "e_form": {
+          "nan": 0,
+          "inf": 0
+        },
+        "gap": {
+          "nan": 0,
+          "inf": 0
+        },
+        "vbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "cbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "mu_b": {
+          "nan": 0,
+          "inf": 0
+        },
+        "gap_is_direct": {
+          "nan": 0,
+          "inf": 0
+        },
+        "a_lat": {
+          "nan": 0,
+          "inf": 0
+        },
+        "volume": {
+          "nan": 0,
+          "inf": 0
+        },
+        "fermi_level": {
+          "nan": 0,
+          "inf": 0
+        },
+        "fermi_width": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_form": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_gap_low": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_gap_high": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_vbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "v_cbm": {
+          "nan": 0,
+          "inf": 0
+        },
+        "V": {
+          "nan": 0,
+          "inf": 0
+        }
+      }
+    },
+    "join": {
+      "union": 18928,
+      "expected": 18928,
+      "pairs_02_03": 0,
+      "pairs_02_04": 0,
+      "pairs_03_04": 0
+    }
+  },
+  "v": {
+    "unit_tests": [
+      {
+        "case": 1,
+        "args": [
+          0.1,
+          2.0,
+          6.0,
+          4.0
+        ],
+        "expected": 0.0,
+        "got": 0.0,
+        "pass": true
+      },
+      {
+        "case": 2,
+        "args": [
+          0.21,
+          1.4,
+          5.73,
+          4.5
+        ],
+        "expected": 0.0,
+        "got": 0.0,
+        "pass": true
+      },
+      {
+        "case": 3,
+        "args": [
+          0.41,
+          2.0,
+          6.0,
+          4.0
+        ],
+        "expected": 0.16,
+        "got": 0.16,
+        "pass": true
+      },
+      {
+        "case": 4,
+        "args": [
+          0.1,
+          0.0,
+          6.0,
+          4.0
+        ],
+        "expected": 7.84,
+        "got": 7.84,
+        "pass": true
+      },
+      {
+        "case": 5,
+        "args": [
+          0.1,
+          3.6,
+          6.0,
+          4.0
+        ],
+        "expected": 1.0,
+        "got": 1.0,
+        "pass": true
+      },
+      {
+        "case": 6,
+        "args": [
+          0.1,
+          2.0,
+          5.23,
+          4.0
+        ],
+        "expected": 1.0,
+        "got": 1.0,
+        "pass": true
+      },
+      {
+        "case": 7,
+        "args": [
+          0.1,
+          2.0,
+          6.0,
+          5.0
+        ],
+        "expected": 1.0,
+        "got": 1.0,
+        "pass": true
+      }
+    ],
+    "files": {
+      "02_castelli_train.csv": {
+        "v_min": 0.0004000000000000007,
+        "v_zero": 0,
+        "strict": 0,
+        "max_abs_err": 1.018944400499322e-05,
+        "mean_abs_err": 2.453134200763873e-06,
+        "over_tol": 0,
+        "sum_err": 1.0000000116860974e-06,
+        "rows": 11256
+      },
+      "03_castelli_val.csv": {
+        "v_min": 0.01960000000000002,
+        "v_zero": 0,
+        "strict": 0,
+        "max_abs_err": 1.0189444012098647e-05,
+        "mean_abs_err": 2.457642256399863e-06,
+        "over_tol": 0,
+        "sum_err": 1.0000000116860974e-06,
+        "rows": 3969
+      }
+    },
+    "counts": {
+      "rows": 15225,
+      "v_zero": 0,
+      "strict": 0,
+      "v_min": 0.0004000000000000007,
+      "v_median": 22.340462675968002
+    }
+  },
+  "split": {},
+  "blind": {
+    "04_castelli_test_holdout.csv": {
+      "n_A": 52,
+      "n_B": 52,
+      "n_X": 7,
+      "rows": 3703,
+      "pairs": 529,
+      "product": 3703,
+      "cartesian": true,
+      "ab_per_x": {
+        "FNO": 529,
+        "FO2": 529,
+        "N2O": 529,
+        "N3": 529,
+        "NO2": 529,
+        "O2S": 529,
+        "O3": 529
+      },
+      "same_ab_across_x": true
+    },
+    "11_castelli_q2_pool_blind.csv": {
+      "n_A": 52,
+      "n_B": 52,
+      "n_X": 1,
+      "rows": 529,
+      "pairs": 529,
+      "product": 529,
+      "cartesian": true,
+      "ab_per_x": {
+        "NO2": 529
+      },
+      "same_ab_across_x": true
+    },
+    "12_castelli_q3_pool_blind.csv": {
+      "n_A": 52,
+      "n_B": 52,
+      "n_X": 3,
+      "rows": 1587,
+      "pairs": 529,
+      "product": 1587,
+      "cartesian": true,
+      "ab_per_x": {
+        "FO2": 529,
+        "NO2": 529,
+        "O3": 529
+      },
+      "same_ab_across_x": true
+    },
+    "elements_visible": {
+      "A_in_train": true,
+      "B_in_train": true
+    }
+  },
+  "integrity": {
+    "matched": [
+      "02_castelli_train.csv",
+      "03_castelli_val.csv",
+      "04_castelli_test_holdout.csv",
+      "06_castelli_no_physics.csv",
+      "07_castelli_q2_pool.csv",
+      "08_castelli_q3_pool.csv",
+      "11_castelli_q2_pool_blind.csv",
+      "12_castelli_q3_pool_blind.csv",
+      "README_数据集说明.md"
+    ],
+    "mismatched": [],
+    "missing": []
+  },
+  "extra": {
+    "a_eq_b": {
+      "count": 364,
+      "share": 0.0192
+    },
+    "v_stats": {
+      "rows": 15225,
+      "median": 22.3405,
+      "max": 108.9558,
+      "lt_0p5": 67,
+      "lt_1": 110,
+      "lt_2": 169,
+      "lt_5": 292,
+      "v0": 0
+    }
+  },
+  "summary": {
+    "total": 41,
+    "pass": 41,
+    "fail": 0,
+    "pending": 0,
+    "verdict": "PASS"
+  }
+}

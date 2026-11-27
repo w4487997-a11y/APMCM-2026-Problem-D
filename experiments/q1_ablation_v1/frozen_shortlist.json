@@ -1,0 +1,176 @@
+{
+  "train": {
+    "file": "02_castelli_train.csv",
+    "sha256": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+    "rows": 11256
+  },
+  "fold_sha256": "bdd78c8c118d7172d1521f1d60cee6fb1c7880e4aa78bc04756bc3274b692775",
+  "seed": 42,
+  "baseline_oof_sha256": "901b4accdfe4e28a1924c7cd896433c79b0db96f8b68ad501d17972cb60006d3",
+  "configurations": {
+    "median": {
+      "family": "median",
+      "variant": "direct",
+      "features": "composition"
+    },
+    "ridge": {
+      "family": "ridge",
+      "variant": "direct",
+      "features": "composition"
+    },
+    "random_forest": {
+      "family": "random_forest",
+      "variant": "direct",
+      "features": "composition"
+    },
+    "ridge_interaction": {
+      "family": "ridge",
+      "variant": "direct",
+      "features": "site_X_interactions"
+    },
+    "ridge_indirect": {
+      "family": "ridge",
+      "variant": "indirect",
+      "features": "composition"
+    },
+    "hgb_direct": {
+      "family": "hgb",
+      "variant": "direct",
+      "features": "composition"
+    },
+    "hgb_tail": {
+      "family": "hgb",
+      "variant": "tail",
+      "features": "composition"
+    },
+    "hgb_indirect": {
+      "family": "hgb",
+      "variant": "indirect",
+      "features": "composition"
+    },
+    "hgb_gap_hard": {
+      "family": "hgb",
+      "variant": "hard",
+      "features": "composition"
+    },
+    "hgb_gap_soft": {
+      "family": "hgb",
+      "variant": "soft",
+      "features": "composition"
+    },
+    "hgb_gap_mix": {
+      "family": "hgb",
+      "variant": "mix",
+      "features": "composition"
+    },
+    "hgb_gap_expected": {
+      "family": "hgb",
+      "variant": "expected",
+      "features": "composition"
+    }
+  },
+  "estimator_parameters": {
+    "ridge": {
+      "alpha": 1.0,
+      "copy_X": true,
+      "fit_intercept": true,
+      "max_iter": null,
+      "positive": false,
+      "random_state": null,
+      "solver": "cholesky",
+      "tol": 0.0001
+    },
+    "random_forest": {
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "criterion": "squared_error",
+      "max_depth": null,
+      "max_features": 1.0,
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 5,
+      "min_samples_split": 2,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": null,
+      "n_estimators": 200,
+      "n_jobs": 1,
+      "oob_score": false,
+      "random_state": 42,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "hgb": {
+      "categorical_features": [
+        true,
+        true,
+        true
+      ],
+      "early_stopping": false,
+      "interaction_cst": null,
+      "l2_regularization": 1.0,
+      "learning_rate": 0.075,
+      "loss": "squared_error",
+      "max_bins": 255,
+      "max_depth": null,
+      "max_features": 1.0,
+      "max_iter": 180,
+      "max_leaf_nodes": 31,
+      "min_samples_leaf": 20,
+      "monotonic_cst": null,
+      "n_iter_no_change": 10,
+      "quantile": null,
+      "random_state": 42,
+      "scoring": "loss",
+      "tol": 1e-07,
+      "validation_fraction": 0.1,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "median": {
+      "constant": null,
+      "quantile": null,
+      "strategy": "median"
+    }
+  },
+  "hist_params": {
+    "learning_rate": 0.075,
+    "max_iter": 180,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 20,
+    "l2_regularization": 1.0,
+    "early_stopping": false,
+    "categorical_features": [
+      true,
+      true,
+      true
+    ]
+  },
+  "cv_mae_limit": 4.4980291939242205,
+  "validation_mae_slack": 0.05,
+  "validation_screening_tie_band": 0.02,
+  "shortlist": [
+    "hgb_tail",
+    "hgb_direct",
+    "hgb_gap_mix",
+    "hgb_gap_soft"
+  ],
+  "cv_eligible": [
+    "hgb_gap_mix",
+    "hgb_gap_soft",
+    "hgb_gap_hard",
+    "hgb_gap_expected",
+    "hgb_indirect",
+    "hgb_tail",
+    "hgb_direct",
+    "ridge_interaction",
+    "ridge_indirect",
+    "random_forest",
+    "ridge"
+  ],
+  "rank": "Top-25/50 mean, then low-V MAE, then global MAE",
+  "tail_weights": "1 + 4 * exp(-V / 5)",
+  "hard_gap_threshold": 0.5,
+  "x_feature_ablation": "Replace basic Ridge inputs by A,B,X,A:X,B:X,A=B",
+  "score_clip_min": 0.0
+}

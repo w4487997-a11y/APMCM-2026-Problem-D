@@ -1,0 +1,84 @@
+{
+  "purpose": "V1.2 supplemental verification after selection. No influence on frozen v1.",
+  "sources": {
+    "02": {
+      "file": "02_castelli_train.csv",
+      "sha256": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+      "rows": 11256
+    },
+    "03": {
+      "file": "03_castelli_val.csv",
+      "sha256": "42a62b0fa114a736ea5003ad48615359d8d1046bf73286c8ccefc5a386df2d3d",
+      "rows": 3969
+    }
+  },
+  "seed": 42,
+  "near_threshold_window_eV": 0.2,
+  "frozen_release_sha256": "a0d7ca5d1c71789f171be65465126b8d27eb9b2beb9f4fffda8012dcf5c4d5f3",
+  "frozen_model_names": [
+    "hgb_tail",
+    "hgb_direct",
+    "hgb_gap_mix",
+    "hgb_gap_soft"
+  ],
+  "frozen_cv_config_sha256": "a4760b846d6ac3a5d39d4330ff1989045cf489d0763973bd73f4543839274d0f",
+  "fit_seconds": {
+    "median": {
+      "encoder": 0.017739600036293268,
+      "heads": 0.0017007999122142792
+    },
+    "ridge": {
+      "encoder": 0.016244800062850118,
+      "heads": 0.01599980005994439
+    },
+    "ridge_indirect": {
+      "encoder": 0.016244800062850118,
+      "heads": 0.04255669983103871
+    },
+    "random_forest": {
+      "encoder": 0.016775399912148714,
+      "heads": 13.99088989989832
+    },
+    "ridge_interaction": {
+      "encoder": 0.045783199835568666,
+      "heads": 0.19365839986130595
+    },
+    "hgb_direct": {
+      "encoder": 0.01689780014567077,
+      "heads": 0.24814220005646348
+    },
+    "hgb_tail": {
+      "encoder": 0.01689780014567077,
+      "heads": 0.24982320005074143
+    },
+    "hgb_indirect": {
+      "encoder": 0.01689780014567077,
+      "heads": 0.9153048999141902
+    },
+    "hgb_gap_hard": {
+      "encoder": 0.01689780014567077,
+      "heads": 1.0746057000942528
+    },
+    "hgb_gap_soft": {
+      "encoder": 0.01689780014567077,
+      "heads": 1.0746057000942528
+    },
+    "hgb_gap_mix": {
+      "encoder": 0.01689780014567077,
+      "heads": 1.0746057000942528
+    },
+    "hgb_gap_expected": {
+      "encoder": 0.01689780014567077,
+      "heads": 1.0681891001295298
+    }
+  },
+  "configuration_reference": "experiments/q1_ablation_v1/frozen_shortlist.json",
+  "python": "3.10.11",
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.5.2",
+    "threadpoolctl": "3.6.0"
+  }
+}

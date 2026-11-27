@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "frozen_release": {
+    "status": "PASS",
+    "validated_pool_sizes": {
+      "04": 3703,
+      "07": 2704,
+      "08": 8112,
+      "11": 529,
+      "12": 1587
+    },
+    "combined_pool_rows": 12932,
+    "validation_rows": 3969,
+    "cv_rows": 11256,
+    "cv_metric_records": 60,
+    "validation_metric_records": 4,
+    "independent_property_compositions": 7938,
+    "checks": [
+      "source/result hashes",
+      "fit-role metadata and group isolation",
+      "official row order and IDs",
+      "all-row saved-model replay",
+      "cross-pool score equality",
+      "independent score metrics and selection",
+      "separate formula assembly"
+    ]
+  },
+  "label_rows": 15225,
+  "supplement": {
+    "validation_rows": 3969,
+    "validation_model_count": 12,
+    "property_rows": 23814,
+    "stability_fold_records": 50,
+    "prior_finalist_scores_equal": true
+  },
+  "contract": {
+    "pool_sizes": {
+      "04": 3703,
+      "07": 2704,
+      "08": 8112,
+      "11": 529,
+      "12": 1587
+    },
+    "prediction_values_unchanged": true,
+    "combined_rows": 12932,
+    "source_commit": "402e7a8b86d154a7c32eb351a0ba49683b158d22"
+  },
+  "pending": [
+    "Independent human team review and acceptance",
+    "Logged-in official portal: dedicated 04 format or upload field"
+  ]
+}

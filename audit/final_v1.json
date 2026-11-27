@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "validated_pool_sizes": {
+    "04": 3703,
+    "07": 2704,
+    "08": 8112,
+    "11": 529,
+    "12": 1587
+  },
+  "combined_pool_rows": 12932,
+  "validation_rows": 3969,
+  "cv_rows": 11256,
+  "cv_metric_records": 60,
+  "validation_metric_records": 4,
+  "independent_property_compositions": 7938,
+  "checks": [
+    "source/result hashes",
+    "fit-role metadata and group isolation",
+    "official row order and IDs",
+    "all-row saved-model replay",
+    "cross-pool score equality",
+    "independent score metrics and selection",
+    "separate formula assembly"
+  ]
+}

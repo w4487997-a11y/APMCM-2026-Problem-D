@@ -1,0 +1,91 @@
+{
+  "labeled_columns": [
+    "id",
+    "formula",
+    "A",
+    "B",
+    "X",
+    "a_eq_b",
+    "a_lat",
+    "volume",
+    "e_form",
+    "gap",
+    "gap_is_direct",
+    "vbm",
+    "cbm",
+    "mu_b",
+    "fermi_level",
+    "fermi_width",
+    "v_form",
+    "v_gap_low",
+    "v_gap_high",
+    "v_vbm",
+    "v_cbm",
+    "V"
+  ],
+  "composition_csv_columns": [
+    "id",
+    "formula",
+    "A",
+    "B",
+    "X",
+    "a_eq_b"
+  ],
+  "composition_only_sources": [
+    "04",
+    "06",
+    "07",
+    "08",
+    "11",
+    "12"
+  ],
+  "final_model_input_order": [
+    "A",
+    "B",
+    "X"
+  ],
+  "sites_are_ordered": true,
+  "retain_equal_sites": true,
+  "anion_labels": [
+    "FNO",
+    "FO2",
+    "N2O",
+    "N3",
+    "NO2",
+    "O2S",
+    "O3"
+  ],
+  "forbidden_predictors": [
+    "id",
+    "formula",
+    "pool",
+    "source_pool",
+    "file membership",
+    "row number",
+    "split hash",
+    "a_lat",
+    "volume",
+    "e_form",
+    "gap",
+    "gap_is_direct",
+    "vbm",
+    "cbm",
+    "mu_b",
+    "fermi_level",
+    "fermi_width",
+    "v_form",
+    "v_gap_low",
+    "v_gap_high",
+    "v_vbm",
+    "v_cbm",
+    "V"
+  ],
+  "allowed_derived_ablation_only": [
+    "A:X",
+    "B:X",
+    "A=B"
+  ],
+  "direct_use_of_a_eq_b": false,
+  "preprocessing": "Fit categorical encoder within each fit partition. All final models consume A/B/X.",
+  "external_descriptors_used": false
+}

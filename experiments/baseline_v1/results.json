@@ -1,0 +1,383 @@
+{
+  "run": "baseline_v1",
+  "split": "02 five-group-fold cross-validation",
+  "features": [
+    "A",
+    "B",
+    "X"
+  ],
+  "target": "official V recomputed from public 02 physical labels",
+  "input_sha256": {
+    "train_csv": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+    "fold_csv": "bdd78c8c118d7172d1521f1d60cee6fb1c7880e4aa78bc04756bc3274b692775"
+  },
+  "estimator_seed": 42,
+  "fold_manifest_seed": 42,
+  "low_V_cutoff_exclusive": 5.0,
+  "screening_budgets": [
+    10,
+    25,
+    50,
+    100
+  ],
+  "prediction_postprocessing": "none",
+  "fit_threads": 1,
+  "encoder": {
+    "categories": "auto",
+    "drop": null,
+    "dtype": "float64",
+    "feature_name_combiner": "concat",
+    "handle_unknown": "error",
+    "max_categories": null,
+    "min_frequency": null,
+    "sparse_output": false
+  },
+  "estimator_configurations": {
+    "median": {
+      "constant": null,
+      "quantile": null,
+      "strategy": "median"
+    },
+    "ridge": {
+      "alpha": 1.0,
+      "copy_X": true,
+      "fit_intercept": true,
+      "max_iter": null,
+      "positive": false,
+      "random_state": null,
+      "solver": "cholesky",
+      "tol": 0.0001
+    },
+    "random_forest": {
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "criterion": "squared_error",
+      "max_depth": null,
+      "max_features": 1.0,
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 5,
+      "min_samples_split": 2,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": null,
+      "n_estimators": 200,
+      "n_jobs": 1,
+      "oob_score": false,
+      "random_state": 42,
+      "verbose": 0,
+      "warm_start": false
+    }
+  },
+  "python": "3.10.11",
+  "system": "Windows-10-10.0.26200-SP0",
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.5.2",
+    "threadpoolctl": "3.6.0"
+  },
+  "fit_and_evaluate_seconds": 56.062303700018674,
+  "selection_diagnostics": {
+    "primary_screening_budgets": [
+      25,
+      50
+    ],
+    "tentative_mae_allowance": 0.05,
+    "best_mae_reference": "random_forest",
+    "best_mae": 4.283837327546877,
+    "tentative_mae_limit": 4.4980291939242205
+  },
+  "count": {
+    "predictions_per_model": 11256,
+    "model_fits": 15
+  },
+  "models": {
+    "median": {
+      "metrics": {
+        "mae": {
+          "mean": 7.780523379810699,
+          "sd": 0.303387958425716,
+          "valid_folds": 5
+        },
+        "rmse": {
+          "mean": 11.165270814853642,
+          "sd": 0.6753270825254716,
+          "valid_folds": 5
+        },
+        "spearman": {
+          "mean": null,
+          "sd": null,
+          "valid_folds": 0
+        },
+        "low_V_mae": {
+          "mean": 20.404438630960787,
+          "sd": 0.2569471167475206,
+          "valid_folds": 5
+        },
+        "top_true_1pct_mae": {
+          "mean": 21.5927568715528,
+          "sd": 0.3684951699381166,
+          "valid_folds": 5
+        },
+        "screening_score": {
+          "mean": 0.016,
+          "sd": 0.026076809620810593,
+          "valid_folds": 5
+        },
+        "top_10_overlap_rate": {
+          "mean": 0.0,
+          "sd": 0.0,
+          "valid_folds": 5
+        },
+        "top_10_min_true_V": {
+          "mean": 11.926936467128002,
+          "sd": 0.6321877075678759,
+          "valid_folds": 5
+        },
+        "top_25_overlap_rate": {
+          "mean": 0.016,
+          "sd": 0.03577708763999664,
+          "valid_folds": 5
+        },
+        "top_25_min_true_V": {
+          "mean": 8.732176703178402,
+          "sd": 5.1751930853574395,
+          "valid_folds": 5
+        },
+        "top_50_overlap_rate": {
+          "mean": 0.016,
+          "sd": 0.021908902300206645,
+          "valid_folds": 5
+        },
+        "top_50_min_true_V": {
+          "mean": 7.009481677715201,
+          "sd": 5.700109723609814,
+          "valid_folds": 5
+        },
+        "top_100_overlap_rate": {
+          "mean": 0.04,
+          "sd": 0.03162277660168379,
+          "valid_folds": 5
+        },
+        "top_100_min_true_V": {
+          "mean": 5.027976893508801,
+          "sd": 5.525969103051069,
+          "valid_folds": 5
+        },
+        "encoding_fit_seconds": {
+          "mean": 0.013987499987706542,
+          "sd": 9.760967815112605e-05,
+          "valid_folds": 5
+        },
+        "encoding_predict_seconds": {
+          "mean": 0.003365299943834543,
+          "sd": 0.00011634661211100381,
+          "valid_folds": 5
+        },
+        "model_fit_seconds": {
+          "mean": 0.00038572000339627267,
+          "sd": 3.5838652157870877e-05,
+          "valid_folds": 5
+        },
+        "model_predict_seconds": {
+          "mean": 3.4900009632110594e-05,
+          "sd": 8.500899106738393e-06,
+          "valid_folds": 5
+        }
+      },
+      "negative_predictions": 0
+    },
+    "ridge": {
+      "metrics": {
+        "mae": {
+          "mean": 4.323177910125914,
+          "sd": 0.1424806012151415,
+          "valid_folds": 5
+        },
+        "rmse": {
+          "mean": 6.32500182301291,
+          "sd": 0.2955665653610669,
+          "valid_folds": 5
+        },
+        "spearman": {
+          "mean": 0.8446352229824051,
+          "sd": 0.008036136175125747,
+          "valid_folds": 5
+        },
+        "low_V_mae": {
+          "mean": 12.46338401114949,
+          "sd": 1.34457399173061,
+          "valid_folds": 5
+        },
+        "top_true_1pct_mae": {
+          "mean": 11.670558178394382,
+          "sd": 0.9159915638585227,
+          "valid_folds": 5
+        },
+        "screening_score": {
+          "mean": 0.14400000000000002,
+          "sd": 0.08792041856133308,
+          "valid_folds": 5
+        },
+        "top_10_overlap_rate": {
+          "mean": 0.060000000000000005,
+          "sd": 0.05477225575051661,
+          "valid_folds": 5
+        },
+        "top_10_min_true_V": {
+          "mean": 2.716919556,
+          "sd": 4.626217713770094,
+          "valid_folds": 5
+        },
+        "top_25_overlap_rate": {
+          "mean": 0.128,
+          "sd": 0.0867179335547152,
+          "valid_folds": 5
+        },
+        "top_25_min_true_V": {
+          "mean": 0.1834549880079999,
+          "sd": 0.24344766997490927,
+          "valid_folds": 5
+        },
+        "top_50_overlap_rate": {
+          "mean": 0.16,
+          "sd": 0.09695359714832658,
+          "valid_folds": 5
+        },
+        "top_50_min_true_V": {
+          "mean": 0.09538822388479994,
+          "sd": 0.1203856627958271,
+          "valid_folds": 5
+        },
+        "top_100_overlap_rate": {
+          "mean": 0.362,
+          "sd": 0.05403702434442517,
+          "valid_folds": 5
+        },
+        "top_100_min_true_V": {
+          "mean": 0.018824143848799914,
+          "sd": 0.014597403399173628,
+          "valid_folds": 5
+        },
+        "encoding_fit_seconds": {
+          "mean": 0.013987499987706542,
+          "sd": 9.760967815112605e-05,
+          "valid_folds": 5
+        },
+        "encoding_predict_seconds": {
+          "mean": 0.003365299943834543,
+          "sd": 0.00011634661211100381,
+          "valid_folds": 5
+        },
+        "model_fit_seconds": {
+          "mean": 0.008359520090743899,
+          "sd": 0.00020158360359678524,
+          "valid_folds": 5
+        },
+        "model_predict_seconds": {
+          "mean": 0.0003187399823218584,
+          "sd": 2.154798462674594e-05,
+          "valid_folds": 5
+        }
+      },
+      "negative_predictions": 0
+    },
+    "random_forest": {
+      "metrics": {
+        "mae": {
+          "mean": 4.283837327546877,
+          "sd": 0.05239804060279803,
+          "valid_folds": 5
+        },
+        "rmse": {
+          "mean": 6.436287838464969,
+          "sd": 0.12467958033806933,
+          "valid_folds": 5
+        },
+        "spearman": {
+          "mean": 0.8456296814982399,
+          "sd": 0.012709231385933615,
+          "valid_folds": 5
+        },
+        "low_V_mae": {
+          "mean": 13.901481071290949,
+          "sd": 0.598734507101962,
+          "valid_folds": 5
+        },
+        "top_true_1pct_mae": {
+          "mean": 13.793467619947716,
+          "sd": 0.4143921172735781,
+          "valid_folds": 5
+        },
+        "screening_score": {
+          "mean": 0.156,
+          "sd": 0.0944986772394196,
+          "valid_folds": 5
+        },
+        "top_10_overlap_rate": {
+          "mean": 0.12,
+          "sd": 0.13038404810405296,
+          "valid_folds": 5
+        },
+        "top_10_min_true_V": {
+          "mean": 2.0843359375911996,
+          "sd": 3.981155222076757,
+          "valid_folds": 5
+        },
+        "top_25_overlap_rate": {
+          "mean": 0.16,
+          "sd": 0.10198039027185571,
+          "valid_folds": 5
+        },
+        "top_25_min_true_V": {
+          "mean": 1.6978837455111997,
+          "sd": 3.5544192024306924,
+          "valid_folds": 5
+        },
+        "top_50_overlap_rate": {
+          "mean": 0.152,
+          "sd": 0.09011104260855048,
+          "valid_folds": 5
+        },
+        "top_50_min_true_V": {
+          "mean": 1.6978837455111997,
+          "sd": 3.5544192024306924,
+          "valid_folds": 5
+        },
+        "top_100_overlap_rate": {
+          "mean": 0.27799999999999997,
+          "sd": 0.08197560612767678,
+          "valid_folds": 5
+        },
+        "top_100_min_true_V": {
+          "mean": 0.11536837491600004,
+          "sd": 0.13892854717934436,
+          "valid_folds": 5
+        },
+        "encoding_fit_seconds": {
+          "mean": 0.013987499987706542,
+          "sd": 9.760967815112605e-05,
+          "valid_folds": 5
+        },
+        "encoding_predict_seconds": {
+          "mean": 0.003365299943834543,
+          "sd": 0.00011634661211100381,
+          "valid_folds": 5
+        },
+        "model_fit_seconds": {
+          "mean": 11.09219462000765,
+          "sd": 0.1118336114138435,
+          "valid_folds": 5
+        },
+        "model_predict_seconds": {
+          "mean": 0.05791653995402157,
+          "sd": 0.0012770682301281062,
+          "valid_folds": 5
+        }
+      },
+      "negative_predictions": 0
+    }
+  }
+}

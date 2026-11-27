@@ -1,0 +1,11 @@
+{
+ "02_castelli_train.csv": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+ "03_castelli_val.csv": "42a62b0fa114a736ea5003ad48615359d8d1046bf73286c8ccefc5a386df2d3d",
+ "04_castelli_test_holdout.csv": "8ed9d46b8c134ce55a633df768acbd0ce2beff4e49df4ee5bc41f06d71c58d52",
+ "06_castelli_no_physics.csv": "73bfe2c23cc5a8248137492beeae63e39f56dc8c0bf5df679792db424de8edeb",
+ "07_castelli_q2_pool.csv": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe",
+ "08_castelli_q3_pool.csv": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b",
+ "11_castelli_q2_pool_blind.csv": "8227db4320dd5a435e993a261ede446ee2068382ee8e4648152fd42a593c0721",
+ "12_castelli_q3_pool_blind.csv": "321cef2c4fafcf66b7141360e7dc247b9f6f71ac60c6206c0f910303a3f67868",
+ "README_数据集说明.md": "d55948388b81522ebb9cbb6b2b16493c0a2d19fe005075d84e56853e5487f79e"
+}

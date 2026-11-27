@@ -1,0 +1,66 @@
+{
+  "seed": 42,
+  "model": "Ridge(alpha=1.0)",
+  "features": "one-hot(A,B,X)",
+  "lambda": 2.0,
+  "convention": "H(x) = x^T Q x + constant；Q 为上三角矩阵（i<j 的耦合放在 Q[i,j]，对角线为线性项），x 为 0/1 向量",
+  "matrices": {
+    "q2": {
+      "n_vars": 104,
+      "candidates": 2704,
+      "constant": 4.0,
+      "lambda": 2.0,
+      "scaling": {
+        "lo": 4.146564483642578,
+        "hi": 59.55937194824219,
+        "method": "min-max -> [0,1]"
+      },
+      "raw_range": [
+        4.146564483642578,
+        59.55937194824219
+      ],
+      "max_energy_vs_cost": 0.0,
+      "nnz": 5459,
+      "coef_abs_min": 0.012003537267446518,
+      "coef_abs_max": 4.0,
+      "oracle": {
+        "material": [
+          "La",
+          "Ti"
+        ],
+        "scaled": 0.0,
+        "raw": 4.146564483642578,
+        "energy": 0.0
+      }
+    },
+    "q3": {
+      "n_vars": 208,
+      "candidates": 8112,
+      "constant": 4.0,
+      "lambda": 2.0,
+      "scaling": {
+        "lo": 2.6163558959960938,
+        "hi": 62.693389892578125,
+        "method": "min-max -> [0,1]"
+      },
+      "raw_range": [
+        2.6163558959960938,
+        62.693389892578125
+      ],
+      "max_energy_vs_cost": 0.0,
+      "nnz": 21735,
+      "coef_abs_min": 0.011071613058447838,
+      "coef_abs_max": 4.0,
+      "oracle": {
+        "material": [
+          "La",
+          "Ti",
+          "O3"
+        ],
+        "scaled": 0.0,
+        "raw": 2.6163558959960938,
+        "energy": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "source_docs": {
+    "official_pdf": {
+      "file": "2026 APMCM Problem D/2026 APMCM Problem D.pdf",
+      "sha256": "45bcffb9219a83b676f8b1673d1a96af31371de05b2c591d976ed7f9b3d7dd87",
+      "sections": "pp. 2\u20135"
+    },
+    "official_readme": {
+      "file": "2026 APMCM Problem D/date/README_\u6570\u636e\u96c6\u8bf4\u660e.md",
+      "sha256": "d55948388b81522ebb9cbb6b2b16493c0a2d19fe005075d84e56853e5487f79e",
+      "sections": [
+        2,
+        4,
+        5,
+        7
+      ]
+    }
+  },
+  "verified_public_sha256": {
+    "02_castelli_train.csv": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+    "03_castelli_val.csv": "42a62b0fa114a736ea5003ad48615359d8d1046bf73286c8ccefc5a386df2d3d",
+    "04_castelli_test_holdout.csv": "8ed9d46b8c134ce55a633df768acbd0ce2beff4e49df4ee5bc41f06d71c58d52",
+    "06_castelli_no_physics.csv": "73bfe2c23cc5a8248137492beeae63e39f56dc8c0bf5df679792db424de8edeb",
+    "07_castelli_q2_pool.csv": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe",
+    "08_castelli_q3_pool.csv": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b",
+    "11_castelli_q2_pool_blind.csv": "8227db4320dd5a435e993a261ede446ee2068382ee8e4648152fd42a593c0721",
+    "12_castelli_q3_pool_blind.csv": "321cef2c4fafcf66b7141360e7dc247b9f6f71ac60c6206c0f910303a3f67868",
+    "README_\u6570\u636e\u96c6\u8bf4\u660e.md": "d55948388b81522ebb9cbb6b2b16493c0a2d19fe005075d84e56853e5487f79e"
+  },
+  "observed_labeled_splits": {
+    "02": {
+      "strict_e_form": 160,
+      "strict_gap": 128,
+      "strict_vbm": 6782,
+      "strict_cbm": 134,
+      "strict_all": 0,
+      "inclusive_e_form": 160,
+      "inclusive_gap": 139,
+      "inclusive_vbm": 6782,
+      "inclusive_cbm": 134,
+      "inclusive_all": 0,
+      "readme_mixed_e_form": 160,
+      "readme_mixed_gap": 139,
+      "readme_mixed_vbm": 6782,
+      "readme_mixed_cbm": 134,
+      "readme_mixed_all": 0,
+      "rows": 11256,
+      "zero_gap": 10824,
+      "zero_v_stored": 0,
+      "zero_v_calc": 0,
+      "max_abs_v_difference": 1.018944400499322e-05,
+      "rounding_audit": {
+        "stored_zero": 0,
+        "recomputed_zero": 0,
+        "strict": 0,
+        "max_abs_V_error": 1.018944400499322e-05,
+        "mean_abs_V_error": 2.453134200788236e-06,
+        "max_abs_term_errors": {
+          "v_form": 1.4210854715202004e-14,
+          "v_gap_low": 8.881784197001252e-16,
+          "v_gap_high": 7.105427357601002e-15,
+          "v_vbm": 5.872955994412621e-06,
+          "v_cbm": 1.0189444008545934e-05
+        },
+        "max_rounding_bounds": {
+          "V": 3.0820003971143706e-05,
+          "v_form": 2.030000098329765e-05,
+          "v_gap_low": 6.100001000319821e-06,
+          "v_gap_high": 1.6100001005270315e-05,
+          "v_vbm": 6.361217000261377e-06,
+          "v_cbm": 1.1389397002403712e-05
+        },
+        "outside_rounding_interval": {
+          "v_form": 0,
+          "v_gap_low": 0,
+          "v_gap_high": 0,
+          "v_vbm": 0,
+          "v_cbm": 0,
+          "V": 0,
+          "stored_sum": 0
+        },
+        "max_abs_stored_sum_error": 1.0000000116860974e-06,
+        "max_abs_error_vs_independent_integer_terms": 1.4210854715202004e-14
+      }
+    },
+    "03": {
+      "strict_e_form": 71,
+      "strict_gap": 34,
+      "strict_vbm": 2465,
+      "strict_cbm": 49,
+      "strict_all": 0,
+      "inclusive_e_form": 71,
+      "inclusive_gap": 40,
+      "inclusive_vbm": 2465,
+      "inclusive_cbm": 49,
+      "inclusive_all": 0,
+      "readme_mixed_e_form": 71,
+      "readme_mixed_gap": 40,
+      "readme_mixed_vbm": 2465,
+      "readme_mixed_cbm": 49,
+      "readme_mixed_all": 0,
+      "rows": 3969,
+      "zero_gap": 3828,
+      "zero_v_stored": 0,
+      "zero_v_calc": 0,
+      "max_abs_v_difference": 1.0189444012098647e-05,
+      "rounding_audit": {
+        "stored_zero": 0,
+        "recomputed_zero": 0,
+        "strict": 0,
+        "max_abs_V_error": 1.018944400499322e-05,
+        "mean_abs_V_error": 2.4576422564034998e-06,
+        "max_abs_term_errors": {
+          "v_form": 1.4210854715202004e-14,
+          "v_gap_low": 8.881784197001252e-16,
+          "v_gap_high": 1.4210854715202004e-14,
+          "v_vbm": 4.985104005150731e-06,
+          "v_cbm": 1.0189444008545934e-05
+        },
+        "max_rounding_bounds": {
+          "V": 2.8900003968601595e-05,
+          "v_form": 1.838000098075554e-05,
+          "v_gap_low": 6.100001000319821e-06,
+          "v_gap_high": 1.4500001000783413e-05,
+          "v_vbm": 5.817061000890078e-06,
+          "v_cbm": 1.1186288997322436e-05
+        },
+        "outside_rounding_interval": {
+          "v_form": 0,
+          "v_gap_low": 0,
+          "v_gap_high": 0,
+          "v_vbm": 0,
+          "v_cbm": 0,
+          "V": 0,
+          "stored_sum": 0
+        },
+        "max_abs_stored_sum_error": 1.0000000116860974e-06,
+        "max_abs_error_vs_independent_integer_terms": 1.4210854715202004e-14
+      }
+    }
+  },
+  "scope": "Only public labels 02 and 03. No reconstruction of protected holdout labels.",
+  "organizer_aggregate_only": {
+    "zero_v_full": 19,
+    "strict_target_full": 15,
+    "zero_v_pairs_locked_to_04": 19,
+    "zero_v_by_X": {
+      "O3": 6,
+      "NO2": 6,
+      "FO2": 6,
+      "N2O": 1,
+      "N3": 0,
+      "O2S": 0,
+      "FNO": 0
+    },
+    "zero_v_pool_counts_derived_from_public_aggregates": {
+      "07": 6,
+      "08": 18,
+      "11": 6,
+      "12": 18
+    },
+    "rounding_decimals": 6,
+    "documented_max_V_rounding_error": 1.02e-05,
+    "split_hash_documented": {
+      "holdout_supplement": "2026|<A>|<B>",
+      "validation_train": "2027|<A>|<B>"
+    }
+  },
+  "labeled_files": {
+    "02": {
+      "file": "02_castelli_train.csv",
+      "sha256": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+      "rows": 11256
+    },
+    "03": {
+      "file": "03_castelli_val.csv",
+      "sha256": "42a62b0fa114a736ea5003ad48615359d8d1046bf73286c8ccefc5a386df2d3d",
+      "rows": 3969
+    }
+  }
+}

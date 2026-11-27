@@ -1,0 +1,2 @@
+# Preserve versioned source/artifact bytes for the frozen SHA-256 checks.
+* -text

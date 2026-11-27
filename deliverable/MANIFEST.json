@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-11-26T17:59:51",
+  "files": {
+    "code/task_a_audit.py": "c266187f34dd9781ec999bba2901341e7f8f9c1074949574ff567ff5e9906eb2",
+    "code/audit_extra.py": "d59e1aebe1e43991eb965345222078ce726d9f25bdd2eeba3d69b8dae3905311",
+    "code/selftest_negative.py": "dab5d26d706abde96ca377f15a164620359cde6714c1052af512a146f15cae85",
+    "code/verify_qubo.py": "5c9a72961e95e3d2689a03843ee5f6ad74d72be5d3de88c04a909984096fceed",
+    "code/train_baseline.py": "44a61282dd45d116fe37f4b3f3e2e29b48ff88878dc2adb9bb1bb04c6faeacd0",
+    "code/build_matrices.py": "4374edef7e8fb6f23778a8d4849f4e93d483cd8f7bc0857a2f411eedff681a24",
+    "code/make_fixture.py": "7737b20234fff06215ab309f7da165f730dd0084953b9b2f7ae8394bd03ae504",
+    "code/build_audit_report.py": "bc82753fc1cf028ef345f165af4ae23cefcc65096f2b5a47e693669ab2fa6e58",
+    "code/build_verdict.py": "a14076a558df3473e70c3f391be7291017616c84582d7641c5f2a151f537da16",
+    "results/audit_result.json": "1f0d8a387c91e6d0b6972efa18b919f002aae2744179a8c20772ba82af4f26ca",
+    "results/qubo_verify.json": "dd577d1d0de8596d85300da0a0bbf479da3aedfc1f8d77956dad1c76563a2393",
+    "results/baseline_metrics.json": "f9ba74fa876a9e5bc436b6cb9a6c77fddffaa6ba25094d5b1a4eb47eddb24fc9",
+    "results/matrix_build.json": "8763fe10811102434954601d51855e799a0701aa69b2333a5e85593c0226ca78",
+    "results/baseline_val_predictions.csv": "612f459c3343cd7f95555d0197d81ec5c9d943edf2f02262ebbe02ccbe392bf2",
+    "results/q2_pool_predictions.csv": "2df902caed17353f1610a3808f16946564dc39dbd393dfe00683b74b9567e8d3",
+    "results/q3_pool_predictions.csv": "8b8a3f0d676909184a9d34761d990656a27e02177349e029041f21a6b72da244",
+    "results/audit_console.txt": "c5c092b3b88b6ad5d8b7ae9502f5bf4d7c8fc00304650effdbca983a585293f7",
+    "results/selftest_negative.txt": "c13448ee988018e7043fdd4865477a02e0fe1fc725dcf96da2024cd27b74dac6",
+    "matrices/qubo_q2.npz": "226af671996f035ef1c0a9426584d5f508cfb483acca35b5606a2fdafc46aea9",
+    "matrices/qubo_q3.npz": "69b2060927fac570779eafcf4780c944128baeca686f3aace5d3daf92b45206b",
+    "reports/任务A_数据审计报告.docx": "ddb0f518f8f1af3efea9136f2f7538667387d5fd7dd4c8503da83eaba8cb9865",
+    "reports/前置可行性验证结论.docx": "426b1559f2bd6ffe325cb1da04701a53b94a4c56993b80582857278723e88836",
+    "data_sha256.txt": "36224de5c0e6ad08f6ada5d1af246cfe7e2afea342ec58d6c5ec1e2a6aa36e29",
+    "README.md": "75194825939070adba9444dc2d96fade844f525432a82bc9ccf1502cae0f6d5a"
+  }
+}

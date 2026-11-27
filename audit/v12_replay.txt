@@ -1,0 +1,9 @@
+03 comparisons complete: 12 configurations, 3,969 rows each.
+02 stability: estimator_seed, estimator seed=42, group seed=42 complete.
+02 stability: estimator_seed, estimator seed=1729, group seed=42 complete.
+02 stability: estimator_seed, estimator seed=31415, group seed=42 complete.
+02 stability: group_assignment, estimator seed=42, group seed=1729 complete.
+02 stability: group_assignment, estimator seed=42, group seed=31415 complete.
+Published the V1.2 supplementary evidence to C:\Users\diana\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\AC\#!sandbox.{7adcdfdb-13a6-44ee-b38f-572a8a9bbcde}\Temp\q1-v12-replay-5e2akau_\experiment.
+Eight supplemental prediction and summary tables identical byte for byte.
+03 metric table and all 50 stability records identical after excluding measured timings.

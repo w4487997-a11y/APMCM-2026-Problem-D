@@ -1,0 +1,433 @@
+{
+  "handoff_version": "v1.2",
+  "frozen_model_release": "v1",
+  "selected_spec": {
+    "family": "hgb",
+    "variant": "mix",
+    "features": "composition"
+  },
+  "selection": {
+    "selected": "hgb_gap_mix",
+    "validation_best_direct_mae": 2.7077945564031034,
+    "validation_mae_limit": 2.8431842842232586,
+    "validation_eligible": [
+      "hgb_direct",
+      "hgb_gap_mix",
+      "hgb_gap_soft"
+    ],
+    "validation_tie_band": 0.02,
+    "within_screening_tie_band": [
+      "hgb_gap_mix"
+    ]
+  },
+  "model_training": {
+    "q1_final_v1_hgb_gap_mix": {
+      "version": "q1_final_v1_hgb_gap_mix",
+      "name": "hgb_gap_mix",
+      "train_splits": [
+        "02"
+      ],
+      "features": [
+        "A",
+        "B",
+        "X"
+      ],
+      "encoder_fit_seconds": 0.013962900033220649,
+      "head_fit_seconds": 1.0608777001034468
+    },
+    "q23_final_v1_hgb_gap_mix": {
+      "version": "q23_final_v1_hgb_gap_mix",
+      "name": "hgb_gap_mix",
+      "train_splits": [
+        "02",
+        "03"
+      ],
+      "features": [
+        "A",
+        "B",
+        "X"
+      ],
+      "encoder_fit_seconds": 0.019659699872136116,
+      "head_fit_seconds": 1.2043516002595425
+    }
+  },
+  "formula": "2026 APMCM Problem D, five squared hinge penalties, scale 0.5 eV",
+  "feature_order": [
+    "A",
+    "B",
+    "X"
+  ],
+  "primary_pools": {
+    "Q2": "07",
+    "Q3": "08"
+  },
+  "blind_alternatives": {
+    "Q2": "11",
+    "Q3": "12"
+  },
+  "inputs": {
+    "02": {
+      "file": "02_castelli_train.csv",
+      "sha256": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+      "rows": 11256
+    },
+    "03": {
+      "file": "03_castelli_val.csv",
+      "sha256": "42a62b0fa114a736ea5003ad48615359d8d1046bf73286c8ccefc5a386df2d3d",
+      "rows": 3969
+    },
+    "04": {
+      "file": "04_castelli_test_holdout.csv",
+      "sha256": "8ed9d46b8c134ce55a633df768acbd0ce2beff4e49df4ee5bc41f06d71c58d52",
+      "rows": 3703
+    },
+    "07": {
+      "file": "07_castelli_q2_pool.csv",
+      "sha256": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe",
+      "rows": 2704
+    },
+    "08": {
+      "file": "08_castelli_q3_pool.csv",
+      "sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b",
+      "rows": 8112
+    },
+    "11": {
+      "file": "11_castelli_q2_pool_blind.csv",
+      "sha256": "8227db4320dd5a435e993a261ede446ee2068382ee8e4648152fd42a593c0721",
+      "rows": 529
+    },
+    "12": {
+      "file": "12_castelli_q3_pool_blind.csv",
+      "sha256": "321cef2c4fafcf66b7141360e7dc247b9f6f71ac60c6206c0f910303a3f67868",
+      "rows": 1587
+    }
+  },
+  "score_columns": [
+    "id",
+    "formula",
+    "A",
+    "B",
+    "X",
+    "a_eq_b",
+    "V_hat",
+    "pool",
+    "model_version",
+    "source_pool"
+  ],
+  "pool_alias": "pool and source_pool are equal. String pool code retains leading zero.",
+  "models": {
+    "models/q1_final.joblib": "f32dcb430aad07ce68c59a46ecf383bc1e52602bfda7bf75326ba28f1ae2e742",
+    "models/q23_final.joblib": "07f8bdd5e9aba2a723c7bd3bee11cd8d18b972cd57917f0adf1d4eb3075f2805"
+  },
+  "frozen_root": "handoff/v1",
+  "frozen_manifest_sha256": "a0d7ca5d1c71789f171be65465126b8d27eb9b2beb9f4fffda8012dcf5c4d5f3",
+  "experiment_root": "experiments/q1_v12",
+  "experiment_config_sha256": "64d9e574189ec1db8a443e959b951aa04493d65a2d684b447819ba7bdd9c559a",
+  "planning_file": "APMCM_D_final_execution_V1.2.md",
+  "planning_sha256": "844ee806fb035cb0f52671920d338de4876cdbd6225c6f57570a9ceca1d110f1",
+  "source_snapshot": {
+    "commit": "402e7a8b86d154a7c32eb351a0ba49683b158d22",
+    "branch": "q1-v1-2",
+    "file": "q1_source.bundle",
+    "bundle_sha256": "d183ee397664ba9fa731528b7b360202fc626981aa5c4e841e7ded9f419f04fb",
+    "scope": "Local snapshot. Source files, tests and pinned requirements only.",
+    "files": {
+      "q1/baselines.py": "8a3c2208666cee0fee714215bebad4c0816c6535ae7f846732bf797c2b0667ea",
+      "q1/delivery.py": "05f22135ad9c4cfb29b5427dc67d95d848205f014e7500108ce6d17b85d73c68",
+      "q1/experiments.py": "ce5c8cbb5b457eb20ba8b220e4e8d1f1a43a3aa6bbca91b8247c64bdf3e0ba40",
+      "q1/metrics.py": "36b89bffb4d48efca3f476828aaf7c75d33408b1ad83d50e1798c7ada7dd5322",
+      "q1/predict.py": "2811583dad8de27255260e4c4e46b86652fbb5b562dfcaa4421ec95a6cefb756",
+      "q1/surrogates.py": "06ed4cf09d00fcae8c8445c1ce9e166b7f0013254bc392af165daa84ecfed07f",
+      "q1/v12_handoff.py": "06066202fc97b658eb8060e3c864ff56e656755753e6a6da881b642761601d0c",
+      "q1/v12_supplement.py": "6c9029b97b694ae030f9d0d3ac2e6dbd867d9579db0260acf4ead2d4fbb0b599",
+      "q1/violation.py": "1e8b3613045719a9355430dadd86961d515cdb23fcab1eb30be64bcfac45c87d",
+      "audit/baseline_check.py": "b41d8d8b073b487f7b4d23ab0c2b955218fbae64697ca59d0ef5c6a97f157175",
+      "audit/final_check.py": "61e70418a505016b80152520b6019c01cadbd840feb6300f22588739cd971209",
+      "audit/init_check.py": "b89207cbbb1774cb1780b99eee65d272571a434c8b2a9c336f3f3ad9ca017cde",
+      "audit/phase1.py": "ab5caf7c2fd32c5bb54ff29862640d1349ef3e3a442949e63365574c2aebad00",
+      "audit/plot_final.py": "895faccea9dbfa5d2d66b7f1dd8a50f09a538fcbea76f5d540a5a5eef6c6002a",
+      "audit/plot_phase1.py": "d6b7a91674b34cc79c41896db082d4c2feb4d9f35751ba09f7fe5d9eb9c76273",
+      "audit/plot_v12.py": "779877c03abe2815567e9bf71a79f2fb9cfd2154953cfd91d53de5d79f0f905e",
+      "audit/v12_acceptance.py": "0f378db26f1f39f63a31d0f5366caf0f192b4ecd657a16a34e75f74ba9fcabc1",
+      "audit/v12_labels.py": "1b173ce6fd9f6014579c74103b5eb1c6283153a4505c91aefefa8a87811e3249",
+      "tests/test_data_contract.py": "b13235fe7c13c50c618e3bad194b7d2ea02876193135220661bdaa1f84f29843",
+      "tests/test_phase1_artifacts.py": "da32eca14dd48aec69afbb218afb1bd97d7c1106d05f67c53d6cb147f0811d28",
+      "tests/test_q1_data.py": "886c6fe3db6cb50ee298c424b85c46586aa4f7632bbc75183acff0d18ce49c29",
+      "tests/test_surrogates.py": "66ede24474b42d74793fa2e27df7cafec3ef38b8e1c371b7ee0584de8ad8201a",
+      "requirements-baseline.txt": "957fbe9fd5a34d3ea5d6f651d08baf1fa30a35a87494ce382201af11660208a5"
+    }
+  },
+  "export_root": "handoff/v1_2",
+  "outputs": {
+    "04": {
+      "file": "q1_holdout_predictions.csv",
+      "rows": 3703,
+      "min_score": 1.341968558815267,
+      "max_score": 85.62105430780807,
+      "first_to_second_gap": 0.43643645263851916,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "8470",
+          "A": "K",
+          "B": "Zr",
+          "X": "FO2",
+          "V_hat": "1.341968558815267"
+        },
+        {
+          "id": "7015",
+          "A": "Sn",
+          "B": "Zr",
+          "X": "O3",
+          "V_hat": "1.7784050114537862"
+        },
+        {
+          "id": "7316",
+          "A": "Sr",
+          "B": "Si",
+          "X": "O3",
+          "V_hat": "1.861727659061033"
+        },
+        {
+          "id": "13685",
+          "A": "Ca",
+          "B": "Al",
+          "X": "FO2",
+          "V_hat": "1.9636490157170463"
+        },
+        {
+          "id": "13369",
+          "A": "Ge",
+          "B": "Si",
+          "X": "O3",
+          "V_hat": "2.3307884683495805"
+        }
+      ],
+      "sha256": "6732d73856f6ec01b3ef51118faa457c8ed005ad6a96a04b3c0e51e1a896cad7",
+      "frozen_file": "q1_holdout_predictions.csv",
+      "frozen_sha256": "dd7b90b2ad10b2070e2c757b103c3ec6976a47d4e7014a27f99abea04b735352",
+      "same_v_hat_as_frozen": true
+    },
+    "07": {
+      "file": "q2_pool_predictions.csv",
+      "rows": 2704,
+      "min_score": 1.4919281724855757,
+      "max_score": 67.89288329134759,
+      "first_to_second_gap": 0.31381863133865195,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "15567",
+          "A": "Y",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "1.4919281724855757"
+        },
+        {
+          "id": "11304",
+          "A": "Y",
+          "B": "Zr",
+          "X": "NO2",
+          "V_hat": "1.8057468038242277"
+        },
+        {
+          "id": "15668",
+          "A": "La",
+          "B": "Si",
+          "X": "NO2",
+          "V_hat": "1.8673409762125297"
+        },
+        {
+          "id": "10787",
+          "A": "Sc",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "2.1393306854159118"
+        },
+        {
+          "id": "18479",
+          "A": "La",
+          "B": "Zr",
+          "X": "NO2",
+          "V_hat": "2.2706073995926057"
+        }
+      ],
+      "sha256": "361c7ecd186634b320c5a91b3e781b89e0afa2fea3a7d859b0b61cbaa207fda2",
+      "frozen_file": "q2_pool_predictions.csv",
+      "frozen_sha256": "f9355eb07c21c94af788bdd1a8bb0adf0f73f0fd221be07524bb7fcb3291d8b6",
+      "same_v_hat_as_frozen": true
+    },
+    "08": {
+      "file": "q3_pool_predictions.csv",
+      "rows": 8112,
+      "min_score": 0.5400229940675169,
+      "max_score": 67.89288329134759,
+      "first_to_second_gap": 0.013123245502714043,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "4159",
+          "A": "Na",
+          "B": "Nb",
+          "X": "O3",
+          "V_hat": "0.54002299406751686"
+        },
+        {
+          "id": "8760",
+          "A": "Sn",
+          "B": "Ti",
+          "X": "O3",
+          "V_hat": "0.5531462395702309"
+        },
+        {
+          "id": "3545",
+          "A": "Ge",
+          "B": "Ti",
+          "X": "O3",
+          "V_hat": "0.60390335269027418"
+        },
+        {
+          "id": "1830",
+          "A": "Li",
+          "B": "Nb",
+          "X": "O3",
+          "V_hat": "0.61297724611941007"
+        },
+        {
+          "id": "15387",
+          "A": "Pb",
+          "B": "Ti",
+          "X": "O3",
+          "V_hat": "0.63744961724313876"
+        }
+      ],
+      "sha256": "840fd96bb6437d35d4878ad516e950119521626b1cef8f52e2f1a9f0942f72be",
+      "frozen_file": "q3_pool_predictions.csv",
+      "frozen_sha256": "e9abb1a26e60778bb195beddcca5d9a16e7dcc61851f00ddfcb8473f345e9ae6",
+      "same_v_hat_as_frozen": true
+    },
+    "11": {
+      "file": "q2_blind_predictions.csv",
+      "rows": 529,
+      "min_score": 1.4919281724855757,
+      "max_score": 55.344924716569615,
+      "first_to_second_gap": 1.2661926874797937,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "15567",
+          "A": "Y",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "1.4919281724855757"
+        },
+        {
+          "id": "13153",
+          "A": "La",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "2.7581208599653695"
+        },
+        {
+          "id": "12195",
+          "A": "Sc",
+          "B": "Hf",
+          "X": "NO2",
+          "V_hat": "4.9340722719161789"
+        },
+        {
+          "id": "8713",
+          "A": "Ca",
+          "B": "Nb",
+          "X": "NO2",
+          "V_hat": "5.3149572040760296"
+        },
+        {
+          "id": "14912",
+          "A": "Ca",
+          "B": "Ta",
+          "X": "NO2",
+          "V_hat": "5.3317607639331639"
+        }
+      ],
+      "sha256": "e721beaae7b581af7420be15618f8f60f3efcd4a46b22bf4b6ece293d9f764be",
+      "frozen_file": "q2_blind_pool_predictions.csv",
+      "frozen_sha256": "efdb2c279ef75c26e0a1e3b47843755220fb12036f06739a05f82a9fdbf16110",
+      "same_v_hat_as_frozen": true
+    },
+    "12": {
+      "file": "q3_blind_predictions.csv",
+      "rows": 1587,
+      "min_score": 1.1850815319299866,
+      "max_score": 57.9851036244566,
+      "first_to_second_gap": 0.3068466405555892,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "268",
+          "A": "Ca",
+          "B": "Sn",
+          "X": "O3",
+          "V_hat": "1.1850815319299866"
+        },
+        {
+          "id": "15567",
+          "A": "Y",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "1.4919281724855757"
+        },
+        {
+          "id": "12035",
+          "A": "Sr",
+          "B": "Sn",
+          "X": "O3",
+          "V_hat": "1.5608054685173527"
+        },
+        {
+          "id": "18893",
+          "A": "Rb",
+          "B": "Ti",
+          "X": "FO2",
+          "V_hat": "1.5909216703885978"
+        },
+        {
+          "id": "4657",
+          "A": "Rb",
+          "B": "Nb",
+          "X": "O3",
+          "V_hat": "1.7343214686196295"
+        }
+      ],
+      "sha256": "76eab11f687a7b90f96e6d7384fa6777776f65602529396edba4a5e3da4090f4",
+      "frozen_file": "q3_blind_pool_predictions.csv",
+      "frozen_sha256": "75dc6c2ee68be4e9b1527ce883e8cecddd8fc8187a0ba189abd4d1c5110c6cf6",
+      "same_v_hat_as_frozen": true
+    }
+  },
+  "combined_output": {
+    "file": "candidate_predictions.csv",
+    "rows": 12932,
+    "sha256": "99fa1cc5cd6459f96fb2fb33196745665872b8e97b7345eb220236d27f676253"
+  },
+  "review_status": {
+    "local_program_checks": "see audit/v12_acceptance.json",
+    "independent_team_member_and_QUBO_signoff": "pending human review",
+    "official_04_submission_fields": "pending logged-in contest portal verification"
+  }
+}

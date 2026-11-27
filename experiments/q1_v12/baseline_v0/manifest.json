@@ -1,0 +1,133 @@
+{
+  "model_version": "baseline_v0",
+  "scope": "temporary interface baseline",
+  "inputs": {
+    "07": {
+      "file": "07_castelli_q2_pool.csv",
+      "sha256": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe",
+      "rows": 2704
+    },
+    "08": {
+      "file": "08_castelli_q3_pool.csv",
+      "sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b",
+      "rows": 8112
+    }
+  },
+  "training": [
+    {
+      "file": "02_castelli_train.csv",
+      "sha256": "973e6a6d39e1846338f4df8870b0e223d573849d38b10eeddc70f11e6e5918f3",
+      "rows": 11256
+    },
+    {
+      "file": "03_castelli_val.csv",
+      "sha256": "42a62b0fa114a736ea5003ad48615359d8d1046bf73286c8ccefc5a386df2d3d",
+      "rows": 3969
+    }
+  ],
+  "fit_seconds": [
+    0.021093799965456128,
+    0.013599199941381812
+  ],
+  "outputs": {
+    "07": {
+      "rows": 2704,
+      "min_score": 4.14655180789131,
+      "max_score": 59.55929110196331,
+      "first_to_second_gap": 0.6651502155191231,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "13153",
+          "A": "La",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "4.1465518078913099"
+        },
+        {
+          "id": "5542",
+          "A": "Ba",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "4.8117020234104331"
+        },
+        {
+          "id": "11165",
+          "A": "La",
+          "B": "Ta",
+          "X": "NO2",
+          "V_hat": "5.2751535683599897"
+        },
+        {
+          "id": "17628",
+          "A": "Ca",
+          "B": "Ti",
+          "X": "NO2",
+          "V_hat": "5.3609887230967246"
+        },
+        {
+          "id": "3251",
+          "A": "La",
+          "B": "Nb",
+          "X": "NO2",
+          "V_hat": "5.5554064149305304"
+        }
+      ]
+    },
+    "08": {
+      "rows": 8112,
+      "min_score": 2.616339683054594,
+      "max_score": 62.693307543993306,
+      "first_to_second_gap": 0.6651502155191231,
+      "tied_minima": 1,
+      "top25_boundary_ties": 1,
+      "top50_boundary_ties": 1,
+      "raw_negative_count": 0,
+      "lowest_proxy_candidates": [
+        {
+          "id": "14810",
+          "A": "La",
+          "B": "Ti",
+          "X": "O3",
+          "V_hat": "2.6163396830545942"
+        },
+        {
+          "id": "2007",
+          "A": "Ba",
+          "B": "Ti",
+          "X": "O3",
+          "V_hat": "3.2814898985737173"
+        },
+        {
+          "id": "12835",
+          "A": "La",
+          "B": "Ta",
+          "X": "O3",
+          "V_hat": "3.744941443523274"
+        },
+        {
+          "id": "7079",
+          "A": "Ca",
+          "B": "Ti",
+          "X": "O3",
+          "V_hat": "3.8307765982600088"
+        },
+        {
+          "id": "14178",
+          "A": "La",
+          "B": "Nb",
+          "X": "O3",
+          "V_hat": "4.0251942900938147"
+        }
+      ]
+    }
+  },
+  "predict_cost": {
+    "unique_rows": 8112,
+    "pool_union_predict_seconds": 0.01550629991106689
+  },
+  "evaluation_used_for_v1": false
+}

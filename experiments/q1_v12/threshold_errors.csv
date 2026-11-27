@@ -1,0 +1,11 @@
+model,penalty,window_eV,near_rows,mismatches_near,penalty_mae_near,raw_negative_gap_rows
+ridge_indirect,v_form,0.2,140,53,0.3783333363442565,1501
+ridge_indirect,v_gap_low,0.2,23,8,5.566597158731978,1501
+ridge_indirect,v_gap_high,0.2,8,5,0.054999999999999924,1501
+ridge_indirect,v_vbm,0.2,1259,210,0.016862056507398703,1501
+ridge_indirect,v_cbm,0.2,48,23,0.7596764742455728,1501
+hgb_indirect,v_form,0.2,140,45,0.1481860153797463,1589
+hgb_indirect,v_gap_low,0.2,23,8,3.4866529209389934,1589
+hgb_indirect,v_gap_high,0.2,8,5,0.054999999999999924,1589
+hgb_indirect,v_vbm,0.2,1259,127,0.013181358405988476,1589
+hgb_indirect,v_cbm,0.2,48,12,0.40861217422256363,1589

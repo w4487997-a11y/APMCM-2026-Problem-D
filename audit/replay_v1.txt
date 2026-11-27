@@ -1,0 +1,2 @@
+Frozen model: hgb_gap_mix. Wrote 04 and four Q2/Q3 pools to C:\Users\diana\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\AC\#!sandbox.{07dc62e2-0f65-4458-a21b-30292e4c8bde}\Temp\apmcm-q1-replay-c5rov2bf\replay.
+Full refit reproduced 8 CSVs byte for byte. Standalone 04 inference matches too.

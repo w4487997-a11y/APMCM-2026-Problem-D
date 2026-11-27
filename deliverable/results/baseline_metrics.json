@@ -1,0 +1,58 @@
+{
+  "seed": 42,
+  "features": "one-hot(A,B,X)",
+  "n_features": 111,
+  "train_rows": 11256,
+  "val_rows": 3969,
+  "models": {
+    "baseline0_median": {
+      "MAE": 7.800105,
+      "RMSE": 11.194427,
+      "Low10_MAE": 12.127832,
+      "n_val": 3969,
+      "n_low10": 397,
+      "low10_threshold": 13.68442,
+      "Top25_overlap": 0.0,
+      "Top25_intersection": 0,
+      "const": 22.313827
+    },
+    "baseline1_ridge": {
+      "MAE": 4.465602,
+      "RMSE": 6.528384,
+      "Low10_MAE": 5.510947,
+      "n_val": 3969,
+      "n_low10": 397,
+      "low10_threshold": 13.68442,
+      "Top25_overlap": 0.16,
+      "Top25_intersection": 4
+    },
+    "baseline2_rf": {
+      "MAE": 4.211347,
+      "RMSE": 6.512837,
+      "Low10_MAE": 5.363666,
+      "n_val": 3969,
+      "n_low10": 397,
+      "low10_threshold": 13.68442,
+      "Top25_overlap": 0.08,
+      "Top25_intersection": 2
+    }
+  },
+  "quantiles": {
+    "02": {
+      "n": 11256,
+      "min": 0.0004,
+      "q01": 1.6129078,
+      "q05": 12.0411775,
+      "median": 22.313827,
+      "max": 108.955819
+    },
+    "03": {
+      "n": 3969,
+      "min": 0.0196,
+      "q01": 1.98784768,
+      "q05": 11.9540928,
+      "median": 22.420024,
+      "max": 90.800731
+    }
+  }
+}
