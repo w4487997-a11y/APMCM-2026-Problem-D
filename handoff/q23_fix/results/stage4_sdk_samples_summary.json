@@ -1,0 +1,159 @@
+{
+  "source": "audit package results/ (Kaiwu 1.4.3, local CPU, not this machine)",
+  "cases": {
+    "q3_official_v12": {
+      "file": "sdk_q3_official_v12_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 0,
+        "feasibility_rate": 0.0,
+        "best_V_hat": null,
+        "gap_to_float_optimum": null,
+        "median_gap": null,
+        "min_energy": -18302.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 44,
+        "feasibility_rate": 0.14666666666666667,
+        "best_V_hat": 1.660009157219201,
+        "gap_to_float_optimum": 1.119986163151684,
+        "median_gap": 14.459380473668222,
+        "min_energy": -13866.134279113421
+      }
+    },
+    "q3_partition_O3": {
+      "file": "sdk_q3_partition_O3_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 94,
+        "feasibility_rate": 0.31333333333333335,
+        "best_V_hat": 1.603825617112106,
+        "gap_to_float_optimum": 1.0638026230445892,
+        "median_gap": 17.451911240236953,
+        "min_energy": -5253.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 94,
+        "feasibility_rate": 0.31333333333333335,
+        "best_V_hat": 1.603825617112106,
+        "gap_to_float_optimum": 1.0638026230445892,
+        "median_gap": 17.451911240236953,
+        "min_energy": -5253.0
+      }
+    },
+    "q3_partition_NO2": {
+      "file": "sdk_q3_partition_NO2_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 94,
+        "feasibility_rate": 0.31333333333333335,
+        "best_V_hat": 2.2706073995926057,
+        "gap_to_float_optimum": 1.730584405525089,
+        "median_gap": 19.649194801421856,
+        "min_energy": -5253.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 94,
+        "feasibility_rate": 0.31333333333333335,
+        "best_V_hat": 2.2706073995926057,
+        "gap_to_float_optimum": 1.730584405525089,
+        "median_gap": 19.649194801421856,
+        "min_energy": -5253.0
+      }
+    },
+    "q3_partition_FO2": {
+      "file": "sdk_q3_partition_FO2_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 92,
+        "feasibility_rate": 0.30666666666666664,
+        "best_V_hat": 6.91773528664765,
+        "gap_to_float_optimum": 6.377712292580133,
+        "median_gap": 22.62759875034874,
+        "min_energy": -5253.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 92,
+        "feasibility_rate": 0.30666666666666664,
+        "best_V_hat": 6.91773528664765,
+        "gap_to_float_optimum": 6.377712292580133,
+        "median_gap": 22.62759875034874,
+        "min_energy": -5253.0
+      }
+    },
+    "q3_intising": {
+      "file": "sdk_q3_intising_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 213,
+        "feasibility_rate": 0.71,
+        "best_V_hat": 0.5400229940675169,
+        "gap_to_float_optimum": 0.0,
+        "median_gap": 10.234481531503505,
+        "min_energy": -1340.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 213,
+        "feasibility_rate": 0.71,
+        "best_V_hat": 0.5400229940675169,
+        "gap_to_float_optimum": 0.0,
+        "median_gap": 10.234481531503505,
+        "min_energy": -1340.0
+      }
+    },
+    "q2_official_v12": {
+      "file": "sdk_q2_official_v12_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 57,
+        "feasibility_rate": 0.19,
+        "best_V_hat": 3.193459930233072,
+        "gap_to_float_optimum": 1.7015317577474964,
+        "median_gap": 16.47998835944043,
+        "min_energy": -14454.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 79,
+        "feasibility_rate": 0.2633333333333333,
+        "best_V_hat": 2.2706073995926057,
+        "gap_to_float_optimum": 0.77867922710703,
+        "median_gap": 16.49358268330029,
+        "min_energy": -2759.0497235615458
+      }
+    },
+    "q2_intising": {
+      "file": "sdk_q2_intising_raw_samples.csv",
+      "samples": 600,
+      "sdk_8bit_adjusted": {
+        "samples": 300,
+        "feasible": 234,
+        "feasibility_rate": 0.78,
+        "best_V_hat": 1.4919281724855757,
+        "gap_to_float_optimum": 0.0,
+        "median_gap": 4.684284248021616,
+        "min_energy": -856.0
+      },
+      "unadjusted": {
+        "samples": 300,
+        "feasible": 234,
+        "feasibility_rate": 0.78,
+        "best_V_hat": 1.4919281724855757,
+        "gap_to_float_optimum": 0.0,
+        "median_gap": 4.684284248021616,
+        "min_energy": -856.0
+      }
+    }
+  }
+}
