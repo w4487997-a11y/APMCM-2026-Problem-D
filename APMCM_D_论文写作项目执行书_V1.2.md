@@ -1230,3 +1230,109 @@ paper/
 5. 逐篇完成阅读后更新文献目录、对照矩阵、Q1定位及BibTeX，并提交GitHub。
 
 本节仅记录当前已完成的公开来源核验，不代表全部LIT-01工作包已经完成。
+
+
+---
+
+## 20. 系统性文献研究第二轮补充（2026-11-27）
+
+本节继续在原V1.2上追加，不改变既有研究路线。文献资料已按阅读深度区分；摘要级核验不得写成全文精读。
+
+### 20.1 Q1新增核心/支撑文献
+
+本轮新增或深化：
+- Obada et al. (2023)：ABX3零/非零带隙、12个元素特征、CatBoost/XGBoost/SHAP；全文主体已读。
+- Gladkikh et al. (2020)：ABX3元素性质与带隙、ACE小样本映射；元数据/摘要及SI预览已读。
+- Liu et al. (2022)：227条实验带隙数据、来自1,254篇文献；出版社预览已读。
+- Chenebuah et al. (2021)：ABX3与双钙钛矿、多性质预测、57个描述符、12种算法；出版社预览及作者仓库已读。
+- Chenebuah & Chenebuah (2023)：16,323条ABX3数据集预印本；摘要及作者数据仓库已读。
+- Fang et al. (2023)：多性质集成学习高通量筛选；摘要级。
+- Deng et al. (2025)：ABX3形成能、特征筛选、XGBoost及第一性原理核验；全文主体已读。
+- Solecki & Zhu (2026)：零值较多带隙数据的两阶段建模、非零MAE、表示与分组切分；摘要/Highlights级，全文优先获取。
+- Manon et al. (2026)：ABX3带隙、SHAP、梯度提升、量化/保形预测；摘要及特征类别级，全文精读待完成。
+- Persaud et al. (2024)：材料信息学复现规范；出版社全文预览已读。
+
+逐篇阅读报告和状态见paper/literature/individual_papers/。
+
+### 20.2 Chen 2024补充材料核验结果
+
+已读取RSC官方11页ESI。需严格区分总体摘要指标与ABX3子集：
+- ABX3带隙XGBoost：Table S4，R2=0.7995，RMSE=0.7419 eV；
+- 双钙钛矿带隙XGBoost：R2=0.8688，RMSE=0.5742 eV；
+- ABX3形成能XGBoost：Table S2，R2=0.9336，RMSE=0.2546（按原文目标单位解释）；
+- Table S8报告100次训练的结果标准差；
+- ESI列出Magpie特征解释、部分超参数和特征工程特征数量。
+
+因此，摘要所列R2=0.873、RMSE=0.5868 eV不得被误写为ABX3-only XGBoost成绩。详细来源及表格解释见chen2024_perovskite_ml.md。
+
+### 20.3 Ward 2016与复现边界
+
+Ward 2016全文已进一步核查：
+- 145个属性分为化学计量、22种元素属性统计、价电子壳层比例和离子化合物属性；
+- OQMD示例采用228,676个唯一组成低能条目并进行10折交叉验证；
+- 筛选示例中，30个候选落入目标带隙区间的比例由随机选择约12%提高到单模型约46%，化学分组模型约67%。
+
+同时，Persaud et al. (2024)指出Ward补充材料中的带隙模型训练/预测/分析脚本不足以完整复现。论文可以引用Ward的方法与结果，但若讨论可复现性，应同时说明后续复现研究指出的限制。不得把Ward的分组策略写成项目自身有序(A,B)分组验证的同一方法。
+
+### 20.4 Q2/Q3 QUBO理论基础
+
+新增Lucas (2014)和Glover et al. (2019)作为基础理论来源，见paper/literature/q2_q3_qubo_foundations.md。
+
+当前main分支可读取的D-00早期矩阵构建代码显示：Q2为104逻辑变量、Q3为208逻辑变量；一热惩罚lambda=2；候选代价min-max缩放至[0,1]；并有小规模枚举和逐候选能量核验。D-00 README当时仍记录Kaiwu SDK、量化及硬件测试未完成。因此这些仅为前置可行性/历史证据，不能直接冒充最终Q2/Q3求解方法。正式论文写作前必须检查V1.2 Q2/Q3交付包中的最终代码、矩阵、SDK日志、量化审计和验收报告。
+
+### 20.5 新增论文写作边界
+
+1. 已有ABX3材料机器学习研究已经使用元素描述符、树集成、XGBoost/CatBoost、SHAP和多性质筛选；不能把这些既有方法本身声称为本文原创。
+2. Q1可论证的任务特定贡献是官方五项违背度V、A/B/X有序位点类别输入、零/正带隙罚值概率混合及有序(A,B)分组验证的组合。
+3. Q1冻结模型不使用Magpie 145描述符、Matminer近300描述符或Ward/Chen/Deng的其他特征集。
+4. 2026年Solecki & Zhu是零值带隙与两阶段建模的关键相关研究。全文未读前，不得对两阶段方法新颖性作强断言。
+5. 所有外部论文指标均不得直接与Q1的V-MAE或Top-K指标排名，除非目标、单位、数据分布和切分协议严格可比。
+6. 不得将任何外部公开材料数据集与竞赛盲池进行交叉匹配、身份识别或标签推断。
+
+---
+
+## 21. 后续文献研究的优先级与完成标准
+
+| 优先级 | 任务 | 完成标准 |
+|---|---|---|
+| P0 | 获取Solecki & Zhu (2026)全文 | 明确两阶段架构、数据集、零值处理、非零MAE、分组单位及统计检验 |
+| P0 | 完成Chen et al. (2024)全文与ESI精读 | 核实数据清洗、ABX3/双钙钛矿分组、切分、特征工程和100次训练细节 |
+| P1 | Ward 2016补充材料及Persaud 2024复现研究 | 核实145特征定义、层级分组算法、代码可复现边界 |
+| P1 | Manon et al. (2026)全文 | 核实68特征、SHAP、quantile/conformal方法、OOD判定和验证方案 |
+| P1 | Liu 2022、Gladkikh 2020、Fang 2023全文 | 核实数据来源、特征、模型、切分和指标 |
+| P1 | Q2/Q3最终实现的算法文献映射 | 先读最终交付代码，再决定是否补充更专门的优化/嵌入/量化文献 |
+| P2 | 继续检索低尾回归、排序/Top-K和不确定性校准 | 只纳入能支撑具体论文论点的研究 |
+
+每完成一篇全文精读，更新对应individual_papers记录、literature_catalog、literature_comparison、references.bib，并提交GitHub。
+
+---
+
+## 22. 后续聊天（聊天1）从GitHub读取文献并写论文的强制交接指引
+
+聊天1不得要求用户重新上传上述文献笔记，也不得凭聊天记忆重建文献库。写作前从main分支读取：
+
+### 22.1 必读入口
+1. 本文件：APMCM_D_论文写作项目执行书_V1.2.md；
+2. paper/literature/README.md；
+3. paper/literature/literature_catalog.md；
+4. paper/literature/literature_comparison.md；
+5. paper/literature/q1_academic_positioning.md；
+6. paper/literature/references.bib；
+7. paper/literature/q2_q3_qubo_foundations.md；
+8. 与当前章节相关的paper/literature/individual_papers/*.md。
+
+### 22.2 章节引用映射
+- Introduction / Related Work：Ward 2016、Gladkikh 2020、Liu 2022、Obada 2023、Chen 2024、Chenebuah 2021/2023、Deng 2025、Manon 2026；按阅读状态和任务相关性取舍。
+- Q1 Methodology：Q1实际代码与V公式为主；Solecki 2026、Obada 2023等只作零值带隙和两阶段方法对照。
+- Q1 Experiments / Discussion：分组验证、低尾/Top-K指标；外部论文仅作方法背景，不做不可比数值排名。
+- Q2/Q3 Methodology：Lucas 2014、Glover et al. 2019解释QUBO/Ising与惩罚编码；最终公式必须来自本项目最终代码和矩阵。
+- Reproducibility / Appendix：Persaud et al. 2024支持软件版本、证据索引、数据哈希和可复现报告要求。
+
+### 22.3 BibTeX接入规则
+现有唯一文献库为paper/literature/references.bib。聊天1将其整合进既有LaTeX工程时，先检查现有文献配置和重复key；不得创建互相冲突的第二套references.bib。所有引用key必须在该文件中存在，所有正文引用必须能回溯到对应阅读笔记或可靠出版来源。
+
+### 22.4 写作状态约束
+摘要级、出版社预览级和全文级证据必须按原状态表述。若论文全文尚未取得，写作聊天可以先使用经核验的摘要级背景信息，但不得声称已经阅读全文或引用未核实的实验细节。
+
+### 22.5 交接时点
+聊天1在开始L2之后的论文正文写作前，必须再次读取GitHub main的最新执行书和文献目录，避免使用过期快照。所有新增文献由本研究线继续提交main；聊天1只消费和引用，不擅自覆盖文献库。
