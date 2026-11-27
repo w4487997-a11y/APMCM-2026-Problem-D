@@ -1,13 +1,13 @@
-# Q1 Literature Research
+# APMCM D Literature Research
 
 This directory is the single literature source of truth for the paper-writing workflow.
 
 ## Reading order for the next Codex chat
-1. literature_catalog.md — verified bibliography and candidate disambiguation.
-2. literature_comparison.md — cross-paper comparison.
-3. q1_academic_positioning.md — evidence-bounded positioning of the actual Q1 v1.
-4. references.bib — verified BibTeX entries.
-5. individual_papers/ — individual reading notes.
+1. literature_status_matrix.md — per-paper reading status and next full-text priorities.\n2. literature_catalog.md — verified bibliography and candidate disambiguation.
+3. literature_comparison.md — cross-paper comparison.
+4. q1_academic_positioning.md — evidence-bounded positioning of the actual Q1 v1.
+5. references.bib — verified BibTeX entries.
+6. individual_papers/ — individual reading notes.
 
 ## Status convention
 - VERIFIED-METADATA: bibliographic identity confirmed on publisher/official source.
