@@ -2,16 +2,14 @@
   "q2": {
     "baseline_passed": {
       "rows": 2704,
-      "unique_ids": 2704,
       "model_version": "q23_final_v1_hgb_gap_mix",
-      "score_min": 1.4919281724855757,
-      "score_max": 67.89288329134759,
       "first_gap": 0.31381863133865195,
       "ties_at_minimum": 1,
-      "official_pool": "07_castelli_q2_pool.csv",
-      "pool_sha256": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe"
+      "pool": "07",
+      "official_sha256": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe",
+      "prediction_sha256": null
     },
-    "negative_checks": {
+    "checks": {
       "pool_external_id": {
         "rejected": true,
         "reason": "缺失官方候选 1 个（示例 ['7']）；池外 id 1 个（示例 ['18925']）"
@@ -20,9 +18,25 @@
         "rejected": true,
         "reason": "id 7 组成与官方不一致"
       },
+      "wrong_pool": {
+        "rejected": true,
+        "reason": "pool 字段不符: {07,08}"
+      },
       "wrong_source_pool": {
         "rejected": true,
-        "reason": "来源池字段不符: {07,08}"
+        "reason": "source_pool 字段不符: {07,08}"
+      },
+      "source_pool_only_wrong": {
+        "rejected": true,
+        "reason": "source_pool 字段不符: {07,08}"
+      },
+      "pool_column_absent": {
+        "rejected": true,
+        "reason": "缺少 pool 列"
+      },
+      "source_pool_column_absent": {
+        "rejected": true,
+        "reason": "缺少 source_pool 列"
       },
       "duplicate_id": {
         "rejected": true,
@@ -42,7 +56,7 @@
       },
       "mixed_version": {
         "rejected": true,
-        "reason": "版本不唯一或为空: {'vX', 'q23_final_v1_hgb_gap_mix'}"
+        "reason": "版本不唯一或为空: {'q23_final_v1_hgb_gap_mix', 'vX'}"
       },
       "constant_table": {
         "rejected": true,
@@ -54,16 +68,14 @@
   "q3": {
     "baseline_passed": {
       "rows": 8112,
-      "unique_ids": 8112,
       "model_version": "q23_final_v1_hgb_gap_mix",
-      "score_min": 0.5400229940675169,
-      "score_max": 67.89288329134759,
       "first_gap": 0.013123245502714043,
       "ties_at_minimum": 1,
-      "official_pool": "08_castelli_q3_pool.csv",
-      "pool_sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b"
+      "pool": "08",
+      "official_sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b",
+      "prediction_sha256": null
     },
-    "negative_checks": {
+    "checks": {
       "pool_external_id": {
         "rejected": true,
         "reason": "缺失官方候选 1 个（示例 ['1']）；池外 id 1 个（示例 ['18928']）"
@@ -72,9 +84,25 @@
         "rejected": true,
         "reason": "id 1 组成与官方不一致"
       },
+      "wrong_pool": {
+        "rejected": true,
+        "reason": "pool 字段不符: {07,08}"
+      },
       "wrong_source_pool": {
         "rejected": true,
-        "reason": "来源池字段不符: {07,08}"
+        "reason": "source_pool 字段不符: {07,08}"
+      },
+      "source_pool_only_wrong": {
+        "rejected": true,
+        "reason": "source_pool 字段不符: {07,08}"
+      },
+      "pool_column_absent": {
+        "rejected": true,
+        "reason": "缺少 pool 列"
+      },
+      "source_pool_column_absent": {
+        "rejected": true,
+        "reason": "缺少 source_pool 列"
       },
       "duplicate_id": {
         "rejected": true,
@@ -94,7 +122,7 @@
       },
       "mixed_version": {
         "rejected": true,
-        "reason": "版本不唯一或为空: {'vX', 'q23_final_v1_hgb_gap_mix'}"
+        "reason": "版本不唯一或为空: {'q23_final_v1_hgb_gap_mix', 'vX'}"
       },
       "constant_table": {
         "rejected": true,
