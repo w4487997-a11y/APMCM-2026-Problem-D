@@ -964,3 +964,205 @@ paper/
 | V1.0 | 2026-11-27 | 初版论文写作专项规划。 |
 | V1.1 | 2026-11-27 | 与V1.2总执行书对照后补齐研究路线、数据边界、双模型、QUBO、硬件与未完成任务规划。 |
 | V1.2 | 2026-11-27 | 纳入官方LaTeX模板、竞赛格式要求、Codex分阶段执行规范及工程验收流程。 |
+
+
+---
+
+## 15. Word参考模板的内容结构与适用边界（新增）
+
+参考文件：`paper/template_reference/2026 APMCM亚太地区数学建模竞赛论文写作模板2.doc`（21页，DOC格式）。
+
+### 15.1 模板提供的内容组织
+
+该Word参考模板给出以下建议结构：
+
+1. Summary Sheet：队伍编号、题号、标题、Summary及3–5个关键词。
+2. Contents：目录。
+3. I. Introduction：Background、Our works。
+4. II. The Description of the Problem：Problem statement、Analysis of Specific Issues。
+5. III. Basic assumption。
+6. IV. Glossary & Symbols：Glossary、Symbols。
+7. V. Models：按问题分别组织Model Preparation、Model Establishment、Results、Analysis of the Result。
+8. VI. Error Analysis and Sensitivity Analysis。
+9. VII. Evaluation and Promotion of Model：Strength and Weakness、Promotion。
+10. VIII. Conclusions：Conclusions of the problem、Methods used in our models。
+11. IX. References。
+12. X. Appendix；模板另含Report on Use of AI Tools示例内容。
+
+模板正文写作说明还建议：英文正文；一级标题16 pt Times New Roman加粗居中，二级标题14 pt加粗左对齐，三级标题12 pt加粗左对齐；正文12 pt；英文段落顶格；公式居中并编号；表题置于表格上方；正文开始后设置队伍编号页眉和页码。首页摘要尽量控制在一页，首页通常不设页眉页码。
+
+### 15.2 与官方规范及已验收LaTeX工程的优先关系
+
+本Word文件是团队提供的写作参考模板，不自动等同于竞赛官方规则。其文字提到正文26页；本项目既有官方规范审查口径为正文不超过25页。发生冲突时，必须回到官方提交规范PDF核实，并以官方规则为准；在官方规则核验完成前，继续采用更严格的25页内部控制线。
+
+执行优先级：
+1. 本届官方竞赛规则、官方提交规范及平台字段；
+2. 已验收的官方`apmcmthesis` LaTeX模板和官方类/配置文件；
+3. 本Word参考模板的章节组织与写作建议；
+4. 团队内部写作偏好。
+
+不得为了逐字套用Word模板而破坏L1已验收的Summary Sheet、目录、页码、页眉、字体或官方LaTeX结构。D题只有Q1、Q2、Q3三问；Word示例中的Problem 4/Question Four不得照搬为本项目独立第四问。成本、硬件精度和误差归因作为贯穿性分析/工作包，不伪造Q4。
+
+### 15.3 对应本项目论文结构
+
+建议按内容映射，而非机械复制示例页码：
+
+| Word参考模板 | 本项目论文内容 | 证据/状态 |
+|---|---|---|
+| Summary | 最后撰写；仅纳入已验收结果 | PLANNED |
+| Introduction / Our works | 材料稀有目标筛选背景、研究问题、贡献边界 | 文献研究后写 |
+| Problem Description | D题三问、V定义、候选空间、数据约束 | 可基于官方题面与数据契约 |
+| Basic Assumption | 明示每项假设、依据和影响 | 待逐项审查 |
+| Glossary & Symbols | V、V-hat、A/B/X、QUBO变量、能量等 | 与代码/公式一致 |
+| Models – Q1 | 数据审计、组成输入、Q1 v1、基线/消融/验证 | 有仓库证据，可写 |
+| Models – Q2/Q3 | 候选评分、独热QUBO、映射、求解与复核 | 按实际完成状态写 |
+| Error & Sensitivity | 代理、映射、量化、采样误差；参数敏感性 | 未完成项保留 |
+| Evaluation & Promotion | Strength、Weakness、适用范围和推广边界 | 以证据为准 |
+| Conclusions | 对三问逐项总结，不超出证据 | 最后撰写 |
+| References | 经核验的学术与官方来源 | 持续维护BibTeX |
+| Appendix / AI report | 必要算法细节、复现信息、规则要求的AI披露 | 按官方要求核验 |
+
+---
+
+## 16. LIT-01：系统性学术文献研究与Q1学术定位（新增）
+
+### 16.1 研究范围与文献数量
+
+文献数量不预先限定为两篇。根据实际Q1 v1的输入表示、模型结构、目标构造、验证协议和材料体系，采用“核心必读 + 方法支撑 + 背景补充”的动态筛选方式。只有与实际方法或论点有明确关系的文献才进入核心矩阵；不得为了增加引用数量而堆砌文献。
+
+至少覆盖以下方向：
+- ABX3/钙钛矿的组成—性质机器学习预测；
+- 材料组成描述符、元素属性统计与Magpie类特征；
+- 组成编码与类别特征学习；
+- 形成能、带隙、VBM/CBM等材料性质预测；
+- 多性质预测如何组合成工程筛选/违背度目标；
+- 稀有目标、低尾回归、排序与Top-K筛选评价；
+- 分组数据划分、交叉验证、数据泄漏与泛化评估；
+- 梯度提升树及分类—回归组合/期望损失混合；
+- 预测代理与离散组合优化之间的接口（仅在支持论文主线时纳入）。
+
+### 16.2 基于当前Q1真实实现的初步定位
+
+仓库代码`q1/surrogates.py`显示，Q1输入以有序的A、B、X位点元素类别为主；HistGradientBoosting使用OrdinalEncoder并将三个位置作为类别特征。模型族包括直接V回归、四物性间接预测、正带隙分类和正带隙条件回归等变体。冻结模型`hgb_gap_mix`通过非带隙罚值项与零带隙/正带隙条件罚值的概率混合构造预测V。特征消融中的A:X、B:X交互及A=B指示器属于比较方案，不能未经核对称为冻结模型输入。
+
+因此，Ward/Magpie类元素统计描述符研究可作为材料信息学背景和可选特征表示的理论来源，但**不能声称本项目Q1 v1已经采用145个Magpie描述符或近300个Matminer特征**。当前Q1 v1是组成位点类别输入，不是Ward式广义元素属性统计描述符模型。文献对照必须保留这个区别。
+
+Q1当前正式模型是`hgb_gap_mix`。冻结模型验证结果和冻结后补证必须严格按`experiments/q1_ablation_v1/REPORT.md`、`experiments/q1_v12/REPORT.md`及`model_selection.md`区分；不得根据冻结后03面板的较优结果追溯性改写原始选模历史。Q1 03 MAE、RMSE、Spearman和Top-K指标应引用报告原值；04盲测真值未知，不得报告04真实误差或命中率。
+
+### 16.3 优先文献候选与身份消歧
+
+“2024年ABX3材料预测论文”不是唯一身份。公开检索至少发现以下相关候选，须保留为不同论文，不可混为一篇：
+
+1. Chen, Z. et al. “Highly versatile and accurate machine learning methods for predicting perovskite properties.” *Journal of Materials Chemistry C* 12 (2024), 15444–15453. DOI: 10.1039/D4TC02268H。研究包括3720个ABX3和2660个双钙钛矿，近300个Matminer描述符、六类机器学习方法及SHAP；与Q1的ABX3材料预测和组成描述符背景相关，但其特征空间和目标与本项目不同。
+2. Ghosh, S. and Chowdhury, J. “Predicting band gaps of ABN3 perovskites: an account from machine learning and first-principle DFT studies.” *RSC Advances* 14 (2024), 6385–6397. DOI: 10.1039/D4RA00402G。ABN3是X位为氮的特定体系，属于ABX3结构家族相关研究，但材料化学域与本题X候选集合是否重合须单独核对。
+3. Kusuma, F. J. et al. “Multi-Properties prediction of perovskite materials using Machine learning and Meta-Heuristic feature selection.” DOI: 10.1016/j.solener.2024.113189。DOI含2024标识且摘要涉及ABX3组成特征，但出版页面标注2025-01-15；书目年份应按正式出版记录写2025，不能因DOI年份误记为2024。
+
+2016年Ward优先文献身份已核实为：
+Ward, L., Agrawal, A., Choudhary, A., and Wolverton, C. “A general-purpose machine learning framework for predicting properties of inorganic materials.” *npj Computational Materials* 2, 16028 (2016). DOI: 10.1038/npjcompumats.2016.28。
+
+Ward论文提出145个通用材料属性/描述符，包含化学计量统计、元素属性统计、电子结构属性和离子化合物属性，并讨论按化学相似材料分组训练的策略。其核心价值是解释材料组成描述符的设计原则与材料性质依赖性；不能把其全部描述符视为本项目实际特征。
+
+### 16.4 文献逐篇审查模板
+
+每篇核心文献须建立独立记录，包含：
+- 完整书目信息、DOI、期刊出版页和可访问全文链接；
+- 研究目标与材料范围；
+- 数据来源、规模、标签与切分方式；
+- 输入表示/描述符及其物理化学含义；
+- 预测目标、模型和训练/验证方案；
+- 评价指标及主要结果；
+- 消融、稳定性、泛化和局限；
+- 与本项目Q1 v1的相同点、不同点；
+- 可支持的论文论点与不可支持的论点；
+- 阅读深度：仅摘要/正文部分/全文/含补充材料；
+- 对论文具体章节的建议。
+
+仅有摘要证据时，明确标记“摘要级初筛”，不得伪称完成全文精读。
+
+### 16.5 四维对照
+
+每篇文献都按以下维度对照：
+1. Prior Methods：文献使用了什么已有方法？
+2. Theoretical Foundations：其描述符、模型或评价方式的理论依据是什么？
+3. Problem-Specific Adaptation：文献针对自身数据/材料体系做了什么适配？本项目针对竞赛V目标、分组数据、类别组成和稀有低尾筛选做了什么不同适配？
+4. Empirical Contributions：文献通过什么数据和实验支持结论？本项目哪些贡献已由02/03公开标签及可复现实验支持，哪些仍待验证？
+
+不得把“使用不同数据集”本身写成算法创新；不得把Q1 v1已有的位点类别编码夸大为新的材料描述符理论。
+
+### 16.6 论文转化要求
+
+文献研究最终转化到：
+- Introduction：研究背景、已有工作、研究缺口；
+- Related Work（可作为Introduction子节）：ABX3预测、组成描述符和材料机器学习；
+- Methodology：本项目输入表示、V目标及混合预测方法的设计依据；
+- Experiments：与文献方法进行可比性分析；若数据/标签/切分不同，不做不公平的数值横向排名；
+- Discussion：本项目相对已有研究的适配价值、贡献和局限。
+
+---
+
+## 17. 文献与论文工程的GitHub交付规范（新增）
+
+统一目录：
+
+```text
+paper/
+  template_reference/
+    2026 APMCM亚太地区数学建模竞赛论文写作模板2.doc
+  literature/
+    README.md
+    literature_catalog.md
+    literature_comparison.md
+    q1_academic_positioning.md
+    references.bib
+    individual_papers/
+      ward2016_magpie_framework.md
+      chen2024_perovskite_ml.md
+      ghosh2024_abn3_bandgap.md
+      kusuma_2025_mult_properties.md
+  evidence_index.md
+```
+
+文件命名可按实际新增论文扩展。不得把受版权保护的论文全文随意上传到仓库；优先保存书目信息、DOI、出版社链接、个人精读笔记和合法开放获取的补充材料。若论文许可不明确，不上传全文PDF。
+
+### 17.1 分阶段保存与提交
+
+每完成一个阶段立即保存GitHub：
+- 模板规范分析完成：提交模板对照报告；
+- 执行书修订完成：提交原V1.2更新；
+- 文献身份核验完成：提交目录与候选消歧；
+- 每篇核心论文精读完成：提交独立阅读记录；
+- 对照矩阵完成：提交矩阵；
+- Q1学术定位完成：提交定位报告；
+- BibTeX完成：提交并检查引用条目。
+
+每次提交均报告：分支、commit SHA、文件路径、修改摘要、测试/核验结果。不得声称文件已上传，除非实际读取回查成功。
+
+### 17.2 后续聊天的文献读取入口
+
+聊天1及后续论文写作聊天必须从以下GitHub路径读取文献资料：
+- 目录与筛选理由：`paper/literature/literature_catalog.md`
+- 逐篇阅读报告：`paper/literature/individual_papers/`
+- 横向对照：`paper/literature/literature_comparison.md`
+- Q1学术定位：`paper/literature/q1_academic_positioning.md`
+- BibTeX：`paper/literature/references.bib`
+- 论文证据索引：`paper/evidence_index.md`
+
+聊天1写作前必须先读取这些文件，并将BibTeX整合到现有LaTeX工程；不得自行重建第二套文献库。
+
+---
+
+## 18. V1.2追加修订记录（本次补充）
+
+| 修订项 | 内容 |
+|---|---|
+| Word模板 | 纳入上传的21页Word参考模板，并明确与官方规范/LaTeX工程的优先关系 |
+| 论文结构 | 将模板结构映射到D题三问，禁止复制示例中的独立Q4 |
+| 文献研究 | 新增LIT-01，文献数量动态决定，不限定两篇 |
+| Q1真实实现 | 明确当前Q1 v1采用A/B/X位点类别输入及hgb_gap_mix；不虚称使用Magpie描述符 |
+| 优先文献 | 核验Ward 2016及多个2024 ABX3/相关候选，区分出版年份和材料体系 |
+| 研究对照 | 增加已有方法、理论依据、赛题适配、实证贡献四维框架 |
+| 论文转化 | 明确文献如何进入Introduction、Methodology、Experiments和Discussion |
+| GitHub交付 | 每阶段保存，逐篇精读后上传 |
+| 后续聊天入口 | 固定literature目录、对照矩阵、Q1定位和BibTeX读取路径 |
+
+本补充不改变V1.2总执行书冻结的研究路线、模型、数据和实验参数。所有文献结论和论文创新表述必须以已核验的来源与仓库实证为依据。
