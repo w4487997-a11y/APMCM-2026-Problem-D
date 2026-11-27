@@ -1166,3 +1166,67 @@ paper/
 | 后续聊天入口 | 固定literature目录、对照矩阵、Q1定位和BibTeX读取路径 |
 
 本补充不改变V1.2总执行书冻结的研究路线、模型、数据和实验参数。所有文献结论和论文创新表述必须以已核验的来源与仓库实证为依据。
+
+
+---
+
+## 19. 首批文献检索与GitHub资料入口（第二轮补充）
+
+### 19.1 已建立的GitHub文献资料
+
+本轮已将首批文献身份核验与初步阅读记录提交至以下路径：
+
+- 总入口：`paper/literature/README.md`
+- 文献目录：`paper/literature/literature_catalog.md`
+- 方法对照：`paper/literature/literature_comparison.md`
+- Q1学术定位：`paper/literature/q1_academic_positioning.md`
+- BibTeX：`paper/literature/references.bib`
+- Ward 2016：`paper/literature/individual_papers/ward2016_magpie_framework.md`
+- Chen 2024：`paper/literature/individual_papers/chen2024_perovskite_ml.md`
+- Ghosh 2024：`paper/literature/individual_papers/ghosh2024_abn3_bandgap.md`
+- Kusuma（2025正式出版）：`paper/literature/individual_papers/kusuma_2025_mult_properties.md`
+
+### 19.2 首批检索结论与阅读状态
+
+| 文献 | 当前状态 | 用途与边界 |
+|---|---|---|
+| Ward et al. (2016) | 出版社全文主体已读；补充信息待读 | 组成描述符、元素属性统计、材料分组方法基础 |
+| Chen et al. (2024) | 元数据及出版社摘要已核验；全文/补充信息待精读 | 当前最直接的2024 ABX3机器学习候选 |
+| Ghosh & Chowdhury (2024) | 出版社全文主体相关章节已读；补充信息待读 | ABN3氮化物钙钛矿的带隙与描述符研究，属相邻材料域 |
+| Kusuma et al. | DOI及出版信息已核验；摘要级 | DOI含2024，但出版社标注2025-01-15出版，书目年份按正式出版记录写2025 |
+
+“2024年ABX3论文”不是唯一书目身份。当前将Chen et al. (2024)列为直接ABX3优先候选；Ghosh的ABN3论文属于相邻材料体系；Kusuma论文正式出版年为2025。若团队原先所指的是另一篇具体论文，应补充标题、作者或PDF以消歧。
+
+### 19.3 对Q1 v1的阶段性学术定位
+
+当前Q1 v1采用有序A/B/X位点类别输入及HistGradientBoosting类别特征处理，冻结配置为hgb_gap_mix。它预测的是竞赛定义的五项平方铰链违背度V，而非单独的带隙或形成能。
+
+因此：
+- Ward的145个材料属性、Chen的近300个Matminer描述符和Ghosh的元素/电子属性描述符均不能写成当前Q1 v1已经使用的输入特征。
+- 外部论文报告的带隙MAE/RMSE、R²不能直接与本项目V的MAE/RMSE横向排名。
+- 当前可论证的差异集中于任务定义、位点类别表示、零/正带隙罚值混合、按有序(A,B)分组的验证及筛选指标。
+- 任何新增描述符实验都属于未来独立实验，须先检查赛题规则、数据可用性和团队授权，不得改变已冻结Q1结果。
+
+### 19.4 后续论文写作聊天的强制读取顺序
+
+聊天1或后续写作代理开始撰写Introduction、Related Work、Methodology前，必须按以下顺序读取：
+1. 本执行书V1.2最新版本；
+2. `paper/literature/README.md`；
+3. `paper/literature/literature_catalog.md`；
+4. 每篇相关的`individual_papers/*.md`；
+5. `paper/literature/literature_comparison.md`；
+6. `paper/literature/q1_academic_positioning.md`；
+7. `paper/literature/references.bib`；
+8. `paper/evidence_index.md`（若已建立）。
+
+论文引用只能来自经核验的BibTeX条目；阅读状态为摘要级的论文不得被写成已完成全文精读。
+
+### 19.5 下一轮研究任务
+
+1. 获取并精读Chen et al. (2024)全文和补充信息。
+2. 获取并检查Ward et al. (2016)补充信息，核对145属性定义与实现来源。
+3. 获取Kusuma et al.正式全文后再纳入深入对照。
+4. 从Q1真实代码和评估设计继续检索低尾回归、排序/Top-K筛选、类别位点建模、分组验证和概率混合模型相关文献。
+5. 逐篇完成阅读后更新文献目录、对照矩阵、Q1定位及BibTeX，并提交GitHub。
+
+本节仅记录当前已完成的公开来源核验，不代表全部LIT-01工作包已经完成。
