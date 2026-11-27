@@ -30,3 +30,11 @@ The present Q1 model is the repository's actual hgb_gap_mix composition-only v1.
 
 ## Research-status rule
 A DOI/metadata check, abstract review, publisher preview, full article review and supplementary-information review are distinct levels. Each paper note states the level reached. The next writing chat must not promote abstract-level evidence to full-text findings. The current catalogue is a working bibliography, not a claim that every listed paper is a core citation.
+
+
+## Q2/Q3 hardware-aware QUBO literature
+- q2_q3_qubo_foundations.md — foundational QUBO/Ising formulation, penalty constraints, hardware precision and project D-01 evidence.
+- individual_papers/ceselli2023_qubo_encodings.md — alternative encodings, feasibility checks and solver comparisons.
+- individual_papers/muecke2025_optimum_preserving_qubo_compression.md — theoretical optimum-preserving coefficient compression.
+- individual_papers/ohno2026_quantum_annealing_precision.md — coefficient reduction after minor embedding and chain-strength effects (D-Wave-specific).
+- individual_papers/doucet2026_qubo_penalty_thermodynamics.md — penalty-weight regimes and energy-scale trade-offs.
