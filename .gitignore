@@ -15,10 +15,12 @@ htmlcov/
 *.egg-info/
 /build/
 /dist/
+/paper/build/
 
 # Local overlays, editor state and temporary reproductions
 /.local/
 /.agents/
+/.superpowers/
 /.codex/
 .idea/
 .vscode/
