@@ -1,0 +1,4 @@
+﻿encoding,variables,ncand,nnz_diag,max_abs_q,h_max_abs,J_max_abs,integral,fits_8bit,ties_at_min
+107 投影,107,8112,5778,,1648.37,32.76,,False,22
+104 分组,104,2704,,4.0,102.0,1.0,True,True,1
+208 联合,208,8112,21735,4.0,161.19,1.0,,,
