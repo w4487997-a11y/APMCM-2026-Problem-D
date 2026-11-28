@@ -152,7 +152,9 @@ def solve(model, seeds=30, samples=10, iters=300, alpha=0.99):
             else:
                 legal = False
         flags.append(legal and score is not None and abs(score - model["raw"].min()) < 1e-12)
-        rows.append({"sample": sid, "legal": legal, "material": material, "V_hat": score})
+        rows.append({"sample": sid, "legal": legal, "material": material, "V_hat": score,
+                     "spin": "".join(str(int(v)) for v in sv),
+                     "bits": "".join(str(int(v)) for v in b)})
     legal_rows = [r for r in rows if r["legal"]]
     best = min(legal_rows, key=lambda r: r["V_hat"]) if legal_rows else None
     seed_hits = sum(1 for s in range(seeds) if any(flags[s * samples:(s + 1) * samples]))
