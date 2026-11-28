@@ -3,18 +3,18 @@
 本地退火求解 q3/O3,41.85,s,"it=300, α=0.99, 30 seeds×10 samples",entry_all_local_verified_it300.json,measured
 本地退火求解 q3/NO2,40.5,s,"it=300, α=0.99, 30 seeds×10 samples",entry_all_local_verified_it300.json,measured
 本地退火求解 q3/FO2,45.5,s,"it=300, α=0.99, 30 seeds×10 samples",entry_all_local_verified_it300.json,measured
-q2 精确枚举（逐合法态能量+排序）,0.0316,ms,50 次取中位,O15/timings.csv,measured
-q2 完整交付流水线（构建→转换→适配→自检）,6.0186,ms,20 次取中位,O15/timings.csv,measured
-q2 QUBO 构建,2.6165,ms,50 次取中位,O15/timings.csv,measured
-q2 QUBO→Ising 转换,0.0571,ms,50 次取中位,O15/timings.csv,measured
-q2 8 位适配（本地等价）,0.198,ms,50 次取中位,O15/timings.csv,measured
-q2 适配后自检,5.6759,ms,50 次取中位,O15/timings.csv,measured
-q3 精确枚举（逐合法态能量+排序）,0.0361,ms,50 次取中位,O15/timings.csv,measured
-q3 完整交付流水线（构建→转换→适配→自检）,5.2584,ms,20 次取中位,O15/timings.csv,measured
-q3 QUBO 构建,3.565,ms,50 次取中位,O15/timings.csv,measured
-q3 QUBO→Ising 转换,0.0505,ms,50 次取中位,O15/timings.csv,measured
-q3 8 位适配（本地等价）,0.1542,ms,50 次取中位,O15/timings.csv,measured
-q3 适配后自检,4.9327,ms,50 次取中位,O15/timings.csv,measured
+q2 精确枚举（逐合法态能量+排序）,0.0243,ms,50 次取中位,O15/timings.csv,measured
+q2 完整交付流水线（构建→转换→适配→自检）,4.7228,ms,20 次取中位,O15/timings.csv,measured
+q2 QUBO 构建,2.3035,ms,50 次取中位,O15/timings.csv,measured
+q2 QUBO→Ising 转换,0.0489,ms,50 次取中位,O15/timings.csv,measured
+q2 8 位适配（本地等价）,0.1537,ms,50 次取中位,O15/timings.csv,measured
+q2 适配后自检,4.3158,ms,50 次取中位,O15/timings.csv,measured
+q3 精确枚举（逐合法态能量+排序）,0.0247,ms,50 次取中位,O15/timings.csv,measured
+q3 完整交付流水线（构建→转换→适配→自检）,4.4075,ms,20 次取中位,O15/timings.csv,measured
+q3 QUBO 构建,3.0479,ms,50 次取中位,O15/timings.csv,measured
+q3 QUBO→Ising 转换,0.0507,ms,50 次取中位,O15/timings.csv,measured
+q3 8 位适配（本地等价）,0.1507,ms,50 次取中位,O15/timings.csv,measured
+q3 适配后自检,3.9599,ms,50 次取中位,O15/timings.csv,measured
 SDK CPU 求解（复审环境 1.4.3）,20.04,ms（中位）,Q2 8bit 适配，30 runs,Kaiwu_Precheck_Phase1_Summary / 审计 results,外部实测（非本机）
 历史真机 Q2 创建→结束,4,s,"q2_int_01, 17 变量, SPQC-550",平台任务详情截图,平台记录（截图，无导出原件）
 历史真机 Q2 单次演化,1.1228,ms,同上,平台任务详情截图,平台记录（截图）
