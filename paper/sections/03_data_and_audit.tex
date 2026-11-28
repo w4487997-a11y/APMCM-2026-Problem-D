@@ -1,178 +1,65 @@
 \section{Data and Audit}
 \label{sec:data-audit}
 
-\subsection{Official data universe and file roles}
+\subsection{Data universe and integrity}
 
-The official data form a complete $52\times52\times7$ factorial grid with
-18,928 ordered compositions and no missing combination cells
-\cite{apmcm2026problemD}.  Each row has a stable numerical identifier and the
-composition fields \texttt{formula}, A, B, and X.  The two labeled files add
-structural and electronic quantities, the five penalty components, and the
-total $V$.  The remaining pools expose composition only.  Table~\ref{tab:dataset-roles}
-records the roles used in this study.
+The official data form a complete $52\times52\times7$ factorial grid of
+18,928 ordered compositions \cite{apmcm2026problemD}.  Labeled files~02
+(11,256 rows; 1,608 cation-pair groups) and~03 (3,969; 567 groups) support
+development and the Q2/Q3 refit.  File~04 contains the remaining 3,703
+unlabeled rows (529 groups).  Composition pools are file~06 (15,225 rows),
+Q2 file~07 (2,704), Q3 file~08 (8,112), and blind-pair subsets files~11
+(529) and~12 (1,587).  Thus each ordered pair contributes all seven X values
+to exactly one of 02--04; files~11/12 add no labels.
 
-\begin{table}[!htbp]
-\centering
-\caption{Official data files and their permitted uses.}
-\label{tab:dataset-roles}
-\small
-\begin{tabularx}{\textwidth}{@{}lrrX@{}}
-\toprule
-Pool & Rows & Labels & Role in this study \\
-\midrule
-02 & 11,256 & Yes & Q1 training and grouped development; Q2/Q3 refit. \\
-03 & 3,969  & Yes & Q1 model selection and reported validation; Q2/Q3 refit. \\
-04 & 3,703  & No  & Blind Q1 inference only. \\
-06 & 15,225 & No  & Composition-only view of files~02 and~03; reserve scenario. \\
-07 & 2,704  & No  & Full Q2 pool with $X=\mathrm{NO}_2$. \\
-08 & 8,112  & No  & Full Q3 pool with $X\in\mathcal{X}_3$. \\
-11 & 529    & No  & Blind-pair subset of pool~07. \\
-12 & 1,587  & No  & Blind-pair subset of pool~08. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+All CSVs were read as UTF-8 with optional byte-order marks, using ordered
+$(A,B,X)$ as the composition key.  The audit retained source order and text,
+verified all nine official SHA-256 values, schemas, row counts, uniqueness,
+pool intersections, finite labels, and nonnegative penalties.  No row was
+deleted, imputed, or externally augmented.  Recomputed $V$ differed by at
+most $1.019\times10^{-5}$ in both labeled files, below conservative rounding
+bounds $3.082\times10^{-5}$ (02) and $2.890\times10^{-5}$ (03); the maximum
+$|\mathrm{volume}-a_{\rm lat}^3|$ was $4.20\times10^{-5}$ and
+$4.35\times10^{-5}$~\AA$^3$.  These six-decimal effects do not justify
+changing Equation~\eqref{eq:formulation-V}.  The statement reports 19
+zero-violation and 15 strictly feasible records in the complete data, but
+neither public labeled split contains one; their identities were not
+inferred.
 
-Files~02 and~03 contain 15,225 labeled rows in total, while file~04 contains
-the remaining 3,703 compositions.  Equivalently, the official split assigns
-1,608, 567, and 529 complete ordered $(A,B)$ groups to files~02, 03, and~04;
-each group contains all seven X values.  These counts sum to all 2,704
-ordered cation pairs.  Pool~07 contains each pair once at NO2, and pool~08
-contains every pair at O3, NO2, and FO2.  Pools~11 and~12 are the intersections
-of these candidate domains with the 529 blind cation pairs; they are not
-additional labeled data.
+\subsection{Distribution and screening difficulty}
 
-\subsection{Schema, target reconstruction, and integrity checks}
+Zero band gap dominates: 10,824 file~02 rows ($96.16\%$) and 3,828 file~03
+rows ($96.45\%$) have $E_g=0$, which alone contributes
+$\phi(1.4)=7.84$.  Conversely, only 222 training rows ($1.97\%$) and 70
+validation rows ($1.76\%$) have $V<5$, with minima 0.0004 and 0.0196.
+Positive gaps occur in 432 and 141 rows, of which 139 and 40 lie in
+$1.4\le E_g\le3.1$.  Within the observed $V<5$ subsets, formation-energy
+and CBM penalties contribute 80.7\% and 77.5\% of total penalty in 02 and
+03.  This association is not causal, but it explains why majority-regime
+accuracy alone can miss the low tail and motivates the mixture in
+Section~\ref{sec:q1-surrogate}.
 
-All source CSV files were read as UTF-8 with optional byte-order marks.  The
-composition key is the ordered triple $(A,B,X)$, and \texttt{id} ranges from
-0 to 18,927 over the full grid.  The audit preserved source row order and
-formula text, verified uniqueness at the appropriate pool level, and kept
-leading zeros in two-character pool codes.  No row was deleted, imputed, or
-augmented with an external materials database.
+\subsection{Training protocols and leakage controls}
 
-The nine official SHA-256 checks all matched.  The eight CSV schemas, row
-counts, key relationships, and candidate-pool intersections also matched the
-data contract.  Physical and penalty columns in the labeled files were
-finite and nonnegative where required; zero band gap was retained as the
-official metallic state rather than treated as missing.  Table~\ref{tab:label-audit}
-summarizes the principal independent checks.
+For Q1, all seven X variants of an ordered pair remain together.  The 1,608
+file~02 groups are deterministically split into five folds (seed 42; 321 or
+322 validation groups), with preprocessing refitted inside each fold.
+File~03 is used once for formal selection after candidate specifications are
+frozen; the released \texttt{q1\_final} then fits file~02 only.  File~04
+predictions are blind outputs, not validation results.
 
-\begin{table}[!htbp]
-\centering
-\caption{Independent label and rounding audit on the public labeled files.}
-\label{tab:label-audit}
-\small
-\begin{tabularx}{\textwidth}{@{}Xrr@{}}
-\toprule
-Check & File~02 & File~03 \\
-\midrule
-Labeled rows & 11,256 & 3,969 \\
-Stored/recomputed $V=0$ rows & 0/0 & 0/0 \\
-Strictly feasible rows & 0 & 0 \\
-Maximum $|V_{\mathrm{stored}}-V_{\mathrm{recomputed}}|$
-  & $1.019\times10^{-5}$ & $1.019\times10^{-5}$ \\
-Maximum conservative rounding bound
-  & $3.082\times10^{-5}$ & $2.890\times10^{-5}$ \\
-Rows outside a component or total rounding interval & 0 & 0 \\
-Maximum $|\mathrm{volume}-a_{\mathrm{lat}}^3|$ (\AA$^3$)
-  & $4.20\times10^{-5}$ & $4.35\times10^{-5}$ \\
-\bottomrule
-\end{tabularx}
-\end{table}
+Q2/Q3 instead require candidate scores.  Their \texttt{q23\_final} reuses
+the frozen architecture but fits 02+03, then scores files~07, 08, 11, and 12
+without physical labels.  Its full-pool 07/08 scores feed the reported QUBOs;
+03 is never reused as unseen evidence.  Filtering a full-pool solution into
+11/12 would not be an independent blind-pool optimization, so that task
+remains pending.
 
-The small reconstruction differences are consistent with the six-decimal
-storage precision.  They do not justify changing Equation~\eqref{eq:formulation-V}
-or expanding the strict feasible region.  The problem statement reports 19
-zero-violation records and 15 strictly feasible records in the complete
-dataset.  Because neither public labeled split contains such a record, their
-identities belong to the hidden part of the data and were not inferred.
-
-\subsection{Zero-gap dominance and low-tail scarcity}
-
-The response distribution is strongly asymmetric.  Table~\ref{tab:data-tail}
-shows that approximately 96\% of each labeled split has $E_g=0$.  By
-Equation~\eqref{eq:formulation-hinge}, a zero-gap record incurs a lower-gap
-penalty of $\phi(1.4)=7.84$ before any other violation is counted.  At the
-same time, only 222 training rows and 70 validation rows have $V<5$.
-
-\begin{table}[!htbp]
-\centering
-\caption{Band-gap and low-violation structure of the labeled data.}
-\label{tab:data-tail}
-\small
-\begin{tabular}{@{}lrr@{}}
-\toprule
-Statistic & File~02 & File~03 \\
-\midrule
-Minimum $V$ & 0.0004 & 0.0196 \\
-$V<0.5$ & 49 & 18 \\
-$V<1$ & 83 & 27 \\
-$V<2$ & 128 & 41 \\
-$V<5$ & 222 (1.97\%) & 70 (1.76\%) \\
-$V<7.84$ & 267 & 88 \\
-$E_g=0$ & 10,824 (96.16\%) & 3,828 (96.45\%) \\
-$E_g>0$ & 432 & 141 \\
-$1.4\leq E_g\leq3.1$ & 139 & 40 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Within the observed $V<5$ subsets, formation-energy and CBM penalties account
-for 80.7\% of the summed penalty in file~02 and 77.5\% in file~03.  This does
-not imply causality, but it shows why global accuracy alone is an incomplete
-screening criterion.  A model can fit the majority metallic regime yet rank
-the small low-$V$ tail poorly.  It also motivates the separate zero/positive
-gap treatment evaluated in Section~\ref{sec:q1-surrogate}.
-
-\subsection{Training protocols for Q1 and Q2/Q3}
-
-The Q1 development protocol keeps every ordered $(A,B)$ pair intact.  The
-1,608 file~02 groups were deterministically assigned to five folds using seed
-42, with 321 or 322 groups per validation fold.  All seven X variants of a
-pair therefore remain on the same side of a fold boundary.  Preprocessors and
-categorical encoders are fitted anew inside each training fold.  After the
-candidate specifications are frozen, file~03 is used once for formal model
-selection.  The released \texttt{q1\_final} fit uses file~02 only, and its
-file~04 output is a blind prediction table rather than a labeled test result.
-
-Q2 and Q3 require candidate scores rather than an independent estimate of Q1
-generalization.  Their \texttt{q23\_final} fit therefore reuses the frozen Q1
-architecture but is trained on files~02 and~03 together, as prescribed by the
-problem.  It scores files~07, 08, 11, and~12 without reading physical labels.
-The resulting 07/08 scores feed the full-pool QUBO models.  This refit is not
-used to revise the Q1 validation metrics, and the 03 rows are never presented
-as unseen evidence after entering the refit.
-
-The current integrated Q2/Q3 results concern the complete 07 and 08 pools.
-Although 11 and 12 are composition subsets of those domains, selecting their
-rows after a full-pool solve would not be an independent blind-pool
-optimization.  Until dedicated matrices and runs exist for these two files,
-the manuscript treats that comparison as pending.
-
-\subsection{Leakage controls and evidence boundary}
-
-The following controls are applied throughout the workflow.
-
-\begin{enumerate}
-  \item The predictor whitelist is A, B, and X, plus only deterministic
-  composition-derived features defined within a model variant.  Identifiers,
-  row positions, pool labels, and physical targets are excluded.
-  \item Ordered-pair grouping is used for all internal folds, preventing the
-  seven anion variants of one cation pair from crossing a train--validation
-  boundary.
-  \item Feature encoders are fitted within each training fold.  Validation
-  labels never determine categories, transformations, or hyperparameters
-  after the selection rule is frozen.
-  \item Q1 and Q2/Q3 use separate fitted model artifacts.  Predictions from
-  the 02+03 refit cannot be substituted for Q1's file~03 evidence.
-  \item Candidate files are scored in their original order, ties are resolved
-  by numerical identifier, and model, input, and output hashes are recorded.
-  \item File~04 truth and organizer scoring are not available locally.  No
-  external lookup, material-name matching, or reverse engineering is used to
-  infer hidden labels.
-\end{enumerate}
-
-These controls establish a traceable boundary between model development,
-blind inference, and combinatorial optimization.  They do not eliminate
-surrogate error; instead, they make its source and its downstream role
-explicit.
+Model inputs are restricted to A, B, X and deterministic composition
+features.  Identifiers, positions, pool labels, and targets are excluded;
+encoders fit only their training fold; candidate order is preserved; ties
+use numerical ID; and model/input/output hashes are recorded.  Separate Q1
+and Q2/Q3 artifacts prevent the 02+03 refit from contaminating Q1 evidence.
+No external lookup or hidden-label inference is used.  These controls make
+development, blind inference, and optimization traceable, although they do
+not eliminate surrogate error.

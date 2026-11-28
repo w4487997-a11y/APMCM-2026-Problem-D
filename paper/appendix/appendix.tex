@@ -1,4 +1,7 @@
 \appendix
+\titleformat{\section}
+{\centering\normalfont\Large\bfseries}{\Alph{section}.}{.5em}{}
+\renewcommand\thesubsection{\Alph{section}.\arabic{subsection}}
 \section{Reproducibility and Evidence Inventory}
 
 \subsection{Frozen models and formal matrices}
@@ -24,14 +27,13 @@ The main machine-readable records used in Sections~\ref{sec:q3-qubo}--
 \ref{sec:results-discussion} are:
 
 \begin{itemize}[leftmargin=2em]
- \item \path{results/stage1_sdk_ising.json}: QUBO--Ising round-trip,
+ \item Stage 1 SDK--Ising record: QUBO--Ising round-trip,
        reference-spin dimensions, offsets, and energy residuals;
- \item \path{results/stage2_quant_partition.json}: direct quantization
+ \item Stage 2 quantization record: direct quantization
        failures and the three accepted 104-variable partitions;
- \item \path{results/stage3_hitrate_fix.json}: short-list size,
+ \item Stage 3 hit-rate record: short-list size,
        penalty, and local annealing-budget controls;
- \item \path{results/stage8_negative_validation.json} and
-       \path{stage9_regression.json}: rejected corrupt inputs and
+ \item Stage 8 negative-validation and Stage 9 regression records: rejected corrupt inputs and
        failure-path checks.
 \end{itemize}
 

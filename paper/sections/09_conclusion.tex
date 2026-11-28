@@ -1,7 +1,40 @@
 \section{Conclusion}
+\label{sec:conclusion}
 
-\subsection{Research question}
-Which conclusions remain supported after separating verified Q1 evidence, exact QUBO mathematics, precision effects, and actual solver evidence?
+This study answered the three parts of Problem~D through one evidence-audited
+pipeline.  For Q1, the frozen two-stage gap-mixture surrogate obtained MAE
+$2.4715$, RMSE $4.5827$, and Spearman correlation $0.9383$ on file~03.  It
+recovered 20 of the true Top-50 records and, at a verification budget of 50,
+found 23 records with $V<5$ compared with a random expectation of $0.8818$.
+The model is therefore useful for prioritization in the observed domain,
+although its low-tail MAE of $8.2654$, the reuse of file~03 in selection, and
+the absence of file~04 labels prevent a claim of verified discovery.
 
-\subsection{L1 status}
-No scientific conclusion is frozen at this stage. The final conclusion will state the verified scope, unresolved limitations, and reproducible artifacts without upgrading planned work into completed evidence.
+For Q2, the 104-variable fixed-$\mathrm{NO}_2$ QUBO returned Y--Ti--NO2
+(ID~15567) with $\widehat V=1.491928$.  For Q3, three 104-variable group
+models returned Na--Nb--O3, Y--Ti--NO2, and Na--Ti--FO2; comparison on the
+original surrogate scale selected Na--Nb--O3 (ID~4159) with
+$\widehat V=0.540023$.  Every reported winner matched exhaustive legal-state
+enumeration, so the solver-to-enumeration regret was zero.  These are optima
+of the frozen proxy objective, not measurements of physical performance.
+
+The final integer construction retained each unique group winner with
+$\max|h|=102$, $\max|J|=1$, and a minimum legal-to-illegal ground-energy
+separation of two.  Independent recomputation matched all 1,200 archived
+CPU-local SDK samples exactly.  The representation deliberately collapses
+non-winning costs and cannot preserve their complete ordering.  Direct
+eight-bit quantization of the floating-point full-pool models failed, while
+historical 17- and 30-variable SPQC-550 short-list runs supplied only
+reduced-model hardware evidence.  Thus no conclusion about final-matrix
+hardware speedup or quantum advantage is warranted.
+
+The main remaining limitations are surrogate uncertainty, no independent
+labels for the proposed winners, no dedicated blind-pool solve, no
+107-variable projection comparison, no final-104-variable SPQC return, and
+no complete billed-resource ledger.  Future work should prioritize new
+physical or high-fidelity labels, calibrated tail uncertainty, independent
+blind-pool matrices, and traceable full-size hardware jobs.  Within the
+current evidence, the defensible outcome is a reproducible method for using
+a limited budget to rank candidates and solve the associated constrained
+proxy optimization without confusing numerical optimality with material
+validation.

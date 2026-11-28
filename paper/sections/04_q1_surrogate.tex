@@ -133,8 +133,7 @@ are not used as Q1 validation evidence.
 
 \subsection{Grouped ablation results}
 
-Table~\ref{tab:q1-cv-ablation} summarizes the principal five-fold
-comparisons.  The mixture obtained the largest mean screening score,
+Across the principal five-fold comparisons, the mixture obtained the largest mean screening score,
 $39.8\%$, while maintaining an MAE of $2.649$.  Direct HGB reached
 $27.0\%$ screening with MAE $2.877$.  On matched folds, the mixture's
 screening score exceeded direct HGB by an average of 12.8 percentage points
@@ -144,38 +143,6 @@ over the mean-gap model changed sign across folds, so this small difference
 is not evidence of uniform superiority.  The ordinary-gap and mean-gap
 models also achieved smaller $V<5$ MAE than the selected mixture, exposing
 the trade-off between pointwise low-tail error and Top-$K$ recovery.
-
-\begin{table}[!htbp]
-\centering
-\caption{Grouped five-fold development results on file~02.  Values are
-fold means; $S$ is defined in Equation~\eqref{eq:q1-screening-score}.}
-\label{tab:q1-cv-ablation}
-\small
-\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
-\toprule
-Model & MAE & $\mathrm{MAE}_{V<5}$ & $R_{25}$ & $R_{50}$ & $S$ \\
-\midrule
-Ridge                         & 4.323 & 12.463 & 12.8\% & 16.0\% & 14.4\% \\
-Random forest                 & 4.284 & 13.901 & 16.0\% & 15.2\% & 15.6\% \\
-Direct HGB                    & 2.877 & 11.442 & 28.0\% & 26.0\% & 27.0\% \\
-Tail-weighted direct HGB      & 3.047 &  9.181 & 29.6\% & 33.6\% & 31.6\% \\
-Ordinary-gap property HGB     & 2.860 &  7.327 & 32.8\% & 34.0\% & 33.4\% \\
-Hard-gate property HGB        & 2.617 &  9.473 & 37.6\% & 35.2\% & 36.4\% \\
-Mean-gap property HGB         & 2.705 &  7.969 & 36.8\% & 41.2\% & 39.0\% \\
-Penalty-mixture HGB           & 2.649 &  9.398 & 40.0\% & 39.6\% & 39.8\% \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{../experiments/q1_ablation_v1/figures/grouped_ablation.png}
-\caption{Matched grouped cross-validation results.  The left panel compares
-global MAE and the mean Top-25/Top-50 overlap; the right panel shows that the
-screening advantage of the selected mixture is present on each of the five
-ordered-pair folds, although its magnitude varies.}
-\label{fig:q1-grouped-ablation}
-\end{figure}
 
 \subsection{File~03 validation and low-tail screening}
 
@@ -212,22 +179,13 @@ number of true zero-gap records in the predicted Top-50 also fell from 29
 to 13.  These are matched empirical comparisons, not causal effects of the
 mixture construction.
 
-Figure~\ref{fig:q1-penalty-decomposition} separates the five predicted
-penalty components.  Across all validation rows, the observed and predicted
+The archived five-component diagnostic shows that, across all validation
+rows, the observed and predicted
 mean components are broadly aligned.  In the 70-row $V<5$ subset, however,
 the predicted lower-gap and CBM penalties are much larger than their
 observed means.  This pattern is consistent with the remaining low-tail
 MAE and cautions against interpreting fine differences within the predicted
 minimum as physical certainty.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{../experiments/q1_v12/figures/five_penalty_decomposition.png}
-\caption{Observed and predicted mean penalty components on file~03.  The
-right panel is restricted to the 70 records with observed $V<5$.  The figure
-uses post-freeze diagnostics and does not alter the frozen model.}
-\label{fig:q1-penalty-decomposition}
-\end{figure}
 
 The expanded post-freeze panel also evaluated a model that directly fits
 the conditional expected positive-gap penalty.  On file~03 it obtained MAE

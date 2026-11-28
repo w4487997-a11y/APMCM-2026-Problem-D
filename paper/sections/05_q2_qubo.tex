@@ -115,37 +115,12 @@ temperature, cooling factor $\alpha=0.99$, initial temperature twice the
 maximum absolute adapted-matrix entry, and cutoff temperature $10^{-3}$
 times that entry.  Each run used one process.  These settings describe a
 local SDK computation, not an SPQC submission.
-
-\begin{table}[!htbp]
-\centering
-\caption{Accepted Q2 matrix and CPU-local Kaiwu SDK result.  The reported
-score is on the original surrogate scale.}
-\label{tab:q2-sdk-result}
-\small
-\begin{tabularx}{\textwidth}{@{}Xr@{}}
-\toprule
-Quantity & Recorded value \\
-\midrule
-Candidate domain & 2,704 \\
-Logical variables & 104 \\
-Returned samples & 300 \\
-Legal samples & 23 (7.67\%) \\
-Seeds returning the enumerated optimum & 23/30 \\
-SDK solver time & 20.813 s \\
-Best candidate and identifier & Y--Ti--NO2, 15567 \\
-Original $\widehat V_{23}$ & 1.4919281724855757 \\
-Gap to enumerated optimum & 0 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-All 23 legal returned samples decoded to candidate~15567, and these samples
-came from 23 distinct SDK seeds.  The run therefore recovered the unique
-enumerated optimum in 23 of 30 attempts.  The remaining returned states
-were rejected by the two one-hot checks rather than interpreted as
-materials.  The legal-sample fraction measures this solver configuration's
-sample quality; it is not a probability that the physical material is
-feasible.
+The solver time was 20.813~s.  Of the 300 returned samples, 23 (7.67\%)
+were legal; all decoded to candidate~15567 and came from 23 distinct seeds.
+Thus the run recovered the unique enumerated optimum in 23/30 attempts with
+zero original-score regret.  The remaining states were rejected by the
+one-hot checks.  This legal-sample fraction describes the solver
+configuration, not the probability that the physical material is feasible.
 
 \subsection{Interpretation and limitations}
 
@@ -158,4 +133,5 @@ the accepted integer mapping.  It is a screening recommendation, not an
 experimental materials claim: $\widehat V_{23}$ is a model prediction,
 not a measured violation score.  File~11 has been scored, but a dedicated
 blind-pool matrix and independent solve have not been completed (O-14).
-No SPQC task receipt exists (O-13), and no quantum advantage is claimed.
+A historical 17-variable SPQC short-list task also returned Y--Ti, but it is
+not a run of the final 104-variable matrix; no quantum advantage is claimed.

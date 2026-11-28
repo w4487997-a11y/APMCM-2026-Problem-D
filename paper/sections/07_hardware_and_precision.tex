@@ -104,41 +104,23 @@ and~\ref{sec:q3-qubo} report the resulting candidates and sample statistics.
 
 \subsection{Precision controls and historical short-list hardware runs}
 
-The archived comparison separates three precision strategies.  First, the
-exact floating-point 104-variable Q2 and 208-variable Q3 models matched all
-2,704 and 8,112 legal-state costs, respectively.  Their Ising constants had
-previously omitted the QUBO offset $o=4$; adding it once gives
-$K=2759.0615$ for Q2 and $K=13866.1509$ for Q3, with maximum conversion-chain
-residuals below $4.6\times10^{-12}$.  Second, direct eight-bit scaling of
-these full-pool matrices produced six minimum ties for Q2 and 21--24 for Q3;
-sampled illegal integer states also fell below the best legal integer state.
-Third, capping the raw cost range at 0.4 and using $\lambda=1.02$ retained a
-unique quantized winner in an offline precision comparison, with integer
-top-two gaps 49 (Q2) and 2 (Q3).  These are precision controls, not the
-formal solver results reported in Sections~\ref{sec:q2-qubo} and
-\ref{sec:q3-qubo}.
+The archived controls confirm why the formal route is necessary.  Exact
+floating-point Q2/Q3 matrices matched all legal costs after the previously
+omitted offset $o=4$ was restored, but direct eight-bit scaling produced six
+minimum ties for Q2, 21--24 for Q3, and sampled illegal states below the best
+legal integer state.  A capped $0.4$, $\lambda=1.02$ control retained unique
+winners; a $K=24$, $\lambda=8$ short list made all samples legal, while its
+optimum rate increased from $2.0\%$ to $42.3\%$ when the local-SA budget rose
+from 30 to 300 iterations.  Detailed parameters are retained in the
+appendix evidence inventory because these controls use different objectives,
+domains, or back ends from the formal runs.
 
-Penalty and budget sweeps further expose the feasibility trade-off.  In the
-formal two-level model, $\lambda=2$ guarantees that the legal winner at zero
-beats the minimum illegal energy two, but an illegal single-selection state
-at energy two is still preferred to a non-winning legal state at energy
-four.  A 48-variable $K=24$ short-list control with $\lambda=8$ placed every
-illegal state at least four above the legal range and returned 300/300 legal
-local-SA samples; its optimum-sample rate rose from $2.0\%$ at 30 iterations
-to $42.3\%$ at 300 iterations.  The full 104-variable $\lambda=2$ control
-rose from $2.7\%$ to $78.7\%$ over the same budgets.  These controls explain
-sampling sensitivity, but they use a different back end and, for $K=24$, a
-different candidate domain.
-
-Two earlier SPQC-550 tasks provide limited real-device evidence.  The Q2
-task used a 17-variable short list covering 72 candidates; one of ten
-returned samples was the legal Y--Ti optimum, the recorded creation-to-end
-interval was 4~s, and the reported evolution time was 1.1228~ms.  The Q3
-task used 30 variables and 144 candidates; it returned Ge--Ti--O3, confirming
-only the O3 group because its 0.15 score resolution could not distinguish
-the leading A--B pairs.  Its corresponding times were 19~s and 8.7755~ms.
-The archived logs identify both tasks as SPQC-550 runs and record one
-optimization quota each, but no final 104-variable matrix was submitted.
+Two historical SPQC-550 tasks provide limited real-device evidence.  Q2 used
+17 variables and returned the legal Y--Ti optimum in one of ten samples
+(4~s creation-to-end; 1.1228~ms evolution).  Q3 used 30 variables and
+returned Ge--Ti--O3 (19~s; 8.7755~ms), supporting only the O3 group because
+its 0.15 resolution could not distinguish the leading A--B pairs.  Neither
+task used a final 104-variable matrix.
 
 \subsection{Evidence boundary}
 

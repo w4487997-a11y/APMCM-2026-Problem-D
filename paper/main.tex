@@ -12,9 +12,40 @@
 
 \pagestyle{frontmatterstyle}
 \begin{abstract}
-This document is the L1 engineering scaffold for the 2026 APMCM Problem D paper. It preserves the official Summary Sheet, contents page, page geometry, typography, and running-header mechanism. Scientific claims will be inserted only from reviewed repository evidence. Results that still depend on the final QUBO matrices, Kaiwu runs, hardware precision adaptation, or cost audit remain explicitly linked to their V1.2 task identifiers and are not presented as completed experiments.
+\begin{center}
+\Large\bfseries Evidence-Audited Surrogate Screening and Precision-Aware
+QUBO Optimization for Inorganic Perovskites
+\end{center}
 
-\keywords{perovskite screening\quad surrogate modeling\quad QUBO\quad reproducibility}
+We develop an evidence-audited pipeline for predicting and minimizing the
+five-term violation score in APMCM 2026 Problem~D.  For Q1, composition
+features drive separate formation-energy, band-edge, and two-stage band-gap
+models.  The frozen mixture balances global error with low-tail retrieval:
+on the labeled file~03 it achieved MAE $2.4715$, RMSE $4.5827$, Spearman
+correlation $0.9383$, and recovered 20 of the true Top-50 records.  Under a
+budget of 50 evaluations it found 23 records with $V<5$, compared with a
+random-sampling expectation of $0.8818$.
+
+For Q2, 52 A-site and 52 B-site one-hot variables encode all 2,704 candidates
+at fixed $X=\mathrm{NO}_2$.  For Q3, three independent 104-variable QUBOs
+cover the 8,112 candidates for $\mathrm{O}_3$, $\mathrm{NO}_2$, and
+$\mathrm{FO}_2$; group winners are compared on the original surrogate scale.
+CPU-local Kaiwu SDK~1.4.3 runs returned Y--Ti--NO2 for Q2 with
+$\widehat V=1.491928$, and Na--Nb--O3 for Q3 with
+$\widehat V=0.540023$, both matching exhaustive legal-state enumeration.
+
+The accepted two-level integer encoding preserves each unique group winner
+while fitting the recorded eight-bit limits
+($\max|h|=102$, $\max|J|=1$); it does not preserve all non-winning score
+differences or rankings.  We separately audit surrogate error, QUBO mapping,
+coefficient precision, and solver sampling.  Historical SPQC-550 tests used
+only reduced 17- and 30-variable short lists, so the formal results are not
+claimed as final-model hardware execution, physical validation, or quantum
+advantage.  The resulting method is a reproducible finite-budget screening
+and constrained proxy-optimization framework whose conclusions remain
+explicitly bounded by the available labels and hardware evidence.
+
+\keywords{inorganic perovskites\quad low-tail screening\quad surrogate modeling\quad QUBO\quad Ising model\quad coefficient precision}
 \end{abstract}
 
 \newpage

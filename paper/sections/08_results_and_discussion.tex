@@ -9,25 +9,11 @@ tests whether it is useful for low-tail screening.  Q2 then minimizes the
 Q2/Q3 scoring model over the 2,704 legal $(A,B)$ combinations at fixed
 $X=\mathrm{NO}_2$, while Q3 repeats the optimization for
 $X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ and compares the three
-winners on the original proxy scale.  Table~\ref{tab:integrated-results}
-summarizes what is supported by the archived evidence.
-
-\begin{table}[!htbp]
-\centering
-\caption{Integrated results.  All $\widehat V$ values are surrogate scores,
-not measured material properties.}
-\label{tab:integrated-results}
-\small
-\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
-\toprule
-Question & Main result & Evidence boundary \\
-\midrule
-Q1 & File~03 MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$; 20 true Top-50 records recovered. & File~03 participated in selection; file~04 has no labels. \\
-Q2 & Y--Ti--NO2 (ID~15567), $\widehat V=1.491928$; zero gap to legal enumeration. & CPU-local SDK optimization of the proxy objective. \\
-Q3 & Na--Nb--O3 (ID~4159), $\widehat V=0.540023$; lower than the NO2 and FO2 group winners. & Three separate 104-variable matrices; comparison is on raw $\widehat V$. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+winners on the original proxy scale.  The key outcomes are: Q1 MAE $2.4715$
+and 20 true Top-50 records on file~03; Q2 candidate Y--Ti--NO2
+($\widehat V=1.491928$); and Q3 candidate Na--Nb--O3
+($\widehat V=0.540023$).  File~03 participated in selection, file~04 is
+unlabeled, and the Q2/Q3 values are CPU-local proxy-optimization results.
 
 The Q1 metrics expose an important objective trade-off.  The frozen mixture
 improved global MAE and low-tail retrieval relative to direct HGB, but its
@@ -51,64 +37,30 @@ minimum at every tested budget.  These enrichment factors quantify value on
 file~03, not a success probability for the unlabeled pool or for a new
 chemical domain.
 
-Figure~\ref{fig:q23-run-comparison} and Table~\ref{tab:solver-aggregate}
-compare the two local solvers on the same four formal matrices.  Aggregation
-is used to avoid repeating the group-level tables in Sections~\ref{sec:q2-qubo}
-and~\ref{sec:q3-qubo}.
-
-\begin{table}[!htbp]
-\centering
-\caption{Aggregate local solver evidence over Q2-NO2 and the three Q3 groups.
-The two attempt types are not identical and the times are not a speedup test.}
-\label{tab:solver-aggregate}
-\small
-\begin{tabularx}{\textwidth}{@{}l*{5}{>{\centering\arraybackslash}X}@{}}
-\toprule
-Backend & Samples & Legal & Legal rate & Optimum attempts & Solver time (s) \\
-\midrule
-Kaiwu SDK 1.4.3, CPU & 1200 & 99  & $8.25\%$  & 99/120 seed runs & 83.413 \\
-Local simulated annealing & 1200 & 907 & $75.58\%$ & 120/120 chain groups & 162.556 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-The SDK produced fewer legal samples and missed the enumerated optimum in 21
-of 120 seed runs, although every group returned the correct best legal
-candidate.  Local simulated annealing achieved a much higher legal rate and
-hit the optimum in every recorded chain group, but took longer in these
-particular implementations.  The attempt definitions, code paths, and
-overheads differ, so the measured times support a reproducibility and
-resource ledger only; they do not demonstrate algorithmic or quantum
-advantage.
+Figure~\ref{fig:q23-run-comparison} compares the two local solvers on the
+same four formal matrices.  Across 1,200 samples each, Kaiwu SDK 1.4.3 on
+CPU returned 99 legal states ($8.25\%$), hit the optimum in 99/120 seeded
+runs, and used 83.413~s.  Local simulated annealing returned 907 legal states
+($75.58\%$), hit the optimum in 120/120 recorded chain groups, and used
+162.556~s.  Every group nevertheless returned the correct best legal
+candidate.  Attempt definitions, code paths, and overheads differ, so the
+times are a resource ledger, not a speedup or quantum-advantage test.
 
 \subsection{Four-layer error audit}
 
-Table~\ref{tab:four-layer-error} keeps the error sources separate.  Adding
-these quantities would be meaningless because they have different units,
-domains, and conditioning events.
-
-\begin{table}[!htbp]
-\centering
-\caption{Four-layer error audit for the current evidence release.}
-\label{tab:four-layer-error}
-\small
-\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}p{0.34\textwidth}X@{}}
-\toprule
-Layer & Observed evidence & Missing quantity / interpretation \\
-\midrule
-Surrogate prediction & File~03 MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$; low-tail MAE $8.2654$. & Q2/Q3 candidates have no physical labels; their true prediction errors are NA. \\
-QUBO mapping & Exhaustive legal enumeration; zero solver-to-enumeration winner gap; maximum signed-energy reconstruction residual $0$ on 1,200 SDK samples. & This verifies the encoded objective, not the surrogate or the material. \\
-Integer precision & Formal winner retained in all four groups; $\max|h|=102$, $\max|J|=1$, legal/illegal gap $2$. & Full raw-score and ranking distortion is intentionally not preserved; a scalar distortion metric is NA. \\
-Solver sampling & SDK: 99/1,200 legal and 99/120 optimum-hit seed runs; local SA: 907/1,200 legal and 120/120 optimum-hit groups. & Final-matrix SPQC sampling error and device variability are NA. \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-The audit clarifies why zero QUBO regret does not remove model uncertainty.
-The optimization layer exactly identifies the best encoded proxy candidate,
-but the dominant unknown for that candidate is its unobserved physical
-label.  Conversely, the SDK's low legal rate is a sampling-quality issue,
-not evidence that the underlying constrained minimizer changed.
+The four error layers are not additive because they have different units and
+conditioning events.  First, surrogate prediction has file~03 MAE $2.4715$,
+RMSE $4.5827$, Spearman $0.9383$, and low-tail MAE $8.2654$; true Q2/Q3
+candidate error is NA without labels.  Second, exhaustive enumeration gives
+zero winner regret and the maximum signed-energy reconstruction residual is
+zero over 1,200 SDK samples, verifying the mapping but not the material.
+Third, integerization retains every formal winner with $\max|h|=102$,
+$\max|J|=1$, and winner-to-lowest-illegal gap 2, while full score distortion
+is intentionally not preserved and hence NA as one scalar.  Fourth, the
+sampling statistics above quantify local-solver variability; final-matrix
+SPQC variability is NA.  Thus zero QUBO regret does not remove the dominant
+unknown---the selected candidate's unobserved physical label---and a low
+legal sampling rate does not change the constrained minimizer.
 
 \subsection{Pipeline robustness and measured cost boundary}
 
@@ -123,8 +75,7 @@ tests support pipeline integrity; they are not additional material-accuracy
 experiments.
 
 The local cost ledger contains 83.413~s for the four CPU SDK solves and
-162.556~s for the four local-SA controls in
-Table~\ref{tab:solver-aggregate}.  Historical SPQC-550 short-list logs add
+162.556~s for the four local-SA controls.  Historical SPQC-550 short-list logs add
 one Q2 task (17 variables, 4~s creation-to-end, 1.1228~ms evolution) and one
 Q3 task (30 variables, 19~s creation-to-end, 8.7755~ms evolution), each
 recorded as one optimization quota.  They show that reduced matrices were
