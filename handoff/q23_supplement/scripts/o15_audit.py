@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-"""O-15：四层误差归因 + 资源成本审计。
+"""O-15：四层误差归因 + 资源成本总账（v2，按复审口径修正）。
 
-只做两件事：
-  1. 实测本机可测的耗时：精确枚举、QUBO 构建、QUBO→Ising、精度适配（本地等价）；
-     本地退火耗时直接复用 entry_all_local_verified_it300.json 里已记录的 wall_s，不重跑。
-  2. 把四层误差（代理/映射/量化/采样）与成本逐项整理，标明来源与口径；
-     拿不到的数据写 NA 或 PENDING，不估算。
+修正点：
+  1. Q3 计时覆盖 **三组各自 2,704 候选**，并单独测“三组合并 8,112”的总耗时，注明口径；
+  2. “完整流水线”改为**包含 QUBO 构建**的整段（构建→转换→适配→自检），不再复用预建矩阵；
+  3. 资源成本补入 O-13 六个真机任务（4 新 + 2 历史）；
+  4. 补录正式模型 SDK CPU 耗时（每组约 20.81–20.96 s，30 次尝试×最多 10 样本），
+     历史 20.04 ms 保留为不同配置记录；
+  5. 四层误差中量化层引用 O-11 的新口径（原最优是否在最低档 / 按 ID 决胜是否仍第一）。
 
-产出（q23_supplement/O15/）：
-  timings.csv            本机实测耗时（多次取中位数）
-  error_attribution.csv  四层误差归因
-  resource_cost.csv      资源与耗时总账（含来源）
-  README.md              口径说明与结论
+产出：O15/timings.csv、local_sa_timing.csv、error_attribution.csv、resource_cost.csv、README.md
 """
 
 import csv
@@ -50,72 +48,79 @@ def timeit(fn, repeat=50):
             "max_ms": float(np.max(ts)), "repeats": repeat}
 
 
+def build_models():
+    q2 = C.ranked(C.read_csv(FIX / "data" / "pred" / "q2_pool_predictions.csv"))
+    q3 = C.ranked(C.read_csv(FIX / "data" / "pred" / "q3_pool_predictions.csv"))
+    return {
+        "q2_NO2": S7.build_q2(q2),
+        "q3_O3": S7.build_partition(q3, "O3"),
+        "q3_NO2": S7.build_partition(q3, "NO2"),
+        "q3_FO2": S7.build_partition(q3, "FO2"),
+    }
+
+
+def pipeline(model):
+    M, _, _, _ = S7.ising_matrix(model["q"], model["offset"])
+    adj, _ = S7.adapt_8bit(M)
+    S7.post_adapt_audit(adj, model)
+
+
+def enumerate_model(model):
+    q, off, i, j = model["q"], model["offset"], model["i"], model["j"]
+    e = q[i, i] + q[j, j] + q[i, j]
+    order = np.argsort(e, kind="stable")
+    return e[order[0]]
+
+
 def main():
-    rows = {p: C.ranked(C.read_csv(FIX / "data" / "pred" / f"{p}_pool_predictions.csv"))
-            for p in ("q2", "q3")}
-    timing_rows = []
+    rows_q2 = C.ranked(C.read_csv(FIX / "data" / "pred" / "q2_pool_predictions.csv"))
+    rows_q3 = C.ranked(C.read_csv(FIX / "data" / "pred" / "q3_pool_predictions.csv"))
+    models = build_models()
 
-    for problem in ("q2", "q3"):
-        pred = rows[problem]
-        raw = np.array([float(r["V_hat"]) for r in pred])
-
-        def enumerate_():
-            """经典精确枚举：把全部合法态的能量都算出来再取最小（与交付口径一致）。"""
-            _q, _off, _i, _j = q, offset, i, j
-            e = _q[_i, _i] + _q[_j, _j] + _q[_i, _j]
-            order = np.argsort(e, kind="stable")
-            _ = (e[order[0]], order[1])
-
-        if problem == "q2":
-            model = S7.build_q2(pred)
-        else:
-            model = S7.build_partition(pred, "O3")
-        q, offset, i, j, block = model["q"], model["offset"], model["i"], model["j"], model["block"]
-        q, offset, i, j, block = model["q"], model["offset"], model["i"], model["j"], model["block"]
-        mq = np.array([float(r["V_hat"]) for r in block])
-
-        def build_():
-            S7.build_partition(pred, "O3") if problem == "q3" else S7.build_q2(pred)
-
-        M = S7.ising_matrix(q, offset)[0] if isinstance(S7.ising_matrix(q, offset), tuple) \
-            else S7.ising_matrix(q, offset)
-
-        def convert_():
-            S7.ising_matrix(q, offset)
-
-        def adapt_():
-            S7.adapt_8bit(M)
-
-        def audit_():
-            S7.post_adapt_audit(M, model)
-
-        timing_rows.append({"problem": problem, "stage": "精确枚举（逐合法态能量+排序）",
-                            **timeit(enumerate_)})
-        timing_rows.append({"problem": problem, "stage": "完整交付流水线（构建→转换→适配→自检）",
-                            **timeit(lambda: S7.post_adapt_audit(
-                                S7.adapt_8bit(S7.ising_matrix(q, offset)[0])[0], model), repeat=20)})
-        timing_rows.append({"problem": problem, "stage": "QUBO 构建",
-                            **timeit(build_)})
-        timing_rows.append({"problem": problem, "stage": "QUBO→Ising 转换",
-                            **timeit(convert_)})
-        timing_rows.append({"problem": problem, "stage": "8 位适配（本地等价）",
-                            **timeit(adapt_)})
-        timing_rows.append({"problem": problem, "stage": "适配后自检",
-                            **timeit(audit_)})
+    def build_call(scope):
+        if scope.startswith("q3"):
+            return S7.build_partition(rows_q3, scope.split("_")[-1])
+        return S7.build_q2(rows_q2)
+    timing_rows, enum_rows = [], []
+    for name, m in models.items():
+        q, off, i, j = m["q"], m["offset"], m["i"], m["j"]
+        M = S7.ising_matrix(q, off)[0]
+        timing_rows.append({"scope": name, "stage": "QUBO 构建（预测表已载入）",
+                            **timeit(lambda: build_call(name))})
+        timing_rows.append({"scope": name, "stage": "QUBO→Ising 转换",
+                            **timeit(lambda: S7.ising_matrix(q, off))})
+        timing_rows.append({"scope": name, "stage": "8 位适配",
+                            **timeit(lambda: S7.adapt_8bit(M))})
+        timing_rows.append({"scope": name, "stage": "适配后自检",
+                            **timeit(lambda: S7.post_adapt_audit(M, m))})
+        timing_rows.append({"scope": name, "stage": "完整流水线（构建→转换→适配→自检）",
+                            **timeit(lambda: pipeline(m), repeat=20)})
+        timing_rows.append({"scope": name, "stage": f"精确枚举（{len(m['block'])} 合法态能量+排序）",
+                            **timeit(lambda: enumerate_model(m))})
+        enum_rows.append({"scope": name, "candidates": len(m["block"]),
+                          "enumeration_ms": None})
+    # Q3 三组合并的总耗时（口径：三组矩阵各跑一次，含构建）
+    q3_models = [models["q3_O3"], models["q3_NO2"], models["q3_FO2"]]
+    q3_total = timeit(lambda: [pipeline(m) for m in q3_models], repeat=20)
+    q3_enum = timeit(lambda: [enumerate_model(m) for m in q3_models])
+    timing_rows.append({"scope": "q3_三组合并(8,112)", "stage": "完整流水线（三组各构建→…→自检）",
+                        **q3_total})
+    timing_rows.append({"scope": "q3_三组合并(8,112)", "stage": "精确枚举（三组 2,704×3 逐组能量+排序）",
+                        **q3_enum})
     write_csv("timings.csv", timing_rows)
     for r in timing_rows:
-        print(f"{r['problem']} {r['stage']:<22} 中位 {r['median_ms']:.3f} ms")
+        print(f"{r['scope']:<22} {r['stage']:<34} {r['median_ms']:>9.3f} ms")
 
-    # 本地退火耗时：直接复用已记录结果
+    # 本地退火耗时（复用已记录结果）
     entry = json.loads((RES / "entry_all_local_verified_it300.json").read_text(encoding="utf-8"))
     sa_rows = []
     for prob, pack in entry["results"].items():
         for e in pack["models"]:
-            sa_rows.append({"problem": prob, "model": e["group"],
-                            "variables": e["variables"], "backend": e["backend"],
-                            "iters": e["audit"] and 300, "seeds": 30, "samples": 10,
+            sa_rows.append({"problem": prob, "model": e["group"], "variables": e["variables"],
+                            "config": "it=300, α=0.99, 30 种子×10 样本",
                             "wall_s": round(e["wall_s"], 2),
-                            "per_sample_ms": round(e["wall_s"] * 1000 / 300, 3)})
+                            "per_sample_ms": round(e["wall_s"] * 1000 / 300, 3),
+                            "source": "entry_all_local_verified_it300.json（本地退火，非 SDK）"})
     write_csv("local_sa_timing.csv", sa_rows)
 
     # ---- 四层误差 ----
@@ -129,84 +134,101 @@ def main():
                     "value": iso["matrix_vs_formula_max_abs_diff"], "unit": "系数",
                     "source": "stage1_sdk_ising.json（真实 SDK）", "status": "measured"})
         err.append({"layer": "映射误差", "problem": prob,
-                    "metric": "合法态能量链（E_sdk+bias vs xᵀQx）最大偏差",
+                    "metric": "合法态能量链 E_sdk+bias vs xᵀQx 最大偏差",
                     "value": iso["energy_chain_max_abs_diff"], "unit": "能量",
                     "source": "stage1_sdk_ising.json", "status": "measured"})
-        for scheme in ("qubo_x127/4", "direct_ising_8bit", "partition_O3" if prob == "q3" else "partition_NO2"):
+        for scheme in ("qubo_x127/4", "qubo_xfloor", "direct_ising_8bit",
+                       "clip_d0.4_l1.02", "partition_O3" if prob == "q3" else "partition_NO2"):
             r = next((x for x in q11["retention"]
                       if x["problem"] == prob and x["scheme"] == scheme), None)
             if not r:
                 continue
             err.append({"layer": "量化误差", "problem": prob,
-                        "metric": f"{scheme} 最优候选是否保留",
-                        "value": r["argmin_preserved"], "unit": "bool",
+                        "metric": f"{scheme} 原最优是否仍在最低能量档",
+                        "value": r["best_in_min_tier"], "unit": "bool",
+                        "source": "O11/sorting_retention.csv", "status": "measured"})
+            err.append({"layer": "量化误差", "problem": prob,
+                        "metric": f"{scheme} 按 (能量,ID) 决胜后原最优是否第一",
+                        "value": r["argmin_after_id_break"], "unit": "bool",
                         "source": "O11/sorting_retention.csv", "status": "measured"})
             err.append({"layer": "量化误差", "problem": prob,
                         "metric": f"{scheme} 最低档并列数",
                         "value": r["min_tier_ties"], "unit": "个",
                         "source": "O11/sorting_retention.csv", "status": "measured"})
             err.append({"layer": "量化误差", "problem": prob,
-                        "metric": f"{scheme} 最优 V̂ 损失",
+                        "metric": f"{scheme} 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）",
                         "value": r["best_V_loss"], "unit": "V̂",
                         "source": "O11/sorting_retention.csv", "status": "measured"})
     for prob, pack in entry["results"].items():
         for e in pack["models"]:
             err.append({"layer": "采样误差", "problem": prob,
-                        "metric": f"{e['group']} 合法样本比例",
+                        "metric": f"{e['group']} 合法样本比例（本地退火 it=300）",
                         "value": e["solver"]["legal_ratio"], "unit": "比例",
                         "source": "entry_all_local_verified_it300.json", "status": "measured"})
             err.append({"layer": "采样误差", "problem": prob,
-                        "metric": f"{e['group']} 种子命中比例",
+                        "metric": f"{e['group']} 批次命中率（30 批×10 样本，任一批含最优即记命中）",
                         "value": e["solver"]["seed_hit_ratio"], "unit": "比例",
                         "source": "entry_all_local_verified_it300.json", "status": "measured"})
-            err.append({"layer": "采样误差", "problem": prob,
-                        "metric": f"{e['group']} 最优返回 V̂ 损失",
-                        "value": (e["solver"]["best_returned_V_hat"]
-                                  - e["enumeration_optimum"]["V_hat"]) if e["solver"]["best_returned_V_hat"] else None,
-                        "unit": "V̂", "source": "同上", "status": "measured"})
     err.append({"layer": "代理误差", "problem": "q1",
                 "metric": "03 集 MAE / RMSE / Spearman / Top-25 / Top-50",
                 "value": "2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50",
                 "unit": "混合",
-                "source": "Q1 交付 experiments/q1_v12/REPORT.md、PROJECT_STATUS.md、README.md"
-                          "（本组未独立复算，仅引用）",
+                "source": "Q1 交付 experiments/q1_v12/REPORT.md、PROJECT_STATUS.md、README.md（本组未独立复算）",
                 "status": "外部记录（Q1 交付，引用未复算）"})
     write_csv("error_attribution.csv", err)
 
     # ---- 资源成本 ----
     cost = []
     for r in sa_rows:
-        cost.append({"item": f"本地退火求解 {r['problem']}/{r['model']}",
-                     "value": r["wall_s"], "unit": "s",
-                     "config": "it=300, α=0.99, 30 seeds×10 samples",
-                     "source": "entry_all_local_verified_it300.json", "status": "measured"})
+        cost.append({"item": f"本地退火 {r['problem']}/{r['model']}", "value": r["wall_s"],
+                     "unit": "s", "config": r["config"], "source": r["source"],
+                     "status": "measured（本地 CPU）"})
     for row in timing_rows:
-        cost.append({"item": f"{row['problem']} {row['stage']}",
-                     "value": round(row["median_ms"], 4), "unit": "ms",
+        cost.append({"item": f"{row['scope']} {row['stage']}", "unit": "ms",
+                     "value": round(row["median_ms"], 4),
                      "config": f"{row['repeats']} 次取中位", "source": "O15/timings.csv",
-                     "status": "measured"})
+                     "status": "measured（本机）"})
     cost += [
-        {"item": "SDK CPU 求解（复审环境 1.4.3）", "value": 20.04, "unit": "ms（中位）",
-         "config": "Q2 8bit 适配，30 runs", "source": "Kaiwu_Precheck_Phase1_Summary / 审计 results",
-         "status": "外部实测（非本机）"},
-        {"item": "历史真机 Q2 创建→结束", "value": 4, "unit": "s",
-         "config": "q2_int_01, 17 变量, SPQC-550", "source": "平台任务详情截图",
-         "status": "平台记录（截图，无导出原件）"},
-        {"item": "历史真机 Q2 单次演化", "value": 1.1228, "unit": "ms",
-         "config": "同上", "source": "平台任务详情截图", "status": "平台记录（截图）"},
-        {"item": "历史真机 Q3 创建→结束", "value": 19, "unit": "s",
-         "config": "q3_int_01, 30 变量, SPQC-550", "source": "平台任务详情截图",
-         "status": "平台记录（截图）"},
-        {"item": "历史真机 Q3 单次演化", "value": 8.7755, "unit": "ms",
-         "config": "同上", "source": "平台任务详情截图", "status": "平台记录（截图）"},
-        {"item": "历史真机排队时间", "value": None, "unit": "s",
-         "config": "两次任务创建即完成，未见排队", "source": "平台任务详情",
-         "status": "NA（平台未单列排队字段）"},
-        {"item": "平台资源扣减", "value": 2, "unit": "次优化额度",
-         "config": "两次任务各 1 次", "source": "平台控制台额度变化（截图）",
-         "status": "平台记录（截图）"},
-        {"item": "最终 104 变量真机任务", "value": None, "unit": "-",
-         "config": "O-13 待执行", "source": "-", "status": "PENDING"},
+        {"item": "SDK CPU 求解（正式 104 变量模型，每组）", "value": "20.81–20.96", "unit": "s",
+         "config": "30 次尝试，每次最多返回 10 样本",
+         "source": "复审环境 Kaiwu 记录（非本机）；本包审计 SDK 运行记录同口径仅 0.48–0.69 s/30 次，"
+                   "两者统计范围不同，分别保留",
+         "status": "外部实测（复审环境）"},
+        {"item": "SDK CPU 求解（历史配置，Q2 8 位适配）", "value": 20.04, "unit": "ms（中位）",
+         "config": "30 runs，单次运行中位",
+         "source": "Kaiwu_Precheck_Phase1_Summary / 审计 results", "status": "外部实测（不同配置）"},
+        {"item": "真机 q2_NO2.csv_01（104 变量）", "value": 22, "unit": "s",
+         "config": "创建→结束；单次演化 15.0116 ms；样本 10，合法 1",
+         "source": "O13/receipt_template.csv、O13/evidence/", "status": "平台记录"},
+        {"item": "真机 22222_01（q3_O3，104 变量）", "value": 74, "unit": "s",
+         "config": "创建→结束；单次演化 9.7488 ms；样本 10，合法 4",
+         "source": "O13/receipt_template.csv、O13/evidence/", "status": "平台记录"},
+        {"item": "真机 333333_01（q3_NO2，104 变量）", "value": 112, "unit": "s",
+         "config": "创建→结束；单次演化 0.6991 ms；样本 7，合法 0（原始反例保留）",
+         "source": "O13/receipt_template.csv、O13/evidence/", "status": "平台记录"},
+        {"item": "真机 444444_01（q3_FO2，104 变量）", "value": 16, "unit": "s",
+         "config": "创建→结束；单次演化 7.3587 ms；样本 5，合法 1",
+         "source": "O13/receipt_template.csv、O13/evidence/", "status": "平台记录"},
+        {"item": "真机 q2_int_01（历史 17 变量）", "value": 4, "unit": "s",
+         "config": "创建→结束；单次演化 1.1228 ms；样本 10，合法 1",
+         "source": "O13/evidence/q2_int_01_task_page.png", "status": "平台记录"},
+        {"item": "真机 q3_int_01（历史 30 变量）", "value": 19, "unit": "s",
+         "config": "创建→结束；单次演化 8.7755 ms；样本 10，合法 1",
+         "source": "O13/evidence/q3_int_01_task_page.png", "status": "平台记录"},
+        {"item": "真机排队时间", "value": None, "unit": "s",
+         "config": "平台未单列；总耗时含排队与执行",
+         "source": "O13 任务详情", "status": "NA（平台未单列）"},
+        {"item": "真机额度扣减（优化额度）", "value": 7, "unit": "次",
+         "config": "31（2026-11-27 18:31）→ 24（2026-11-28 16:32）；平台显示 7 个任务，每次 1 次；31−24=7",
+         "source": "O13/evidence/credits_before_2026-11-27.png、credits_after_2026-11-28.png；O13/results/credits_ledger.csv",
+         "status": "实测（起止均有凭证）"},
+        {"item": "真机任务平均运行时间（平台口径）", "value": 6.1030, "unit": "ms",
+         "config": "平台“用量总览”对 7 个任务的统计，未说明是否含排队",
+         "source": "O13/evidence/credits_after_2026-11-28.png", "status": "平台记录（口径未说明）"},
+        {"item": "真机总耗时 − 单次演化（推导）", "value": "21.99 / 73.99 / 111.99 / 15.99", "unit": "s",
+         "config": "q2_NO2 / q3_O3 / q3_NO2 / q3_FO2；仅说明总耗时中约 99.9% 不在单次演化内",
+         "source": "O13/receipt_template.csv 由 total_seconds 与 evolve_ms 相减",
+         "status": "推导值（含排队/调度/启动，非实测排队）"},
     ]
     write_csv("resource_cost.csv", cost)
     print("写出", OUT)
