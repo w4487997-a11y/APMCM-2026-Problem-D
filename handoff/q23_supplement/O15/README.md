@@ -31,7 +31,7 @@ Q2 NO2 50.3 s、Q3 O3 41.8 s、Q3 NO2 40.5 s、Q3 FO2 45.5 s（每样本约 140�
 
 | 层次 | 指标 | 数值 | 状态 | 来源 |
 |---|---|---|---|---|
-| 代理误差 | 03 集 MAE / RMSE / Spearman / Top-25 / Top-50 | 2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50 | **PENDING**（待 Q1 确认口径） | Q1 `handoff/v1_2/ACCEPTANCE.md` |
+| 代理误差 | 03 集 MAE / RMSE / Spearman / Top-25 / Top-50 | 2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50 | **外部记录**（Q1 交付，本组未复算） | Q1 `experiments/q1_v12/REPORT.md`、`PROJECT_STATUS.md` |
 | 映射误差 | SDK Ising 与独立公式矩阵最大偏差（Q2 / Q3） | 0 / 0 | 实测 | `stage1_sdk_ising.json`（真实 SDK） |
 | 映射误差 | 能量链 `E_sdk+bias` vs `xᵀQx` 最大偏差 | 0 / 0 | 实测 | 同上 |
 | 量化误差 | 全池 QUBO ×31.75 最优是否保留 | 否（Q2/Q3） | 实测 | `O11/sorting_retention.csv` |
@@ -70,7 +70,7 @@ Q2 NO2 50.3 s、Q3 O3 41.8 s、Q3 NO2 40.5 s、Q3 FO2 45.5 s（每样本约 140�
    两档分区编码把该损失降为 0，代价是牺牲非最优排序（见 `O11/oracle_caveat.md`）。
 3. 采样误差在本地退火下已压到 0（30/30 种子命中），但**这是本地 CPU 结果**；
    真机样本量仅历史 2 次 × 10 条，不足以估计命中率。
-4. 代理误差层缺 Q1 的独立复算口径，标 PENDING，不估算。
+4. 代理误差层引用 Q1 交付记录（03 集 MAE 2.4715 / RMSE 4.5827 / Spearman 0.9383 / Top-25 8-of-25 / Top-50 20-of-50），本组未独立复算，标“外部记录”。
 
 ## 五、复现
 
