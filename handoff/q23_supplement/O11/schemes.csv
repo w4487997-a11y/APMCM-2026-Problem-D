@@ -1,0 +1,15 @@
+﻿problem,scheme,variables,max_abs_q,integral,fits_8bit,argmin_preserved,min_tier_ties,note
+q2,float,104,4.0,True,True,True,1,连续分数线性缩放，无量化（参照）
+q2,qubo_x127/4,104,4.0,True,True,False,6,scale=31.75
+q2,qubo_xfloor,104,4.0,True,True,False,6,scale=31
+q2,clip_d0.4_l1.02,104,2.04,True,True,True,1,scale=62
+q2,direct_ising_8bit,104,28.441778476825395,False,True,False,8,ising_scale=4.46526（数学场项会超 127）
+q2,partition_NO2,104,4.0,True,True,True,1,"λ=2, 代价{0,4}, |h|=102, |J|=1"
+q3,float,208,4.0,True,True,True,1,连续分数线性缩放，无量化（参照）
+q3,qubo_x127/4,208,4.0,True,True,False,21,scale=31.75
+q3,qubo_xfloor,208,4.0,True,True,False,24,scale=31
+q3,clip_d0.4_l1.02,208,2.04,True,True,True,1,scale=62
+q3,direct_ising_8bit,208,80.59360918566463,False,True,False,16,ising_scale=1.57581（数学场项会超 127）
+q3,partition_O3,104,4.0,True,True,True,1,"λ=2, 代价{0,4}, |h|=102, |J|=1"
+q3,partition_NO2,104,4.0,True,True,True,1,"λ=2, 代价{0,4}, |h|=102, |J|=1"
+q3,partition_FO2,104,4.0,True,True,True,1,"λ=2, 代价{0,4}, |h|=102, |J|=1"
