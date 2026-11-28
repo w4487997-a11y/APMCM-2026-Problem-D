@@ -262,6 +262,38 @@ def o15_cost_rows():
 
 
 # ---------- O-13 ----------
+def o15_sa_run_ids():
+    rows = read_csv(ROOT / "O15" / "local_sa_timing.csv")
+    ids = [r["run_id"] for r in rows]
+    assert ids == ["O15-R01", "O15-R02", "O15-R03", "O15-R04"], f"运行 ID 异常: {ids}"
+    for r in rows:
+        assert r["wall_s_unrounded"] and r["timing_scope"], f"{r['run_id']} 缺未舍入值或计时范围"
+    total = sum(float(r["wall_s_unrounded"]) for r in rows)
+    assert abs(total - 178.131869) < 1e-3, f"未舍入合计 {total} 与记录不符"
+    return "O15-R01..R04；未舍入合计 178.131869 s"
+
+
+def o11_reconciliation():
+    d = read_json(ROOT / "O11" / "reconciliation" / "o11_reconciliation.json")
+    for key in ("O11-R01_stage2_entry", "O11-R02_stage3_entry"):
+        r = d["runs"][key]
+        assert r["legal_correct"] == 8 and r["hits_correct"] == 8, f"{key} 正确计数应为 8"
+        assert r["legal_legacy_counter"] == 0 and r["hits_legacy_counter"] == 0, f"{key} 旧计数应为 0"
+    assert d["matrices"]["qubo_identical"] and d["matrices"]["mapping_identical"], "两入口矩阵/映射不一致"
+    assert d["explicit_seed_batches"]["samples"] == 300, "显式种子批次数异常"
+    return "两入口 8/300；旧计数器 0/300；矩阵与映射一致"
+
+
+def reconciliation_table():
+    rows = read_csv(ROOT / "RECONCILIATION" / "reconciliation_table.csv")
+    need = {"争议数字", "原始出处", "复核结论", "正文可用口径"}
+    assert need <= set(rows[0].keys()), "对账表缺列"
+    assert len(rows) >= 5, f"对账表仅 {len(rows)} 行"
+    unv = [r for r in rows if "UNVERIFIED" in r["复核结论"]]
+    assert unv, "对账表应保留 UNVERIFIED 项"
+    return f"对账表 {len(rows)} 行，含 {len(unv)} 条 UNVERIFIED"
+
+
 def o13_manifest():
     man = read_json(ROOT / "O13" / "o13_manifest.json")
     actual = {p.relative_to(ROOT / "O13").as_posix()
@@ -335,6 +367,9 @@ def main():
         ("O13 额度 31→24=7 且有凭证", o13_credits),
         ("O10 含惩罚矩阵/偏置/Ising", o10_npz),
         ("O10 逐样本 300 条", o10_samples),
+        ("O15 本地退火运行 ID 与未舍入合计", o15_sa_run_ids),
+        ("O11 历史 0/300 对账", o11_reconciliation),
+        ("P0-05 对账表完整", reconciliation_table),
         ("O10 双最优表述", o10_readme),
     ]
     for name, fn in checks:
