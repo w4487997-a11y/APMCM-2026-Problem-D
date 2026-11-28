@@ -1,0 +1,5 @@
+﻿task_name,task_id,device,matrix_file,matrix_sha256,created,finished,queue_seconds,exec_seconds,total_seconds,evolve_ms,credits_used,samples_returned,legal_samples,best_material,best_qubo_value
+o13_q2_NO2,,SPQC-550,q2_NO2.csv,fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c,,,,,,,1,,,,
+o13_q3_O3,,SPQC-550,q3_O3.csv,26d234efa34c11cde626801c353b6491aeaab07247a07140873566970a8a82ef,,,,,,,1,,,,
+o13_q3_NO2,,SPQC-550,q3_NO2.csv,fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c,,,,,,,1,,,,
+o13_q3_FO2,,SPQC-550,q3_FO2.csv,5b49510e78219db65b1a9eab7240f34222cc6a7b253f37ac95226f65c6fb7309,,,,,,,1,,,,
