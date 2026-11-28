@@ -122,3 +122,17 @@
 python scripts/o11_metrics.py          # 生成 CSV/JSON
 python scripts/o11_figures.py          # 生成 3 张图（需 matplotlib）
 ```
+
+
+---
+
+## 六、历史 0/300 对账（P0-05）
+
+同一标称配置（`K=52, λ=2, it=30, α=0.9`）下，`stage2` 历史记录为 **0/300、0 命中**，
+`stage3` 与现行两个入口为 **8/300、8 命中**。本轮已定位并复现：
+
+- 旧统计计数器把绝对列号再减 `n_left`，任何合法样本都无法匹配 → 恒为 0；
+- **同一批 300 条样本**上用正确计数器为 **8/300**、旧计数器为 **0/300**，两入口矩阵与映射逐元素一致；
+- 历史 `0/300` 的运行日志未归档 → 标 `UNVERIFIED`，新复跑登记为 `O11-R01/R02/R03`。
+
+详见 `reconciliation/README.md` 与 `reconciliation/o11_reconciliation.json`。
