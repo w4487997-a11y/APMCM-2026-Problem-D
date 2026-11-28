@@ -1,0 +1,14 @@
+{
+  "before": 31,
+  "before_evidence": "O13/evidence/credits_before_2026-11-27.png",
+  "before_time": "2026-11-27 18:31",
+  "after": 24,
+  "after_evidence": "O13/evidence/credits_after_2026-11-28.png",
+  "after_time": "2026-11-28 16:32（截图）",
+  "deducted": 7,
+  "tasks_submitted": 7,
+  "credits_per_task": 1,
+  "consistency": "31 - 24 = 7 = 7 个任务 × 1 次（含 probe4_01）",
+  "platform_reported_avg_runtime_ms": 6.103,
+  "platform_reported_tasks": 7
+}
