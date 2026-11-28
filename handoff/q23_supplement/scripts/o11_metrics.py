@@ -123,6 +123,11 @@ def metrics(name, problem, float_scores, int_energy, ids, notes):
     row = {
         "problem": problem, "scheme": name, "n_candidates": n,
         "argmin_preserved": bool(arg_float == arg_int),
+        # 两个必须分开的口径：
+        #   best_in_min_tier：浮点最优的整数能量是否等于最低能量（是否仍在最低档）
+        #   argmin_after_id_break：按 (能量, ID) 排序后浮点最优是否仍排第一
+        "best_in_min_tier": bool(abs(e[arg_float] - e.min()) < 1e-9),
+        "argmin_after_id_break": bool(arg_float == arg_int),
         "float_best_V_hat": float(float_scores[arg_float]),
         "int_best_V_hat": float(float_scores[arg_int]),
         "best_V_loss": float(float_scores[arg_int] - float_scores[arg_float]),
