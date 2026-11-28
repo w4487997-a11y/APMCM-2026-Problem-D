@@ -3,32 +3,32 @@
 本地退火 q3/O3,41.85,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
 本地退火 q3/NO2,40.5,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
 本地退火 q3/FO2,45.5,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
-q2_NO2 QUBO 构建（预测表已载入）,2.5125,ms,50 次取中位,O15/timings.csv,measured（本机）
-q2_NO2 QUBO→Ising 转换,0.0528,ms,50 次取中位,O15/timings.csv,measured（本机）
-q2_NO2 8 位适配,0.1571,ms,50 次取中位,O15/timings.csv,measured（本机）
-q2_NO2 适配后自检,3.8984,ms,50 次取中位,O15/timings.csv,measured（本机）
-q2_NO2 完整流水线（构建→转换→适配→自检）,4.0875,ms,20 次取中位,O15/timings.csv,measured（本机）
-q2_NO2 精确枚举（2704 合法态能量+排序）,0.0274,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_O3 QUBO 构建（预测表已载入）,3.0221,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_O3 QUBO→Ising 转换,0.0539,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_O3 8 位适配,0.1543,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_O3 适配后自检,3.9641,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_O3 完整流水线（构建→转换→适配→自检）,4.1831,ms,20 次取中位,O15/timings.csv,measured（本机）
-q3_O3 精确枚举（2704 合法态能量+排序）,0.0265,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_NO2 QUBO 构建（预测表已载入）,3.232,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_NO2 QUBO→Ising 转换,0.0501,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_NO2 8 位适配,0.1623,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_NO2 适配后自检,3.9714,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_NO2 完整流水线（构建→转换→适配→自检）,4.1512,ms,20 次取中位,O15/timings.csv,measured（本机）
-q3_NO2 精确枚举（2704 合法态能量+排序）,0.0264,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_FO2 QUBO 构建（预测表已载入）,3.1545,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_FO2 QUBO→Ising 转换,0.0535,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_FO2 8 位适配,0.1475,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_FO2 适配后自检,3.9137,ms,50 次取中位,O15/timings.csv,measured（本机）
-q3_FO2 完整流水线（构建→转换→适配→自检）,4.1453,ms,20 次取中位,O15/timings.csv,measured（本机）
-q3_FO2 精确枚举（2704 合法态能量+排序）,0.0264,ms,50 次取中位,O15/timings.csv,measured（本机）
-"q3_三组合并(8,112) 完整流水线（三组各构建→…→自检）",12.5723,ms,20 次取中位,O15/timings.csv,measured（本机）
-"q3_三组合并(8,112) 精确枚举（三组 2,704×3 逐组能量+排序）",0.0846,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 QUBO 构建（预测表已载入）,2.1821,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 QUBO→Ising 转换,0.0548,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 8 位适配,0.1681,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 适配后自检,3.6913,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 完整流水线（构建→转换→适配→自检）,6.5507,ms,20 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 精确枚举（2704 合法态能量+排序）,0.0264,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 QUBO 构建（预测表已载入）,2.6002,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 QUBO→Ising 转换,0.0509,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 8 位适配,0.1659,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 适配后自检,3.525,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 完整流水线（构建→转换→适配→自检）,7.4304,ms,20 次取中位,O15/timings.csv,measured（本机）
+q3_O3 精确枚举（2704 合法态能量+排序）,0.0266,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 QUBO 构建（预测表已载入）,2.6362,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 QUBO→Ising 转换,0.0522,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 8 位适配,0.1536,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 适配后自检,3.5695,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 完整流水线（构建→转换→适配→自检）,7.5236,ms,20 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 精确枚举（2704 合法态能量+排序）,0.0265,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 QUBO 构建（预测表已载入）,2.6598,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 QUBO→Ising 转换,0.0488,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 8 位适配,0.1681,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 适配后自检,3.5171,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 完整流水线（构建→转换→适配→自检）,7.5909,ms,20 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 精确枚举（2704 合法态能量+排序）,0.0265,ms,50 次取中位,O15/timings.csv,measured（本机）
+"q3_三组合并(8,112) 完整流水线（三组各构建→…→自检）",23.1973,ms,20 次取中位,O15/timings.csv,measured（本机）
+"q3_三组合并(8,112) 精确枚举（三组 2,704×3 逐组能量+排序）",0.0792,ms,50 次取中位,O15/timings.csv,measured（本机）
 SDK CPU 求解（正式 104 变量模型，每组）,20.81–20.96,s,30 次尝试，每次最多返回 10 样本,复审环境 Kaiwu 记录（非本机）；本包审计 SDK 运行记录同口径仅 0.48–0.69 s/30 次，两者统计范围不同，分别保留,外部实测（复审环境）
 SDK CPU 求解（历史配置，Q2 8 位适配）,20.04,ms（中位）,30 runs，单次运行中位,Kaiwu_Precheck_Phase1_Summary / 审计 results,外部实测（不同配置）
 真机 q2_NO2.csv_01（104 变量）,22,s,创建→结束；单次演化 15.0116 ms；样本 10，合法 1,O13/receipt_template.csv、O13/evidence/,平台记录
