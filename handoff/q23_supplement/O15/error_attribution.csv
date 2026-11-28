@@ -33,4 +33,4 @@
 采样误差,q3,FO2 合法样本比例,0.7766666666666666,比例,entry_all_local_verified_it300.json,measured
 采样误差,q3,FO2 种子命中比例,1.0,比例,entry_all_local_verified_it300.json,measured
 采样误差,q3,FO2 最优返回 V̂ 损失,0.0,V̂,同上,measured
-代理误差,q1,03 集 MAE / RMSE / Spearman / Top-25 / Top-50,2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50,混合,Q1 交付 handoff/v1_2/ACCEPTANCE.md,PENDING（待 Q1 负责人确认口径）
+代理误差,q1,03 集 MAE / RMSE / Spearman / Top-25 / Top-50,2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50,混合,Q1 交付 experiments/q1_v12/REPORT.md、PROJECT_STATUS.md、README.md（本组未独立复算，仅引用）,外部记录（Q1 交付，引用未复算）
