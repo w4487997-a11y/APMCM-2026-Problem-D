@@ -167,8 +167,10 @@ def main():
     err.append({"layer": "代理误差", "problem": "q1",
                 "metric": "03 集 MAE / RMSE / Spearman / Top-25 / Top-50",
                 "value": "2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50",
-                "unit": "混合", "source": "Q1 交付 handoff/v1_2/ACCEPTANCE.md",
-                "status": "PENDING（待 Q1 负责人确认口径）"})
+                "unit": "混合",
+                "source": "Q1 交付 experiments/q1_v12/REPORT.md、PROJECT_STATUS.md、README.md"
+                          "（本组未独立复算，仅引用）",
+                "status": "外部记录（Q1 交付，引用未复算）"})
     write_csv("error_attribution.csv", err)
 
     # ---- 资源成本 ----
