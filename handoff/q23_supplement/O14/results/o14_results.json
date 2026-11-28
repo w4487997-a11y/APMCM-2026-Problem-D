@@ -24,7 +24,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 1,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Y|Ti|NO2",
           "levels": 4,
           "samples": 300,
@@ -36,7 +36,9 @@
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
           "wall_s": 39.47333529999014,
-          "matrix_sha256": "eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311"
+          "matrix_sha256": "eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         },
         {
           "problem": "q2",
@@ -54,7 +56,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 11,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Y|Ti|NO2",
           "levels": 4,
           "samples": 300,
@@ -66,7 +68,9 @@
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
           "wall_s": 40.83288450000691,
-          "matrix_sha256": "5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2"
+          "matrix_sha256": "5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         }
       ]
     },
@@ -93,7 +97,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 1,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Ca|Sn|O3",
           "levels": 4,
           "samples": 300,
@@ -105,7 +109,9 @@
           "best_returned_material": "Ca|Sn|O3",
           "best_returned_V_hat": 1.1850815319299866,
           "wall_s": 41.043674000000465,
-          "matrix_sha256": "9749bb7e518086153893c2dde780ea3c3e7f18d85f0bb4ad134b1e2ae4d6f346"
+          "matrix_sha256": "9749bb7e518086153893c2dde780ea3c3e7f18d85f0bb4ad134b1e2ae4d6f346",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         },
         {
           "problem": "q3",
@@ -123,7 +129,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 19,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Ca|Sn|O3",
           "levels": 4,
           "samples": 300,
@@ -135,7 +141,9 @@
           "best_returned_material": "Ca|Sn|O3",
           "best_returned_V_hat": 1.1850815319299866,
           "wall_s": 48.53569269999571,
-          "matrix_sha256": "aee1caab0b86d0420f8d93ef62f5674bb48e91320037feaffb15b2cd7671af49"
+          "matrix_sha256": "aee1caab0b86d0420f8d93ef62f5674bb48e91320037feaffb15b2cd7671af49",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         },
         {
           "problem": "q3",
@@ -153,7 +161,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 1,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Y|Ti|NO2",
           "levels": 4,
           "samples": 300,
@@ -165,7 +173,9 @@
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
           "wall_s": 40.45536520000314,
-          "matrix_sha256": "eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311"
+          "matrix_sha256": "eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         },
         {
           "problem": "q3",
@@ -183,7 +193,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 11,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Y|Ti|NO2",
           "levels": 4,
           "samples": 300,
@@ -195,7 +205,9 @@
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
           "wall_s": 38.53252030001022,
-          "matrix_sha256": "5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2"
+          "matrix_sha256": "5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         },
         {
           "problem": "q3",
@@ -213,7 +225,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 1,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Rb|Ti|FO2",
           "levels": 4,
           "samples": 300,
@@ -225,7 +237,9 @@
           "best_returned_material": "Rb|Ti|FO2",
           "best_returned_V_hat": 1.5909216703885978,
           "wall_s": 39.1214495000022,
-          "matrix_sha256": "aea073fccfa831b8078992776cf30d2dcadc57ea4889569cc31c13f974f6ee21"
+          "matrix_sha256": "aea073fccfa831b8078992776cf30d2dcadc57ea4889569cc31c13f974f6ee21",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         },
         {
           "problem": "q3",
@@ -243,7 +257,7 @@
           "argmin_matches_raw": true,
           "ground_ties_energy": 34,
           "raw_min_ties": 1,
-          "illegal_min_minus_legal_min": 6.0,
+          "illegal_min_minus_legal_min": 2.0,
           "best_material": "Rb|Ti|FO2",
           "levels": 3,
           "samples": 300,
@@ -255,7 +269,9 @@
           "best_returned_material": "Rb|Ti|FO2",
           "best_returned_V_hat": 1.5909216703885978,
           "wall_s": 38.916933600004995,
-          "matrix_sha256": "50ae41a234c75887e52298c137c597b50c3a9d926aa22fc40d7d707cfab359f1"
+          "matrix_sha256": "50ae41a234c75887e52298c137c597b50c3a9d926aa22fc40d7d707cfab359f1",
+          "illegal_min_energy_offset": 2.0,
+          "legal_min_energy_offset": 0.0
         }
       ],
       "winner_float": {
