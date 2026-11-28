@@ -1,169 +1,125 @@
 # -*- coding: utf-8 -*-
-"""变异测试：验证一致性测试能否拦截两类真实错误。
-
-变异 1a：把 O15/README 中 Q2 与 Q3-O3 的“完整流水线”耗时互换 → 必须 FAIL
-变异 1b：把顶层 README 摘要表中 Q2 与 Q3-O3 的流水线耗时互换 → 必须 FAIL
-变异 2 ：把 mcc_summary.csv 中一条退火预算记录的 samples 置空 → 必须 FAIL
-
-每个变异都在内存中备份原文件，跑完立即还原；最后再跑一次基线确认恢复成功。
-日志：results/mutation_test.log
-退出码：0 = 两个用例均被拦截且基线恢复；1 = 有遗漏
-"""
+"""在临时副本验证一致性检查和文档的重复生成。"""
 
 import csv
-import io
-import re
+import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 ROOT = Path(__file__).resolve().parents[1]
-TEST = ROOT / "scripts" / "consistency_test.py"
 LOG = ROOT / "results" / "mutation_test.log"
-O15_README = ROOT / "O15" / "README.md"
-TOP_README = ROOT / "README.md"
-MCC = ROOT / "O11" / "mcc_summary.csv"
 
 
-def run_test():
-    proc = subprocess.run([sys.executable, str(TEST)], capture_output=True, text=True, cwd=str(ROOT))
-    out = (proc.stdout or "") + (proc.stderr or "")
-    return proc.returncode, out
+def run(root, script):
+    return subprocess.run([sys.executable, "-B", f"scripts/{script}.py"], cwd=root,
+                          capture_output=True, text=True, encoding="utf-8",
+                          env={**os.environ, "PYTHONUTF8": "1"}, check=False)
 
 
-def find_fail(out):
-    return [ln for ln in out.splitlines() if ln.startswith("FAIL")]
+def swap_cells(path, prefixes, indices):
+    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    locations = [next(i for i, line in enumerate(lines) if line.startswith(prefix)) for prefix in prefixes]
+    first, second = locations
+    a, b = lines[first].split("|"), lines[second].split("|")
+    old_a, old_b = a[indices[0]], b[indices[1]]
+    # 仅互换数值，保留各单元格自身的单位和样式。
+    val_a = old_a.strip().strip("*").removesuffix(" ms")
+    val_b = old_b.strip().strip("*").removesuffix(" ms")
+    assert val_a != val_b, f"待交换的两个耗时相等: {path.name}"
+    if first == second:
+        a[indices[1]] = old_b.replace(val_b, val_a, 1)
+        a[indices[0]] = old_a.replace(val_a, val_b, 1)
+        lines[first] = "|".join(a)
+    else:
+        a[indices[0]] = old_a.replace(val_a, val_b, 1)
+        b[indices[1]] = old_b.replace(val_b, val_a, 1)
+        lines[first], lines[second] = "|".join(a), "|".join(b)
+    path.write_text("".join(lines), encoding="utf-8")
 
 
-def mutate_swap_o15():
-    """交换 O15/README 中 q2_NO2 与 q3_O3 的流水线耗时。"""
-    text = O15_README.read_text(encoding="utf-8")
-    pat = re.compile(r"^(\| (?:q2_NO2|q3_O3) \| \*\*完整流水线（构建→转换→适配→自检）\*\* \| )([\d.]+)( ms \| 1 \|)$", re.M)
-    hits = list(pat.finditer(text))
-    assert len(hits) == 2, f"未找到两行流水线数据（找到 {len(hits)} 行）"
-    v2, v3 = hits[0].group(2), hits[1].group(2)
-    new = text[:hits[0].start()] + hits[0].group(1) + v3 + hits[0].group(3) \
-        + text[hits[0].end():hits[1].start()] + hits[1].group(1) + v2 + hits[1].group(3) \
-        + text[hits[1].end():]
-    O15_README.write_text(new, encoding="utf-8")
-    return f"O15/README 流水线耗时互换：q2_NO2={v2} <-> q3_O3={v3}"
+def blank_samples(path):
+    with path.open(encoding="utf-8-sig", newline="") as src:
+        rows = list(csv.DictReader(src))
+    next(row for row in rows if row["kind"] == "退火预算扫描")["samples"] = ""
+    with path.open("w", encoding="utf-8-sig", newline="") as dst:
+        writer = csv.DictWriter(dst, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(rows)
 
 
-def mutate_swap_top():
-    """交换顶层 README 摘要表中 Q2 与 Q3-O3 的流水线耗时单元格。"""
-    text = TOP_README.read_text(encoding="utf-8")
-    line_re = re.compile(r"^\| \*\*完整流水线（含构建）\*\* \|([^|]+)\|([^|]+)\|", re.M)
-    m = line_re.search(text)
-    assert m, "顶层 README 未找到流水线行"
-    c1, c2 = m.group(1), m.group(2)
-    new_line = f"| **完整流水线（含构建）** |{c2}|{c1}|" + text[m.end():m.end() + 0]
-    # 保留该行其余部分：仅替换前两个单元格
-    rest = text[m.end():].split("\n", 1)[0]
-    start = m.start()
-    end = text.index("\n", start)
-    line = text[start:end]
-    parts = line.split("|")
-    parts[2], parts[3] = parts[3], parts[2]
-    TOP_README.write_text(text[:start] + "|".join(parts) + text[end:], encoding="utf-8")
-    return f"顶层 README 摘要互换：{c1.strip()} <-> {c2.strip()}"
+def change_unit(path):
+    text = path.read_text(encoding="utf-8")
+    prefix = "| q2_NO2 | **完整流水线（构建→转换→适配→自检）** |"
+    line = next(line for line in text.splitlines() if line.startswith(prefix))
+    assert " ms |" in line
+    path.write_text(text.replace(line, line.replace(" ms |", " s |", 1), 1), encoding="utf-8")
 
 
-def mutate_blank_samples():
-    """清空一条退火预算记录的 samples。"""
-    rows = list(csv.DictReader(open(MCC, encoding="utf-8-sig")))
-    fields = list(rows[0].keys())
-    target = next(r for r in rows if r["kind"] == "退火预算扫描")
-    old = target["samples"]
-    target["samples"] = ""
-    with open(MCC, "w", encoding="utf-8-sig", newline="") as fh:
-        w = csv.DictWriter(fh, fields)
-        w.writeheader()
-        w.writerows(rows)
-    return f"预算记录 {target['config']} 的 samples: {old!r} -> ''"
+def alter_manifest_file(path):
+    path.write_bytes(path.read_bytes() + b"\n")
 
 
-def run_case(label, mutate, expect_fail_keyword, restore):
-    print(f"\n=== {label} ===")
-    mutate_desc = mutate()
-    print("注入:", mutate_desc)
-    code, out = run_test()
-    fails = find_fail(out)
-    hit = [f for f in fails if expect_fail_keyword in f]
-    ok = code != 0 and bool(hit)
-    print(f"测试退出码={code}，FAIL 行数={len(fails)}，命中预期={bool(hit)}")
-    for f in hit[:2]:
-        print("   ", f)
-    restore()
-    return ok, f"{label}｜{mutate_desc}｜退出码 {code}｜命中: {hit[0] if hit else '无'}"
+def run_suite(root):
+    baseline = run(root, "consistency_test")
+    if baseline.returncode:
+        return False, ["基线失败", baseline.stdout, baseline.stderr]
+    summary = baseline.stdout.strip().splitlines()[-1]
+    messages = [f"基线: {summary}"]
+    pipeline = " | **完整流水线（构建→转换→适配→自检）** |"
+    summary_row = "| **完整流水线（含构建）** |"
+    cases = [
+        ("互换 O-15 明细耗时", "O15/README.md",
+         lambda p: swap_cells(p, ("| q2_NO2" + pipeline, "| q3_O3" + pipeline), (3, 3)),
+         "O15 README 逐行耗时"),
+        ("互换总 README 摘要耗时", "README.md",
+         lambda p: swap_cells(p, (summary_row, summary_row), (2, 3)),
+         "顶层 README 摘要与 CSV"),
+        ("清空预算记录的 samples", "O11/mcc_summary.csv", blank_samples, "按记录类型校验必填列"),
+        ("将一行耗时的 ms 改为 s", "O15/README.md", change_unit, "O15 README 逐行耗时"),
+        ("更改 O-13 清单中的文件内容", "O13/README.md", alter_manifest_file, "O13 清单与文件 SHA-256"),
+    ]
+    passed = []
+    for name, relative, mutate, expected in cases:
+        file = root / relative
+        backup = file.read_bytes()
+        try:
+            mutate(file)
+            result = run(root, "consistency_test")
+            failures = [ln for ln in result.stdout.splitlines() if ln.startswith("FAIL")]
+            hit = next((ln for ln in failures if expected in ln), "")
+            ok = result.returncode == 1 and bool(hit)
+            passed.append(ok)
+            messages.append(f"{'PASS' if ok else 'FAIL'} {name} | {hit or result.stderr.strip() or '未命中预期'}")
+        finally:
+            file.write_bytes(backup)
+
+    doc_paths = [root / name for name in ("README.md", "O15/README.md")]
+    original = [path.read_text(encoding="utf-8") for path in doc_paths]
+    render1 = run(root, "render_docs")
+    first = [path.read_text(encoding="utf-8") for path in doc_paths]
+    render2 = run(root, "render_docs")
+    second = [path.read_text(encoding="utf-8") for path in doc_paths]
+    stable = render1.returncode == render2.returncode == 0 and original == first == second
+    messages.append(f"{'PASS' if stable else 'FAIL'} 连续两次文档生成与已提交版本一致")
+    baseline = run(root, "consistency_test")
+    messages.append(f"还原后基线: {baseline.stdout.strip().splitlines()[-1] if baseline.stdout else baseline.stderr}")
+    return all(passed) and stable and baseline.returncode == 0, messages
 
 
 def main():
-    lines = []
-    # 基线
-    code, out = run_test()
-    summary = out.strip().splitlines()[-1] if out.strip() else ""
-    ok_base = code == 0
-    print(f"基线: 退出码={code}, {summary}")
-    lines.append(f"基线: 退出码={code}, {summary}")
-    if not ok_base:
-        print("基线未通过，终止变异测试")
-        LOG.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        sys.exit(1)
-
-    backups = {
-        O15_README: O15_README.read_text(encoding="utf-8"),
-        TOP_README: TOP_README.read_text(encoding="utf-8"),
-        MCC: MCC.read_text(encoding="utf-8"),
-    }
-
-    def restore_all():
-        for p, content in backups.items():
-            p.write_text(content, encoding="utf-8")
-
-    results = []
-    # 用例 1a
-    def restore_o15():
-        O15_README.write_text(backups[O15_README], encoding="utf-8")
-
-    ok, rec = run_case("变异 1a：互换 O15/README 中 Q2 与 Q3-O3 流水线耗时",
-                       mutate_swap_o15, "O15 README 逐行耗时", restore_o15)
-    results.append(ok)
-    lines.append(rec)
-
-    # 用例 1b
-    def restore_top():
-        TOP_README.write_text(backups[TOP_README], encoding="utf-8")
-
-    ok, rec = run_case("变异 1b：互换顶层 README 摘要表 Q2 与 Q3-O3 流水线耗时",
-                       mutate_swap_top, "顶层 README 摘要与 CSV", restore_top)
-    results.append(ok)
-    lines.append(rec)
-
-    # 用例 2
-    def restore_mcc():
-        MCC.write_text(backups[MCC], encoding="utf-8")
-
-    ok, rec = run_case("变异 2：清空一条预算记录的 samples",
-                       mutate_blank_samples, "按记录类型校验必填列", restore_mcc)
-    results.append(ok)
-    lines.append(rec)
-
-    # 还原后基线
-    restore_all()
-    code, out = run_test()
-    summary = out.strip().splitlines()[-1]
-    ok_restore = code == 0
-    print(f"\n还原后基线: 退出码={code}, {summary}")
-    lines.append(f"还原后基线: 退出码={code}, {summary}")
-
-    all_ok = all(results) and ok_restore
-    lines.append("")
-    lines.append(f"结论: {'PASS（两个回归用例均拦截成功，且文件已还原）' if all_ok else 'FAIL'}")
-    text = "\n".join(lines)
-    print("\n" + text)
-    LOG.write_text(text + "\n", encoding="utf-8")
-    sys.exit(0 if all_ok else 1)
+    with TemporaryDirectory(prefix="q23_consistency_") as directory:
+        copy = Path(directory) / "q23_supplement"
+        shutil.copytree(ROOT, copy)
+        ok, messages = run_suite(copy)
+    text = "\n".join([*messages, f"结论: {'PASS' if ok else 'FAIL'}"]) + "\n"
+    print(text, end="")
+    LOG.write_text(text, encoding="utf-8")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
+

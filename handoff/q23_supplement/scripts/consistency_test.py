@@ -10,6 +10,7 @@ import csv
 import json
 import re
 import sys
+from hashlib import sha256
 from pathlib import Path
 
 import numpy as np
@@ -19,10 +20,6 @@ RESULTS_DIR = ROOT / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 LOG_PATH = RESULTS_DIR / "consistency_test.log"
 RESULTS = []
-
-PIPELINE_STAGE = "完整流水线（构建→转换→适配→自检）"
-PIPELINE_STAGE_TOTAL = "完整流水线（三组各构建→…→自检）"
-
 
 def check(name, fn):
     try:
@@ -159,95 +156,101 @@ def o15_build_calls():
 
 
 def _timings():
-    return {(r["scope"], r["stage"]): r for r in read_csv(ROOT / "O15" / "timings.csv")}
+    rows = read_csv(ROOT / "O15" / "timings.csv")
+    by = {(r["scope"], r["stage"]): r for r in rows}
+    assert len(rows) == len(by), "timings.csv 有重复的范围和阶段"
+    return by
 
 
-LABEL2STAGE = {
-    "QUBO 构建（预测表已载入）": "QUBO 构建（预测表已载入）",
-    "QUBO→Ising 转换": "QUBO→Ising 转换",
-    "8 位适配": "8 位适配",
-    "适配后自检": "适配后自检",
-    "完整流水线（构建→转换→适配→自检）": PIPELINE_STAGE,
-    "完整流水线（三组各构建→…→自检）": PIPELINE_STAGE_TOTAL,
-}
+def _table_rows(section, headers):
+    rows = []
+    for line in section.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip().strip("*") for c in line.strip("|").split("|")]
+        if cells[0] not in headers and not re.fullmatch(r"[-:]+", cells[0]):
+            rows.append(cells)
+    return rows
+
+
+def _indexed(rows, key_columns):
+    by = {tuple(row[:key_columns]): row[key_columns:] for row in rows}
+    assert len(by) == len(rows), "README 表格有重复行"
+    return by
+
+
+def _scope_timing(by, scope, stage_prefix):
+    rows = [r for (sc, stage), r in by.items() if sc == scope and stage.startswith(stage_prefix)]
+    assert len(rows) <= 1, f"timings.csv 阶段不唯一: {scope} / {stage_prefix}"
+    return f"{float(rows[0]['median_ms']):.3f}" if rows else None
 
 
 def o15_readme_rows():
     """按「模型范围 + 计时阶段」定位 README 行，比较数值、单位与构建次数。"""
     by = _timings()
     text = (ROOT / "O15" / "README.md").read_text(encoding="utf-8")
-    row_re = re.compile(
-        r"^\| (q2_NO2|q3_O3|q3_NO2|q3_FO2|q3_三组合并\(8,112\)) \| "
-        r"(\*\*)?([^|*]+?)(\*\*)? \| ([\d.]+) ms \| (\d+) \|$", re.M)
-    seen, bad = 0, []
-    for m in row_re.finditer(text):
-        scope, label, value, calls = m.group(1), m.group(3).strip(), float(m.group(5)), int(m.group(6))
-        if label.startswith("精确枚举"):
-            stage = next(s for s in by if s[0] == scope and s[1].startswith("精确枚举"))[1]
-        else:
-            stage = LABEL2STAGE.get(label)
-        if stage is None:
-            bad.append((scope, label, "未识别的阶段"))
-            continue
-        row = by.get((scope, stage))
-        if row is None:
-            bad.append((scope, label, "CSV 缺行"))
-            continue
-        if abs(value - float(row["median_ms"])) > 5e-4:
-            bad.append((scope, label, f"README {value} != CSV {row['median_ms']}"))
-        if calls != int(row["build_calls_per_call"] or 0):
-            bad.append((scope, label, f"构建次数 {calls} != {row['build_calls_per_call']}"))
-        seen += 1
-    assert seen >= 12, f"README 中仅解析到 {seen} 行计时数据"
-    assert not bad, f"行级不一致: {bad[:3]}"
-    return f"逐行核对 {seen} 行，数值/单位/构建次数全部一致"
+    section = text.split("## 一、本机实测耗时", 1)[1].split("## 二、", 1)[0]
+    actual = _indexed(_table_rows(section, {"范围"}), 2)
+    assert actual.keys() == by.keys(), f"计时表的行键不一致: {sorted(actual.keys() ^ by.keys())}"
+    for key, row in by.items():
+        expected = [f"{float(row['median_ms']):.3f} ms", row["build_calls_per_call"] or "0"]
+        assert actual[key] == expected, f"{key}: README {actual[key]} != CSV {expected}"
+    return f"逐行核对 {len(actual)} 行，数值、单位和构建次数一致"
 
 
 def o15_top_readme_rows():
     """顶层 README 摘要表同样要等于 CSV（防止文档手写漂移）。"""
     by = _timings()
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    start = text.index("| 阶段 | Q2 | Q3 O3 | Q3 NO2 | Q3 FO2 | Q3 三组合并 |")
-    end = text.index("本地退火（it=300", start)
-    block = text[start:end]
-    rows = {}
-    for line in block.splitlines():
-        if not line.startswith("|") or line.startswith("|---") or "阶段" in line:
-            continue
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        rows[cells[0].strip("* ")] = cells[1:]
-
-    def val(scope, stage):
-        return float(by[(scope, stage)]["median_ms"])
-
-    def num(cell):
-        return float(cell.replace("**", "").replace("ms", "").strip())
-
-    checks = [
+    section = text.split("## 三、O-15 核心结论", 1)[1].split("## 四点五、", 1)[0]
+    rows = _indexed(_table_rows(section, {"阶段"}), 1)
+    scopes = ("q2_NO2", "q3_O3", "q3_NO2", "q3_FO2", "q3_三组合并(8,112)")
+    stages = [
         ("QUBO 构建", "QUBO 构建（预测表已载入）"),
-        ("完整流水线（含构建）", PIPELINE_STAGE),
-        ("精确枚举（逐合法态能量）", None),
+        ("QUBO→Ising", "QUBO→Ising 转换"),
+        ("8 位适配", "8 位适配"),
+        ("适配后自检", "适配后自检"),
+        ("完整流水线（含构建）", "完整流水线"),
+        ("精确枚举（逐合法态能量）", "精确枚举"),
     ]
-    bad = []
-    for label, stage in checks:
-        cells = rows.get(label)
-        if cells is None:
-            bad.append((label, "缺行"))
-            continue
-        if stage is None:
-            stage_q2 = next(s for s in by if s[0] == "q2_NO2" and s[1].startswith("精确枚举"))[1]
-            stage_tot = next(s for s in by if s[0] == "q3_三组合并(8,112)" and s[1].startswith("精确枚举"))[1]
-            pairs = [("q2_NO2", cells[0], stage_q2), ("q3_三组合并(8,112)", cells[4], stage_tot)]
-        else:
-            pairs = [("q2_NO2", cells[0], stage), ("q3_O3", cells[1], stage),
-                     ("q3_NO2", cells[2], stage), ("q3_FO2", cells[3], stage)]
-            if cells[4] != "—":
-                pairs.append(("q3_三组合并(8,112)", cells[4], PIPELINE_STAGE_TOTAL))
-        for scope, cell, st in pairs:
-            if abs(num(cell) - val(scope, st)) > 5e-4:
-                bad.append((label, scope, cell, val(scope, st)))
-    assert not bad, f"顶层 README 与 CSV 不一致: {bad[:3]}"
-    return "摘要表各行与 timings.csv 一致"
+    assert rows.keys() == {(label,) for label, _ in stages}, "顶层摘要计时阶段不一致"
+    for label, stage in stages:
+        values = [_scope_timing(by, scope, stage) for scope in scopes]
+        expected = ["—" if v is None else f"{v} ms" if idx in (0, 4) else v
+                    for idx, v in enumerate(values)]
+        assert rows[label,] == expected, f"{label}: README {rows[label,]} != CSV {expected}"
+    return "摘要表六个阶段与 timings.csv 一致"
+
+
+def o15_cost_readme():
+    by = _timings()
+    costs = {row["item"]: row for row in read_csv(ROOT / "O15" / "resource_cost.csv")}
+    for (scope, stage), row in by.items():
+        item = costs[f"{scope} {stage}"]
+        assert item["unit"] == "ms" and float(item["value"]) == round(float(row["median_ms"]), 4), \
+            f"成本表耗时不一致: {scope} / {stage}"
+    readme = (ROOT / "O15" / "README.md").read_text(encoding="utf-8")
+    rows = _table_rows(readme.split("## 三、", 1)[1].split("## 四、", 1)[0], {"项目"})
+    scopes = ("q2_NO2", "q3_O3", "q3_NO2", "q3_FO2", "q3_三组合并(8,112)")
+    pipeline = [_scope_timing(by, scope, "完整流水线") for scope in scopes]
+    enum = [_scope_timing(by, scope, "精确枚举") for scope in (scopes[0], scopes[-1])]
+    for prefix, values in (("本机完整流水线", pipeline), ("本机精确枚举", enum)):
+        line, = [r[1] for r in rows if r[0].startswith(prefix)]
+        assert line.endswith(" ms") and re.findall(r"\d+\.\d+", line) == values, \
+            f"README 成本表耗时不一致: {prefix}"
+    return f"成本 CSV 的 {len(by)} 行及 README 耗时摘要与实测一致"
+
+
+def o15_local_sa():
+    scopes = (("q2", "NO2"), ("q3", "O3"), ("q3", "NO2"), ("q3", "FO2"))
+    rows = read_csv(ROOT / "O15" / "local_sa_timing.csv")
+    by = {(r["problem"], r["model"]): f"{float(r['wall_s']):.2f}" for r in rows}
+    assert len(rows) == len(by) and set(scopes) <= by.keys(), "本地退火范围有重复或缺失"
+    for file, prefix in (("README.md", "本地退火（it=300"), ("O15/README.md", "| 本地退火（it=300")):
+        line, = [s for s in (ROOT / file).read_text(encoding="utf-8").splitlines() if s.startswith(prefix)]
+        assert re.findall(r"(\d+\.\d+) s\b", line) == [by[scope] for scope in scopes], \
+            f"{file} 本地退火耗时与 CSV 不一致"
+    return "Q2 与 Q3 本地退火分别按问题和模型核对"
 
 
 def o15_cost_rows():
@@ -265,7 +268,11 @@ def o13_manifest():
               for p in (ROOT / "O13").rglob("*")
               if p.is_file() and p.name != "o13_manifest.json"}
     assert set(man["files"]) == actual, f"清单差 {len(actual - set(man['files']))}"
-    return f"清单 {len(man['files'])} 与实际一致"
+    for name, entry in man["files"].items():
+        content = (ROOT / "O13" / name).read_bytes()
+        assert len(content) == entry["bytes"] and sha256(content).hexdigest() == entry["sha256"], \
+            f"清单校验失败: {name}"
+    return f"清单 {len(man['files'])} 个文件的路径、字节数和 SHA-256 一致"
 
 
 def o13_receipt():
@@ -320,8 +327,10 @@ def main():
         ("O15 计时区间构建次数 1/1/1/1/3", o15_build_calls),
         ("O15 README 逐行耗时与构建次数", o15_readme_rows),
         ("O15 顶层 README 摘要与 CSV 一致", o15_top_readme_rows),
+        ("O15 成本表逐项核对", o15_cost_readme),
+        ("O15 本地退火按问题与模型核对", o15_local_sa),
         ("O15 成本含 SDK 与额度 7 次", o15_cost_rows),
-        ("O13 清单与实际文件一致", o13_manifest),
+        ("O13 清单与文件 SHA-256 一致", o13_manifest),
         ("O13 回执 6 任务、新任务额度=1", o13_receipt),
         ("O13 额度 31→24=7 且有凭证", o13_credits),
         ("O10 含惩罚矩阵/偏置/Ising", o10_npz),
