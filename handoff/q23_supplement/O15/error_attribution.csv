@@ -1,36 +1,54 @@
 ﻿layer,problem,metric,value,unit,source,status
 映射误差,q2,SDK Ising 与独立公式矩阵最大偏差,2.1316282072803006e-14,系数,stage1_sdk_ising.json（真实 SDK）,measured
-映射误差,q2,合法态能量链（E_sdk+bias vs xᵀQx）最大偏差,1.4241940959891508e-12,能量,stage1_sdk_ising.json,measured
-量化误差,q2,qubo_x127/4 最优候选是否保留,False,bool,O11/sorting_retention.csv,measured
+映射误差,q2,合法态能量链 E_sdk+bias vs xᵀQx 最大偏差,1.4241940959891508e-12,能量,stage1_sdk_ising.json,measured
+量化误差,q2,qubo_x127/4 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q2,"qubo_x127/4 按 (能量,ID) 决胜后原最优是否第一",False,bool,O11/sorting_retention.csv,measured
 量化误差,q2,qubo_x127/4 最低档并列数,6,个,O11/sorting_retention.csv,measured
-量化误差,q2,qubo_x127/4 最优 V̂ 损失,0.647402512930336,V̂,O11/sorting_retention.csv,measured
-量化误差,q2,direct_ising_8bit 最优候选是否保留,False,bool,O11/sorting_retention.csv,measured
+量化误差,q2,qubo_x127/4 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.647402512930336,V̂,O11/sorting_retention.csv,measured
+量化误差,q2,qubo_xfloor 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q2,"qubo_xfloor 按 (能量,ID) 决胜后原最优是否第一",False,bool,O11/sorting_retention.csv,measured
+量化误差,q2,qubo_xfloor 最低档并列数,6,个,O11/sorting_retention.csv,measured
+量化误差,q2,qubo_xfloor 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.647402512930336,V̂,O11/sorting_retention.csv,measured
+量化误差,q2,direct_ising_8bit 原最优是否仍在最低能量档,False,bool,O11/sorting_retention.csv,measured
+量化误差,q2,"direct_ising_8bit 按 (能量,ID) 决胜后原最优是否第一",False,bool,O11/sorting_retention.csv,measured
 量化误差,q2,direct_ising_8bit 最低档并列数,8,个,O11/sorting_retention.csv,measured
-量化误差,q2,direct_ising_8bit 最优 V̂ 损失,5.810026568114293,V̂,O11/sorting_retention.csv,measured
-量化误差,q2,partition_NO2 最优候选是否保留,True,bool,O11/sorting_retention.csv,measured
+量化误差,q2,direct_ising_8bit 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,5.810026568114293,V̂,O11/sorting_retention.csv,measured
+量化误差,q2,clip_d0.4_l1.02 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q2,"clip_d0.4_l1.02 按 (能量,ID) 决胜后原最优是否第一",True,bool,O11/sorting_retention.csv,measured
+量化误差,q2,clip_d0.4_l1.02 最低档并列数,1,个,O11/sorting_retention.csv,measured
+量化误差,q2,clip_d0.4_l1.02 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.0,V̂,O11/sorting_retention.csv,measured
+量化误差,q2,partition_NO2 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q2,"partition_NO2 按 (能量,ID) 决胜后原最优是否第一",True,bool,O11/sorting_retention.csv,measured
 量化误差,q2,partition_NO2 最低档并列数,1,个,O11/sorting_retention.csv,measured
-量化误差,q2,partition_NO2 最优 V̂ 损失,0.0,V̂,O11/sorting_retention.csv,measured
+量化误差,q2,partition_NO2 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.0,V̂,O11/sorting_retention.csv,measured
 映射误差,q3,SDK Ising 与独立公式矩阵最大偏差,9.947598300641403e-14,系数,stage1_sdk_ising.json（真实 SDK）,measured
-映射误差,q3,合法态能量链（E_sdk+bias vs xᵀQx）最大偏差,4.565237077258644e-12,能量,stage1_sdk_ising.json,measured
-量化误差,q3,qubo_x127/4 最优候选是否保留,False,bool,O11/sorting_retention.csv,measured
+映射误差,q3,合法态能量链 E_sdk+bias vs xᵀQx 最大偏差,4.565237077258644e-12,能量,stage1_sdk_ising.json,measured
+量化误差,q3,qubo_x127/4 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q3,"qubo_x127/4 按 (能量,ID) 决胜后原最优是否第一",False,bool,O11/sorting_retention.csv,measured
 量化误差,q3,qubo_x127/4 最低档并列数,21,个,O11/sorting_retention.csv,measured
-量化误差,q3,qubo_x127/4 最优 V̂ 损失,0.6450585378624697,V̂,O11/sorting_retention.csv,measured
-量化误差,q3,direct_ising_8bit 最优候选是否保留,False,bool,O11/sorting_retention.csv,measured
+量化误差,q3,qubo_x127/4 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.6450585378624697,V̂,O11/sorting_retention.csv,measured
+量化误差,q3,qubo_xfloor 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q3,"qubo_xfloor 按 (能量,ID) 决胜后原最优是否第一",False,bool,O11/sorting_retention.csv,measured
+量化误差,q3,qubo_xfloor 最低档并列数,24,个,O11/sorting_retention.csv,measured
+量化误差,q3,qubo_xfloor 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.6450585378624697,V̂,O11/sorting_retention.csv,measured
+量化误差,q3,direct_ising_8bit 原最优是否仍在最低能量档,False,bool,O11/sorting_retention.csv,measured
+量化误差,q3,"direct_ising_8bit 按 (能量,ID) 决胜后原最优是否第一",False,bool,O11/sorting_retention.csv,measured
 量化误差,q3,direct_ising_8bit 最低档并列数,16,个,O11/sorting_retention.csv,measured
-量化误差,q3,direct_ising_8bit 最优 V̂ 损失,9.752985454916956,V̂,O11/sorting_retention.csv,measured
-量化误差,q3,partition_O3 最优候选是否保留,True,bool,O11/sorting_retention.csv,measured
+量化误差,q3,direct_ising_8bit 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,9.752985454916956,V̂,O11/sorting_retention.csv,measured
+量化误差,q3,clip_d0.4_l1.02 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q3,"clip_d0.4_l1.02 按 (能量,ID) 决胜后原最优是否第一",True,bool,O11/sorting_retention.csv,measured
+量化误差,q3,clip_d0.4_l1.02 最低档并列数,1,个,O11/sorting_retention.csv,measured
+量化误差,q3,clip_d0.4_l1.02 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.0,V̂,O11/sorting_retention.csv,measured
+量化误差,q3,partition_O3 原最优是否仍在最低能量档,True,bool,O11/sorting_retention.csv,measured
+量化误差,q3,"partition_O3 按 (能量,ID) 决胜后原最优是否第一",True,bool,O11/sorting_retention.csv,measured
 量化误差,q3,partition_O3 最低档并列数,1,个,O11/sorting_retention.csv,measured
-量化误差,q3,partition_O3 最优 V̂ 损失,0.0,V̂,O11/sorting_retention.csv,measured
-采样误差,q2,NO2 合法样本比例,0.73,比例,entry_all_local_verified_it300.json,measured
-采样误差,q2,NO2 种子命中比例,1.0,比例,entry_all_local_verified_it300.json,measured
-采样误差,q2,NO2 最优返回 V̂ 损失,0.0,V̂,同上,measured
-采样误差,q3,O3 合法样本比例,0.7866666666666666,比例,entry_all_local_verified_it300.json,measured
-采样误差,q3,O3 种子命中比例,1.0,比例,entry_all_local_verified_it300.json,measured
-采样误差,q3,O3 最优返回 V̂ 损失,0.0,V̂,同上,measured
-采样误差,q3,NO2 合法样本比例,0.73,比例,entry_all_local_verified_it300.json,measured
-采样误差,q3,NO2 种子命中比例,1.0,比例,entry_all_local_verified_it300.json,measured
-采样误差,q3,NO2 最优返回 V̂ 损失,0.0,V̂,同上,measured
-采样误差,q3,FO2 合法样本比例,0.7766666666666666,比例,entry_all_local_verified_it300.json,measured
-采样误差,q3,FO2 种子命中比例,1.0,比例,entry_all_local_verified_it300.json,measured
-采样误差,q3,FO2 最优返回 V̂ 损失,0.0,V̂,同上,measured
-代理误差,q1,03 集 MAE / RMSE / Spearman / Top-25 / Top-50,2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50,混合,Q1 交付 experiments/q1_v12/REPORT.md、PROJECT_STATUS.md、README.md（本组未独立复算，仅引用）,外部记录（Q1 交付，引用未复算）
+量化误差,q3,partition_O3 按 ID 决胜后的 V̂ 损失（并列造成，非能量差）,0.0,V̂,O11/sorting_retention.csv,measured
+采样误差,q2,NO2 合法样本比例（本地退火 it=300）,0.73,比例,entry_all_local_verified_it300.json,measured
+采样误差,q2,NO2 批次命中率（30 批×10 样本，任一批含最优即记命中）,1.0,比例,entry_all_local_verified_it300.json,measured
+采样误差,q3,O3 合法样本比例（本地退火 it=300）,0.7866666666666666,比例,entry_all_local_verified_it300.json,measured
+采样误差,q3,O3 批次命中率（30 批×10 样本，任一批含最优即记命中）,1.0,比例,entry_all_local_verified_it300.json,measured
+采样误差,q3,NO2 合法样本比例（本地退火 it=300）,0.73,比例,entry_all_local_verified_it300.json,measured
+采样误差,q3,NO2 批次命中率（30 批×10 样本，任一批含最优即记命中）,1.0,比例,entry_all_local_verified_it300.json,measured
+采样误差,q3,FO2 合法样本比例（本地退火 it=300）,0.7766666666666666,比例,entry_all_local_verified_it300.json,measured
+采样误差,q3,FO2 批次命中率（30 批×10 样本，任一批含最优即记命中）,1.0,比例,entry_all_local_verified_it300.json,measured
+代理误差,q1,03 集 MAE / RMSE / Spearman / Top-25 / Top-50,2.4715 / 4.5827 / 0.9383 / 8-of-25 / 20-of-50,混合,Q1 交付 experiments/q1_v12/REPORT.md、PROJECT_STATUS.md、README.md（本组未独立复算）,外部记录（Q1 交付，引用未复算）
