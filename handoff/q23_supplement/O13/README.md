@@ -133,3 +133,13 @@ O13/
 ```bash
 python scripts/o13_process_logs.py    # 重新匹配矩阵并解码全部日志
 ```
+
+
+---
+
+## 七、probe4_01 凭证缺口（P0-06）
+
+额度台账共 7 次扣减，其中 `probe4_01`（4 变量探针，`probe_upper.csv`）**只有台账与任务列表截图**
+（`evidence/credits_after_2026-11-28.png` 可见该行），**缺任务 ID、原始返回、时间记录，本地也无矩阵原文**。
+按复审规则标记为“**台账有记录、原始回执缺失**”（`UNVERIFIED`），不单列进论文。
+补交方式与已查范围见 `probe4_01_gap.md`。
