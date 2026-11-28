@@ -1,0 +1,10 @@
+争议数字,原始出处,复核结论,正文可用口径,运行ID或文件
+"O-11 Q3–O3 历史 0/300、0 命中","q23_fix/results/stage2_quant_partition.json → hitrate.O3_base","已定位为旧统计计数器 bug：把绝对列号再减 52。同一批样本用正确计数为 8/300；历史运行日志未归档 → UNVERIFIED","引用 8/300；历史 0/300 仅作 bug 说明，不作为结果","O11-R01（stage2）、O11-R02（stage3）；O11/reconciliation/README.md"
+"O-11 Q3–O3 现记录 8/300、8 命中","q23_fix/results/stage3_hitrate_fix.json → runs.baseline_K52_l2__it30_a0.9；本轮两入口复跑","复核通过：两入口矩阵与映射逐元素一致，同种子均 8/300；正确计数 8 批次命中；旧计数 0","8/300（30 种子×10 样本；批次命中 8/30）","O11-R01、O11-R02；O11/reconciliation/samples_*.csv"
+"O-14 盲池耗时 45–786 s","O14/README.md（旧文）","本地找不到对应任何一次运行 → UNVERIFIED，已撤回","不用；引用 38.532520–48.535693 s","O14-R01…R08；O14/results/o14_runs.csv"
+"O-15 本地退火合计 178.14 s","entry_all_local_verified_it300.json 四组","实际未舍入合计 178.131869 s；178.14 为各组先保留两位小数再相加（差 0.004 s）","引用 178.132 s（未舍入合计）","O15-R01…R04；O15/local_sa_timing.csv"
+"O-15 整合包耗时 162.556 s","local_v1_frozen_30x10（来源包不在本仓库）","无法复核 → UNVERIFIED，待提供来源包","不用；仅登记","O15 成本表 UNVERIFIED 行"
+"SDK 每组 20.81–20.96 s","复审环境 Kaiwu 记录（非本机）","外部实测；测量起止未在本包归档，与短计时口径不同","20.81–20.96 s/组（完整流程；30 次尝试×每次最多 10 样本）","O15/resource_cost.csv"
+"SDK 30 次合计 0.48–0.69 s","q23_review/.../sdk_*_runs.csv 的 wall_ms 之和；计时代码 kaiwu_local.py L65–67","可复核：仅 opt.solve() 调用级计时，不含初始化/转换/适配/解码/合法性核对","作补充说明，不与 20.81–20.96 s 混用","O15/resource_cost.csv（SDK 求解调用行）"
+"probe4_01 任务凭证","平台任务列表截图（可见 probe4_01_01 / probe_upper.csv / 已完成 / SPQC-550）+ 额度台账","任务存在且有 1 次额度记录，但缺任务 ID、原始返回、创建/结束时间 → 台账有、原始回执缺失","论文只写额度总扣减 7 次；probe 不单列","O13/probe4_01_gap.md；O13/evidence/credits_after_2026-11-28.png"
+"Q3 真机两批 0/10 与 7/10","experiments/q3/REPORT.md（首批）与 hardware_followup/PAPER_EVIDENCE.md（补测）","两次不同任务、不同矩阵，非矛盾；需按任务分别引用","分两批写，注明任务 ID 84480e66fc1a4e279ee0c4127e45d9a6","V2 仓库 experiments/q3/"
