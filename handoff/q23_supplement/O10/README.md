@@ -70,14 +70,37 @@ f = c + Σα_i a_i + Σβ_j b_j + Σγ_k x_k
 4. 208 变量联合编码在浮点下正确，但 `|h|=161 > 127`，同样无法直接上 8 位硬件。
 5. 因此“降位带来复杂度优势”的说法缺乏证据：变量更少（107 < 208）却付出精度与可行性代价。
 
-## 六、文件
+## 六、两个“最优”必须分开列
+
+| 口径 | 材料 | 数值 |
+|---|---|---|
+| **投影目标最优**（拟合函数 f 的最小值） | **Rb–Ta–O3** | f 最小；其原始预测分 V̂=0.676651 |
+| **原始预测分最优**（冻结代理 V̂ 的最小值） | **Na–Nb–O3** | V̂=0.540023 |
+| 两者原尺度差距 | — | **+0.136628** |
+
+投影最优与原始最优不是同一个材料，Top-1/Top-5 重合为 0，说明二阶投影改变了目标函数的最优点。
+论文若报告“投影 QUBO 的解”，必须注明是**投影目标**的最优，不能与 Na–Nb–O3 混写。
+
+## 七、求解与归档
+
+- 求解用的矩阵：**含惩罚的 107×107 QUBO**（三组独热罚，λ=65.53）+ 偏置 3λ，以及对应 Ising 矩阵，
+  已归档在 `matrices/q3_projection_107.npz`（字段 `penalized_qubo / penalized_offset / ising_matrix / ising_constant`）；
+- 逐样本返回：`results/o10_samples.csv`，300 条，含 `spin`（±1 串）、`bits`（0/1 串）、
+  `material`、`V_hat`、`energy_projection`、`legal`；
+- 本地退火结果：300/300 合法；其中返回**投影目标最优 Rb–Ta–O3** 6 次、
+  返回**原始预测分最优 Na–Nb–O3** 2 次（两个目标不同，不能互相替代）；
+- 后端为**本地退火（非 SDK、非真机）**，耗时 49.6 s（30 种子×10 样本，it=300, α=0.99）。
+
+## 八、文件与复现
 
 ```
 O10/
-├── results/o10_projection.json     完整指标（拟合、对照、求解）
-├── results/o10_comparison.csv      三编码对照表
-└── matrices/q3_projection_107.npz  107 变量 QUBO、权重、特征偏移
+├── results/o10_projection.json   完整指标（拟合、对照、求解汇总）
+├── results/o10_comparison.csv    三编码对照表
+├── results/o10_samples.csv       300 条逐样本（自旋/比特/解码/V̂/投影能量）
+└── matrices/q3_projection_107.npz 浮点 QUBO、含惩罚 QUBO、Ising 矩阵、权重、特征偏移
 ```
 
-**限制**：本轮为本地 CPU 退火，无 SDK、无真机；投影的 8 位适配结论基于系数范围与整数性推导，
-未在硬件上实测。
+```bash
+python scripts/o10_projection.py     # 拟合 + 建矩阵 + 求解 + 归档（约 1 分钟）
+```
