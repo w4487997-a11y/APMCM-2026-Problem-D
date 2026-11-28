@@ -1,0 +1,5 @@
+﻿problem,model,variables,backend,iters,seeds,samples,wall_s,per_sample_ms
+q2,NO2,104,local,300,30,10,50.29,167.631
+q3,O3,104,local,300,30,10,41.85,139.484
+q3,NO2,104,local,300,30,10,40.5,135.0
+q3,FO2,104,local,300,30,10,45.5,151.658
