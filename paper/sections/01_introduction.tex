@@ -39,14 +39,19 @@ The three questions form a linked workflow.  Q1 reconstructs the five
 official violation components from predicted material properties.  Its
 two-stage band-gap model combines the probability of a positive gap with
 the predicted gap conditional on positivity; model selection considers
-both global error and low-tail retrieval.  For Q2, we fix
-$X=\mathrm{NO}_2$ and represent the 2,704 ordered cation pairs with 52
-A-site and 52 B-site one-hot variables.  For Q3, we solve the same
-104-variable formulation separately for $\mathrm{O}_3$, $\mathrm{NO}_2$,
-and $\mathrm{FO}_2$, then compare the three decoded winners using the
-original surrogate scores.  The three groupwise searches cover all 8,112
-Q3 candidates.  This design avoids directly quantizing the 208-variable
-joint control, whose precision problems are examined below.
+both global error and low-tail retrieval.  File~03 is used in that
+selection, so its reported metrics and finite-budget replay are
+selection-involved retrospective assessments rather than an independent
+external test.  For Q2, we fix $X=\mathrm{NO}_2$ and represent the 2,704
+ordered cation pairs with 52 A-site and 52 B-site one-hot variables.  For
+Q3, we solve the same 104-variable formulation separately for
+$\mathrm{O}_3$, $\mathrm{NO}_2$, and $\mathrm{FO}_2$, then compare the
+decoded groupwise proxy minima on the original surrogate scale.  These
+full-pool matrices use an oracle-assisted two-level cost based on the
+already enumerated group minimum.  Separate blind-pool experiments use
+within-pool score scaling without injecting the winning identity; their
+role is to test oracle-free search on the restricted blind-pool proxy
+objectives, not to validate physical properties.
 
 We check each stage against records appropriate to that stage.  Source
 hashes and split assignments document the data pipeline; exhaustive
@@ -71,14 +76,19 @@ The evidence-supported contributions are:
  \item exhaustive proxy-score evaluation for Q2 and groupwise Q3, followed
        by one-hot encoding and decoding on the original score scale;
  \item an oracle-assisted, group-winner-preserving two-level integer
-       encoding that fits the recorded eight-bit coefficient range, while
-       explicitly sacrificing non-winner score differences and complete
-       ranking information;
- \item documented comparisons of CPU-local SDK and simulated-annealing
-       samples, including feasibility, optimum hits, timing records,
-       negative tests, and regression checks; and
- \item a four-layer error analysis separating surrogate, mathematical
-       mapping, coefficient precision, and solver sampling uncertainty.
+       encoding for the full pools, explicitly treated as a representation
+       and sampling test of a previously enumerated proxy minimum rather
+       than an independent optimizer;
+ \item a complementary oracle-free blind-pool construction based only on
+       within-pool score scaling, with matrices frozen before local
+       simulated-annealing runs and no winning identity supplied to the
+       encoding;
+ \item documented comparisons of CPU-local SDK, local simulated annealing,
+       and SPQC-550 samples, with their distinct evidence levels, timing
+       scopes, feasibility checks, and failure cases; and
+ \item a four-layer error analysis that mathematically separates surrogate
+       error, QUBO--Ising mapping residuals, coefficient quantization and
+       ranking distortion, and solver sampling outcomes.
 \end{enumerate}
 
 Together, these components form a screening and optimization workflow

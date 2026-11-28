@@ -1,20 +1,42 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-On file~03, which informed model selection, the Q1 surrogate achieved
-MAE $2.4715$, Spearman correlation $0.9383$, and 20 true Top-50 hits.  A
-retrospective budget-50 replay retrieved 23 records with $V<5$, compared
-with a uniform-sampling expectation of $0.8818$.  The low-tail MAE of
-$8.2654$ and the absence of labels for file~04 limit the interpretation
-to candidate prioritization.  For Q2, the 104-variable mapping selected
-Y--Ti--NO2 ($\widehat V_{23}=1.491928$); for Q3, the groupwise mappings
-selected Na--Nb--O3 ($\widehat V_{23}=0.540023$).  The Q2/Q3 pools are
-unlabeled, so their prediction errors cannot be estimated independently.
+The Q1 surrogate achieved MAE $2.4715$, RMSE $4.5827$, Spearman
+correlation $0.9383$, and 20 true Top-50 hits on file~03.  Its
+budget-50 retrospective replay retrieved 23 records with $V<5$,
+compared with a uniform-sampling expectation of $0.8818$.  Because
+file~03 informed model selection, these figures are selection-involved
+assessments rather than independent external-validation results.  The
+low-tail MAE of $8.2654$ and the absence of labels for file~04 further
+limit the Q1 claim to candidate prioritization.
 
-The adopted eight-bit encoding preserves each previously identified group
-winner and separates it from illegal states, but it is oracle-assisted and
-does not preserve the ordering among non-winners.  Uniform quantization
-created tied minima, while the 107-variable projection changed the
-optimum.  The study therefore demonstrates an auditable encoded-proxy
-screening workflow, not physical validation of the selected materials
-or quantum advantage.
+Exhaustive enumeration of the frozen Q2/Q3 proxy tables identified
+Y--Ti--NO2 ($\widehat V_{23}=1.491928$) and Na--Nb--O3
+($\widehat V_{23}=0.540023$) as numerical minima within their supplied
+candidate domains.  Their margins to the runner-up candidates are
+$0.313819$ and $0.013123$.  The Q2/Q3 pools are unlabeled, so their
+prediction errors cannot be estimated independently.  The file~03
+low-tail MAE is much larger than either margin, but it comes from a
+different model fit and is not an uncertainty bound for
+$\widehat V_{23}$.  We therefore do not interpret either proxy minimum
+as a statistically resolved or physically unique material winner.
+
+For the full pools, the adopted two-level eight-bit QUBOs preserve the
+already enumerated group minima and separate them from illegal states.
+Because their construction uses the known group minima, these matrices
+are oracle-assisted representation and sampling tests, not independent
+discovery methods; they also discard the ordering among non-winning
+candidates.  The complementary blind-pool experiments use within-pool
+score scaling without supplying winner identities.  Local simulated
+annealing found the floating-point blind-pool minima in 25--27 of 30
+batches, while the eight-bit models hit in 11--16 of 30 batches and
+introduced 11--34 minimum-tier ties.  These are oracle-free searches
+over unlabeled blind-pool proxy objectives, not physical validation or
+Kaiwu/SPQC evidence.
+
+The study's contribution is therefore an auditable comparison of
+oracle-assisted full-pool encoding and oracle-free blind-pool search,
+together with a composition-based screening workflow and separately
+defined mapping, quantization, and sampling checks.  It does not
+establish physical feasibility, a statistically unique material winner,
+repeatable hardware performance, or quantum advantage.

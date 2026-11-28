@@ -32,7 +32,10 @@ $E_{\rm CBM}<4.50$.  We therefore report the score and strict feasibility
 as separate quantities; a low predicted score does not certify that a
 candidate satisfies the strict conditions.
 
-For Q1, model selection uses files~02 and~03.  After the specification
+For Q1, model selection uses files~02 and~03.  File~03 is therefore a
+selection-involved validation split, not an independent external holdout;
+its reported metrics and retrospective budget replay are descriptive
+assessments on a split that informed selection.  After the specification
 is frozen, the release artifact \texttt{q1\_final} is fitted on file~02
 alone and applied to the unlabeled file~04.  We assess the selected model
 using MAE, RMSE, Spearman correlation, low-tail error, and Top-$K$
@@ -74,8 +77,14 @@ common original scale,
  \label{eq:q3-group-comparison}
 \end{equation}
 The proxy enumeration covers all 8,112 Q3 candidates and is distinct from the
-earlier 208-variable joint control.  Sections~\ref{sec:q2-qubo}--\ref{sec:hardware-precision}
-audit the cost transform, offset, coefficient bounds, and decoding.
+earlier 208-variable joint control.  For the full pools, the group minimum
+used by the adopted two-level transform is obtained from this enumeration
+before QUBO construction; the resulting encoding is therefore
+oracle-assisted.  The blind-pool experiments instead scale only the
+predicted scores within each restricted pool and do not use the enumerated
+winner identity.  Sections~\ref{sec:q2-qubo}--\ref{sec:hardware-precision}
+audit these distinct constructions, their offsets, coefficient bounds,
+and decoding.
 
 \subsection{Assumptions and evidence boundary}
 

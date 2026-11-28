@@ -8,17 +8,19 @@ composition-only surrogate and evaluates its value for low-tail screening.
 Q2 minimizes the frozen Q2/Q3 scoring model over the 2,704 legal $(A,B)$
 pairs at fixed $X=\mathrm{NO}_2$.  Q3 performs the corresponding search
 for $X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ and compares the
-three group winners on the original proxy-score scale.  The principal
+three groupwise proxy minima on the original score scale.  The principal
 results are a Q1 MAE of $2.4715$ with 20 true Top-50 hits on file~03, the
-Q2 candidate Y--Ti--NO2 ($\widehat V_{23}=1.491928$), and the Q3 candidate
-Na--Nb--O3 ($\widehat V_{23}=0.540023$).  The Q2 and Q3 runner-up margins
-are $0.313819$ and $0.013123$, respectively.  Because the Q2/Q3 pools are
-unlabeled, their proxy-score errors cannot be estimated independently.
-For scale only, the file~03 low-tail MAE of $8.2654$ is numerically
-much larger than either runner-up margin.  Because it comes from a
-different model fit and a labeled validation split, it is not an error
-bound for $\widehat V_{23}$; it nevertheless shows why the proxy margins
-alone cannot establish statistical or physical separation.
+Q2 numerical proxy minimum Y--Ti--NO2 ($\widehat V_{23}=1.491928$), and
+the Q3 numerical proxy minimum Na--Nb--O3
+($\widehat V_{23}=0.540023$).  Their runner-up margins are $0.313819$
+and $0.013123$, respectively.  Because the Q2/Q3 pools are unlabeled,
+their proxy-score errors cannot be estimated independently.  For scale
+only, the file~03 low-tail MAE of $8.2654$ is much larger than either
+margin.  This value comes from a different model fit and a
+selection-involved split, so it is not an error bound or confidence
+interval for $\widehat V_{23}$.  The two minima are therefore numerical
+rankings of the frozen proxy tables, not statistically resolved or
+physically unique material winners.
 
 The Q1 results illustrate a trade-off between global error and
 low-tail retrieval.  Relative to direct HGB, the frozen mixture improved
@@ -50,41 +52,51 @@ same four adopted matrices.  Across 1,200 returned samples, Kaiwu SDK~1.4.3
 on the CPU produced 99 legal states ($8.25\%$), hit the optimum in 99 of
 120 seed-level attempts, and recorded 83.413~s of solver time.  Local
 simulated annealing produced 907 legal states ($75.58\%$) and hit the
-optimum in all 120 recorded chain groups.  The two archives report
-162.556 and 178.14~s for the four local-SA controls.  Because the run
-versions have not been reconciled, we retain both values and calculate no
-speed ratio.  Although each group returned its best legal candidate, the
-attempt definitions, code paths, and overheads differ.  These timing
-records are therefore a provenance ledger, not a backend-speed or
-quantum-advantage test.
+optimum in all 120 recorded ten-read batches.  The audited O-15 runs
+(O15-R01--R04) took 178.131869~s in total.  The previously circulated
+162.556~s total has no source package in the current repository and is
+marked \textbf{UNVERIFIED}; it is excluded rather than averaged with the
+audited total.  The attempt definitions, code paths, and timing boundaries
+differ, so these records are a provenance comparison, not evidence of
+backend-speed superiority or quantum advantage.
 
 \subsection{Four-layer error audit}
 
 The four error layers cannot be added into a single total because
-they have different units and conditioning events.  First, the file~03
-surrogate metrics are MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$, and
-low-tail MAE $8.2654$.  The true Q2/Q3 candidate error remains NA because
-those pools have no labels.  Second, Table~\ref{tab:mapping-audit}
-distinguishes exact integer checks from floating-point controls.  The
-adopted 104-variable integer energies agree exactly in the discrete
-checks.  The Q2 residuals ($2.13\times10^{-14}$ and $1.42\times10^{-12}$)
-and Q3 residuals ($9.95\times10^{-14}$ and $4.57\times10^{-12}$) belong
-to the floating-point 104- and 208-variable controls, respectively, and
-are within numerical tolerance.  A comparable Kaiwu~1.4.4 residual for
-the adopted 104-variable matrices remains NA.
+they have different units and conditioning events.  First, the
+selection-involved file~03 assessment reports MAE $2.4715$, RMSE
+$4.5827$, Spearman $0.9383$, and low-tail MAE $8.2654$; these are not
+independent external-test estimates.  The true Q2/Q3 candidate error
+remains NA because those pools have no labels.  Second, mapping precision
+is reported with the two residuals defined in
+Equations~\eqref{eq:coefficient-residual} and
+\eqref{eq:energy-chain-residual}.  For the floating-point Q2 104-variable
+and Q3 208-variable controls, $(\epsilon_{\mathrm{coef}},
+\epsilon_{\mathrm{energy}})$ equals
+$(2.13\times10^{-14},1.42\times10^{-12})$ and
+$(9.95\times10^{-14},4.57\times10^{-12})$, respectively.  The adopted
+104-variable integer matrices instead have an exact formula-to-matrix
+residual of zero integer units over the 2,704 legal states per group;
+the comparable Kaiwu~1.4.4 floating residual for those matrices remains
+NA.
 
-Third, uniform integerization retained the raw optimum in the lowest
-energy tier but introduced six Q2 ties and 21--24 Q3 ties.  Breaking those
-ties by candidate ID produced proxy-score losses of 0.6474 and 0.6451.
-The adopted two-level matrices retain the known group winners, with
-$\max|h|=102$, $\max|J|=1$, and a minimum illegal-minus-winner energy gap
-of 2.  This mapping is oracle-assisted and does not preserve the ordering
-among non-winners.  Fourth, we report SDK--CPU, local-SA, and SPQC-550
-sampling separately.  The four final hardware tasks had legal-sample rates
-of 10\%, 40\%, 0\%, and 20\%; three returned at least one group argmin,
-despite unequal sample counts of 10, 10, 7, and 5.  This task count is not
-a hardware success rate.  These four evidence layers are therefore kept
-separate rather than combined into a synthetic total-error measure.
+Third, uniform eight-bit quantization left the raw minimizer in the
+lowest energy tier but introduced six Q2 ties and 21 or 24 Q3 ties.
+The score losses $0.6474$ and $0.6451$ arise only after candidate-ID
+tie-breaking; they are not energy residuals or changes that displaced
+the raw minimizer from the lowest tier.  The adopted two-level full-pool
+matrices retain a known group argmin, with $\max|h|=102$, $\max|J|=1$,
+and a minimum illegal-minus-legal energy gap of 2, but this is an
+oracle-assisted encoding that discards non-winner ordering.  In contrast,
+the blind-pool encodings do not use the winner identity: their floating
+models hit the pool minima in 25--27/30 batches, while the eight-bit
+models hit in 11--16/30 batches and create 11--34 minimum-tier ties.
+These blind-pool runs are local CPU simulated annealing, not SDK or
+SPQC-550 results.  Fourth, the four final SPQC tasks had legal-sample
+rates of 10\%, 40\%, 0\%, and 20\%; three returned at least one
+full-pool proxy argmin, with unequal sample counts of 10, 10, 7, and 5.
+This task count is not a hardware success rate.  The four layers remain
+separate rather than being combined into a synthetic total-error measure.
 
 \subsection{Pipeline robustness and measured cost boundary}
 
@@ -94,14 +106,22 @@ Q2/Q3 entry domains, and source-field validation.  These checks support
 pipeline integrity, not material accuracy; the complete defect list is in
 Appendix~\ref{sec:appendix-cost-audit}.
 
-The raw CSV/JSON records report 6.551~ms for Q2 matrix preparation and
-23.197~ms for the three Q3 groups combined.  The Kaiwu SDK~1.4.3 CPU solves
-took 20.81--20.96~s per group, or 83.413~s in total.  Conflicting README
-and short-SDK timing fields, the two local-SA totals (162.556 and
-178.14~s), and the incomplete SPQC receipt ledger remain UNVERIFIED; we
-do not combine them into a speed ratio.  Their provenance, together with
-the still-NA queue, complete-execution, and monetary-cost fields, is
-documented in Appendix~\ref{sec:appendix-cost-audit}.
+The measured complete QUBO build--convert--eight-bit-adapt--check
+pipeline, including matrix construction, took 6.551~ms for Q2 and
+7.430, 7.524, and 7.591~ms for the three Q3 groups; the separately
+measured three-group Q3 total was 23.197~ms.  Kaiwu SDK~1.4.3 CPU
+full-workflow times were 20.81--20.96~s per group (83.413~s across the
+four matrices) in the external review environment.  A separate audit
+measured 0.48--0.69~s for 30 calls to \texttt{opt.solve()} only; this
+excludes initialization, conversion, adaptation, decoding, and
+feasibility checks and is not comparable to the full-workflow times.
+The local-SA total is 178.131869~s (O15-R01--R04); the earlier
+162.556~s figure is \textbf{UNVERIFIED} and excluded.  SPQC-550
+creation-to-finish intervals were 16--112~s, while queue time and
+complete execution time were not separately reported.  These distinct
+timing scopes are not combined into a speed ratio.  The still-NA queue,
+complete-execution, and monetary-cost fields are documented in
+Appendix~\ref{sec:appendix-cost-audit}.
 
 \subsection{Stability, contribution, and limitations}
 
@@ -114,10 +134,14 @@ is returned, but the integer design deliberately discards non-winner scores.
 
 Composition-based screening and one-hot QUBO are established methods
 \cite{Ward2016Magpie,Chen2024PerovskiteML,Lucas2014IsingNP,Glover2019QUBOTutorial}.
-Our narrower contribution is an auditable link from low-tail screening to an
-enumerable, eight-bit-compatible encoding, with proxy, mapping, precision,
-and sampling errors kept separate and decoded on the original score scale.
-It is not a new universal surrogate, annealing algorithm, or quantum advantage.
+Our narrower contribution is an auditable comparison of two distinct
+routes: an oracle-assisted, winner-preserving full-pool encoding for
+testing eight-bit representability, and an oracle-free blind-pool encoding
+for testing search without injecting the winner identity.  The associated
+surrogate, mathematical mapping, coefficient quantization, and sampling
+evidence are kept separate and decoded on the original score scale.  This
+is not a new universal surrogate, annealing algorithm, or quantum
+advantage.
 
 The method ranks candidates only within the supplied categorical domain.
 File~03 informed model selection, while file~04 and the blind pools remain

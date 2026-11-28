@@ -52,10 +52,12 @@ not identify a causal mechanism.
 For Q1, all seven anion variants of an ordered $(A,B)$ pair stay in the
 same fold.  We split the 1,608 file~02 groups deterministically into five
 folds (seed 42), with 321 or 322 validation groups per fold.  Preprocessing
-is refitted using each fold's training partition.  File~03 is used once for
-the frozen model-selection comparison.  The released \texttt{q1\_final}
-model is then fitted on file~02 alone, and its file~04 predictions are
-treated as blind outputs rather than validation results.
+is refitted using each fold's training partition.  File~03 is used for the frozen model-selection comparison and is
+therefore not an independent external test set.  Its reported performance
+and subsequent budget replay are selection-involved retrospective
+assessments.  The released \texttt{q1\_final} model is then fitted on
+file~02 alone, and its file~04 predictions are treated as blind outputs
+rather than validation results.
 
 Q2/Q3 instead require candidate scores.  Their \texttt{q23\_final} reuses
 the frozen architecture but fits 02+03, then scores files~07, 08, 11, and 12
@@ -66,10 +68,12 @@ encoded in floating-point and integer form, producing eight dedicated
 104-variable matrices over the sparse legal mask.  Each model was solved by
 local simulated annealing with 300 samples.  This is independent matrix
 construction on the blind pools, not post-hoc filtering of the full-pool
-solution, and it is neither a Kaiwu SDK solve nor an SPQC-550 run.  The score
-range used for affine scaling comes from the blind prediction table itself;
-no winning candidate identity was injected, but the procedure is not a
-physical-label validation because files~11/12 remain unlabeled.
+solution, and it is neither a Kaiwu SDK solve nor an SPQC-550 run.  The
+affine score range is computed from each blind prediction table itself; no
+enumerated winner identity is supplied to the encoding, and each matrix is
+frozen before sampling.  The procedure is an oracle-free search over the
+blind-pool proxy objective, not a physical-label validation, because
+files~11/12 remain unlabeled.
 
 Model inputs contain only $A$, $B$, $X$, and deterministic composition
 features.  We exclude identifiers, row positions, pool labels, and target

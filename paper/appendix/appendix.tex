@@ -18,7 +18,7 @@ entry points and their respective roles are documented in
 
 \begin{table}[!htbp]
 \centering
-\caption{Frozen-model results on the 3,969 labeled rows of file~03.}
+\caption{Selection-involved retrospective model comparison on the 3,969 labeled rows of file~03.}
 \label{tab:q1-validation}
 \small
 \begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
@@ -110,13 +110,22 @@ Encoding & Objective and oracle dependence & Variables and range & Ranking and l
 \toprule
 Object & Version & Matrix & Comparison & Offset & Maximum discrepancy / scope \\
 \midrule
-Adopted 104 integer Q2/Q3 & SDK 1.4.3 archive & final hashes below & formula--QUBO samples & $+4$ & 0 integer units; exact discrete check \\
+Adopted 104 integer Q2/Q3 & SDK 1.4.3 archive & final hashes below & formula--matrix, all legal states & $+4$ & 0 integer units; exact discrete check \\
 Q2 floating control & Kaiwu 1.4.4 & \texttt{967b13d1} & SDK coefficient / energy chain & $+4$ & $2.13\times10^{-14}$ / $1.42\times10^{-12}$; numerical tolerance \\
 Q3 joint 208 control & Kaiwu 1.4.4 & \texttt{f3b447a1} & SDK coefficient / energy chain & $+4$ & $9.95\times10^{-14}$ / $4.57\times10^{-12}$; numerical tolerance \\
 Adopted 104 under 1.4.4 & NA & NA & comparable floating residual & NA & NA; 208 values not substituted \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+In Table~\ref{tab:mapping-audit}, the first residual in each floating-point
+row is $\epsilon_{\mathrm{coef}}$, the maximum absolute difference between
+SDK-reconstructed and independently derived Ising coefficients; the second
+is $\epsilon_{\mathrm{energy}}$, the maximum offset-corrected energy-chain
+residual over the audited states.  The adopted integer matrices instead
+have zero formula-to-stored-matrix discrepancy in integer energy units.
+These are distinct from the ranking and tie metrics used to assess
+coefficient quantization.
 
 \subsection{Projection and blind-pool evidence}
 
@@ -142,11 +151,17 @@ SHA-256 values are:
        integer: \texttt{50ae41a234c7...ab359f1}.
 \end{itemize}
 
-The float/integer optimum-seed counts are respectively 25/16 (Q2 NO2),
-27/13 (Q3 O3), 25/16 (Q3 NO2), and 26/11 (Q3 FO2).  Corresponding wall
-times from the original CSV/JSON are 39.473/40.833, 41.044/48.536,
-40.455/38.533, and 39.121/38.917~s.  An older README range of 45--786~s is
-retained as a provenance conflict and is not used in the paper results.
+The floating-point/eight-bit batch-hit counts are respectively
+25/16 (Q2 NO2), 27/13 (Q3 O3), 25/16 (Q3 NO2), and 26/11 (Q3 FO2);
+each batch is one seed with ten reads, not a single-sample hit rate.
+All eight blind-pool models returned 300/300 legal samples.  The
+corresponding eight-bit minimum-tier tie counts are 11, 19, 11, and 34
+for Q2 NO2, Q3 O3, Q3 NO2, and Q3 FO2, respectively; each floating-point
+minimum was unique.  The audited local simulated-annealing call times
+range from 38.532520 to 48.535693~s across the eight runs.  These times
+cover the local annealing call only, not matrix construction, conversion,
+decoding, or feasibility checks.  The older 45--786~s range was withdrawn
+because no corresponding local run record was found.
 
 \subsection{Final SPQC task evidence and unresolved fields}
 
@@ -190,12 +205,21 @@ The \texttt{probe4\_01} entry has no original receipt, so its task details
 remain NA.  Platform queue time, complete execution time, monetary
 billing, and physical labels for all proxy winners also remain NA.
 
-The audit retains four \textbf{UNVERIFIED} provenance conflicts rather than
-selecting a favorable value: the $K=52,\lambda=2$, 30-iteration control is
-recorded as both 0/300 and 8/300 legal samples; local-SA totals are 162.556
-and 178.14~s in two run archives; the O-14/O-15 README time range conflicts
-with the raw CSV/JSON records; and a 0.48--0.69~s SDK range has no timing
-boundary comparable to the recorded 20.81--20.96~s per-group result.
+The remaining provenance qualifications are recorded without
+overstating the evidence.  The historical stage-2 0/300 count is associated
+with a demonstrated column-index bug: on the same 300 samples, the
+corrected counter gives 8/300 while the legacy counter gives 0/300.
+Because the original historical run log is absent, that historical value
+remains \textbf{UNVERIFIED}; the new O11-R01/R02/R03 reconciliations are
+reported separately.  The earlier 162.556~s local-SA total has no source
+package in the repository and remains \textbf{UNVERIFIED}; the audited
+O15-R01--R04 total is 178.131869~s.  The O-14 45--786~s range was withdrawn
+and replaced by the eight recorded annealing-call times of
+38.532520--48.535693~s.  Finally, 0.48--0.69~s refers only to 30
+\texttt{opt.solve()} calls and excludes setup, conversion, adaptation,
+decoding, and feasibility checks; it is not comparable to the separately
+reported 20.81--20.96~s full-workflow SDK time.  Historical 20.04~ms
+records belong to a different configuration.
 
 \subsection{Pipeline and resource-cost audit}
 \label{sec:appendix-cost-audit}
@@ -210,14 +234,20 @@ samples are illegal.  R2 detects a missing SDK licence.  R3 preserves all
 2,704 Q2 candidates and all 2,704 candidates in each Q3 group through the
 joint entry point.  R4 rejects invalid source fields.
 
-The measured build--convert--adapt--check pipeline took 6.551~ms for
-Q2 and 7.430, 7.524, and 7.591~ms for the three Q3 groups (23.197~ms
-combined).  The Kaiwu SDK~1.4.3 CPU solves took 20.81--20.96~s per group,
-or 83.413~s in total.  A separate supplement reports 0.48--0.69~s for
-nominally 30 SDK calls, but its timing boundary has not been confirmed;
-we therefore exclude that range from the end-to-end total.  The
-SPQC-550 creation-to-finish intervals were 22, 74, 112, and 16~s.  The
-reported single-evolution times were 15.0116, 9.7488, 0.6991, and
-7.3587~ms.  Neither field isolates queueing or complete execution.
-Monetary billing, queue time, complete execution time, and a comparable
-CPU-to-device end-to-end cost remain NA.
+The measured complete QUBO build--convert--adapt--check pipeline
+includes matrix construction and took 6.551~ms for Q2, 7.430, 7.524,
+and 7.591~ms for the three Q3 groups, and 23.197~ms for the separately
+measured three-group Q3 run.  Each single-group call constructed one
+matrix; the combined Q3 call constructed three.  Kaiwu SDK~1.4.3 CPU
+full-workflow solves took 20.81--20.96~s per group (83.413~s in total)
+in the external review environment.  A separate audit measured
+0.48--0.69~s for 30 \texttt{opt.solve()} calls only; this excludes
+initialization, conversion, adaptation, decoding, and feasibility checks
+and is not comparable to the full-workflow timing.  The audited local-SA
+runs O15-R01--R04 took 50.289327, 41.845110, 40.499950, and
+45.497482~s, totaling 178.131869~s.  The earlier 162.556~s total remains
+\textbf{UNVERIFIED} and is excluded.  The SPQC-550 creation-to-finish
+intervals were 22, 74, 112, and 16~s; the reported single-evolution times
+were 15.0116, 9.7488, 0.6991, and 7.3587~ms.  Neither field isolates
+queueing or complete execution.  Monetary billing, queue time, complete
+execution time, and a comparable CPU-to-device end-to-end cost remain NA.

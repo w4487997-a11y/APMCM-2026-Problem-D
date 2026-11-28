@@ -25,7 +25,11 @@ The groupwise design also satisfies the adopted coefficient audit.
 Each matrix contains only $-2$, 0, and 4, has an offset of 4, and maps to
 integer Ising coefficients with $\max|h|=102$ and $\max|J|=1$.  With
 $\lambda=2$, the minimum energy gap between an illegal state and the legal
-minimum is two integer units in every group.
+minimum is two integer units in every group.  However, each $m_X$ is
+obtained by enumerating the corresponding full group before the matrix is
+built.  The full-pool two-level QUBOs are therefore oracle-assisted
+winner-preserving encodings: their solver runs test representation and
+sampling of a known proxy minimum, not independent discovery of it.
 
 \subsection{Why QUBO energies are not compared across groups}
 
@@ -60,17 +64,21 @@ recomputed discrete energies agreed exactly for all archived solver
 samples.  Floating-point conversion audits are reported separately in
 Section~\ref{sec:hardware-precision}.
 
-On the original surrogate scale, the group minima were
+On the original surrogate scale, the groupwise numerical minima were
 Na--Nb--$\mathrm O_3$, Y--Ti--$\mathrm{NO}_2$, and
 Na--Ti--$\mathrm{FO}_2$.  Their respective runners-up were
 Sn--Ti--$\mathrm O_3$, Y--Zr--$\mathrm{NO}_2$, and
-Sr--In--$\mathrm{FO}_2$, with margins of $0.013123$, $0.313819$, and
-$0.028903$.  Each margin exceeds the $0.01$ threshold required by the
-adopted two-level mapping to retain a unique zero-cost legal state.  These
-are minima of the frozen proxy scores, not independently verified material
-optima.  Because the Q2/Q3 pools are unlabeled, no independent error
-estimate for $\widehat V_{23}$ is available; the margins therefore do not
-establish statistically separated physical winners.
+Sr--In--$\mathrm{FO}_2$, with proxy-score margins of $0.013123$,
+$0.313819$, and $0.028903$.  Each margin exceeds the $0.01$ threshold
+required by the adopted two-level mapping to retain a unique zero-cost
+legal state; this is a property of the encoding, not evidence that the
+physical candidates are uniquely ranked.  The Q2/Q3 pools are unlabeled,
+so no independent error estimate for $\widehat V_{23}$ is available.
+For scale only, the Q1 file~03 low-tail MAE is $8.2654$, much larger than
+these margins; because it comes from a different fit and a
+selection-involved split, it is not an uncertainty bound for
+$\widehat V_{23}$.  We therefore report numerical proxy minima rather than
+statistically resolved material winners.
 
 \subsection{CPU-local Kaiwu SDK results}
 
@@ -156,20 +164,25 @@ It is placed in the appendix to keep the main-text comparison compact.
 
 \subsection{Evidence boundary and future work}
 
-The Q3 result is limited to the frozen surrogate and the complete
-file~08 candidate pool.  Na--Nb--O3 is the minimum identified by both
-enumeration and the recorded solver samples under $\widehat V_{23}$; its
-true violation score has not been measured.  We subsequently modeled
-file~12 independently rather than filtering it after a full-pool solve.
-Local simulated annealing on the dedicated floating-point and integer
-104-variable blind matrices returned Ca--Sn--O3
-($\widehat V_{23}=1.185082$), Y--Ti--NO2 (1.491928), and Rb--Ti--FO2
-(1.590922).  All eight Q2/Q3 blind runs returned 300 of 300 legal samples.
-For the integer matrices, fewer seed groups hit the optimum: 13 versus 27
-for O3, 16 versus 25 for NO2, and 11 versus 26 for FO2.  This single
-stochastic comparison does not establish integerization as the cause.
-These are local-SA proxy results without blind physical labels, not SDK
-or SPQC evidence.
+The Q3 result for file~08 is limited to the frozen full-pool
+surrogate.  Na--Nb--O3 is the numerical proxy minimum identified by
+enumeration; its true violation score has not been measured, and the small
+$0.013123$ margin to the runner-up does not establish a statistically
+resolved or physically unique winner.  We subsequently modeled file~12
+independently rather than filtering it after a full-pool solve.  For each
+blind-pool anion group, the affine scale was computed from that group's
+predicted scores alone, with no winning identity supplied and each matrix
+frozen before sampling.  The blind-pool proxy minima returned by local
+simulated annealing were Ca--Sn--O3 ($\widehat V_{23}=1.185082$),
+Y--Ti--NO2 (1.491928), and Rb--Ti--FO2 (1.590922).  Across all eight
+Q2/Q3 blind-pool models, 300/300 returned samples were legal.  The
+floating-point encodings hit their minima in 25/30, 27/30, 25/30, and
+26/30 batches (Q2/NO2, Q3/O3, Q3/NO2, Q3/FO2); the eight-bit encodings
+hit in 16/30, 13/30, 16/30, and 11/30 batches, respectively.  The
+integer minimum tiers contained 11, 19, 11, and 34 tied candidates.
+Each batch is one seed with ten reads.  These oracle-free results are
+local CPU simulated-annealing proxy searches, not Kaiwu SDK or SPQC-550
+results, and files~11/12 have no physical labels.
 
 Four final 104-variable matrices were submitted to SPQC-550.  The Q3/O3
 task returned four legal samples out of ten, including the proxy winner

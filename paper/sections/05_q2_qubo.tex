@@ -21,8 +21,12 @@ defined by the frozen specification.  File~07 scores serve as optimization
 inputs, not as additional validation observations; no physical labels from
 files~07, 11, or the hidden pool are used in fitting.  We first enumerate
 the frozen score table to identify its proxy argmin and runner-up.  The
-integer QUBO is then used to test whether this known argmin can be encoded
-and sampled within the recorded coefficient limit.
+integer QUBO is then used to test whether this already known argmin can be
+encoded and sampled within the recorded coefficient limit.  Because the
+group minimum is read from the enumerated score table and inserted into the
+cost transform, this full-pool construction is oracle-assisted by design;
+its result is an encoding and sampling test, not an independent discovery
+of the argmin.
 
 \subsection{One-hot encoding and accepted integer cost}
 
@@ -77,14 +81,20 @@ The offset does not change the optimizer, but it makes the stored legal-state
 energy equal to the integer cost and removes ambiguity when matrix and
 formula energies are compared.
 
-This construction preserves the already enumerated group argmin; it does
-not preserve all differences between raw scores.  Y--Ti--$\mathrm{NO}_2$
-has a proxy score of $1.491928$, compared with $1.805747$ for the runner-up
-Y--Zr--$\mathrm{NO}_2$, giving a margin of $0.313819$.  The resulting
-integer matrix therefore has a single zero-energy legal state.  Since all
-cross-block costs are nonnegative, any violation of either one-hot
-constraint adds at least $\lambda=2$ to the energy.  The lowest illegal
-state is thus two integer units above the legal minimum.
+The two-level construction is designed to preserve the already
+enumerated group argmin; it does not preserve all differences between raw
+scores.  Y--Ti--$\mathrm{NO}_2$ has a proxy score of $1.491928$, compared
+with $1.805747$ for the runner-up Y--Zr--$\mathrm{NO}_2$, giving a
+numerical proxy margin of $0.313819$.  This margin is a difference between
+predictions, not a confidence interval; the Q2 pool has no physical labels
+with which to estimate the error of $\widehat V_{23}$.  The resulting
+integer matrix has a single zero-energy legal state because the group
+minimum was used to construct the two levels.  Since all cross-block costs
+are nonnegative, any violation of either one-hot constraint adds at least
+$\lambda=2$ to the energy.  The lowest illegal state is thus two integer
+units above the legal minimum.  This separation verifies the encoded
+constraint structure, not the physical superiority of the selected
+composition.
 
 \subsection{Matrix audit and legal-state enumeration}
 
@@ -138,24 +148,37 @@ candidate for follow-up.  The QUBO experiment confirms the oracle-assisted
 encoding of that known proxy minimum; it is neither an independent
 discovery nor a measurement of the material's true violation score.
 
-File~11 was subsequently modeled independently over its 529 sparse legal
-pairs.  If $\mathcal L$ denotes these allowed A--B edges, the implementation
-sets the cross-block coefficient to the scaled cost on $(i,j)\in\mathcal L$
-and leaves it at $2\lambda$ otherwise:
+File~11 was also modeled as a separate blind-pool problem over its 529
+sparse legal A--B edges, rather than by filtering the full-pool result.
+Let $\mathcal L$ denote these edges and define the within-pool normalized
+score
+\[
+ r_{ij}=\frac{\widehat V_{23}(A_i,B_j,\mathrm{NO}_2)-v_{\min}^{\mathcal L}}
+ {v_{\max}^{\mathcal L}-v_{\min}^{\mathcal L}},
+ \qquad (i,j)\in\mathcal L,
+\]
+where $v_{\min}^{\mathcal L}$ and $v_{\max}^{\mathcal L}$ are calculated
+from the blind-pool predictions alone.  The floating-point model uses
+$r_{ij}$ directly; the eight-bit model uses
+$c_{ij}^{\mathrm{int}}=4\,\operatorname{round}(4r_{ij})$ for this Q2
+pool.  Neither construction uses the enumerated winner identity, and both
+matrices were frozen before sampling.  The cross-block coefficient is
+set to the scaled cost on $(i,j)\in\mathcal L$ and to $2\lambda=4$
+otherwise:
 \begin{equation}
  \widetilde c_{ij}=\begin{cases}c_{ij},&(i,j)\in\mathcal L,\\
  2\lambda,&(i,j)\notin\mathcal L.\end{cases}
  \label{eq:blind-sparse-mask}
 \end{equation}
-The one-hot terms remain, and the decoder additionally requires the selected
-edge to belong to $\mathcal L$.  The floating-point and integer matrices both
-returned Y--Ti--NO2 with $\widehat V_{23}=1.491928$.  Local simulated
-annealing produced 300/300 legal samples for each encoding; the winning
-candidate occurred in 25/30 seed groups for the floating-point matrix and
-16/30 for the integer matrix, with wall times 39.473 and 40.833~s.  The
-integer ground tier contained 11 candidates rather than one.  In this recorded
-run the integer matrix had fewer optimum-hit seed groups; the single comparison
-does not identify integerization as the cause.  These are local-SA results.
+The one-hot terms remain, and the decoder additionally requires the
+selected edge to belong to $\mathcal L$.  Both local simulated-annealing
+runs returned 300/300 legal samples and recovered Y--Ti--NO2 with
+$\widehat V_{23}=1.491928$.  The floating-point encoding had one minimum
+state and hit it in 25/30 batches; the eight-bit encoding had 11 tied
+minimum states and hit the blind-pool minimum in 16/30 batches.  Each
+batch is one seed with ten returned reads.  These are oracle-free
+blind-pool proxy-search results from local CPU simulated annealing, not
+Kaiwu SDK or SPQC-550 results and not physical-label validation.
 
 The final 104-variable Q2 matrix was also submitted to SPQC-550 under the
 task ID listed in the appendix.  One of ten returned samples was
