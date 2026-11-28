@@ -1,61 +1,64 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Inorganic perovskite discovery is a screening problem with coupled
-objectives.  A candidate should have acceptable formation energy, a band
-gap in the target interval, and band-edge positions compatible with the
-specified reactions.  These properties are expensive to compute or measure
-at scale, while the combinatorial design space grows rapidly with the
-allowed A-site element, B-site element, and anion group.  Problem~D asks us
-to predict an aggregate violation score from composition, then formulate
-fixed- and variable-anion candidate selection as QUBO problems
+Problem~D concerns the screening of inorganic perovskite compositions
+against five material requirements: a formation-energy limit, a target
+band-gap interval, and two band-edge constraints.  Evaluating these
+properties at scale can be costly, while the candidate space expands with
+the choices of A-site element, B-site element, and anion group.  The task
+therefore combines two steps: predict a composition-level violation score,
+then select candidates under fixed- and variable-anion settings
 \cite{apmcm2026problemD}.
 
-Composition-based descriptors and supervised learning provide a practical
-surrogate when structural calculations are unavailable
-\cite{Ward2016Magpie,Chen2024PerovskiteML}.  The relevant criterion here is
-not only average prediction error.  Under a limited verification budget, a
-model is useful when it concentrates genuinely low-violation candidates near
-the top of its ranking.  This tail emphasis creates a tension: a model with
-the best global MAE need not retrieve the best candidates, and fine ordering
-inside the tail can remain uncertain even when the overall rank correlation
-is high.  We therefore treat the surrogate as a prioritization device, not
-as a replacement for physical validation.
+Composition-based features and supervised learning offer a practical
+first-pass screen when structural calculations are unavailable
+\cite{Ward2016Magpie,Chen2024PerovskiteML}.  Average prediction error alone,
+however, does not determine whether the model is useful for this task.  With
+a limited verification budget, the model must place low-violation
+compositions near the top of its ranking.  Global accuracy and low-tail
+retrieval can conflict, and a high overall rank correlation does not
+guarantee reliable ordering among the best-scoring candidates.  We therefore
+use the surrogate to prioritize follow-up calculations, not to certify
+physical feasibility.
 
-QUBO and Ising formulations provide a common language for discrete
-selection and annealing-based solvers \cite{Lucas2014IsingNP,Glover2019QUBOTutorial}.
-They introduce another evidence boundary.  A mathematically correct
-floating-point objective may lose feasibility or ranking information after
-conversion to a finite coefficient range; excessive penalties can also
-compress the useful objective resolution \cite{Ceselli2023GoodQUBOEncodings,
-Muecke2025OptimumPreservingQUBO}.  Consequently, solver output is meaningful
-only after the binary encoding, constant offset, coefficient precision,
-constraint validity, and decoded original-scale score have all been checked.
+QUBO and Ising formulations express discrete selection problems in a
+form suitable for annealing-based solvers
+\cite{Lucas2014IsingNP,Glover2019QUBOTutorial}.  The conversion introduces
+a separate numerical question: a floating-point objective may lose
+feasibility or decision-relevant score differences when mapped to a finite
+coefficient range.  Large constraint penalties can protect one-hot
+feasibility but leave less resolution for the material objective
+\cite{Ceselli2023GoodQUBOEncodings,Muecke2025OptimumPreservingQUBO}.
+Solver samples are therefore interpreted only after checking the encoding,
+constant offset, coefficient range, one-hot constraints, and decoded
+original-scale score.
 
 \subsection{Research framework}
 
-Our workflow links the three questions in sequence.  For Q1, the five
-official violation components are reconstructed from predicted physical
-properties.  A two-stage gap model combines the probability of a positive
-gap with its conditional magnitude, and model selection balances global
-error with low-tail retrieval.  For Q2, $X=\mathrm{NO}_2$ is fixed and 52
-A-site plus 52 B-site one-hot variables encode all 2,704 legal candidates.
-For Q3, the same 104-variable construction is solved separately for
-$\mathrm{O}_3$, $\mathrm{NO}_2$, and $\mathrm{FO}_2$; the three decoded
-winners are then compared using the original surrogate score.  This
-groupwise route covers all 8,112 candidates while avoiding the precision
-failure of a directly quantized 208-variable joint model.
+The three questions form a linked workflow.  Q1 reconstructs the five
+official violation components from predicted material properties.  Its
+two-stage band-gap model combines the probability of a positive gap with
+the predicted gap conditional on positivity; model selection considers
+both global error and low-tail retrieval.  For Q2, we fix
+$X=\mathrm{NO}_2$ and represent the 2,704 ordered cation pairs with 52
+A-site and 52 B-site one-hot variables.  For Q3, we solve the same
+104-variable formulation separately for $\mathrm{O}_3$, $\mathrm{NO}_2$,
+and $\mathrm{FO}_2$, then compare the three decoded winners using the
+original surrogate scores.  The three groupwise searches cover all 8,112
+Q3 candidates.  This design avoids directly quantizing the 208-variable
+joint control, whose precision problems are examined below.
 
-Each reported stage has an archived check within its stated scope.  Data roles and hashes limit leakage
-between development, validation, unlabeled, and blind pools.  Legal-state
-enumeration verifies the QUBO matrices.  QUBO--Ising conversion is checked
-with the constant term restored.  Eight-bit coefficients, decoded
-one-hot feasibility, original-score regret, and stochastic sampling are
-reported separately.  The recorded solver evidence uses Kaiwu SDK~1.4.3 on a
-CPU.  Four final 104-variable matrices were additionally submitted to
-SPQC-550; three tasks returned at least one group proxy argmin and one returned no legal
-sample.  These small hardware jobs are reported separately from both the
-recorded CPU solves and the historical reduced 17- and 30-variable tasks.
+We check each stage against records appropriate to that stage.  Source
+hashes and split assignments document the data pipeline; exhaustive
+enumeration checks the legal QUBO states; and the QUBO--Ising conversion is
+verified with its constant offset restored.  Coefficient range, decoded
+feasibility, original-score regret, and solver sampling are assessed
+separately.  The formal local solves use Kaiwu SDK~1.4.3 on a CPU, whereas
+four final 104-variable matrices were submitted separately to SPQC-550.
+Three platform tasks returned at least one group proxy argmin, while the
+Q3/NO2 task returned no legal sample.  These small, unequal hardware
+returns are not pooled with the CPU results or with the historical
+17- and 30-variable short-list tasks.
 
 \subsection{Contributions}
 
@@ -65,20 +68,20 @@ The evidence-supported contributions are:
  \item an auditable composition-only surrogate that explicitly balances
        overall error and low-tail screening, with grouped validation,
        partition-sensitivity checks, and an exact finite-budget random baseline;
- \item complete proxy-score enumeration for Q2 and groupwise Q3, followed
-       by exact one-hot mappings and original-scale decoding;
+ \item exhaustive proxy-score evaluation for Q2 and groupwise Q3, followed
+       by one-hot encoding and decoding on the original score scale;
  \item an oracle-assisted, group-winner-preserving two-level integer
        encoding that fits the recorded eight-bit coefficient range, while
        explicitly sacrificing non-winner score differences and complete
        ranking information;
- \item a reproducible CPU-local SDK and simulated-annealing comparison with
-       raw feasibility, optimum-hit, timing, negative-test, and regression
-       evidence; and
+ \item documented comparisons of CPU-local SDK and simulated-annealing
+       samples, including feasibility, optimum hits, timing records,
+       negative tests, and regression checks; and
  \item a four-layer error analysis separating surrogate, mathematical
        mapping, coefficient precision, and solver sampling uncertainty.
 \end{enumerate}
 
-These contributions establish a traceable screening and optimization
-pipeline within the supplied candidate domain.  They do not establish the
-true physical feasibility of the selected materials, repeatable hardware
+Together, these components form a screening and optimization workflow
+for the supplied candidate domain.  The study does not establish the
+physical feasibility of the selected materials, repeatable hardware
 performance, or quantum advantage.

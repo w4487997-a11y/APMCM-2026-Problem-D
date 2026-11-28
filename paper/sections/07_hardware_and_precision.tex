@@ -3,8 +3,9 @@
 
 \subsection{From the adopted QUBO to an Ising Hamiltonian}
 
-The adopted Q2 and Q3 mappings use the same 104-variable upper-triangular
-QUBO representation introduced in Section~\ref{sec:q2-qubo}.  For
+The adopted Q2 and Q3 formulations share the 104-variable
+upper-triangular QUBO representation introduced in
+Section~\ref{sec:q2-qubo}.  Let
 \begin{equation}
  E_Q(\bm{x})=o+\sum_i Q_{ii}x_i+\sum_{i<j}Q_{ij}x_ix_j,
  \qquad x_i\in\{0,1\},
@@ -24,39 +25,40 @@ where
  K&=o+\frac12\sum_iQ_{ii}+\frac14\sum_{i<j}Q_{ij}.
  \label{eq:qubo-ising-constant}
 \end{align}
-The constant $K$ is irrelevant to the optimizer but indispensable when an
-Ising energy is compared numerically with the original QUBO energy.  In the
-Kaiwu SDK~1.4.3 reference-spin convention, an auxiliary spin $s_a$ is added,
-$x_i=(1+s_is_a)/2$, and the returned symmetric matrix stores each pair twice.
-Consequently its off-diagonal entries are $-J_{ij}/2$ and its reference-spin
-entries are $-h_i/2$; the independently recomputed objective is still
-Equations~\eqref{eq:hardware-qubo}--\eqref{eq:qubo-ising-constant}.  This
-explicit convention prevents an offset or factor-of-two error during
-decoding.  QUBO--Ising equivalence is standard, but implementation-specific
-coefficient conventions must be audited rather than assumed
+The constant $K$ does not affect the optimizer, but it must be retained
+when comparing an Ising energy numerically with the original QUBO energy.
+Kaiwu SDK~1.4.3 uses a reference-spin convention: it adds an auxiliary spin
+$s_a$, writes $x_i=(1+s_is_a)/2$, and stores each pair twice in the returned
+symmetric matrix.  The corresponding off-diagonal entries are
+$-J_{ij}/2$, while the reference-spin entries are $-h_i/2$.  The
+independently recomputed objective remains the one defined by
+Equations~\eqref{eq:hardware-qubo}--\eqref{eq:qubo-ising-constant}.
+Documenting this convention avoids offset and factor-of-two errors during
+decoding.  Although QUBO--Ising equivalence is standard, implementation-
+specific coefficient conventions still require an explicit audit
 \cite{Lucas2014IsingNP,Glover2019QUBOTutorial}.
 
 \subsection{Why direct eight-bit quantization is unsafe}
 
-Fixed-coefficient hardware accepts only a limited integer range.  Naively
-scaling a dense floating-point objective to that range can round away small
-material-score differences while retaining large one-hot penalties.  The
-precheck therefore used deliberately artificial matrices only as a stress
-test: their directly quantized rankings were not accepted as Q2/Q3 evidence.
-They showed the failure mode that motivates an optimum-preserving encoding:
-the quantized minimum may become infeasible, and a numerically legal matrix
-need not preserve the intended material ranking.  This is consistent with
-the general warning that penalty strength and coefficient resolution must be
-assessed together
+Fixed-coefficient hardware supports only a limited integer range.
+Scaling a dense floating-point objective directly into that range can erase
+small material-score differences while leaving large one-hot penalties
+intact.  We therefore used deliberately artificial matrices in the
+precheck only as stress tests; their quantized rankings are not treated as
+Q2/Q3 evidence.  The tests illustrate two possible failures: the
+quantized minimum can become infeasible, and a matrix can remain numerically
+valid without preserving the intended material ranking.  This is
+consistent with the general warning that penalty strength and coefficient
+resolution must be assessed together
 \cite{Ceselli2023GoodQUBOEncodings,Muecke2025OptimumPreservingQUBO,Ohno2026PrecisionErrorsQA}.
 
-The adopted construction avoids quantizing the raw proxy values themselves.
-Within each fixed-$X$ group, the capped and normalized score is rounded to
-the binary cost $c_k\in\{0,4\}$ in
-Equation~\eqref{eq:q23-integer-cost}; the unique group winner receives zero
-and all other legal states receive four.  Adding the two one-hot penalties
-with $\lambda=2$ and offset $o=4$ yields
-Equation~\eqref{eq:q23-accepted-qubo}.  Thus, for legal states,
+The adopted construction does not quantize the raw proxy scores
+themselves.  Instead, within each fixed-$X$ group, it maps the capped,
+normalized difference to the binary cost $c_k\in\{0,4\}$ in
+Equation~\eqref{eq:q23-integer-cost}.  The known group winner receives zero,
+and every other legal state receives four.  Combining these costs with the
+two one-hot penalties ($\lambda=2$) and the offset ($o=4$) gives
+Equation~\eqref{eq:q23-accepted-qubo}.  For legal states,
 \begin{equation}
  E_Q(\bm{x}_{ab})=c_{ab},
  \qquad
@@ -89,10 +91,11 @@ found
  \qquad E_{\min}^{\mathrm{illegal}}-E_{\min}^{\mathrm{legal}}=2.
  \label{eq:formal-precision-audit}
 \end{equation}
-The coefficients therefore fit a signed eight-bit range without lossy
-rescaling.  The minimum legal energy was zero and the minimum illegal energy
-was two for Q2 and all three Q3 groups.  Table~\ref{tab:mapping-audit}
-separates exact integer checks from floating-point controls.
+The coefficients therefore fit within a signed eight-bit range without
+additional rescaling.  For Q2 and each of the three Q3 groups, the minimum
+legal energy was zero and the minimum illegal energy was two.
+Table~\ref{tab:mapping-audit} distinguishes these exact integer checks
+from the floating-point control audits.
 
 The unified object/version/matrix/offset audit is given in
 Table~\ref{tab:mapping-audit} in the appendix.  It also records the missing
@@ -101,14 +104,15 @@ comparable Kaiwu~1.4.4 residual for the adopted 104-variable matrices as NA.
 Kaiwu~1.4.4 was used only for the two floating mapping controls because no
 solve licence was available.  The CPU sampling results used SDK~1.4.3.
 
-The adopted workflow was: generate the versioned QUBO, convert it with the
-documented SDK convention, confirm the coefficient range, solve with Kaiwu
-SDK~1.4.3 on the CPU, decode the reference spin, test both one-hot
-constraints, and independently recompute both $E_Q$ and the original proxy
-score.  The solver used 30 seeds, ten reads per seed, 300 iterations, and
-$\alpha=0.99$ for each matrix.  No solver-reported energy was accepted as a
-material result without this independent decoding.  Sections~\ref{sec:q2-qubo}
-and~\ref{sec:q3-qubo} report the resulting candidates and sample statistics.
+The adopted workflow proceeds as follows: generate the versioned QUBO;
+convert it using the documented SDK convention; verify the coefficient
+range; solve with Kaiwu SDK~1.4.3 on the CPU; decode the reference spin;
+check both one-hot constraints; and independently recompute $E_Q$ and the
+original proxy score.  Each matrix was sampled with 30 seeds, ten reads per
+seed, 300 iterations, and $\alpha=0.99$.  We accepted no solver-reported
+energy as a material result without this independent decoding.
+Sections~\ref{sec:q2-qubo} and~\ref{sec:q3-qubo} give the decoded candidates
+and sample statistics.
 
 \subsection{Projection, quantization, and ranking controls}
 
@@ -156,8 +160,9 @@ monetary billing remain NA.
 \subsection{Evidence boundary}
 
 The solver statistics in Sections~\ref{sec:q2-qubo} and
-\ref{sec:q3-qubo} remain Kaiwu SDK~1.4.3 CPU results.  The four SPQC
-submissions produced the returns listed in Table~\ref{tab:spqc-final-results};
-their small, unequal samples cannot estimate stability or speedup.  Blind-pool
-and projection experiments are local comparisons.  All reported candidates
-remain proxy argmins rather than physical measurements.
+\ref{sec:q3-qubo} are Kaiwu SDK~1.4.3 CPU results.  The four SPQC
+submissions returned the samples listed in Table~\ref{tab:spqc-final-results},
+but their small and unequal sample counts do not support estimates of
+stability or speedup.  Blind-pool and projection experiments are also
+local comparisons.  Every reported candidate remains a proxy argmin,
+not a physically measured optimum.

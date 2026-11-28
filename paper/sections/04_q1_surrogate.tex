@@ -3,9 +3,9 @@
 
 \subsection{Objective and violation score}
 
-Question~1 asks for a composition-based surrogate that ranks candidate
-perovskites by their violation of five material requirements.  For a
-composition $z=(A,B,X)$, let
+Question~1 requires a composition-based surrogate to rank candidate
+perovskites by their violations of five material requirements.  For a
+composition $z=(A,B,X)$, define
 \begin{equation}
   p(d)=\left(\frac{\max(0,d)}{0.5}\right)^2 .
   \label{eq:q1-hinge}
@@ -28,14 +28,15 @@ Equation~\eqref{eq:q1-violation} and keep strict feasibility as a separate
 concept.
 
 The labeled training and validation files contain 11,256 and 3,969 rows,
-respectively.  Neither split contains a zero-violation or strictly feasible
-record.  Moreover, $96.16\%$ of the training rows and $96.45\%$ of the
-validation rows have zero band gap.  Since $p(1.4)=7.84$, a metallic
-prediction alone creates a substantial penalty.  These facts make global
-regression error insufficient for model selection: the surrogate must also
-preserve the ordering of the small low-$V$ subset.  File~04 contains 3,703
-unlabeled compositions and is used only for blind inference; its true error
-and target recall are not observable.
+respectively.  Neither split includes a zero-violation or strictly feasible
+record.  Zero band gap is common: it occurs in $96.16\%$ of the training
+rows and $96.45\%$ of the validation rows.  Because $p(1.4)=7.84$, a
+zero-gap prediction contributes a substantial penalty on its own.  Global
+regression error is therefore not sufficient for model selection; the
+surrogate must also rank the relatively small low-$V$ subset effectively.
+File~04 contains 3,703 unlabeled compositions and is reserved for blind
+inference.  Its prediction error and target recall cannot be measured from
+the available labels.
 
 \subsection{Composition features and candidate surrogates}
 
@@ -68,9 +69,9 @@ construction rather than changes in estimator capacity.
 
 \subsection{Two-stage band-gap penalty mixture}
 
-The selected model uses three regression heads for
-$e_{\mathrm{form}}$, $E_{\mathrm{VBM}}$, and $E_{\mathrm{CBM}}$.  Define the
-combined gap penalty
+The selected model has three regression heads, one for each of
+$e_{\mathrm{form}}$, $E_{\mathrm{VBM}}$, and $E_{\mathrm{CBM}}$.  We define
+the combined gap penalty
 \begin{equation}
   G(E_g)=p(1.4-E_g)+p(E_g-3.1).
   \label{eq:q1-gap-penalty}
@@ -94,14 +95,14 @@ The final surrogate is therefore
   \label{eq:q1-surrogate}
 \end{align}
 
-The hard-gate control assigns a positive gap only when $q\geq0.5$, whereas
-the mean-gap control evaluates $G(q\widehat E_g^{+})$.  On file~03 the
-positive-gap classifier had average precision $0.5774$, precision $0.8500$,
-and recall $0.2411$ at the $0.5$ threshold.  It would classify 49 of the 70
-observed $V<5$ rows as zero-gap cases.  The conditional positive-gap
-regressor had an MAE of $0.8290$ eV over 141 positive-gap rows.  These
-diagnostics motivated retaining soft alternatives to the hard gate; they do
-not establish a causal explanation for their ranking performance.
+The hard-gate control assigns a positive gap only when $q\geq0.5$,
+whereas the mean-gap control evaluates $G(q\widehat E_g^{+})$.  On file~03,
+the positive-gap classifier achieved average precision $0.5774$, precision
+$0.8500$, and recall $0.2411$ at the $0.5$ threshold.  It classified 49 of
+the 70 observed $V<5$ records as zero-gap cases.  The conditional
+positive-gap regressor had an MAE of $0.8290$~eV on the 141 positive-gap
+records.  These diagnostics motivated retaining soft alternatives to the
+hard gate, but they do not by themselves explain the ranking results.
 
 \subsection{Grouped training, validation, and selection}
 
@@ -136,16 +137,17 @@ are not used as Q1 validation evidence.
 
 \subsection{Grouped ablation results}
 
-Across the principal five-fold comparisons, the mixture obtained the largest mean screening score,
-$39.8\%$, while maintaining an MAE of $2.649$.  Direct HGB reached
-$27.0\%$ screening with MAE $2.877$.  On matched folds, the mixture's
-screening score exceeded direct HGB by an average of 12.8 percentage points
-(paired standard deviation 9.1 points) and the ordinary-gap property model
-by 6.4 points (standard deviation 3.5 points).  Its 0.8-point mean advantage
-over the mean-gap model changed sign across folds, so this small difference
-is not evidence of uniform superiority.  The ordinary-gap and mean-gap
-models also achieved smaller $V<5$ MAE than the selected mixture, exposing
-the trade-off between pointwise low-tail error and Top-$K$ recovery.
+Across the principal five-fold comparisons, the mixture achieved the
+highest mean screening score ($39.8\%$) with an MAE of $2.649$.  Direct HGB
+achieved a screening score of $27.0\%$ and an MAE of $2.877$.  On matched
+folds, the mixture's screening score was higher than direct HGB by an
+average of 12.8 percentage points (paired standard deviation: 9.1 points)
+and higher than the ordinary-gap property model by 6.4 points (standard
+deviation: 3.5 points).  Its 0.8-point mean advantage over the mean-gap
+model changed sign across folds and therefore does not indicate consistent
+superiority.  The ordinary-gap and mean-gap models also had lower $V<5$
+MAE than the selected mixture, illustrating the trade-off between
+pointwise low-tail error and Top-$K$ recovery.
 
 \subsection{File~03 validation and low-tail screening}
 
@@ -196,15 +198,15 @@ sensitivity over the tested splits, not a distribution-free stability guarantee.
 
 To measure value under a finite verification budget, we replayed the frozen
 file~03 ranking against uniform sampling without replacement.  For a pool
-of size $N$ containing $H$ records with $V<5$, a random budget of $K$ has
-expected low-tail hits
+of size $N$ containing $H$ records with $V<5$, uniform sampling
+without replacement has an expected number of low-tail hits
 \begin{equation}
   \mathrm{E}[Y]=\frac{KH}{N}.
   \label{eq:q1-random-hits}
 \end{equation}
-sampling.  Appendix Table~\ref{tab:q1-budget} shows that the surrogate found the
-validation-set minimum at every tested budget and concentrated many more
-$V<5$ records than the random expectation.
+Appendix Table~\ref{tab:q1-budget} shows that the surrogate ranking included
+the validation-set minimum at every tested budget and retrieved substantially
+more $V<5$ records than expected under uniform random sampling.
 
 For $K=50$, the exact probability that uniform sampling attains a minimum no
 larger than $0.0196$ is $1.26\%$, while the exact probability of at least 23
@@ -223,14 +225,15 @@ probabilities for file~04 or for unseen chemical domains.
 
 \subsection{Strengths, limitations, and Q1 conclusion}
 
-The principal strength of the approach is its auditable separation of data
-roles.  Ordered-pair grouping prevents the seven $X$ variants of a pair from
-crossing development folds; the frozen selection rule combines global
-accuracy with low-tail retrieval; and the probabilistic gap mixture avoids
-making the low-recall hard classifier the sole determinant of the gap
-penalty.  Versioned model files and prediction tables also separate the
-Q1-only fit from the later Q2/Q3 scoring fit.  Within the tested data, the
-results support using the surrogate as a finite-budget ranking device.
+A principal strength of the approach is its explicit separation of data
+roles.  Grouping by ordered cation pair keeps all seven $X$ variants of a
+pair within the same fold.  The frozen selection rule considers both global
+accuracy and low-tail retrieval, while the probabilistic gap mixture avoids
+letting a low-recall hard classifier determine the gap penalty on its own.
+Versioned model files and prediction tables further distinguish the Q1
+release fit from the later Q2/Q3 scoring fit.  Within the tested data, the
+results support using the surrogate as a ranking aid under a finite
+verification budget.
 
 Several limitations remain.  First, neither labeled split contains a
 zero-violation or strictly feasible record, so recall of the rare official
@@ -245,10 +248,11 @@ best-looking candidates.  Finally, the model uses composition categories
 only and provides no guarantee for unfamiliar elements or for physical
 feasibility beyond the supplied labels.
 
-Accordingly, the 3,703 file~04 predictions are blind surrogate scores, not
-verified discoveries.  Their holdout MAE, target recall, and strict
-feasibility rate are unknown.  Machine-level reproduction and artifact
-checks have passed, but independent team sign-off and the official
-platform-field check remain pending.  The Q1 evidence therefore supports
-low-tail prioritization and budgeted follow-up, while any selected material
-still requires independent physical or computational verification.
+Accordingly, the 3,703 file~04 outputs are blind surrogate predictions,
+not verified discoveries.  Their holdout MAE, target recall, and strict
+feasibility rate remain unknown.  Machine-level reproduction and artifact
+checks have passed; independent team sign-off and the official
+platform-field check are still pending.  The evidence supports using Q1
+for low-tail prioritization and budgeted follow-up, but every selected
+composition still requires independent physical or computational
+verification.

@@ -3,25 +3,13 @@
 
 \subsection{Domain and three linked questions}
 
-Let $\mathcal E$ be the 52-element set available at both ordered cation
-sites and let
-\begin{equation}
- \mathcal X=\{\mathrm O_3,\mathrm{NO}_2,\mathrm{FO}_2,
- \mathrm N_2\mathrm O,\mathrm N_3,\mathrm O_2\mathrm S,\mathrm{FNO}\}.
-\end{equation}
-A composition is $z=(A,B,X)\in\mathcal E^2\times\mathcal X$; $A=B$ is
-legal and exchanging A and B gives a different candidate.  The complete
-domain therefore has $52^2\times7=18{,}928$ candidates
-\cite{apmcm2026problemD}.  Q1 learns a composition-only surrogate
-$\widehat V(A,B,X)$.  Q2 fixes $X=\mathrm{NO}_2$, whereas Q3 also chooses
-$X$ from $\mathcal X_3=\{\mathrm O_3,\mathrm{NO}_2,\mathrm{FO}_2\}$.
-Both optimization questions use the prescribed Kaiwu workflow.  To prevent
-backend ambiguity, every result below is tagged as one of three types:
-``SDK--CPU'' denotes the recorded Kaiwu SDK~1.4.3 local-CPU solve; ``mapping
-audit'' denotes Kaiwu~1.4.4 conversion and field-compatibility checks without
-a licensed solve; and ``SPQC-550'' denotes an identified platform task with
-a task ID, submitted-matrix hash, and archived return.  A generic ``Kaiwu
-result'' is never used to transfer evidence between these three types.
+Both optimization questions use the prescribed Kaiwu workflow.  We
+distinguish three execution paths throughout the paper.  \texttt{SDK--CPU}
+refers to local CPU sampling with Kaiwu SDK~1.4.3.  \texttt{Mapping audit}
+refers to Kaiwu~1.4.4 conversion and field-compatibility checks; no solve
+licence was available for that version.  \texttt{SPQC-550} refers only to
+platform tasks with a recorded task ID, submitted-matrix hash, and archived
+return.  We do not transfer performance evidence between these paths.
 
 \subsection{Violation score and optimization objectives}
 
@@ -37,16 +25,20 @@ $E_{\rm VBM}$ and $E_{\rm CBM}$, the official score is
        &+\phi(5.73-E_{\rm VBM})+\phi(E_{\rm CBM}-4.50).
  \label{eq:formulation-V}
 \end{align}
-Although $V=0$ includes equality at a boundary, strict feasibility requires
+The squared-hinge score is zero at equality with a threshold, whereas
+strict feasibility requires
 $e_{\rm form}<0.21$, $1.4<E_g<3.1$, $E_{\rm VBM}>5.73$, and
-$E_{\rm CBM}<4.50$.  We keep these notions separate: a low predicted score
-does not certify physical feasibility.
+$E_{\rm CBM}<4.50$.  We therefore report the score and strict feasibility
+as separate quantities; a low predicted score does not certify that a
+candidate satisfies the strict conditions.
 
-Q1 selects and freezes a model on files~02 and~03, then fits its release
-artifact on file~02 and predicts unlabeled file~04.  Global MAE, RMSE, and
-Spearman correlation are considered together with low-tail and Top-$K$
-retrieval.  For Q2/Q3, the frozen architecture is separately refitted on
-02+03; writing its score as $\widehat V_{23}$, the objectives are
+For Q1, model selection uses files~02 and~03.  After the specification
+is frozen, the release artifact \texttt{q1\_final} is fitted on file~02
+alone and applied to the unlabeled file~04.  We assess the selected model
+using MAE, RMSE, Spearman correlation, low-tail error, and Top-$K$
+retrieval.  For Q2/Q3, the frozen architecture is refitted on files~02
+and~03 to score the candidate pools.  We denote this separate score by
+$\widehat V_{23}$ and define the two optimization objectives as
 \begin{align}
  z_2^*&=\arg\min_{A,B\in\mathcal E}\widehat V_{23}(A,B,\mathrm{NO}_2),
  \label{eq:q2-objective}\\
@@ -87,22 +79,27 @@ audit the cost transform, offset, coefficient bounds, and decoding.
 
 \subsection{Assumptions and evidence boundary}
 
-The main notation is as follows: $V$ is the observed official violation,
-$\widehat V$ is the Q1 surrogate, $\widehat V_{23}$ is the separately refitted
-Q2/Q3 surrogate, and $E_X$ is an encoded fixed-$X$ energy.  SDK--CPU, local-SA,
-mapping-audit, and SPQC-550 results retain these labels throughout.
+The notation used below is as follows: $V$ denotes the observed
+competition score, $\widehat V$ the Q1 surrogate prediction,
+$\widehat V_{23}$ the separately refitted Q2/Q3 prediction, and $E_X$ the
+encoded energy for a fixed anion group.
 
-The official fields, thresholds, ordered sites, and pools define the domain;
-six-decimal storage does not relax strict inequalities.  Only composition
-features are deployable: identifiers, row order, pool membership, and
-physical labels are excluded.  Encoders are fitted within grouped training
-folds, and the Q1 and Q2/Q3 fits remain separate.  Finally, surrogate error,
-QUBO equivalence, coefficient adaptation, solver sampling, and physical
-validation are different layers.  Proxy enumeration establishes a numerical
-argmin of the frozen candidate table, while encoded-state enumeration checks
-the corresponding mapping.  Neither establishes material feasibility or
-hardware advantage.  The workflow therefore reports data audit,
-grouped validation, scoring, QUBO construction, solving, decoding, and
-independent recomputation as separately traceable steps.  In particular,
-SPQC task output is a hardware sample from the encoded proxy objective; it
-is not a measurement of $V$ and does not certify the selected material.
+Our working scope follows the organizer's candidate grid and score
+definition.  The A and B sites are ordered, $A=B$ is allowed, and only
+composition fields and deterministic composition features are used;
+identifiers, row order, pool membership, and physical labels are excluded
+from model inputs.  The supplied six-decimal values are used as given and
+do not relax the strict feasibility inequalities.  Because the Q2/Q3
+pools are unlabeled, their optimization objective is the frozen proxy
+score, not the unobserved physical score.  Only assignments satisfying
+both one-hot constraints are treated as legal candidates.  These choices
+define the computational scope but do not remove surrogate error.
+
+We keep surrogate prediction, QUBO equivalence, coefficient adaptation,
+solver sampling, and physical validation as separate sources of
+uncertainty.  Exhaustive proxy enumeration identifies the minimum of the
+frozen score table; encoded-state enumeration checks whether the QUBO
+represents that known minimum.  Neither step establishes material
+feasibility.  An SPQC-550 return is likewise a sample from the encoded
+proxy objective, not a measurement of $V$ or a certification of the
+selected material.

@@ -3,78 +3,88 @@
 
 \subsection{Integrated answers to Q1--Q3}
 
-The three questions form a sequential evidence chain rather than three
-independent predictors.  Q1 establishes a composition-only surrogate and
-tests whether it is useful for low-tail screening.  Q2 then minimizes the
-Q2/Q3 scoring model over the 2,704 legal $(A,B)$ combinations at fixed
-$X=\mathrm{NO}_2$, while Q3 repeats the optimization for
-$X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ and compares the three
-winners on the original proxy scale.  The key outcomes are: Q1 MAE $2.4715$
-and 20 true Top-50 records on file~03; Q2 candidate Y--Ti--NO2
-($\widehat V_{23}=1.491928$); and Q3 candidate Na--Nb--O3
-($\widehat V_{23}=0.540023$).  Their runner-up gaps are $0.313819$ and
-$0.013123$.  The unlabeled Q2/Q3 pools have no independent error estimate.
-Q1's low-tail MAE $8.2654$ is not a Q2/Q3 confidence interval, but it shows
-why these small proxy gaps cannot establish statistical or physical separation.
+The three questions form a sequential evidence chain.  Q1 develops a
+composition-only surrogate and evaluates its value for low-tail screening.
+Q2 minimizes the frozen Q2/Q3 scoring model over the 2,704 legal $(A,B)$
+pairs at fixed $X=\mathrm{NO}_2$.  Q3 performs the corresponding search
+for $X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ and compares the
+three group winners on the original proxy-score scale.  The principal
+results are a Q1 MAE of $2.4715$ with 20 true Top-50 hits on file~03, the
+Q2 candidate Y--Ti--NO2 ($\widehat V_{23}=1.491928$), and the Q3 candidate
+Na--Nb--O3 ($\widehat V_{23}=0.540023$).  The Q2 and Q3 runner-up margins
+are $0.313819$ and $0.013123$, respectively.  Because the Q2/Q3 pools are
+unlabeled, their proxy-score errors cannot be estimated independently.
+For scale only, the file~03 low-tail MAE of $8.2654$ is numerically
+much larger than either runner-up margin.  Because it comes from a
+different model fit and a labeled validation split, it is not an error
+bound for $\widehat V_{23}$; it nevertheless shows why the proxy margins
+alone cannot establish statistical or physical separation.
 
-The Q1 metrics expose an important objective trade-off.  The frozen mixture
-improved global MAE and low-tail retrieval relative to direct HGB, but its
-MAE on the 70 validation records with $V<5$ was still $8.2654$.  It recovered
-8 of the true Top-25 and 20 of the true Top-50 records, compared with 4 and
-13 for direct HGB.  A post-freeze direct expected-penalty model obtained a
-slightly lower file~03 MAE ($2.4624$) and screening score $41\%$, whereas the
-frozen mixture scored $36\%$ on that file but was stronger in the original
-grouped development folds ($39.8\%$ versus $35.2\%$).  We therefore retain
-the frozen model and interpret small differences in the predicted tail
-cautiously rather than selecting retrospectively on one metric.
+The Q1 results illustrate a trade-off between global error and
+low-tail retrieval.  Relative to direct HGB, the frozen mixture improved
+both global MAE and screening performance, although its MAE on the 70
+validation records with $V<5$ remained high at $8.2654$.  It recovered
+8 true Top-25 and 20 true Top-50 records, compared with 4 and 13 for
+direct HGB.  A direct expected-penalty model evaluated after the freeze
+achieved a slightly lower file~03 MAE ($2.4624$) and a screening score of
+$41\%$.  The frozen mixture scored $36\%$ on file~03 but performed better
+in the original grouped development folds ($39.8\%$ versus $35.2\%$).
+We retain the preselected model rather than replacing it retrospectively
+on the basis of a single file or metric, and interpret fine differences
+within the predicted low tail cautiously.
 
 \subsection{Finite-budget value and solver sampling}
 
-The retrospective budget replay in Table~\ref{tab:q1-budget} gives the most
-direct operational interpretation of Q1.  At budgets 10, 25, 50, and 100,
-the proxy ranking found 6, 13, 23, and 34 records with observed $V<5$;
-uniform sampling without replacement had expected counts only 0.1764,
-0.4409, 0.8818, and 1.7637.  The proxy also included the validation-set
-minimum at every tested budget.  These enrichment factors quantify value on
-file~03, not a success probability for the unlabeled pool or for a new
+The retrospective replay in Table~\ref{tab:q1-budget} illustrates the
+operational value of the Q1 ranking on file~03.  At budgets of 10, 25, 50,
+and 100, it retrieved 6, 13, 23, and 34 records with observed $V<5$.
+Uniform sampling without replacement would yield expected counts of only
+0.1764, 0.4409, 0.8818, and 1.7637, respectively.  The ranking also
+included the validation-set minimum at every tested budget.  These
+enrichment factors describe this selection-involved file~03 replay; they
+are not success-probability estimates for the unlabeled pool or a new
 chemical domain.
 
-Figure~\ref{fig:q23-run-comparison} compares the two local solvers on the
-same four adopted matrices.  Across 1,200 samples each, Kaiwu SDK 1.4.3 on
-CPU returned 99 legal states ($8.25\%$), hit the optimum in 99/120 seeded
-runs, and used 83.413~s.  Local simulated annealing returned 907 legal states
-($75.58\%$) and hit the optimum in all 120 recorded chain groups.  Two
-archives give 162.556 and 178.14~s for the four local-SA controls; their run
-versions have not been reconciled, so neither is substituted for the other
-or used in a speed ratio.  Every group nevertheless returned the correct
-best legal candidate.  Attempt definitions, code paths, and overheads differ,
-so these times form a provenance ledger rather than a backend-speed or
+Figure~\ref{fig:q23-run-comparison} compares two local solvers on the
+same four adopted matrices.  Across 1,200 returned samples, Kaiwu SDK~1.4.3
+on the CPU produced 99 legal states ($8.25\%$), hit the optimum in 99 of
+120 seed-level attempts, and recorded 83.413~s of solver time.  Local
+simulated annealing produced 907 legal states ($75.58\%$) and hit the
+optimum in all 120 recorded chain groups.  The two archives report
+162.556 and 178.14~s for the four local-SA controls.  Because the run
+versions have not been reconciled, we retain both values and calculate no
+speed ratio.  Although each group returned its best legal candidate, the
+attempt definitions, code paths, and overheads differ.  These timing
+records are therefore a provenance ledger, not a backend-speed or
 quantum-advantage test.
 
 \subsection{Four-layer error audit}
 
-The four error layers are not additive because they have different units and
-conditioning events.  First, surrogate prediction has file~03 MAE $2.4715$,
-RMSE $4.5827$, Spearman $0.9383$, and low-tail MAE $8.2654$; true Q2/Q3
-candidate error is NA without labels.  Second, Table~\ref{tab:mapping-audit}
-separates exact integer checks from floating controls.  Adopted 104-variable
-integer energies reproduce exactly in discrete checks.  The
-$2.13\times10^{-14}$/$1.42\times10^{-12}$ Q2 and
-$9.95\times10^{-14}$/$4.57\times10^{-12}$ Q3 residuals belong to floating
-104- and 208-variable controls, respectively, and agree within numerical
-tolerance.  A comparable 1.4.4 residual for the adopted 104 matrices is NA.
+The four error layers cannot be added into a single total because
+they have different units and conditioning events.  First, the file~03
+surrogate metrics are MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$, and
+low-tail MAE $8.2654$.  The true Q2/Q3 candidate error remains NA because
+those pools have no labels.  Second, Table~\ref{tab:mapping-audit}
+distinguishes exact integer checks from floating-point controls.  The
+adopted 104-variable integer energies agree exactly in the discrete
+checks.  The Q2 residuals ($2.13\times10^{-14}$ and $1.42\times10^{-12}$)
+and Q3 residuals ($9.95\times10^{-14}$ and $4.57\times10^{-12}$) belong
+to the floating-point 104- and 208-variable controls, respectively, and
+are within numerical tolerance.  A comparable Kaiwu~1.4.4 residual for
+the adopted 104-variable matrices remains NA.
 
-Third, uniform integerization retained the raw optimum within the lowest
-tier but created six Q2 and 21--24 Q3 ties; selecting by ID then incurred
-proxy-score losses 0.6474 and 0.6451.  The adopted two-level matrices retain
-the known group winners with $\max|h|=102$, $\max|J|=1$, and a lowest
-illegal-minus-winner gap of 2, but they are oracle-assisted and do not retain
-non-winner ordering.  Fourth, SDK--CPU, local-SA, and SPQC-550 sampling are
-reported separately.  The final hardware jobs had legal rates 10\%, 40\%,
-0\%, and 20\%; three tasks returned at least one group argmin among unequal
-sample counts of 10, 10, 7, and 5.  This is not a hardware success rate.  These
-four heterogeneous layers have different units and conditioning events and
-are not added into a synthetic total error.
+Third, uniform integerization retained the raw optimum in the lowest
+energy tier but introduced six Q2 ties and 21--24 Q3 ties.  Breaking those
+ties by candidate ID produced proxy-score losses of 0.6474 and 0.6451.
+The adopted two-level matrices retain the known group winners, with
+$\max|h|=102$, $\max|J|=1$, and a minimum illegal-minus-winner energy gap
+of 2.  This mapping is oracle-assisted and does not preserve the ordering
+among non-winners.  Fourth, we report SDK--CPU, local-SA, and SPQC-550
+sampling separately.  The four final hardware tasks had legal-sample rates
+of 10\%, 40\%, 0\%, and 20\%; three returned at least one group argmin,
+despite unequal sample counts of 10, 10, 7, and 5.  This task count is not
+a hardware success rate.  These four evidence layers are therefore kept
+separate rather than combined into a synthetic total-error measure.
 
 \subsection{Pipeline robustness and measured cost boundary}
 
@@ -84,13 +94,14 @@ Q2/Q3 entry domains, and source-field validation.  These checks support
 pipeline integrity, not material accuracy; the complete defect list is in
 Appendix~\ref{sec:appendix-cost-audit}.
 
-Raw CSV/JSON records give 6.551~ms for Q2 matrix preparation and 23.197~ms
-combined for Q3, while SDK~1.4.3 solves took 20.81--20.96~s per group
-(83.413~s total).  Conflicting README and short-SDK timing fields, the two
-local-SA totals of 162.556 and 178.14~s, and the incomplete SPQC receipt ledger
-remain UNVERIFIED and are not collapsed into a speed ratio.  Their full
-provenance and the still-NA queue, complete-execution, and monetary-cost
-fields are reported in Appendix~\ref{sec:appendix-cost-audit}.
+The raw CSV/JSON records report 6.551~ms for Q2 matrix preparation and
+23.197~ms for the three Q3 groups combined.  The Kaiwu SDK~1.4.3 CPU solves
+took 20.81--20.96~s per group, or 83.413~s in total.  Conflicting README
+and short-SDK timing fields, the two local-SA totals (162.556 and
+178.14~s), and the incomplete SPQC receipt ledger remain UNVERIFIED; we
+do not combine them into a speed ratio.  Their provenance, together with
+the still-NA queue, complete-execution, and monetary-cost fields, is
+documented in Appendix~\ref{sec:appendix-cost-audit}.
 
 \subsection{Stability, contribution, and limitations}
 
@@ -108,12 +119,14 @@ enumerable, eight-bit-compatible encoding, with proxy, mapping, precision,
 and sampling errors kept separate and decoded on the original score scale.
 It is not a new universal surrogate, annealing algorithm, or quantum advantage.
 
-The method prioritizes candidates only within the supplied categorical
-domain; file~03 informed selection, while file~04 and the blind pools remain
-unlabeled.  Sparse blind-pool winners changed in two Q3 groups, integer tiers
-contained 11--34 ties, the 107-variable projection changed the optimum, and
-four hardware jobs cannot characterize stability.  Future work therefore
-needs independent labels, reconciled timing and budget records, non-oracle
-multilevel encodings, the missing probe receipt, and repeated hardware batches
-with a documented cost boundary.  The present result remains an encoded-proxy
-screening study, not physical proof of candidates or quantum advantage.
+The method ranks candidates only within the supplied categorical domain.
+File~03 informed model selection, while file~04 and the blind pools remain
+unlabeled.  The sparse blind-pool exercise changed the winners in two Q3
+groups; the integer tiers contained 11--34 tied candidates; the
+107-variable projection changed the optimum; and four hardware tasks are
+insufficient to characterize stability.  Further work requires independent
+labels, reconciled timing and budget records, non-oracle multilevel
+encodings, recovery of the missing probe receipt, and repeated hardware
+batches with a documented cost boundary.  The present study is an
+encoded-proxy screening exercise, not physical validation of the
+candidates or evidence of quantum advantage.

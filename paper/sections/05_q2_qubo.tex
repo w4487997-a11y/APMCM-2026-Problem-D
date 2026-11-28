@@ -3,36 +3,35 @@
 
 \subsection{Fixed-anion objective and scoring input}
 
-Question~2 fixes the anion group at $X=\mathrm{NO}_2$ and asks for the
-ordered cation pair with the smallest predicted violation.  The candidate
-domain is file~07, which contains every ordered pair from the 52-element
-cation set and therefore has $52^2=2,704$ rows.  The optimization target is
-the frozen candidate-scoring model introduced in
-Section~\ref{sec:problem-formulation}:
+Question~2 fixes the anion group at $X=\mathrm{NO}_2$ and seeks the
+ordered cation pair with the lowest predicted violation.  The search domain
+is file~07, which contains all ordered pairs from the 52-element cation set
+($52^2=2,704$ candidates).  We optimize the frozen candidate-scoring model
+defined in Section~\ref{sec:problem-formulation}:
 \begin{equation}
   (A_2^*,B_2^*)=
   \arg\min_{A,B\in\mathcal E}
   \widehat V_{23}(A,B,\mathrm{NO}_2).
   \label{eq:q2-fixed-objective}
 \end{equation}
-Here $\widehat V_{23}$ is the selected \texttt{hgb\_gap\_mix} specification
-refitted on files~02 and~03.  Its inputs remain the ordered composition
-fields $(A,B,X)$ and the deterministic composition features used by the
-frozen model.  The resulting file~07 scores are optimization inputs rather
-than new validation observations: no physical labels from files~07, 11, or
-the hidden pool enter the fit.  We first enumerate this frozen table to obtain
-the numerical proxy argmin and runner-up.  The integer QUBO then tests whether
-that already identified argmin can be represented and sampled under the
-recorded coefficient limit.
+Here, $\widehat V_{23}$ denotes the selected \texttt{hgb\_gap\_mix}
+specification refitted on files~02 and~03.  The model uses the ordered
+composition fields $(A,B,X)$ and the deterministic composition features
+defined by the frozen specification.  File~07 scores serve as optimization
+inputs, not as additional validation observations; no physical labels from
+files~07, 11, or the hidden pool are used in fitting.  We first enumerate
+the frozen score table to identify its proxy argmin and runner-up.  The
+integer QUBO is then used to test whether this known argmin can be encoded
+and sampled within the recorded coefficient limit.
 
 \subsection{One-hot encoding and accepted integer cost}
 
 Let $a_i,b_j\in\{0,1\}$ select the $i$th A-site element and the $j$th
 B-site element.  There are 52 variables in each block, hence 104 logical
 variables in total.  Legal assignments satisfy the two one-hot constraints
-in Equation~\eqref{eq:one-hot-constraints}.  The accepted implementation
-does not place the raw floating-point score directly in the QUBO.  For a
-fixed group $X$, it first subtracts the group minimum
+in Equation~\eqref{eq:one-hot-constraints}.  The accepted implementation does not insert the raw floating-point
+scores directly into the QUBO.  For a fixed group $X$, it first subtracts
+the group minimum
 $m_X=\min_{i,j}\widehat V_{23}(A_i,B_j,X)$ and forms
 \begin{equation}
  c_{ij}^{(X)} = 4\,\operatorname{nint}\!\left(
@@ -42,11 +41,12 @@ $m_X=\min_{i,j}\widehat V_{23}(A_i,B_j,X)$ and forms
  \label{eq:q23-integer-cost}
 \end{equation}
 where $\operatorname{nint}$ is NumPy's \texttt{rint}, which uses ties-to-even.
-Thus 0.02 is a cap, not a score precision.  For a nonnegative gap
-$d_{ij}=\widehat V_{23}-m_X$, zero is assigned when $d_{ij}<0.01$; at the
-exact half-step $d_{ij}=0.01$, ties-to-even also returns zero.  A unique zero
-level therefore requires the second-smallest gap to be strictly greater than
-0.01.  The raw score and identifier are retained for scientific reporting.
+The value 0.02 is a cap, not a measure of score resolution.  For the
+nonnegative gap $d_{ij}=\widehat V_{23}-m_X$, the rounded cost is zero when
+$d_{ij}<0.01$.  At the exact half-step, $d_{ij}=0.01$, NumPy's ties-to-even
+rule also returns zero.  A unique zero-cost legal state therefore requires
+the second-smallest gap to exceed 0.01 strictly.  We retain each raw score
+and candidate identifier for reporting outside the integer objective.
 
 With $\lambda=2$, the implemented energy is
 \begin{equation}
@@ -77,23 +77,23 @@ The offset does not change the optimizer, but it makes the stored legal-state
 energy equal to the integer cost and removes ambiguity when matrix and
 formula energies are compared.
 
-The construction deliberately maps the already enumerated group argmin rather
-than preserving every raw-score difference.  Y--Ti--$\mathrm{NO}_2$ scores
-$1.491928$, while the runner-up Y--Zr--$\mathrm{NO}_2$ scores $1.805747$,
-a gap of $0.313819$.  The integer mapping therefore has one zero-energy legal
-state.  Because all cost coefficients are
-nonnegative, any violation of at least one one-hot constraint incurs at
-least $\lambda=2$.  The lowest illegal energy is therefore separated from
-the legal minimum by two integer units.
+This construction preserves the already enumerated group argmin; it does
+not preserve all differences between raw scores.  Y--Ti--$\mathrm{NO}_2$
+has a proxy score of $1.491928$, compared with $1.805747$ for the runner-up
+Y--Zr--$\mathrm{NO}_2$, giving a margin of $0.313819$.  The resulting
+integer matrix therefore has a single zero-energy legal state.  Since all
+cross-block costs are nonnegative, any violation of either one-hot
+constraint adds at least $\lambda=2$ to the energy.  The lowest illegal
+state is thus two integer units above the legal minimum.
 
 \subsection{Matrix audit and legal-state enumeration}
 
-The archived Q2 matrix has shape $104\times104$, offset 4, and coefficient
-set $\{-2,0,4\}$.  All 2,704 legal one-hot assignments were enumerated.
-Their energies were recomputed both from Equation~\eqref{eq:q23-accepted-qubo}
-and from the stored matrix.  The maximum signed discrepancy was zero.  The
-unique legal minimum decoded to candidate~15567, Y--Ti--NO2, whose retained
-raw score is
+The archived Q2 matrix is $104\times104$, has offset 4, and contains
+coefficients in $\{-2,0,4\}$.  We enumerated all 2,704 legal one-hot
+assignments and recomputed their energies from both
+Equation~\eqref{eq:q23-accepted-qubo} and the stored matrix.  The maximum
+signed discrepancy was zero.  The unique legal minimum decoded to
+candidate~15567, Y--Ti--NO2, with the retained raw score
 \begin{equation}
   \widehat V_{23}(\mathrm{Y},\mathrm{Ti},\mathrm{NO}_2)
   =1.4919281724855757.
@@ -112,28 +112,31 @@ energy audits of the stored model, not a claim about hardware precision.
 
 \subsection{Kaiwu SDK experiment and Q2 result}
 
-The recorded run used Kaiwu SDK~1.4.3 on a local CPU.  Thirty fixed random
-seeds were used; each seed requested at most ten returned samples, giving
-300 samples.  The simulated-annealing settings were 300 iterations per
-temperature, cooling factor $\alpha=0.99$, initial temperature twice the
-maximum absolute adapted-matrix entry, and cutoff temperature $10^{-3}$
-times that entry.  Each run used one process.  These settings describe a
-local SDK computation, not an SPQC submission.
-The solver time was 20.813~s.  Of the 300 returned samples, 23 (7.67\%)
-were legal; all decoded to candidate~15567 and came from 23 distinct seeds.
-Thus the run recovered the unique enumerated optimum in 23/30 attempts with
-zero original-score regret.  The remaining states were rejected by the
-one-hot checks.  This legal-sample fraction describes the solver
-configuration, not the probability that the physical material is feasible.
+The recorded experiment used Kaiwu SDK~1.4.3 on a local CPU.  It ran
+30 fixed random seeds, requesting up to ten returned samples per seed
+(300 samples in total).  Simulated annealing used 300 iterations per
+temperature, a cooling factor of $\alpha=0.99$, an initial temperature
+twice the maximum absolute adapted-matrix entry, and a cutoff temperature
+equal to $10^{-3}$ times that entry.  Each seed ran in a single process.
+This was a local SDK computation, not an SPQC submission.
+
+The recorded solver time was 20.813~s.  Of the 300 returned samples, 23
+($7.67\%$) satisfied both one-hot constraints.  All 23 decoded to
+candidate~15567 and came from distinct seeds, so the enumerated optimum
+was recovered in 23 of the 30 seed-level attempts with zero regret on the
+original proxy score.  The remaining samples failed the one-hot checks.
+This legal-sample fraction characterizes this solver configuration; it is
+not a probability that the material is physically feasible.
 
 \subsection{Interpretation and limitations}
 
-The fixed-$X$ construction gives a compact link from every ordered composition
-to a 104-bit state.  Integer coefficients avoid another rounding step in the
-recorded eight-bit interface.  Y--Ti--$\mathrm{NO}_2$ is the numerical argmin
-of the frozen $\widehat V_{23}$ table and a priority candidate.  The QUBO
-result confirms its oracle-assisted mapping; it is not an independent discovery
-or a measured violation score.
+The fixed-$X$ formulation maps each ordered composition to a
+104-variable state and uses integer coefficients compatible with the
+recorded eight-bit interface.  Y--Ti--$\mathrm{NO}_2$ is the numerical
+argmin of the frozen $\widehat V_{23}$ table and is therefore a priority
+candidate for follow-up.  The QUBO experiment confirms the oracle-assisted
+encoding of that known proxy minimum; it is neither an independent
+discovery nor a measurement of the material's true violation score.
 
 File~11 was subsequently modeled independently over its 529 sparse legal
 pairs.  If $\mathcal L$ denotes these allowed A--B edges, the implementation
@@ -157,7 +160,7 @@ does not identify integerization as the cause.  These are local-SA results.
 The final 104-variable Q2 matrix was also submitted to SPQC-550 under the
 task ID listed in the appendix.  One of ten returned samples was
 legal and decoded to Y--Ti--NO2; the creation-to-finish interval was 22~s
-and the platform reported 15.0116~ms evolution time.  This single small
-return shows that this submission produced a platform return for the archived
-matrix.  It does not estimate hardware stability.  The formal solver result
-remains the Kaiwu SDK~1.4.3 CPU experiment above.
+and the platform reported 15.0116~ms evolution time.  This single, small return confirms that the archived matrix produced
+a platform response, but it provides no estimate of hardware stability.
+The formal solver result remains the Kaiwu SDK~1.4.3 CPU experiment
+reported above.

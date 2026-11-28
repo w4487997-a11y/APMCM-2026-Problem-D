@@ -3,12 +3,12 @@
 
 \subsection{Groupwise formulation over the complete Q3 pool}
 
-Question~3 minimizes the frozen candidate score jointly over the ordered
-cation pair and the three permitted anion groups
+Question~3 minimizes the frozen candidate score over both the ordered
+cation pair and the three permitted anion groups,
 $\mathcal X_3=\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$.  File~08
-contains $52^2=2,704$ candidates for each group and 8,112 candidates in
-total.  The adopted implementation partitions this complete domain by
-$X$ and constructs three independent 104-variable models:
+contains $2,704$ candidates for each group, or 8,112 candidates in total.
+We partition this complete domain by $X$ and construct three independent
+104-variable models:
 \begin{equation}
  (A_X^*,B_X^*)=
  \arg\min_{A,B\in\mathcal E}\widehat V_{23}(A,B,X),
@@ -21,20 +21,21 @@ Equations~\eqref{eq:q23-integer-cost}--\eqref{eq:q23-expanded-qubo}.  The
 three models together cover every row of file~08 without projecting anion
 identity into an approximate interaction.
 
-This groupwise design also matches the accepted coefficient audit.  Each
-matrix contains only $-2$, 0, and 4, has offset 4, and maps to integral
-Ising coefficients with $\max|h|=102$ and $\max|J|=1$.  The same
-$\lambda=2$ one-hot penalty gives a minimum illegal-state separation of
-two in every group.
+The groupwise design also satisfies the adopted coefficient audit.
+Each matrix contains only $-2$, 0, and 4, has an offset of 4, and maps to
+integer Ising coefficients with $\max|h|=102$ and $\max|J|=1$.  With
+$\lambda=2$, the minimum energy gap between an illegal state and the legal
+minimum is two integer units in every group.
 
 \subsection{Why QUBO energies are not compared across groups}
 
-The three integer objectives share a construction but not an absolute
-score origin.  Equation~\eqref{eq:q23-integer-cost} subtracts the minimum
-$m_X$ separately within each anion group and then caps and rounds the
-remaining difference.  Consequently, every group winner has integer QUBO
-energy zero.  Comparing these zero values would discard the information
-needed to choose an anion group.
+Although the three integer objectives use the same construction, they
+do not share a common score origin.  In
+Equation~\eqref{eq:q23-integer-cost}, the group minimum $m_X$ is subtracted
+separately for each anion group before the remaining difference is capped
+and rounded.  Each group winner therefore has an integer QUBO energy of
+zero.  Those zero energies cannot be compared to decide which anion group
+has the lowest original proxy score.
 
 After decoding the best legal state returned for each group, the final
 comparison therefore returns to the stored original-scale prediction:
@@ -49,31 +50,35 @@ The integer energy is not an alternative physical metric.
 
 \subsection{Matrix construction and enumeration audit}
 
-For each group, the frozen file~08 predictions were enumerated first.  The
-generator then constructed the complete $52\times52$ A--B interaction block and archived
-the QUBO, offset, variable names, candidate identifiers, legal-state index
-map, raw scores, and adapted Ising matrix.  Exhaustive enumeration of the
-2,704 legal states in each group gave one minimum-energy state.  Formula,
-integer QUBO, and independently recomputed discrete energies agreed exactly
-for all archived solver samples; floating conversion audits are reported
-separately in Section~\ref{sec:hardware-precision}.
+For each group, we first enumerated the frozen file~08 predictions.
+The generator then built the full $52\times52$ A--B interaction block and
+archived the QUBO, offset, variable names, candidate identifiers,
+legal-state index map, raw scores, and adapted Ising matrix.  Exhaustive
+enumeration of the 2,704 legal states in each group identified a unique
+minimum-energy state.  The formula, integer QUBO, and independently
+recomputed discrete energies agreed exactly for all archived solver
+samples.  Floating-point conversion audits are reported separately in
+Section~\ref{sec:hardware-precision}.
 
-The group minima on the original surrogate scale were Na--Nb--$\mathrm O_3$,
-Y--Ti--$\mathrm{NO}_2$, and Na--Ti--$\mathrm{FO}_2$.  Their runners-up were
-Sn--Ti--$\mathrm O_3$, Y--Zr--$\mathrm{NO}_2$, and Sr--In--$\mathrm{FO}_2$;
-the gaps were respectively $0.013123$, $0.313819$, and $0.028903$.  Each gap is
-large enough for the accepted two-level integer mapping to retain a unique
-zero-energy legal state.  These are numerical proxy argmins.  The unlabeled
-Q2/Q3 pools provide no independent $\widehat V_{23}$ error estimate, so the
-small margins do not establish statistically separated physical winners.
+On the original surrogate scale, the group minima were
+Na--Nb--$\mathrm O_3$, Y--Ti--$\mathrm{NO}_2$, and
+Na--Ti--$\mathrm{FO}_2$.  Their respective runners-up were
+Sn--Ti--$\mathrm O_3$, Y--Zr--$\mathrm{NO}_2$, and
+Sr--In--$\mathrm{FO}_2$, with margins of $0.013123$, $0.313819$, and
+$0.028903$.  Each margin exceeds the $0.01$ threshold required by the
+adopted two-level mapping to retain a unique zero-cost legal state.  These
+are minima of the frozen proxy scores, not independently verified material
+optima.  Because the Q2/Q3 pools are unlabeled, no independent error
+estimate for $\widehat V_{23}$ is available; the margins therefore do not
+establish statistically separated physical winners.
 
 \subsection{CPU-local Kaiwu SDK results}
 
-All three recorded Q3 runs used the same Kaiwu SDK~1.4.3 CPU-local settings
-as Q2: 30 seeds, at most 10 returned samples per seed, 300 iterations per
-temperature, and $\alpha=0.99$.  Table~\ref{tab:q3-sdk-results} reports the
-original-scale result after legal decoding.  Solver time is the recorded
-wall time for the SDK solve of the corresponding group.
+All three Q3 runs used the same Kaiwu SDK~1.4.3 CPU-local settings as
+Q2: 30 seeds, up to ten returned samples per seed, 300 iterations per
+temperature, and $\alpha=0.99$.  Table~\ref{tab:q3-sdk-results} reports
+the decoded legal result on the original surrogate scale.  The time column
+gives the recorded SDK wall time for each group.
 
 \begin{table}[!htbp]
 \centering
@@ -91,14 +96,13 @@ FO2 & Na--Ti--FO2  & 0.878526 & 25 & 25 & 20.959 \\
 \end{tabularx}
 \end{table}
 
-All legal returned samples in a group decoded to that group's enumerated
-optimum.  The legal fractions were 9.33\% for O3, 7.67\% for NO2, and
-8.33\% for FO2.  The corresponding optimum appeared in 28, 23, and 25 of
-the 30 SDK seeds.  Applying
+Every legal sample returned within a group decoded to that group's
+enumerated optimum.  The legal-sample fractions were $9.33\%$ for O3,
+$7.67\%$ for NO2, and $8.33\%$ for FO2.  The corresponding group optimum
+appeared in 28, 23, and 25 of the 30 SDK seeds.  Applying
 Equation~\eqref{eq:q3-original-scale-comparison} selects candidate~4159,
-Na--Nb--O3, with
-$\widehat V_{23}=0.5400229940675169$.  Its difference from the enumerated
-file~08 optimum is zero.
+Na--Nb--O3, with $\widehat V_{23}=0.5400229940675169$, equal to the
+enumerated minimum in file~08.
 
 \begin{figure}[!htbp]
 \centering
@@ -152,25 +156,28 @@ It is placed in the appendix to keep the main-text comparison compact.
 
 \subsection{Evidence boundary and future work}
 
-The Q3 conclusion is restricted to the frozen surrogate and the complete
-file~08 pool.  Na--Nb--O3 is the minimum returned and enumerated candidate
-under $\widehat V_{23}$, not a material whose true violation score has been
-measured.  File~12 was subsequently modeled independently rather than
-filtered after a full-pool solve.  Local simulated annealing of dedicated
-floating/integer 104-variable blind matrices returned Ca--Sn--O3
+The Q3 result is limited to the frozen surrogate and the complete
+file~08 candidate pool.  Na--Nb--O3 is the minimum identified by both
+enumeration and the recorded solver samples under $\widehat V_{23}$; its
+true violation score has not been measured.  We subsequently modeled
+file~12 independently rather than filtering it after a full-pool solve.
+Local simulated annealing on the dedicated floating-point and integer
+104-variable blind matrices returned Ca--Sn--O3
 ($\widehat V_{23}=1.185082$), Y--Ti--NO2 (1.491928), and Rb--Ti--FO2
-(1.590922).  All eight Q2/Q3 blind runs returned 300/300 legal samples.
-The recorded integer runs had fewer optimum-hit seed groups: 13 versus 27 for
-O3, 16 versus 25 for NO2, and 11 versus 26 for FO2.  A single stochastic
-comparison does not establish integerization as the cause.  These are local-SA proxy results with no blind
-physical labels, not SDK or SPQC evidence.
+(1.590922).  All eight Q2/Q3 blind runs returned 300 of 300 legal samples.
+For the integer matrices, fewer seed groups hit the optimum: 13 versus 27
+for O3, 16 versus 25 for NO2, and 11 versus 26 for FO2.  This single
+stochastic comparison does not establish integerization as the cause.
+These are local-SA proxy results without blind physical labels, not SDK
+or SPQC evidence.
 
-Four final 104-variable matrices were submitted to SPQC-550.  For Q3, the
-O3 task returned 4/10 legal samples and the proxy winner Na--Nb--O3; the NO2
-task returned 0/7 legal samples; and the FO2 task returned 1/5 legal samples
-and Na--Ti--FO2.  Together with Q2, three of four final tasks returned at
-least one group proxy argmin among unequal returns of 10, 10, 7, and 5 samples.
-This task count is not a hardware success-rate estimate.  A separate historical 30-variable task returned Ge--Ti--O3 and
-remains only a reduced short-list comparison.  Accordingly, this chapter
-claims neither physical feasibility, hardware global optimality, speedup,
-nor quantum advantage.
+Four final 104-variable matrices were submitted to SPQC-550.  The Q3/O3
+task returned four legal samples out of ten, including the proxy winner
+Na--Nb--O3.  The Q3/NO2 task returned no legal samples (0/7), while the
+Q3/FO2 task returned one legal sample out of five, decoding to
+Na--Ti--FO2.  Including Q2, three of the four tasks returned at least one
+group proxy argmin, with unequal sample counts of 10, 10, 7, and 5.  This
+task count is not an estimate of hardware success probability.  A separate
+historical 30-variable task returned Ge--Ti--O3 and remains only a
+reduced short-list comparison.  We therefore make no claim of physical
+feasibility, hardware global optimality, speedup, or quantum advantage.

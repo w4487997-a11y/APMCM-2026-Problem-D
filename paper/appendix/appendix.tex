@@ -7,13 +7,14 @@
 
 \subsection{Frozen models and adopted matrices}
 
-The Q1-only and Q2/Q3 scoring artifacts are identified by the manifests in
-\path{handoff/v1_2/}.  Adopted Q2/Q3 matrices, raw samples, summaries, and
-verification records are archived in
-\path{handoff/Q123_v1/Q123_v1_integrated.zip}.  The public paper tables are
-reproduced from \path{q23_experiment_table.csv}; independent energy checks
-are recorded in \path{sdk_verification.json}.  Source-code entry points and
-their roles are listed in \path{appendix/source_code_inventory.md}.
+The manifests in \path{handoff/v1_2/} identify the Q1-only and Q2/Q3
+scoring artifacts.  The adopted Q2/Q3 matrices, raw samples, summaries,
+and verification records are archived in
+\path{handoff/Q123_v1/Q123_v1_integrated.zip}.  The paper's public tables
+are reproduced from \path{q23_experiment_table.csv}, while independent
+energy checks are recorded in \path{sdk_verification.json}.  The source-code
+entry points and their respective roles are documented in
+\path{appendix/source_code_inventory.md}.
 
 \begin{table}[!htbp]
 \centering
@@ -52,14 +53,14 @@ $K$ & Proxy $V<5$ hits & Random mean hits & Enrichment & Proxy min. $V$ & Random
 
 \subsection{Precision comparisons and negative tests}
 
-The historical Q2/Q3 paper-and-figures ZIP archive in \path{handoff/}
-contains the
-floating-point 104/208-variable matrices, legal-state energy checks,
-direct-eight-bit quantization reports, two short-list SPQC logs, and their
-decoding scripts.  The audit-follow-up records in \path{handoff/q23_fix/}
-correct the Ising constant by adding the QUBO offset once, compare full-pool
-and short-list penalties, and preserve input-negative and regression tests.
-The main machine-readable records used in Sections~\ref{sec:q3-qubo}--
+The historical Q2/Q3 paper-and-figures archive in \path{handoff/}
+contains the floating-point 104- and 208-variable matrices, legal-state
+energy checks, direct eight-bit quantization reports, two short-list
+SPQC logs, and their decoding scripts.  The follow-up records in
+\path{handoff/q23_fix/} correct the Ising constant by restoring the QUBO
+offset once, compare full-pool and short-list penalties, and retain the
+negative-input and regression tests.  The principal machine-readable
+records supporting Sections~\ref{sec:q3-qubo}--
 \ref{sec:results-discussion} are:
 
 \begin{itemize}[leftmargin=2em]
@@ -73,14 +74,16 @@ The main machine-readable records used in Sections~\ref{sec:q3-qubo}--
        failure-path checks.
 \end{itemize}
 
-The negative-input audit rejects 13 defect classes for both Q2 and Q3.
-Regression R1--R4 cover the no-legal-sample failure, SDK-probe failure,
-complete Q2/Q3 entry domains, and source-field validation.  The mapping
-recheck uses Kaiwu~1.4.4 without a solve licence; the recorded CPU solves use
-Kaiwu SDK~1.4.3.  The floating Q2 and joint-Q3 control QUBO SHA prefixes are
-\texttt{967b13d1957b} and \texttt{f3b447a1edb6}.  Full hashes are recorded in
-\path{appendix/source_code_inventory.md} and the raw manifests.  Their
-floating residuals are not attributed to the adopted 104-variable matrices.
+The negative-input audit rejected all 13 injected defect classes for
+both Q2 and Q3.  Regression tests R1--R4 cover illegal-only solver output,
+a missing SDK licence, complete Q2/Q3 candidate domains, and source-field
+validation.  The mapping recheck used Kaiwu~1.4.4 without a solve licence;
+the recorded CPU solves used Kaiwu SDK~1.4.3.  The floating-point Q2 and
+joint-Q3 control QUBOs have SHA prefixes
+\texttt{967b13d1957b} and \texttt{f3b447a1edb6}.  Their full hashes appear
+in \path{appendix/source_code_inventory.md} and the raw manifests.  The
+reported floating-point residuals do not apply to the adopted
+104-variable integer matrices.
 
 \begin{table}[!htbp]
 \centering
@@ -117,15 +120,16 @@ Adopted 104 under 1.4.4 & NA & NA & comparable floating residual & NA & NA; 208 
 
 \subsection{Projection and blind-pool evidence}
 
-The 107-variable projection matrix and its 300 local-SA samples are archived
-under \path{handoff/q23_supplement/O10/}.  The projection optimum is
+The 107-variable projection matrix and its 300 local-SA samples are
+archived under \path{handoff/q23_supplement/O10/}.  Its optimum is
 Rb--Ta--O3, whereas the original proxy optimum is Na--Nb--O3; the latter
-appears in 2/300 samples.  This comparison is not an optimum-preservation
-result.
+appears in only 2 of the 300 samples.  This experiment is a projection
+control, not an optimum-preservation result.
 
-Dedicated file~11/12 evidence is under
-\path{handoff/q23_supplement/O14/}.  Every floating/integer model stores 300
-samples with bits and spins.  The matrix SHA-256 values are:
+The dedicated file~11/12 records are stored in
+\path{handoff/q23_supplement/O14/}.  Each floating-point and integer model
+includes 300 samples with both bit and spin representations.  The matrix
+SHA-256 values are:
 
 \begin{itemize}[leftmargin=2em]
  \item Q2/NO2 float: \texttt{eeef8d05f7d4...21938311};\par
@@ -146,7 +150,7 @@ retained as a provenance conflict and is not used in the paper results.
 
 \subsection{Final SPQC task evidence and unresolved fields}
 
-Four final 104-variable task receipts are archived under
+The four final 104-variable task receipts are archived under
 \path{handoff/q23_supplement/O13/}:
 
 \begin{itemize}[leftmargin=2em]
@@ -179,12 +183,12 @@ Q3 & FO2 & 5  & 1 & yes & 16 s / 7.3587 ms \\
 \end{table}
 
 Historical tasks \texttt{q2\_int\_01} and \texttt{q3\_int\_01} used 17
-and 30 variables and remain separate from these final matrices.  The credit
-ledger shows seven debits (balance 31 to 24), while six task receipts are
-archived.  The \texttt{probe4\_01} entry has no original receipt and its task
-details remain NA.  Platform queue time,
-complete execution time, monetary billing, and physical labels for all proxy
-winners are NA.
+and 30 variables, respectively, and are kept separate from the final
+104-variable submissions.  The credit ledger records seven debits, with
+the balance falling from 31 to 24, while six task receipts are archived.
+The \texttt{probe4\_01} entry has no original receipt, so its task details
+remain NA.  Platform queue time, complete execution time, monetary
+billing, and physical labels for all proxy winners also remain NA.
 
 The audit retains four \textbf{UNVERIFIED} provenance conflicts rather than
 selecting a favorable value: the $K=52,\lambda=2$, 30-iteration control is
@@ -196,22 +200,24 @@ boundary comparable to the recorded 20.81--20.96~s per-group result.
 \subsection{Pipeline and resource-cost audit}
 \label{sec:appendix-cost-audit}
 
-The archived intake tests injected 13 defect classes: external identifiers,
-wrong compositions, wrong pool and source-pool fields, a wrong source field
-alone, missing pool/source columns, duplicates, missing rows, NaN and negative
-scores, mixed model versions, and constant prediction tables.  Q2 and Q3
-rejected all 13 classes.  Regression R1 returns \texttt{solver\_failed} and no
-winner when every sample is illegal; R2 surfaces a missing SDK licence; R3
-retains Q2's 2,704 and each Q3 group's 2,704 candidates through the joint
-entry point; and R4 rejects invalid source fields.
+The archived intake tests injected 13 defect classes: external
+identifiers; incorrect compositions, pool fields, or source-pool fields;
+an incorrect source field alone; missing pool or source columns; duplicate
+or missing rows; NaN or negative scores; mixed model versions; and
+constant prediction tables.  Both Q2 and Q3 rejected all 13 classes.
+Regression test R1 returns \texttt{solver\_failed} with no winner when all
+samples are illegal.  R2 detects a missing SDK licence.  R3 preserves all
+2,704 Q2 candidates and all 2,704 candidates in each Q3 group through the
+joint entry point.  R4 rejects invalid source fields.
 
-The measured build--convert--adapt--check pipeline took 6.551~ms for Q2 and
-7.430, 7.524, and 7.591~ms for the three Q3 groups (23.197~ms combined).  The
-SDK~1.4.3 solves took 20.81--20.96~s per group, 83.413~s in total.  A separate
-supplement reports 0.48--0.69~s for nominally 30 SDK calls without a confirmed
-timing boundary, so that range is excluded from the end-to-end total.
-SPQC-550 creation-to-finish intervals were 22, 74, 112, and 16~s, while the
-reported single-evolution fields were 15.0116, 9.7488, 0.6991, and 7.3587~ms.
-Neither isolates queueing or complete execution.  Monetary billing, queue
-time, complete execution time, and a comparable CPU--device end-to-end cost
-remain NA.
+The measured build--convert--adapt--check pipeline took 6.551~ms for
+Q2 and 7.430, 7.524, and 7.591~ms for the three Q3 groups (23.197~ms
+combined).  The Kaiwu SDK~1.4.3 CPU solves took 20.81--20.96~s per group,
+or 83.413~s in total.  A separate supplement reports 0.48--0.69~s for
+nominally 30 SDK calls, but its timing boundary has not been confirmed;
+we therefore exclude that range from the end-to-end total.  The
+SPQC-550 creation-to-finish intervals were 22, 74, 112, and 16~s.  The
+reported single-evolution times were 15.0116, 9.7488, 0.6991, and
+7.3587~ms.  Neither field isolates queueing or complete execution.
+Monetary billing, queue time, complete execution time, and a comparable
+CPU-to-device end-to-end cost remain NA.
