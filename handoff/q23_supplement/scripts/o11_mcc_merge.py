@@ -36,6 +36,7 @@ def main():
             "legal_ratio": round(v.get("feasibility_rate", 0), 4),
             "hits": v.get("raw_opt_hits"),
             "hit_rate": round(v.get("raw_opt_hit_rate", 0), 4),
+            "min_tier_ties": "",
             "note": f"wall={v.get('wall_s'):.1f}s" if v.get("wall_s") else "",
         })
     for name, v in s2.get("hitrate_sweep", {}).items():
@@ -52,6 +53,7 @@ def main():
             "legal_ratio": round(v.get("feasibility_rate", 0), 4),
             "hits": v.get("hits", v.get("raw_opt_hits")),
             "hit_rate": round(v.get("hit_rate", v.get("raw_opt_hit_rate", 0)), 4),
+            "min_tier_ties": "",
             "note": f"wall={v.get('wall_s'):.1f}s" if v.get("wall_s") else "",
         })
     for entry in s3.get("scan", []):
@@ -68,9 +70,11 @@ def main():
             "samples": "",
             "legal_samples": "",
             "legal_ratio": "",
-            "hits": entry.get("legal_min_ties"),
+            "hits": "",
             "hit_rate": "",
-            "note": f"组内最优保留={entry.get('argmin_matches_raw')}；最低档并列={entry.get('legal_min_ties')}",
+            "min_tier_ties": entry.get("legal_ties"),
+            "note": (f"组内最优保留={entry.get('argmin_matches_raw')}；"
+                     f"非法间隙={entry.get('separation_gap')}"),
         })
     for name, v in s3.get("runs", {}).items():
         rows.append({
@@ -84,6 +88,7 @@ def main():
             "legal_ratio": round(v.get("feasibility_rate", 0), 4),
             "hits": v.get("hits"),
             "hit_rate": round(v.get("hit_rate", 0), 4),
+            "min_tier_ties": "",
             "note": f"wall={v.get('wall_s'):.1f}s" if v.get("wall_s") else "",
         })
 
