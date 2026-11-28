@@ -1,0 +1,11 @@
+﻿sample,n_ones,legal,material,V_hat,platform_qubo_value,recomputed_qubo_value
+0,2,True,Y|Ti|NO2,1.4919281724855757,-4,-4
+1,1,False,,,-2,-2
+2,1,False,,,-2,-2
+3,1,False,,,-2,-2
+4,1,False,,,-2,-2
+5,1,False,,,-2,-2
+6,1,False,,,-2,-2
+7,2,False,,,0,0
+8,2,False,,,0,0
+9,2,False,,,0,0
