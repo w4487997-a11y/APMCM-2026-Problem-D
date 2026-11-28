@@ -1,0 +1,241 @@
+{
+  "quantization": {
+    "q2": {
+      "max_abs_q": 4.0,
+      "rules": {
+        "exact_127_over_4": {
+          "scale": 31.75,
+          "ties_at_min": 6,
+          "integer_min_energy": -128.0,
+          "max_abs_int_q": 127.0
+        },
+        "floor_127_over_4": {
+          "scale": 31.0,
+          "ties_at_min": 6,
+          "integer_min_energy": -124.0,
+          "max_abs_int_q": 124.0
+        }
+      },
+      "direct_ising_8bit": {
+        "ising_max_abs_float": 28.441778476825395,
+        "scale_to_127": 4.465262258598937,
+        "max_abs_after_round": 127.0,
+        "legal_min_integer": -14338.0,
+        "legal_max_integer": -14254.0,
+        "illegal_min_integer_sampled": -14394.0,
+        "illegal_beats_legal": true,
+        "legal_ties_at_min": 8,
+        "integral_fraction": 1.0
+      }
+    },
+    "q3": {
+      "max_abs_q": 4.0,
+      "rules": {
+        "exact_127_over_4": {
+          "scale": 31.75,
+          "ties_at_min": 21,
+          "integer_min_energy": -128.0,
+          "max_abs_int_q": 127.0
+        },
+        "floor_127_over_4": {
+          "scale": 31.0,
+          "ties_at_min": 24,
+          "integer_min_energy": -124.0,
+          "max_abs_int_q": 124.0
+        }
+      },
+      "direct_ising_8bit": {
+        "ising_max_abs_float": 80.59360918566463,
+        "scale_to_127": 1.5758073286856817,
+        "max_abs_after_round": 127.0,
+        "legal_min_integer": -17334.0,
+        "legal_max_integer": -17278.0,
+        "illegal_min_integer_sampled": -17430.0,
+        "illegal_beats_legal": true,
+        "legal_ties_at_min": 16,
+        "integral_fraction": 1.0
+      }
+    }
+  },
+  "partition": {
+    "O3": {
+      "x": "O3",
+      "n_variables": 104,
+      "n_legal": 2704,
+      "offset": 4.0,
+      "h_max_abs": 102.0,
+      "J_max_abs": 1.0,
+      "ising_all_integral": true,
+      "ising_constant": 5255.0,
+      "legal_min_energy": 0.0,
+      "legal_min_ties": 1,
+      "legal_max_energy": 4.0,
+      "illegal_min_energy": 2.0,
+      "illegal_separation": 2.0,
+      "group_raw_min": 0.5400229940675169,
+      "group_raw_argmin": "Na|Nb|O3",
+      "group_raw_second_gap": 0.013123245502714043,
+      "matrix_argmin_matches_raw": true,
+      "cost_levels": [
+        0.0,
+        4.0
+      ],
+      "qubo_sha256": "f746ad403f87997b241d69ce447f2ca986c6825456457a89be8c72cbe658362c",
+      "raw_second": 0.5531462395702309
+    },
+    "NO2": {
+      "x": "NO2",
+      "n_variables": 104,
+      "n_legal": 2704,
+      "offset": 4.0,
+      "h_max_abs": 102.0,
+      "J_max_abs": 1.0,
+      "ising_all_integral": true,
+      "ising_constant": 5255.0,
+      "legal_min_energy": 0.0,
+      "legal_min_ties": 1,
+      "legal_max_energy": 4.0,
+      "illegal_min_energy": 2.0,
+      "illegal_separation": 2.0,
+      "group_raw_min": 1.4919281724855757,
+      "group_raw_argmin": "Y|Ti|NO2",
+      "group_raw_second_gap": 0.31381863133865195,
+      "matrix_argmin_matches_raw": true,
+      "cost_levels": [
+        0.0,
+        4.0
+      ],
+      "qubo_sha256": "1d0dde9a530d830e32e080208b7905a27983951403f55ce14589f8aef9c9694c",
+      "raw_second": 1.8057468038242277
+    },
+    "FO2": {
+      "x": "FO2",
+      "n_variables": 104,
+      "n_legal": 2704,
+      "offset": 4.0,
+      "h_max_abs": 102.0,
+      "J_max_abs": 1.0,
+      "ising_all_integral": true,
+      "ising_constant": 5255.0,
+      "legal_min_energy": 0.0,
+      "legal_min_ties": 1,
+      "legal_max_energy": 4.0,
+      "illegal_min_energy": 2.0,
+      "illegal_separation": 2.0,
+      "group_raw_min": 0.8785262049668419,
+      "group_raw_argmin": "Na|Ti|FO2",
+      "group_raw_second_gap": 0.028903310775344693,
+      "matrix_argmin_matches_raw": true,
+      "cost_levels": [
+        0.0,
+        4.0
+      ],
+      "qubo_sha256": "0d56d5b121f8400d5b30b0e170ae01b68cefba5ddeb57d94d2a44d3c6170e1b0",
+      "raw_second": 0.9074295157421866
+    }
+  },
+  "hitrate": {
+    "O3_base": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 0.41992860000027576
+    },
+    "NO2_base": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 0.41702380000060657
+    },
+    "FO2_base": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 0.425390200005495
+    }
+  },
+  "meta": {
+    "group_minima": {
+      "O3": 0.5400229940675169,
+      "NO2": 1.4919281724855757,
+      "FO2": 0.8785262049668419
+    },
+    "group_winner": "O3",
+    "winner_material": "Na|Nb|O3",
+    "self_test_delta_ok": "False"
+  },
+  "hitrate_sweep": {
+    "O3_it30_a0.9": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 0.42740670000057435
+    },
+    "O3_it30_a0.99": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 4.354802400004701
+    },
+    "O3_it100_a0.9": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 1.4113925999990897
+    },
+    "O3_it100_a0.99": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 13.66933400000562
+    },
+    "O3_it300_a0.9": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 3.769294699995953
+    },
+    "O3_it300_a0.99": {
+      "seeds": 30,
+      "samples": 300,
+      "feasible": 0,
+      "feasibility_rate": 0.0,
+      "raw_opt_hits": 0,
+      "raw_opt_hit_rate": 0.0,
+      "runs_with_hit": 0,
+      "wall_s": 41.36977289999777
+    }
+  }
+}

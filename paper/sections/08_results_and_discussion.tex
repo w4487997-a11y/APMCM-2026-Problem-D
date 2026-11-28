@@ -110,6 +110,29 @@ but the dominant unknown for that candidate is its unobserved physical
 label.  Conversely, the SDK's low legal rate is a sampling-quality issue,
 not evidence that the underlying constrained minimizer changed.
 
+\subsection{Pipeline robustness and measured cost boundary}
+
+The archived intake tests injected nine defect classes, including external
+or duplicated identifiers, missing rows, mismatched compositions or source
+pools, non-finite and negative scores, mixed model versions, and constant
+prediction tables.  Both Q2 and Q3 rejected every injected defect.  The
+regression suite also verified that an all-illegal solver return produces no
+winner, that a missing SDK licence is reported rather than hidden, and that
+the joint entry point retains all 2,704 candidates in each Q3 group.  These
+tests support pipeline integrity; they are not additional material-accuracy
+experiments.
+
+The local cost ledger contains 83.413~s for the four CPU SDK solves and
+162.556~s for the four local-SA controls in
+Table~\ref{tab:solver-aggregate}.  Historical SPQC-550 short-list logs add
+one Q2 task (17 variables, 4~s creation-to-end, 1.1228~ms evolution) and one
+Q3 task (30 variables, 19~s creation-to-end, 8.7755~ms evolution), each
+recorded as one optimization quota.  They show that reduced matrices were
+executed on the device, but a two-task observation cannot estimate sustained
+throughput, queueing at contest load, or the cost of the final 104-variable
+models.  Monetary billing, final-matrix resource consumption, and comparable
+CPU-versus-device end-to-end timing are therefore NA.
+
 \subsection{Stability, contribution, and limitations}
 
 Q1 stability tests held the ordered-pair folds fixed while changing the HGB

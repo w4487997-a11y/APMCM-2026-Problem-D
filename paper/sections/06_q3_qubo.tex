@@ -118,12 +118,20 @@ times are not used to claim a backend speed advantage.
 
 \subsection{Relation to the earlier 208-variable plan}
 
-An earlier design represented the joint $(A,X)$ state with
+An alternative exact design represented the joint $(A,X)$ state with
 $52\times3=156$ variables and B with 52 variables, producing one
-208-variable exact QUBO.  That design remains a planning artifact and is
-not the model used for the reported Q3 result.  The final groupwise method
-uses three 104-variable matrices and performs the anion decision after
-decoding on the raw surrogate scale.
+208-variable floating-point QUBO.  The archived comparison verified all
+8,112 legal-state energies against the original scaled costs with maximum
+discrepancy zero.  Its SDK conversion produced 209 spins; after adding the
+QUBO offset once, the corrected Ising constant was $K=13866.1509$ and the
+maximum energy-chain residual was $4.57\times10^{-12}$.  Direct eight-bit
+quantization did not preserve this model: the eight-bit rounding created
+21--24 minimum ties, and sampled illegal states attained lower integer
+energy than the best legal state.  It is therefore retained as an exact
+floating-point and precision-stress comparison, not as the model used for
+the reported Q3 solve.  The final groupwise method uses three 104-variable
+matrices and performs the anion decision after decoding on the raw surrogate
+scale.
 
 The adopted route has three practical advantages.  It halves the logical
 variables in each solve, keeps the accepted integer coefficients inside the
@@ -143,7 +151,10 @@ under $\widehat V_{23}$, not a material whose true violation score has been
 measured.  File~12 predictions exist, but selecting file~12 rows after a
 full-pool solve would not constitute an independent blind-pool experiment.
 A dedicated blind matrix and solve remain pending under O-14.  The recorded
-run used the Kaiwu SDK on a CPU; O-13 has no SPQC submission receipt or
-hardware return.  Accordingly, this chapter makes no claim of real-device
-execution, physical feasibility, global hardware optimality, or quantum
-advantage.
+formal run used the Kaiwu SDK on a CPU.  A separate historical SPQC-550
+experiment used a 30-variable, 144-candidate short-list matrix and returned
+Ge--Ti--O3.  It supports only the anion-level conclusion $X=\mathrm{O}_3$:
+its 0.15 score resolution could not distinguish the leading A--B pairs, and
+it is not a hardware execution of the final 104-variable model.  Accordingly,
+this chapter makes no claim of final-matrix real-device execution, physical
+feasibility, global hardware optimality, or quantum advantage.

@@ -1,4 +1,43 @@
 \appendix
-\section{Reproducibility Inventory}
+\section{Reproducibility and Evidence Inventory}
 
-The final appendix will identify the software, scripts, model artifacts, matrix mappings, and verification logs used in the submitted work. The engineering inventory is maintained in \texttt{appendix/source\_code\_inventory.md}. No source listing is duplicated in the L1 structural manuscript.
+\subsection{Frozen models and formal matrices}
+
+The Q1-only and Q2/Q3 scoring artifacts are identified by the manifests in
+\path{handoff/v1_2/}.  Formal Q2/Q3 matrices, raw samples, summaries, and
+verification records are archived in
+\path{handoff/Q123_v1/Q123_v1_integrated.zip}.  The public paper tables are
+reproduced from \path{q23_experiment_table.csv}; independent energy checks
+are recorded in \path{sdk_verification.json}.  Source-code entry points and
+their roles are listed in \path{appendix/source_code_inventory.md}.
+
+\subsection{Precision comparisons and negative tests}
+
+The historical Q2/Q3 paper-and-figures ZIP archive in \path{handoff/}
+contains the
+floating-point 104/208-variable matrices, legal-state energy checks,
+direct-eight-bit quantization reports, two short-list SPQC logs, and their
+decoding scripts.  The audit-follow-up records in \path{handoff/q23_fix/}
+correct the Ising constant by adding the QUBO offset once, compare full-pool
+and short-list penalties, and preserve input-negative and regression tests.
+The main machine-readable records used in Sections~\ref{sec:q3-qubo}--
+\ref{sec:results-discussion} are:
+
+\begin{itemize}[leftmargin=2em]
+ \item \path{results/stage1_sdk_ising.json}: QUBO--Ising round-trip,
+       reference-spin dimensions, offsets, and energy residuals;
+ \item \path{results/stage2_quant_partition.json}: direct quantization
+       failures and the three accepted 104-variable partitions;
+ \item \path{results/stage3_hitrate_fix.json}: short-list size,
+       penalty, and local annealing-budget controls;
+ \item \path{results/stage8_negative_validation.json} and
+       \path{stage9_regression.json}: rejected corrupt inputs and
+       failure-path checks.
+\end{itemize}
+
+The historical SPQC runs are not equivalent to the final model.  Task
+\texttt{q2\_int\_01} used 17 variables and task \texttt{q3\_int\_01} used
+30; the formal full-pool CPU models use 104 variables per group.  Files~11
+and~12 have prediction tables but no dedicated matrix-and-solve evidence.
+The 107-variable projection, final-104-variable hardware return, monetary
+billing, and physical labels of the reported proxy winners are unavailable.
