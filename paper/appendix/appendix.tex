@@ -11,10 +11,12 @@ The manifests in \path{handoff/v1_2/} identify the Q1-only and Q2/Q3
 scoring artifacts.  The adopted Q2/Q3 matrices, raw samples, summaries,
 and verification records are archived in
 \path{handoff/Q123_v1/Q123_v1_integrated.zip}.  The paper's public tables
-are reproduced from \path{q23_experiment_table.csv}, while independent
-energy checks are recorded in \path{sdk_verification.json}.  The source-code
+are reproduced from
+\path{handoff/Q123_v1/paper/q23_experiment_table.csv}, while independent
+energy checks are recorded in
+\path{handoff/Q123_v1/evidence/sdk_verification.json}.  The source-code
 entry points and their respective roles are documented in
-\path{appendix/source_code_inventory.md}.
+\path{paper/appendix/source_code_inventory.md}.
 
 \begin{table}[!htbp]
 \centering
@@ -81,7 +83,7 @@ validation.  The mapping recheck used Kaiwu~1.4.4 without a solve licence;
 the recorded CPU solves used Kaiwu SDK~1.4.3.  The floating-point Q2 and
 joint-Q3 control QUBOs have SHA prefixes
 \texttt{967b13d1957b} and \texttt{f3b447a1edb6}.  Their full hashes appear
-in \path{appendix/source_code_inventory.md} and the raw manifests.  The
+in \path{paper/appendix/source_code_inventory.md} and the raw manifests.  The
 reported floating-point residuals do not apply to the adopted
 104-variable integer matrices.
 
@@ -94,7 +96,7 @@ reported floating-point residuals do not apply to the adopted
 \toprule
 Encoding & Objective and oracle dependence & Variables and range & Ranking and legal coverage & Solves and role \\
 \midrule
-107 projection & Global pairwise fit; no known-winner input & 107; $\max|h|=254$ & Approximate; 8,112 states, Top-5 overlap 0 & One; adverse low-tail control \\
+107 projection & Global pairwise fit; no known-winner input & 107; scaled $\max|h|=254$ (unscaled $\approx1648.37$) & Approximate; 8,112 states, Top-5 overlap 0 & One; adverse low-tail control \\
 208 joint & Exact floating proxy cost; no known-winner input & 208; $\max|h|=161.187$, $\max|J|=1$ & Exact before quantization; 8,112 states & One; floating precision control \\
 104 groupwise & Two-level cost uses known group argmin & 104/group; $\max|h|=102$, $\max|J|=1$ & Retains argmin only; 2,704 states/group & Three plus raw-score comparison; adopted mapping \\
 \bottomrule
@@ -131,33 +133,40 @@ coefficient quantization.
 
 The 107-variable projection matrix and its 300 local-SA samples are
 archived under \path{handoff/q23_supplement/O10/}.  Its optimum is
-Rb--Ta--O3, whereas the original proxy optimum is Na--Nb--O3; the latter
+Rb--Ta--$\mathrm{O}_3$, whereas the original proxy optimum is Na--Nb--$\mathrm{O}_3$; the latter
 appears in only 2 of the 300 samples.  This experiment is a projection
 control, not an optimum-preservation result.
 
 The dedicated file~11/12 records are stored in
-\path{handoff/q23_supplement/O14/}.  Each floating-point and integer model
-includes 300 samples with both bit and spin representations.  The matrix
-SHA-256 values are:
+\path{handoff/q23_supplement/O14/results/}.  Within this directory, the
+eight-run registry is \path{o14_runs.csv}, and the consolidated results are
+in \path{o14_results.json}; each floating-point and integer model
+also has a 300-row sample CSV with both bit and spin representations.  The
+encoding does not inject the enumerated optimum identity, but its affine
+normalization uses the complete proxy-score range inside each blind-pool
+group.  The matrix SHA-256 values are:
 
 \begin{itemize}[leftmargin=2em]
- \item Q2/NO2 float: \texttt{eeef8d05f7d4...21938311};\par
+ \item Q2/$\mathrm{NO}_2$ float: \texttt{eeef8d05f7d4...21938311};\par
        integer: \texttt{5ba756450c57...bd797a2}.
- \item Q3/O3 float: \texttt{9749bb7e5180...4d6f346};
+ \item Q3/$\mathrm{O}_3$ float: \texttt{9749bb7e5180...4d6f346};
        integer: \texttt{aee1caab0b86...671af49}.
- \item Q3/NO2 uses the same float/integer hashes as Q2/NO2 because the
+ \item Q3/$\mathrm{NO}_2$ uses the same float/integer hashes as Q2/$\mathrm{NO}_2$ because the
        candidate-score table and construction coincide for that group.
- \item Q3/FO2 float: \texttt{aea073fccfa8...74f6ee21};\par
+ \item Q3/$\mathrm{FO}_2$ float: \texttt{aea073fccfa8...74f6ee21};\par
        integer: \texttt{50ae41a234c7...ab359f1}.
 \end{itemize}
 
 The floating-point/eight-bit batch-hit counts are respectively
-25/16 (Q2 NO2), 27/13 (Q3 O3), 25/16 (Q3 NO2), and 26/11 (Q3 FO2);
+25/16 (Q2 $\mathrm{NO}_2$), 27/13 (Q3 $\mathrm{O}_3$), 25/16 (Q3 $\mathrm{NO}_2$), and 26/11 (Q3 $\mathrm{FO}_2$);
 each batch is one seed with ten reads, not a single-sample hit rate.
 All eight blind-pool models returned 300/300 legal samples.  The
 corresponding eight-bit minimum-tier tie counts are 11, 19, 11, and 34
-for Q2 NO2, Q3 O3, Q3 NO2, and Q3 FO2, respectively; each floating-point
-minimum was unique.  The audited local simulated-annealing call times
+for Q2 $\mathrm{NO}_2$, Q3 $\mathrm{O}_3$, Q3 $\mathrm{NO}_2$, and Q3 $\mathrm{FO}_2$, respectively; each floating-point
+minimum was unique.  The Q2 minimum was Y--Ti--$\mathrm{NO}_2$; the Q3 group minima
+were Ca--Sn--$\mathrm{O}_3$, Y--Ti--$\mathrm{NO}_2$, and Rb--Ti--$\mathrm{FO}_2$, so comparison on the
+original proxy scale selected Ca--Sn--$\mathrm{O}_3$.  The audited local
+simulated-annealing call times
 range from 38.532520 to 48.535693~s across the eight runs.  These times
 cover the local annealing call only, not matrix construction, conversion,
 decoding, or feasibility checks.  The older 45--786~s range was withdrawn
@@ -165,17 +174,18 @@ because no corresponding local run record was found.
 
 \subsection{Final SPQC task evidence and unresolved fields}
 
-The four final 104-variable task receipts are archived under
+The four final 104-variable task receipts are archived under the following
+repository directory:\linebreak[4]
 \path{handoff/q23_supplement/O13/}:
 
 \begin{itemize}[leftmargin=2em]
- \item Q2/NO2 task \texttt{c249dca6...f4ebf2a}, matrix
+ \item Q2/$\mathrm{NO}_2$ task \texttt{c249dca6...f4ebf2a}, matrix
        \texttt{fee2320be719...81bee5c};
- \item Q3/O3 task \texttt{27a3df46...dc1a59f}, matrix
+ \item Q3/$\mathrm{O}_3$ task \texttt{27a3df46...dc1a59f}, matrix
        \texttt{26d234efa34c...a8a82ef};
- \item Q3/NO2 task \texttt{1e00e1fb...c9477d2}, matrix
+ \item Q3/$\mathrm{NO}_2$ task \texttt{1e00e1fb...c9477d2}, matrix
        \texttt{fee2320be719...81bee5c};
- \item Q3/FO2 task \texttt{c528ea69...e99ee8d}, matrix
+ \item Q3/$\mathrm{FO}_2$ task \texttt{c528ea69...e99ee8d}, matrix
        \texttt{5b49510e7821...6fb7309}.
 \end{itemize}
 
@@ -189,36 +199,48 @@ creation-to-finish interval, not isolated execution time.}
 \toprule
 Task & Group & Returned & Legal & Argmin hit & Total / evolution \\
 \midrule
-Q2 & NO2 & 10 & 1 & yes & 22 s / 15.0116 ms \\
-Q3 & O3  & 10 & 4 & yes & 74 s / 9.7488 ms \\
-Q3 & NO2 & 7  & 0 & no  & 112 s / 0.6991 ms \\
-Q3 & FO2 & 5  & 1 & yes & 16 s / 7.3587 ms \\
+Q2 & $\mathrm{NO}_2$ & 10 & 1 & yes & 22 s / 15.0116 ms \\
+Q3 & $\mathrm{O}_3$  & 10 & 4 & yes & 74 s / 9.7488 ms \\
+Q3 & $\mathrm{NO}_2$ & 7  & 0 & no  & 112 s / 0.6991 ms \\
+Q3 & $\mathrm{FO}_2$ & 5  & 1 & yes & 16 s / 7.3587 ms \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 Historical tasks \texttt{q2\_int\_01} and \texttt{q3\_int\_01} used 17
 and 30 variables, respectively, and are kept separate from the final
-104-variable submissions.  The credit ledger records seven debits, with
-the balance falling from 31 to 24, while six task receipts are archived.
-The \texttt{probe4\_01} entry has no original receipt, so its task details
-remain NA.  Platform queue time, complete execution time, monetary
+104-variable submissions.  Separately, the account-level credit ledger
+records seven debits, with the balance falling from 31 to 24, while six
+task receipts are archived.  This ledger is a resource record rather than
+a seventh performance result.  As documented in
+\path{handoff/q23_supplement/O13/probe4_01_gap.md}, the \texttt{probe4\_01} entry lacks its task
+ID, input matrix and hash, raw return, and detailed receipt, so it is
+excluded from performance conclusions and its task fields remain NA.
+Platform queue time, complete execution time, monetary
 billing, and physical labels for all proxy winners also remain NA.
 
 The remaining provenance qualifications are recorded without
-overstating the evidence.  The historical stage-2 0/300 count is associated
-with a demonstrated column-index bug: on the same 300 samples, the
-corrected counter gives 8/300 while the legacy counter gives 0/300.
-Because the original historical run log is absent, that historical value
-remains \textbf{UNVERIFIED}; the new O11-R01/R02/R03 reconciliations are
-reported separately.  The earlier 162.556~s local-SA total has no source
-package in the repository and remains \textbf{UNVERIFIED}; the audited
-O15-R01--R04 total is 178.131869~s.  The O-14 45--786~s range was withdrawn
+overstating the evidence.  The new O11-R01/R02 artifacts are archived in
+the \path{reconciliation/} subdirectory of
+\path{handoff/q23_supplement/O11/}.  The file
+\path{o11_reconciliation.json} records the reconciliation with the two
+300-sample entry-point CSVs.  On those same archived samples, the corrected
+counter gives 8 legal samples and 8 hits, while the legacy counter gives
+0/300.  O11-R03 separately records 10 legal samples, 10 hits, and 9/30
+hit batches in \path{samples_batch_seeds.csv} in the same directory.
+Because the original historical 0/300 run log is absent, that historical
+value remains \textbf{UNVERIFIED}; none of these new reconciliations replaces
+it.  The earlier 162.556~s local-SA total has no source package in the
+repository and remains \textbf{UNVERIFIED}; the O15-R01--R04 values in
+\path{handoff/q23_supplement/O15/}\allowbreak\path{local_sa_timing.csv} total 178.131869~s.  The O-14 45--786~s range was withdrawn
 and replaced by the eight recorded annealing-call times of
 38.532520--48.535693~s.  Finally, 0.48--0.69~s refers only to 30
 \texttt{opt.solve()} calls and excludes setup, conversion, adaptation,
-decoding, and feasibility checks; it is not comparable to the separately
-reported 20.81--20.96~s full-workflow SDK time.  Historical 20.04~ms
+decoding, and feasibility checks.  This short timing is listed in the
+supplementary report, but its raw timing CSVs and timing-code snapshot are
+not archived; it therefore remains \textbf{UNVERIFIED} and is not comparable
+to the separately reported 20.81--20.96~s full-workflow SDK time.
+Historical 20.04~ms
 records belong to a different configuration.
 
 \subsection{Pipeline and resource-cost audit}
@@ -240,10 +262,11 @@ and 7.591~ms for the three Q3 groups, and 23.197~ms for the separately
 measured three-group Q3 run.  Each single-group call constructed one
 matrix; the combined Q3 call constructed three.  Kaiwu SDK~1.4.3 CPU
 full-workflow solves took 20.81--20.96~s per group (83.413~s in total)
-in the external review environment.  A separate audit measured
+in the external review environment.  The supplementary report lists
 0.48--0.69~s for 30 \texttt{opt.solve()} calls only; this excludes
-initialization, conversion, adaptation, decoding, and feasibility checks
-and is not comparable to the full-workflow timing.  The audited local-SA
+initialization, conversion, adaptation, decoding, and feasibility checks.
+Because the raw timing package is not archived, the short timing remains
+\textbf{UNVERIFIED} and is not comparable to the full-workflow timing.  The audited local-SA
 runs O15-R01--R04 took 50.289327, 41.845110, 40.499950, and
 45.497482~s, totaling 178.131869~s.  The earlier 162.556~s total remains
 \textbf{UNVERIFIED} and is excluded.  The SPQC-550 creation-to-finish

@@ -6,7 +6,7 @@
 \usepackage{url}
 
 \tihao{D}
-\baominghao{TEAM-NUMBER-PLACEHOLDER}
+\baominghao{apmcm26312030}
 
 \begin{document}
 
@@ -18,40 +18,33 @@ QUBO Mapping for Inorganic Perovskites
 \end{center}
 
 We address APMCM 2026 Problem~D with a composition-based surrogate and a
-staged, evidence-audited optimization workflow.  For Q1, the selected
-mixture combines formation-energy and band-edge regressors with a two-stage
-band-gap model.  On file~03 it achieved MAE $2.4715$, RMSE $4.5827$,
-Spearman correlation $0.9383$, and 20 true Top-50 hits.  A retrospective
-budget-50 replay retrieved 23 records with $V<5$, compared with a uniform
-sampling expectation of $0.8818$.  File~03 also informed model selection,
-so these results are selection-involved retrospective assessments, not an
+staged, evidence-audited workflow.  The Q1 mixture combines formation-energy
+and band-edge regressors with a two-stage band-gap model.  On file~03 it
+achieved MAE $2.4715$, RMSE $4.5827$, Spearman correlation $0.9383$, and 20
+true Top-50 hits; a retrospective budget-50 replay retrieved 23 records with
+$V<5$, versus a uniform-sampling expectation of $0.8818$.  Because file~03
+informed model selection, these are retrospective assessments rather than
 independent external validation.
 
-For the full Q2 and Q3 pools, exhaustive enumeration of the frozen proxy
-scores identified numerical minima at Y--Ti--$\mathrm{NO}_2$
-($\widehat V_{23}=1.491928$) and Na--Nb--$\mathrm O_3$
-($\widehat V_{23}=0.540023$).  Their margins over the respective
-runner-up candidates are $0.313819$ and $0.013123$.  The pools are
-unlabeled, and these small proxy margins do not establish statistically
-resolved or physically distinct winners.
+Enumerating the frozen full-pool proxy scores gave Q2 and Q3 minima at
+Y--Ti--$\mathrm{NO}_2$ ($\widehat V_{23}=1.491928$) and
+Na--Nb--$\mathrm O_3$ ($\widehat V_{23}=0.540023$), with runner-up margins
+of $0.313819$ and $0.013123$.  As the pools are unlabeled, these proxy
+minima are neither statistically resolved nor physically validated.
 
-The full-pool 104-variable, two-level QUBOs are oracle-assisted: their
-costs use the already enumerated group minima.  They test whether a known
-proxy argmin can be represented within the recorded eight-bit coefficient
-range and returned as a legal low-energy state; they do not independently
-discover that argmin.  Complementary blind-pool matrices use only
-within-pool score scaling, without injecting a winning-candidate identity.
-Local simulated annealing found the floating-point blind-pool minima in
-25--27 of 30 batches; the eight-bit versions achieved 11--16 of 30 batches
-and introduced 11--34 minimum-tier ties.  These are local CPU results,
-not Kaiwu SDK or SPQC-550 results.  Of four final SPQC-550 tasks, three
-returned at least one full-pool proxy argmin, while the Q3/NO2 task
-returned no legal sample.
+The full-pool 104-variable, two-level QUBOs are oracle-assisted because their
+costs use the enumerated group minima.  They test representability and legal
+recovery within the recorded eight-bit coefficient range, not independent
+discovery.  Blind-pool matrices omit the enumerated optimum identity but use
+the complete within-pool proxy-score range for scaling.  Local simulated
+annealing found the floating-point minima in 25--27 of 30 batches; eight-bit
+models achieved 11--16 of 30 batches and introduced 11--34
+minimum-tier ties.  These are local CPU results, not Kaiwu SDK or SPQC-550
+results.  Of four final SPQC-550 tasks, three returned a full-pool proxy
+argmin, while the Q3/$\mathrm{NO}_2$ task returned no legal sample.
 
-The study therefore contributes an auditable comparison of oracle-assisted
-full-pool encoding and oracle-free blind-pool search, alongside a
-composition-based screening workflow.  It does not establish physical
-feasibility, repeatable hardware performance, or quantum advantage.
+This auditable comparison does not establish physical feasibility,
+repeatable hardware performance, or quantum advantage.
 
 \keywords{inorganic perovskites\quad low-tail screening\quad surrogate modeling\quad QUBO\quad Ising model\quad coefficient precision}
 \end{abstract}

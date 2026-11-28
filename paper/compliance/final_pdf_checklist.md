@@ -1,27 +1,19 @@
-# Current source status after language polish
-
-The manuscript source was updated in commit `c22f779` on
-2026-11-28.  The PDF SHA and successful build checks recorded below belong
-to the previous source revision; the tracked `paper/build/main.pdf` is
-therefore stale relative to the current `main.tex` and chapter files.
-Rebuild with `./scripts/build.sh` and rerun the page/format checks before
-treating any PDF-related checkbox below as current.  Team number and signed
-Control Sheet remain separate release blockers.
-
----
-
 # Final PDF Checklist
 
-Full-draft status on 2026-11-28.
+Final delivery status on 2026-11-29.
 
-- [x] PDFLaTeX build path established.
-- [x] A4 media boxes automatically checked.
-- [x] Summary Sheet / contents / body ordering automatically checked.
-- [ ] Final team number replaces the placeholder.
-- [x] No internal task placeholders remain apart from the explicit team-number placeholder.
-- [x] Build log contains no Fatal Error, undefined reference, or Overfull box; representative Summary Sheet, contents, chapter, figure, reference, and appendix pages were visually checked.
-- [x] Figures, tables, equations, and citations cross-checked against the archived evidence used in Chapters 4--8.
-- [x] Main-body page limit verified: the conclusion ends on numbered page 25; references are page 26 and Appendix A occupies pages 27--31.
-- [x] Final draft has 34 physical A4 pages: 3 front-matter, 25 body, 1 reference, and 5 appendix pages.
-- [x] Draft PDF: `paper/build/main.pdf`; SHA-256 `66423c5a860da77630b3f4204ef549e689f4bd1bdb8d6bfd58ef3def85a6b71c`.
-- [ ] Signed Control Sheet compiled/scanned and checked separately.
+- [x] PDFLaTeX build completed without a fatal error.
+- [x] All 34 media boxes are A4.
+- [x] Summary Sheet / contents / body / references / appendix ordering checked.
+- [x] Team number `apmcm26312030` replaces the manuscript placeholder.
+- [x] Build log contains no undefined citation or cross-reference and no Overfull box.
+- [x] Summary Sheet, contents, all body pages, references, and appendix pages were rendered and visually inspected.
+- [x] Figures, tables, equations, chemistry notation, long evidence paths, and citations remain visible without clipping or overlap.
+- [x] Main-body limit verified: the conclusion ends on numbered page 24; references occupy page 25 and Appendix A occupies pages 26--31.
+- [x] Final PDF has 34 physical pages: 3 front-matter, 24 body, 1 reference, and 6 appendix pages.
+- [x] Official class/config originals are unchanged; the paper copies have matching SHA-256 values.
+- [x] Final PDF: `submission/final/Dapmcm26312030.pdf`; SHA-256 `0eb9d87e75774a3451643ce0ea633d2c94ff8ad2eacf96954eb50208c3ec0630`.
+- [ ] Signed Control Sheet: **BLOCKED**. The only separately modified DOCX candidate located in the workspace rendered as an unsigned blank form; it was not copied into the submission directory.
+- [ ] AI disclosure team confirmation: historical model versions and exact interaction times remain explicitly marked for team confirmation, and the final authenticity confirmation must be made by the team.
+
+The remaining unchecked items are external submission blockers and were not silently completed or inferred.

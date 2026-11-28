@@ -54,31 +54,22 @@ The integer energy is not an alternative physical metric.
 
 \subsection{Matrix construction and enumeration audit}
 
-For each group, we first enumerated the frozen file~08 predictions.
-The generator then built the full $52\times52$ A--B interaction block and
-archived the QUBO, offset, variable names, candidate identifiers,
-legal-state index map, raw scores, and adapted Ising matrix.  Exhaustive
-enumeration of the 2,704 legal states in each group identified a unique
-minimum-energy state.  The formula, integer QUBO, and independently
-recomputed discrete energies agreed exactly for all archived solver
-samples.  Floating-point conversion audits are reported separately in
-Section~\ref{sec:hardware-precision}.
+For each group, the generator built the full $52\times52$ interaction block
+and archived the QUBO, offset, identifiers, legal-state map, raw scores, and
+adapted Ising matrix.  Enumeration of all 2,704 legal states identified one
+minimum per group, and formula, matrix, and independently recomputed sample
+energies agreed exactly.  Section~\ref{sec:hardware-precision} gives the
+conversion audit.
 
 On the original surrogate scale, the groupwise numerical minima were
 Na--Nb--$\mathrm O_3$, Y--Ti--$\mathrm{NO}_2$, and
 Na--Ti--$\mathrm{FO}_2$.  Their respective runners-up were
 Sn--Ti--$\mathrm O_3$, Y--Zr--$\mathrm{NO}_2$, and
 Sr--In--$\mathrm{FO}_2$, with proxy-score margins of $0.013123$,
-$0.313819$, and $0.028903$.  Each margin exceeds the $0.01$ threshold
-required by the adopted two-level mapping to retain a unique zero-cost
-legal state; this is a property of the encoding, not evidence that the
-physical candidates are uniquely ranked.  The Q2/Q3 pools are unlabeled,
-so no independent error estimate for $\widehat V_{23}$ is available.
-For scale only, the Q1 file~03 low-tail MAE is $8.2654$, much larger than
-these margins; because it comes from a different fit and a
-selection-involved split, it is not an uncertainty bound for
-$\widehat V_{23}$.  We therefore report numerical proxy minima rather than
-statistically resolved material winners.
+$0.313819$, and $0.028903$.  Each exceeds the strict $0.01$ threshold for
+a unique zero-cost state.  This is an encoding property, not evidence of a
+physically unique material: the pools are unlabeled and have no independent
+$\widehat V_{23}$ error estimate.
 
 \subsection{CPU-local Kaiwu SDK results}
 
@@ -95,102 +86,73 @@ gives the recorded SDK wall time for each group.
 \small
 \begin{tabularx}{\textwidth}{@{}lXrrrr@{}}
 \toprule
-$X$ & Best decoded candidate & $\widehat V_{23}$ & Legal/300 & Optimum seeds/30 & Time (s) \\
+$X$ & Best decoded candidate & $\widehat V_{23}$ & Legal samples & Hit seeds & Time (s) \\
 \midrule
-O3  & Na--Nb--O3   & 0.540023 & 28 & 28 & 20.830 \\
-NO2 & Y--Ti--NO2   & 1.491928 & 23 & 23 & 20.811 \\
-FO2 & Na--Ti--FO2  & 0.878526 & 25 & 25 & 20.959 \\
+$\mathrm{O}_3$  & Na--Nb--$\mathrm{O}_3$   & 0.540023 & 28/300 & 28/30 & 20.830 \\
+$\mathrm{NO}_2$ & Y--Ti--$\mathrm{NO}_2$   & 1.491928 & 23/300 & 23/30 & 20.811 \\
+$\mathrm{FO}_2$ & Na--Ti--$\mathrm{FO}_2$  & 0.878526 & 25/300 & 25/30 & 20.959 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-Every legal sample returned within a group decoded to that group's
-enumerated optimum.  The legal-sample fractions were $9.33\%$ for O3,
-$7.67\%$ for NO2, and $8.33\%$ for FO2.  The corresponding group optimum
+Every legal sample returned for a group decoded to that group's
+enumerated optimum.  The legal-sample fractions were $9.33\%$ for $\mathrm{O}_3$,
+$7.67\%$ for $\mathrm{NO}_2$, and $8.33\%$ for $\mathrm{FO}_2$.  The corresponding group optimum
 appeared in 28, 23, and 25 of the 30 SDK seeds.  Applying
 Equation~\eqref{eq:q3-original-scale-comparison} selects candidate~4159,
-Na--Nb--O3, with $\widehat V_{23}=0.5400229940675169$, equal to the
+Na--Nb--$\mathrm{O}_3$, with $\widehat V_{23}=0.5400229940675169$, equal to the
 enumerated minimum in file~08.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/q23_run_comparison.png}
-\caption{Returned-sample quality for the adopted Q2 and Q3 matrices.  The
-Kaiwu SDK bars use 30 independent SDK seeds with at most ten samples per
-seed.  The local simulated-annealing comparison uses 300 chains divided
-into 30 groups of ten, so an ``attempt'' has a different operational meaning
-for the two backends.  The figure supports a sample-quality comparison only;
-it does not establish a hardware speedup or quantum advantage.}
+\caption{Returned-sample quality for the adopted matrices.  SDK bars use 30
+seeds with at most ten samples each; local SA uses 300 chains grouped into
+30 batches.  The attempt definitions differ, so the figure does not imply
+speedup or quantum advantage.}
 \label{fig:q23-run-comparison}
 \end{figure}
 
-Figure~\ref{fig:q23-run-comparison} also shows a separate local
-simulated-annealing control.  That control returned more legal states and
-hit every group optimum in all 30 chain groups.  Its implementation and
-attempt definition differ from the SDK run, so the observed counts and wall
-times are not used to claim a backend speed advantage.
+The local-SA control returned more legal states and hit every group optimum
+in all 30 batches, but its implementation and attempt definition differ from
+the SDK run; the counts and times are therefore not backend comparisons.
 
 \subsection{Comparison of 107-, 208-, and 104-variable encodings}
 
-An alternative exact design represented the joint $(A,X)$ state with
-$52\times3=156$ variables and B with 52 variables, producing one
-208-variable floating-point QUBO.  The archived comparison verified all
-8,112 legal-state energies against the original scaled costs with maximum
-discrepancy zero.  Its SDK conversion produced 209 spins; after adding the
-QUBO offset once, the corrected Ising constant was $K=13866.1509$ and the
-maximum energy-chain residual was $4.57\times10^{-12}$.  Direct eight-bit
-quantization did not preserve this model: the eight-bit rounding created
-21--24 minimum ties, and sampled illegal states attained lower integer
-energy than the best legal state.  It is therefore retained as an exact
-floating-point and precision-stress comparison, not as the model used for
-the reported Q3 solve.  The final groupwise method uses three 104-variable
-matrices and performs the anion decision after decoding on the raw surrogate
-scale.
+The 208-variable control encoded joint $(A,X)$ states with 156 variables and
+B with 52.  It reproduced all 8,112 floating legal-state costs exactly; the
+corrected Ising constant was $13866.1509$ and the largest energy residual was
+$4.57\times10^{-12}$.  Direct eight-bit Ising quantization nevertheless put
+16 legal states at its lowest legal level while sampled illegal states fell
+below it.  Separate uniform-QUBO roundings produced 21 and 24 minimum-tier
+candidates.  Thus the 208-variable design is a floating precision control,
+not the final solve; the adopted method uses three 104-variable matrices and
+compares decoded candidates on the original proxy scale.
 
-The 107-variable control uses separate A, B, and X one-hot blocks with main,
-A--B, A--X, and B--X terms.  It has no A--B--X interaction and fits a global
-least-squares objective with ridge $10^{-8}$ over all 8,112 scores.  Its MAE,
-RMSE, and Spearman correlation were 1.100009, 1.847176, and 0.978891, yet its
-projected optimum was Rb--Ta--$\mathrm O_3$ (original-scale score 0.676651),
-not Na--Nb--$\mathrm O_3$ (0.540023); Top-1 and Top-5 overlap were zero.
-Because the low tail is a small part of the global loss, this model structure
-is consistent with the observed winner change.  Without an interaction
-ablation it is not established as the unique cause.
+For the 107-variable second-order projection, MAE and RMSE were 1.100009 and
+1.847176; Spearman's $\rho$ was 0.978891.  The optimum changed from
+Na--Nb--$\mathrm O_3$ (0.540023) to Rb--Ta--$\mathrm O_3$ (0.676651),
+with zero Top-5 overlap.  Its missing three-way interaction is consistent
+with, but does not uniquely explain, this low-tail failure.
 
-Table~\ref{tab:q3-encoding-comparison} aligns objective equivalence, oracle
-dependence, variable count, coefficient range, ranking retention, legal-state
-coverage, solve count, and role for the 107-, 208-, and 104-variable designs.
-It is placed in the appendix to keep the main-text comparison compact.
+Appendix Table~\ref{tab:q3-encoding-comparison} compares the three designs.
 
 \subsection{Evidence boundary and future work}
 
-The Q3 result for file~08 is limited to the frozen full-pool
-surrogate.  Na--Nb--O3 is the numerical proxy minimum identified by
-enumeration; its true violation score has not been measured, and the small
-$0.013123$ margin to the runner-up does not establish a statistically
-resolved or physically unique winner.  We subsequently modeled file~12
-independently rather than filtering it after a full-pool solve.  For each
-blind-pool anion group, the affine scale was computed from that group's
-predicted scores alone, with no winning identity supplied and each matrix
-frozen before sampling.  The blind-pool proxy minima returned by local
-simulated annealing were Ca--Sn--O3 ($\widehat V_{23}=1.185082$),
-Y--Ti--NO2 (1.491928), and Rb--Ti--FO2 (1.590922).  Across all eight
-Q2/Q3 blind-pool models, 300/300 returned samples were legal.  The
-floating-point encodings hit their minima in 25/30, 27/30, 25/30, and
-26/30 batches (Q2/NO2, Q3/O3, Q3/NO2, Q3/FO2); the eight-bit encodings
-hit in 16/30, 13/30, 16/30, and 11/30 batches, respectively.  The
-integer minimum tiers contained 11, 19, 11, and 34 tied candidates.
-Each batch is one seed with ten reads.  These oracle-free results are
-local CPU simulated-annealing proxy searches, not Kaiwu SDK or SPQC-550
-results, and files~11/12 have no physical labels.
+File~12 was modeled independently as three 529-edge blind-pool groups.  The
+matrices did not receive optimum identities but used each group's complete
+proxy-score range for scaling.  Local SA returned 300/300 legal samples in
+all six Q3 runs.  The floating/eight-bit hit counts were 27/13, 25/16, and
+26/11 batches for $\mathrm O_3$, $\mathrm{NO}_2$, and $\mathrm{FO}_2$;
+their eight-bit minimum tiers contained 19, 11, and 34 candidates.  Original-
+scale comparison selected Ca--Sn--$\mathrm O_3$ (1.185082) over
+Y--Ti--$\mathrm{NO}_2$ (1.491928) and Rb--Ti--$\mathrm{FO}_2$ (1.590922).
+These are unlabeled local-SA results, not SDK or hardware outcomes.
 
-Four final 104-variable matrices were submitted to SPQC-550.  The Q3/O3
-task returned four legal samples out of ten, including the proxy winner
-Na--Nb--O3.  The Q3/NO2 task returned no legal samples (0/7), while the
-Q3/FO2 task returned one legal sample out of five, decoding to
-Na--Ti--FO2.  Including Q2, three of the four tasks returned at least one
-group proxy argmin, with unequal sample counts of 10, 10, 7, and 5.  This
-task count is not an estimate of hardware success probability.  A separate
-historical 30-variable task returned Ge--Ti--O3 and remains only a
-reduced short-list comparison.  We therefore make no claim of physical
-feasibility, hardware global optimality, speedup, or quantum advantage.
+For the final SPQC-550 tasks, Q3 returned 4/10 legal samples for
+$\mathrm O_3$, 0/7 for $\mathrm{NO}_2$, and 1/5 for $\mathrm{FO}_2$;
+the legal samples in the first and third groups included their full-pool
+proxy argmins.  Including Q2, three of four tasks returned a group proxy
+argmin.  Unequal small returns do not estimate stability, physical
+feasibility, speedup, or quantum advantage; receipts and hashes are in
+Appendix~A.4.

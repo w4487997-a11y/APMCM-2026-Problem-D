@@ -1,0 +1,95 @@
+{
+  "task": "O-11 对账：历史 0/300 与现记录 8/300",
+  "baseline_commit": "f274362",
+  "generated_at": "2026-11-28T20:01:27",
+  "environment": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "machine": "AMD64"
+  },
+  "frozen_input": {
+    "file": "q23_fix\\data\\pred\\q3_pool_predictions.csv",
+    "rows": 8112,
+    "sha256": "840fd96bb6437d35d4878ad516e950119521626b1cef8f52e2f1a9f0942f72be"
+  },
+  "params": {
+    "K": 52,
+    "lambda": 2.0,
+    "iterations_per_t": 30,
+    "alpha": 0.9,
+    "size_limit": 10,
+    "seeds": 30,
+    "sampler_seed": 12345
+  },
+  "matrices": {
+    "variables": 104,
+    "qubo_stage2_sha256": "f746ad403f87997b241d69ce447f2ca986c6825456457a89be8c72cbe658362c",
+    "qubo_stage3_sha256": "f746ad403f87997b241d69ce447f2ca986c6825456457a89be8c72cbe658362c",
+    "qubo_identical": true,
+    "mapping_identical": true,
+    "ising_stage2_sha256": "8646bcb450bdb55686595f6d6ce010fcfb089e6f64303043200ff4963fa803f5",
+    "ising_stage3_sha256": "8646bcb450bdb55686595f6d6ce010fcfb089e6f64303043200ff4963fa803f5",
+    "ismax": [
+      51.0,
+      51.0
+    ],
+    "archived_npz": {
+      "file": "q23_fix\\matrices\\partition_O3_qubo.npz",
+      "qubo_sha256": "f746ad403f87997b241d69ce447f2ca986c6825456457a89be8c72cbe658362c",
+      "matches_rebuild": true,
+      "raw_opt": "Na|Nb|O3"
+    }
+  },
+  "runs": {
+    "O11-R01_stage2_entry": {
+      "entry": "stage2_quant_partition.build_partition + anneal_ising_batch(seed=12345)",
+      "samples": 300,
+      "legal_correct": 8,
+      "hits_correct": 8,
+      "batches_with_hit": 8,
+      "legal_legacy_counter": 0,
+      "hits_legacy_counter": 0,
+      "wall_s": 0.3751
+    },
+    "O11-R02_stage3_entry": {
+      "entry": "stage3_hitrate_fix.build_custom + run_hit(iter=30, alpha=0.9)",
+      "samples": 300,
+      "legal_correct": 8,
+      "hits_correct": 8,
+      "batches_with_hit": 8,
+      "legal_legacy_counter": 0,
+      "hits_legacy_counter": 0,
+      "wall_s": 0.3701,
+      "official_run_hit": {
+        "seeds": 30,
+        "samples": 300,
+        "feasible": 8,
+        "feasibility_rate": 0.026667,
+        "hits": 8,
+        "hit_rate": 0.026667,
+        "runs_with_hit": 8,
+        "wall_s": 0.36106
+      }
+    }
+  },
+  "interpretation": {
+    "historical_0_of_300": "旧计数器把绝对列号再减 n_left，任何合法样本都无法匹配 → 恒为 0，与求解器行为无关；可视为统计脚本 bug。",
+    "historical_record_status": "UNVERIFIED（历史运行日志未归档，git 历史中最早版本已含修复）",
+    "current_8_of_300": "同一种子下 300 条链中恰好 8 条合法且都命中组内原代理最优。",
+    "samples_identical_between_entries": true
+  },
+  "per_sample_files": {
+    "stage2_entry": "O11\\reconciliation\\samples_stage2_entry.csv",
+    "stage3_entry": "O11\\reconciliation\\samples_stage3_entry.csv"
+  },
+  "explicit_seed_batches": {
+    "seeds": "2026112800..2026112829",
+    "samples": 300,
+    "legal": 10,
+    "hits": 10,
+    "batches_with_hit": 9,
+    "file": "O11/reconciliation/samples_batch_seeds.csv"
+  },
+  "runtime_s": 4.233
+}

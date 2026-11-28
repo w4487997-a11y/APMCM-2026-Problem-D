@@ -48,10 +48,11 @@ Q3, we solve the same 104-variable formulation separately for
 $\mathrm{O}_3$, $\mathrm{NO}_2$, and $\mathrm{FO}_2$, then compare the
 decoded groupwise proxy minima on the original surrogate scale.  These
 full-pool matrices use an oracle-assisted two-level cost based on the
-already enumerated group minimum.  Separate blind-pool experiments use
-within-pool score scaling without injecting the winning identity; their
-role is to test oracle-free search on the restricted blind-pool proxy
-objectives, not to validate physical properties.
+already enumerated group minimum.  Separate blind-pool experiments do not
+inject the enumerated optimum identity, but they use the complete
+within-pool proxy-score range for scaling.  Their role is to test search on
+the restricted blind-pool proxy objectives, not to validate physical
+properties.
 
 We check each stage against records appropriate to that stage.  Source
 hashes and split assignments document the data pipeline; exhaustive
@@ -61,7 +62,7 @@ feasibility, original-score regret, and solver sampling are assessed
 separately.  The formal local solves use Kaiwu SDK~1.4.3 on a CPU, whereas
 four final 104-variable matrices were submitted separately to SPQC-550.
 Three platform tasks returned at least one group proxy argmin, while the
-Q3/NO2 task returned no legal sample.  These small, unequal hardware
+Q3/$\mathrm{NO}_2$ task returned no legal sample.  These small, unequal hardware
 returns are not pooled with the CPU results or with the historical
 17- and 30-variable short-list tasks.
 
@@ -79,10 +80,10 @@ The evidence-supported contributions are:
        encoding for the full pools, explicitly treated as a representation
        and sampling test of a previously enumerated proxy minimum rather
        than an independent optimizer;
- \item a complementary oracle-free blind-pool construction based only on
-       within-pool score scaling, with matrices frozen before local
-       simulated-annealing runs and no winning identity supplied to the
-       encoding;
+ \item a complementary blind-pool construction that does not inject the
+       enumerated optimum identity but uses the complete within-pool
+       proxy-score range for scaling, with matrices frozen before local
+       simulated-annealing runs;
  \item documented comparisons of CPU-local SDK, local simulated annealing,
        and SPQC-550 samples, with their distinct evidence levels, timing
        scopes, feasibility checks, and failure cases; and

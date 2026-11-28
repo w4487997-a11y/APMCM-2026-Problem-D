@@ -16,6 +16,8 @@
 | **待实验** | 任务、输入或原型已定义，但正式实验和验收产物尚未完成。 | 只写方法计划或任务 ID，不填写数值结果。 |
 | **暂无证据** | 当前仓库没有支持该主张的任务回执、原始数据、报告或复算记录。 | 不得在正文、摘要或结论中提出该主张。 |
 
+证据等级另按可追溯性登记：**A** 表示仓库内有原始 CSV/JSON、运行记录及复核脚本，可静态追溯；**B** 表示已有汇总或平台记录，但部分原始字段、计时边界或人工签收仍缺；**UNVERIFIED** 表示历史原始证据缺失或无法闭合。证据等级不替代双人签字。
+
 O-08～O-15 按最新整合交付包和补充实验归档分别登记，不再统一视为待完成。必须区分 **Kaiwu SDK 1.4.3 CPU求解**、**Kaiwu 1.4.4仅映射复核**、**本地SA**、**历史17/30变量SPQC短名单任务** 与 **四个最终104变量SPQC任务**。正式两档104变量编码使用已知组内代理最小值，只是 oracle-assisted 精度映射实验；科学候选来自原始代理表枚举。四个SPQC任务只有3个任务各返回至少一个组内代理argmin，样本数为10/10/7/5，不能据此估计硬件成功率、稳定性或量子优势。
 
 ## 2. 章节证据覆盖总览
@@ -28,8 +30,8 @@ O-08～O-15 按最新整合交付包和补充实验归档分别登记，不再�
 | 04 Q1 Surrogate | 模型结构、五折开发、03 选模、低尾/Top-K、划分敏感性、有限预算价值、04 预测边界 | `experiments/q1_ablation_v1/`；`experiments/q1_v12/`；`experiments/q1_random_search_03/`；`handoff/v1/`；`handoff/v1_2/` | 已完成（技术）/ 待复核（人工签收） | `V<5`是项目操作性低尾阈值；03参与选模，预算回放是回顾性结果而非独立验证；04只能报告代理预测。 |
 | 05 Q2 Fixed-X QUBO | `q23_final` 的 07 分数、104 变量、矩阵/映射/offset、枚举基准、本地 SDK 求解结果 | `handoff/Q123_v1/README.md`；`handoff/Q123_v1/paper/q23_experiment_table.csv`；`handoff/Q123_v1/evidence/sdk_verification.json`；整合 ZIP 内正式运行目录 | 已完成 | 可写固定 NO2 的 Q2 正式整数模型和 CPU 本地 SDK 结果；不得称为真实硬件结果。 |
 | 06 Q3 Groupwise QUBO | 分组主线、208位浮点对照、107位投影、盲池与真机 | `handoff/Q123_v1/`；`handoff/q23_fix/`；`handoff/q23_supplement/O10,O13,O14/` | 已完成（限定范围） | 107位投影改变最优且不适配8位；主结果仍为三张104位分组矩阵。 |
-| 07 Hardware and Precision | QUBO→Ising、offset、8位、排序/预算、SDK与SPQC | `handoff/q23_fix/`；`handoff/q23_supplement/O10,O11,O13/` | 已完成（有冲突/NA） | 3个任务各至少返回一个代理argmin，样本数10/10/7/5；不是成功率。`probe4_01`详情NA。 |
-| 08 Results and Discussion | 三问结果、盲池、四层误差、13类负例、R1--R4和成本 | `handoff/q23_supplement/O14,O15/`；`q23_fix` | 已完成（现有证据范围）/ 待人工确认冲突 | 四层误差不相加；SA、SDK和README冲突数字并列留档。 |
+| 07 Hardware and Precision | QUBO→Ising、offset、8位、排序/预算、SDK与SPQC | `handoff/q23_fix/`；`handoff/q23_supplement/O10,O11,O13/` | 已完成（有限证据/NA） | O-11新复核已定位计数器缺陷，历史0/300原始日志仍UNVERIFIED；四个正式任务中3个返回组内代理argmin。`probe4_01`详情NA。 |
+| 08 Results and Discussion | 三问结果、盲池、四层误差、13类负例、R1--R4和成本 | `handoff/q23_supplement/O14,O15/`；`q23_fix` | 已完成（现有证据范围）/ 待人工签收 | 四层误差不相加；178.131869 s有CSV依据，162.556 s及SDK短计时原件仍UNVERIFIED。 |
 | 09 Conclusion | 分别回答三问、适用范围、候选筛选建议、局限 | 全部V2证据及审计报告 | 已完成（待终审） | 不声称物理最优、硬件稳定性或量子优势。 |
 
 ## 3. 数据、公式与审计证据
@@ -96,11 +98,11 @@ O-08～O-15 按最新整合交付包和补充实验归档分别登记，不再�
 | **O-08** | 05, 06 | 已完成 | 已完成 | `handoff/Q123_v1/Q123_v1_integrated.zip` 内四张正式 104 位矩阵、运行快照、哈希与生成/复现入口 | 论文中说明 Q3 从早期 208 位计划调整为三张 104 位分组模型及其理由。 |
 | **O-09** | 05, 06 | 已完成 | 已完成 | 整合包内枚举、映射、解码、量化能量逐样本复算；`handoff/Q123_v1/evidence/sdk_verification.json` | 写作时保持 offset、整数能量与原尺度 `V_hat` 的层次分离。 |
 | **O-10** | 06--08 | 已完成 | 已完成（负面对照） | 107变量投影、8112候选、300样本、投影/原始双最优及8位范围见`O10/` | 高Spearman不保低尾最优；不得写成主模型。 |
-| **O-11** | 07, 08 | 已完成（含冲突） | 待复核（UNVERIFIED） | 双口径排序、Top-K、18组K×λ、预算扫描见`O11/` | 0/300与8/300同标称配置并列保留；不平均、不择优；两层编码为oracle-assisted。 |
+| **O-11** | 07, 08 | 已完成（新复核） | A；历史0/300日志UNVERIFIED | `handoff/q23_supplement/O11/reconciliation/o11_reconciliation.json`及三份逐样本CSV；`O11/README.md` | 同一批300样本的新复核证明旧计数器把绝对列索引再次减去`n_left`：正确为8合法/8命中，旧计数器为0/0；显式30批种子为10合法、10命中、9/30批命中。新复核不得冒充缺失的历史运行。 |
 | **O-12** | 07, 08 | 已完成 | 已完成 | Kaiwu SDK 1.4.3 CPU四组各300样本；1.4.4仅做映射复核 | 两版本用途不得混写。 |
-| **O-13** | 05--08, Appendix | 已完成（有限样本） | 四个最终任务及两个历史任务已归档 | `handoff/q23_supplement/O13/`含任务ID、矩阵SHA、返回、12张截图和额度 | 3个任务各返回至少一个代理argmin，不是成功率；七次ledger扣减仅有六份任务凭证，`probe4_01`详情NA；queue/exec/货币成本NA。 |
-| **O-14** | 03, 05, 06, 08, Appendix | 已完成（本地SA） | 八组已完成 | `handoff/q23_supplement/O14/`含八矩阵、各300样本及计时 | 不是SDK/真机；无盲池物理标签；README旧时间冲突保留。 |
-| **O-15** | 07, 08 | 部分完成 | 分层结果已完成/完整成本仍NA | `O15/error_attribution.csv`、`resource_cost.csv`、`timings.csv` | 四层不相加；SA与SDK计时口径冲突待确认，货币/queue/完整执行NA。 |
+| **O-13** | 05--08, Appendix | 已完成（有限样本） | A（四个正式任务）；B（额度）；`probe4_01` UNVERIFIED | `handoff/q23_supplement/O13/results/o13_results.json`、`receipt_template.csv`、`evidence/`、`results/credits_ledger.csv`、`probe4_01_gap.md` | 四个正式SPQC-550任务中3/4返回至少一个组内代理argmin，不是硬件成功率。七次额度账目与正式任务证据分开登记；`probe4_01`不得形成正式实验结论。 |
+| **O-14** | 03, 05, 06, 08, Appendix | 已完成（本地SA） | A | `handoff/q23_supplement/O14/results/o14_results.json`、`o14_runs.csv`、`timings.csv`及八份samples CSV | 八组529组合均300/300合法，38.533--48.536 s；Q2为Y--Ti--NO2，Q3三组为Ca--Sn--O3、Y--Ti--NO2、Rb--Ti--FO2，最终Ca--Sn--O3。使用盲池内部完整分数范围缩放，不得称完全oracle-free；不是SDK或真机。 |
+| **O-15** | 07, 08 | 部分完成 | A（本地SA/映射）；B（SDK完整流程）；短计时及旧总时UNVERIFIED | `handoff/q23_supplement/O15/local_sa_timing.csv`、`error_attribution.csv`、`resource_cost.csv`、`timings.csv`；`handoff/q23_fix/results/stage1_sdk_ising.json` | O15-R01--R04合计178.131869 s；162.556 s保留历史但来源缺失。正式SDK完整流程20.81--20.96 s/组；0.48--0.69 s仅为补充报告中的`opt.solve()`口径，原始CSV/代码未归档。浮点映射残差采用实际非零值。 |
 
 ## 7. Kaiwu、硬件精度和成本证据
 
@@ -108,13 +110,13 @@ O-08～O-15 按最新整合交付包和补充实验归档分别登记，不再�
 |---|---|---|---|---|---|---|
 | HW-01 | 07 | Kaiwu 1.4.3 环境、人工小模型、QUBO→Ising 约定和本地链路前置总结 | `Kaiwu_Precheck_Phase1_Summary.md` | H002, D-01 | 待复核 | 原始 SDK 证据包未进入本仓库；只能作为前置总结引用。 |
 | HW-02 | 07, 08 | 人工 104/208 变量模型的直接 int8 量化排序/可行性失败风险 | `Kaiwu_Precheck_Phase1_Summary.md` §6–7 | H002, D-01 | 待复核 | 使用人工代价，不是正式 `q23_final` 矩阵；可支持风险动机，不能支持正式模型结论。 |
-| HW-03 | 07 | 最终104变量SPQC-550任务、回执、矩阵SHA、返回与额度 | `handoff/q23_supplement/O13/` | O-13 | 已完成（有限样本） | 四任务中3个各至少返回一个代理argmin；七次ledger扣减、六份回执；`probe4_01`详情及queue/exec/货币NA。 |
+| HW-03 | 07 | 最终104变量SPQC-550任务、回执、矩阵SHA与返回 | `handoff/q23_supplement/O13/results/o13_results.json`；`receipt_template.csv`；`receipts/`；`evidence/` | O-13 | 已完成（A，有限样本） | 四任务中3个各至少返回一个代理argmin；只支持任务级事实，不支持硬件稳定性或成功率。七次额度另见账目，`probe4_01`另记UNVERIFIED。 |
 | HW-04 | 07, 08 | 正式矩阵 8 位适配、Kaiwu SDK CPU 本地求解、解码与能量复算 | `handoff/Q123_v1/evidence/sdk_verification.json`；`handoff/Q123_v1/paper/q23_experiment_table.csv`；整合 ZIP 内运行目录 | O-11, O-12 | 已完成 | 本地 SDK 结果不是 SPQC 真机结果。 |
 | HW-05 | 07, 08, Appendix | 历史 SPQC-550 短名单求解 | `handoff/Q2Q3_论文与图表.zip` 内 `q2_int_01.log`、`q3_int_01.log`、解码脚本与矩阵 | O-13 | 已完成（历史短名单） | Q2为17变量、Q3为30变量；不是最终104变量模型。Q3只支持O3组结论，不支持唯一A/B。 |
-| HW-06 | 07, 08 | 四层误差与成本边界 | `handoff/q23_supplement/O15/`；第8章 | O-15 | 部分完成 | 映射、精度、采样和构建/额度已登记；计时冲突、queue/exec/货币成本仍NA。 |
+| HW-06 | 07, 08 | 四层误差与成本边界 | `handoff/q23_supplement/O15/error_attribution.csv`、`timings.csv`、`local_sa_timing.csv`、`resource_cost.csv` | O-15 | 部分完成（A/B分层） | 178.131869 s有CSV依据；162.556 s与0.48--0.69 s原始包未归档。正式SDK完整流程为20.81--20.96 s/组；queue/exec/货币成本仍NA。 |
 | HW-07 | 06, 07 | 208变量联合浮点对照、offset修正、直接8位失败 | `handoff/q23_fix/results/stage1_sdk_ising.json`；`stage2_quant_partition.json` | O-09, O-11 | 已完成（对照） | 合法态能量精确，但直接8位量化不保最优/可行性；不作为最终主模型。 |
-| HW-08 | 06--08 | 107变量投影、双口径量化与K×λ扫描 | `handoff/q23_supplement/O10/`；`O11/` | O-10, O-11 | 已完成（含冲突） | 投影改变最优；最低档包含最优不等于唯一保持；同配置0/300与8/300待确认。 |
-| HW-09 | 03, 05, 06, 08 | 盲池八组本地SA | `handoff/q23_supplement/O14/` | O-14 | 已完成 | 529稀疏组合；不是SDK/真机；无物理标签。 |
+| HW-08 | 06--08 | 107变量投影、双口径量化与K×λ扫描 | `handoff/q23_supplement/O10/`；`O11/reconciliation/` | O-10, O-11 | 已完成（A；历史日志除外） | 投影改变最优；最低档包含最优不等于唯一保持。新复核解释0/300计数器缺陷，历史原始日志仍UNVERIFIED。 |
+| HW-09 | 03, 05, 06, 08 | 盲池八组本地SA | `handoff/q23_supplement/O14/results/o14_results.json`、`o14_runs.csv` | O-14 | 已完成（A） | 每组529稀疏组合、300/300合法；内部全分数范围缩放；不是SDK/真机且无物理标签。 |
 
 ## 8. 结果、图表与结论的证据规则
 
@@ -147,7 +149,7 @@ O-08～O-15 按最新整合交付包和补充实验归档分别登记，不再�
 | 五罚项、物性和 PR 图 | `experiments/q1_v12/figures/` + 对应 CSV/JSON | 已完成 | 标注为冻结后补证。 |
 | 有限预算筛选价值 | `experiments/q1_random_search_03/comparison.csv` | 已完成 | 可据数表生成英文图；不得扩展到未知盲测命中率。 |
 | Q2/Q3 矩阵、能量和求解图 | `handoff/Q123_v1/paper/q23_experiment_table.csv` + `q23_run_comparison.png/.svg` + 整合包原始样本 | 已完成 | 图中 attempt 的 SDK 种子与本地 SA 链组口径必须分别说明。 |
-| 精度、误差和成本图 | `O10/`、`O11/`、`O13/`、`O15/error_attribution.csv`、`resource_cost.csv` | 已完成（冲突项UNVERIFIED） | CSV/JSON数值暂用于正文，README来源仍未确认；不把四层误差相加，不使用0.48--0.69秒作完整SDK耗时。 |
+| 精度、误差和成本图 | `O10/`、`O11/reconciliation/`、`O13/`、`O15/error_attribution.csv`、`local_sa_timing.csv`、`resource_cost.csv` | 已完成（A/B；历史缺口UNVERIFIED） | 采用原始CSV/JSON；不把四层误差相加。0.48--0.69秒只登记为未归档原件的`opt.solve()`补充口径，不作完整SDK耗时。 |
 
 ## 9. 写作就绪度与下一步
 
@@ -158,7 +160,7 @@ O-08～O-15 按最新整合交付包和补充实验归档分别登记，不再�
 | 3 | 02 Problem Formulation | 高 | V 公式与正式分组 QUBO 均有证据；需解释实际 104 位分组路线与早期 208 位计划的差异。 |
 | 4 | 01 Introduction | 中 | 可写背景与问题链，但最终贡献列表应等 Q2/Q3 完成后冻结。 |
 | 5 | 05–06 Q2/Q3 | 高（现有证据范围） | 正式矩阵、CPU SDK、107位对照、盲池和最终真机均有证据；物理标签仍缺。 |
-| 6 | 07–08 Hardware/Results | 高（冲突需保留） | 精度、真机、盲池和四层误差已写入；计时/预算冲突及完整成本NA已显式登记。 |
+| 6 | 07–08 Hardware/Results | 高（历史缺口需保留） | 新O-11对账、O-14运行表和O-15本地SA计时已有证据；历史0/300日志、162.556 s来源、SDK短计时原件及完整成本仍需标记。 |
 | 7 | 09 Conclusion / Abstract | 高（待终审） | 已更新为V2边界，不声称物理最优、稳定性或量子优势。 |
 
-V2正文已整合O-10～O-15现有成果并完成第四阶段科学定位整改。内容冻结后只需按正式构建流程核查页数、交叉引用和版面；在团队确认前，四类冲突保持UNVERIFIED，缺失字段保持NA。
+V2正文已整合O-10～O-15现有成果并完成第四阶段科学定位整改。内容冻结后只需按正式构建流程核查页数、交叉引用和版面；已由新原始表闭合的数值与历史缺失记录须分开，历史0/300日志、`probe4_01`、162.556 s来源和SDK短计时原件继续保持UNVERIFIED，缺失字段保持NA。

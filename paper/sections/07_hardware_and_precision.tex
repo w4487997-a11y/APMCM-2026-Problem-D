@@ -25,40 +25,26 @@ where
  K&=o+\frac12\sum_iQ_{ii}+\frac14\sum_{i<j}Q_{ij}.
  \label{eq:qubo-ising-constant}
 \end{align}
-The constant $K$ does not affect the optimizer, but it must be retained
-when comparing an Ising energy numerically with the original QUBO energy.
-Kaiwu SDK~1.4.3 uses a reference-spin convention: it adds an auxiliary spin
-$s_a$, writes $x_i=(1+s_is_a)/2$, and stores each pair twice in the returned
-symmetric matrix.  The corresponding off-diagonal entries are
-$-J_{ij}/2$, while the reference-spin entries are $-h_i/2$.  The
-independently recomputed objective remains the one defined by
-Equations~\eqref{eq:hardware-qubo}--\eqref{eq:qubo-ising-constant}.
-Documenting this convention avoids offset and factor-of-two errors during
-decoding.  Although QUBO--Ising equivalence is standard, implementation-
-specific coefficient conventions still require an explicit audit
+The constant $K$ must be restored when comparing numerical QUBO and Ising
+energies.  Kaiwu SDK~1.4.3 adds a reference spin $s_a$, uses
+$x_i=(1+s_is_a)/2$, and stores symmetric pairs twice; its off-diagonal and
+reference-spin entries are therefore $-J_{ij}/2$ and $-h_i/2$.  Independent
+decoding restores the convention, bias, and offset before comparison.
+Implementation-specific conventions require this audit
 \cite{Lucas2014IsingNP,Glover2019QUBOTutorial}.
 
 \subsection{Why direct eight-bit quantization is unsafe}
 
-Fixed-coefficient hardware supports only a limited integer range.
-Scaling a dense floating-point objective directly into that range can erase
-small material-score differences while leaving large one-hot penalties
-intact.  We therefore used deliberately artificial matrices in the
-precheck only as stress tests; their quantized rankings are not treated as
-Q2/Q3 evidence.  The tests illustrate two possible failures: the
-quantized minimum can become infeasible, and a matrix can remain numerically
-valid without preserving the intended material ranking.  This is
-consistent with the general warning that penalty strength and coefficient
-resolution must be assessed together
+Directly scaling a dense objective into a fixed integer range can erase
+small score differences while retaining large one-hot penalties.  Precheck
+matrices therefore serve only as stress tests: quantization can make a
+minimum infeasible or alter ranking even when the matrix remains numerically
+valid.  Penalty strength and coefficient resolution must be assessed together
 \cite{Ceselli2023GoodQUBOEncodings,Muecke2025OptimumPreservingQUBO,Ohno2026PrecisionErrorsQA}.
 
-The adopted construction does not quantize the raw proxy scores
-themselves.  Instead, within each fixed-$X$ group, it maps the capped,
-normalized difference to the binary cost $c_k\in\{0,4\}$ in
-Equation~\eqref{eq:q23-integer-cost}.  The known group winner receives zero,
-and every other legal state receives four.  Combining these costs with the
-two one-hot penalties ($\lambda=2$) and the offset ($o=4$) gives
-Equation~\eqref{eq:q23-accepted-qubo}.  For legal states,
+The adopted construction instead maps each fixed-$X$ score difference to
+$c_k\in\{0,4\}$ by Equation~\eqref{eq:q23-integer-cost}; with
+$\lambda=2$ and $o=4$, legal states satisfy
 \begin{equation}
  E_Q(\bm{x}_{ab})=c_{ab},
  \qquad
@@ -66,19 +52,11 @@ Equation~\eqref{eq:q23-accepted-qubo}.  For legal states,
  \arg\min_{a,b}\widehat V_{23}(a,b,X),
  \label{eq:group-winner-preservation}
 \end{equation}
-provided the group minimum is unique and every nonminimum gap is greater than
-0.01.  Under NumPy \texttt{rint}, gaps below 0.01 and the exact half-step
-0.01 both map to zero; see Equation~\eqref{eq:q23-integer-cost}.  The strict
-condition was checked by exhaustive enumeration of all 2,704 legal states in
-each adopted matrix.  The construction preserves
-the group winner, not the complete raw-score geometry: non-winning values
-collapse onto the same integer level, so their pairwise differences and
-full ordering cannot be recovered from QUBO energies.  Cross-group selection
-must therefore use the original-scale $\widehat V_{23}$ as specified in
-Equation~\eqref{eq:q3-original-scale-comparison}.  Moreover, the level
-boundary is defined using the already known group minimum $m_X$.  The adopted
-two-level construction is therefore an oracle-assisted mapping and solver
-test, not an independent method for discovering the proxy optimum.
+provided the minimum is unique and every other gap exceeds 0.01.  NumPy
+\texttt{rint} also maps the exact half-step 0.01 to zero, so enumeration
+checked the strict condition.  This oracle-assisted mapping preserves the
+known group winner but collapses non-winner ordering; cross-group selection
+therefore returns to the original $\widehat V_{23}$ scale.
 
 \subsection{Coefficient and energy verification}
 
@@ -115,11 +93,9 @@ The constant is checked separately by
 \end{equation}
 where $b$ is the SDK conversion bias, $o$ is the QUBO offset, and
 $K_{\mathrm{ref}}$ is the constant obtained from
-Equation~\eqref{eq:qubo-ising-constant}.  The archived floating-point
-controls satisfy $b+o=K_{\mathrm{ref}}$.  These residuals measure numerical
-agreement in the mathematical QUBO--Ising conversion; they are not the
-coefficient-quantization error or a measure of physical prediction
-accuracy.
+Equation~\eqref{eq:qubo-ising-constant}.  The floating controls satisfy
+$b+o=K_{\mathrm{ref}}$.  These residuals test mathematical conversion only,
+not quantization or physical accuracy.
 
 Expansion of the adopted integer QUBO gives entries in $\{-2,0,4\}$
 before conversion.  For every adopted group, independent reconstruction
@@ -130,41 +106,27 @@ found
  \qquad E_{\min}^{\mathrm{illegal}}-E_{\min}^{\mathrm{legal}}=2.
  \label{eq:formal-precision-audit}
 \end{equation}
-The coefficients fit within the signed eight-bit range without additional
-rescaling.  For Q2 and each Q3 group, the exact formula-to-stored-matrix
-energy residual over all 2,704 legal assignments was zero integer units.
-A comparable Kaiwu~1.4.4 floating residual for the adopted 104-variable
-integer matrices was not measured and remains NA.
+Thus the coefficients fit the signed eight-bit range without rescaling.
+Formula-to-matrix residuals over all 2,704 legal states were zero integer
+units; a comparable Kaiwu~1.4.4 floating residual remains NA.
 
 For the separate floating-point controls, the measured
 $(\epsilon_{\mathrm{coef}},\epsilon_{\mathrm{energy}})$ values were
 $(2.13\times10^{-14},1.42\times10^{-12})$ for the 104-variable Q2
 control and $(9.95\times10^{-14},4.57\times10^{-12})$ for the
-208-variable Q3 control.  These are numerical round-off residuals from
-the floating-point mapping audits; they must not be substituted for the
-missing residual of the adopted 104-variable integer matrices.
-The unified object/version/matrix/offset audit is given in
-Table~\ref{tab:mapping-audit} in the appendix.
-
-Kaiwu~1.4.4 was used only for the two floating mapping controls because no
-solve licence was available.  The CPU sampling results used SDK~1.4.3.
-
-The adopted workflow proceeds as follows: generate the versioned QUBO;
-convert it using the documented SDK convention; verify the coefficient
-range; solve with Kaiwu SDK~1.4.3 on the CPU; decode the reference spin;
-check both one-hot constraints; and independently recompute $E_Q$ and the
-original proxy score.  Each matrix was sampled with 30 seeds, ten reads per
-seed, 300 iterations, and $\alpha=0.99$.  We accepted no solver-reported
-energy as a material result without this independent decoding.
-Sections~\ref{sec:q2-qubo} and~\ref{sec:q3-qubo} give the decoded candidates
-and sample statistics.
+208-variable Q3 control.  These are floating round-off residuals, not
+substitutes for the missing adopted-matrix residual.  Kaiwu~1.4.4 was used
+only for mapping controls; SDK~1.4.3 performed CPU sampling.  Every returned
+state was decoded, checked for both one-hot constraints, and rescored
+independently.  Appendix Table~\ref{tab:mapping-audit} records the unified
+audit.
 
 \subsection{Projection, quantization, and ranking controls}
 
 Three controls show why coefficient range alone is insufficient.  First, the
 107-variable second-order Q3 projection achieved Spearman 0.978891 over all
-8,112 candidates but changed the optimum from Na--Nb--O3
-($\widehat V_{23}=0.540023$) to Rb--Ta--O3 (0.676651), had zero Top-5 overlap,
+8,112 candidates but changed the optimum from Na--Nb--$\mathrm{O}_3$
+($\widehat V_{23}=0.540023$) to Rb--Ta--$\mathrm{O}_3$ (0.676651), had zero Top-5 overlap,
 and produced $\max|h|=254$ after scaling.  Its global fit therefore did not
 preserve the decision-relevant low tail.
 
@@ -177,9 +139,9 @@ $\mathbb I[z^*\in\mathcal T_{\min}]$ and
 $\mathbb I[z^*=z_{\mathrm{ID}}]$, where the deterministic lexicographic
 tie-break is
 $z_{\mathrm{ID}}=\arg\min_z(E_{\mathrm{int}}(z),\mathrm{ID}(z))$.
-For the uniform qubo_x127/4 mapping, the first indicator is one
+For the uniform \texttt{qubo\_x127/4} mapping, the first indicator is one
 but the second is zero: the minimum tier contains six Q2 candidates
-and 21 Q3 candidates.  The qubo_xfloor Q3 tier contains 24 candidates.
+and 21 Q3 candidates.  The \texttt{qubo\_xfloor} Q3 tier contains 24 candidates.
 The reported score loss is
 \begin{equation}
  \Delta_{\mathrm{tie}}\widehat V
@@ -196,46 +158,31 @@ collapse distinctions.  Thus
 ``the optimum is in the lowest tier'' and ``the quantized model returns the
 unique original optimum'' are different claims.
 
-Third, the 18-point $K\times\lambda$ scan exposed a feasibility--range
-trade-off.  For $\lambda=2,4,8$ the lowest illegal-minus-legal gaps were
-$-2,0,4$; at $K=52,\lambda=8$, however, $\max|h|=252$ exceeded the signed
-eight-bit range.  The historical stage-2 record of 0/300 legal samples and the later
-8/300 record were traced to a sample-counting defect, not to different
-QUBO matrices or solver behaviour.  On the same 300 returned samples
-(seed 12345, identical matrix and parameters), the corrected counter
-identified 8 legal samples and 8 proxy-minimum hits, whereas the legacy
-counter returned zero because it subtracted the left-block width from an
-already absolute column index.  The stage-2 and stage-3 entry points
-produced identical matrices and variable mappings.  The original historical
-0/300 run log is not archived, so that historical result remains
-\textbf{UNVERIFIED}; it is not treated as a solver-performance estimate.
-A separate explicit-seed reconciliation (O11-R03) recorded 10 legal
-samples and 10 hits in 300 reads, with at least one hit in 9 of 30
-ten-read batches.  Sample-level counts and batch-level hit rates are
-reported separately.
+Third, the 18-point $K\times\lambda$ scan used $K$ A-site and $K$ B-site
+elements ($2K$ variables) and distinguished the strict band separation
+$\Delta_{\mathrm{band}}=\min E_{\mathrm{illegal}}-\max E_{\mathrm{legal}}$
+from the adopted ground-state gap
+$\Delta_{\mathrm{ground}}=\min E_{\mathrm{illegal}}-\min E_{\mathrm{legal}}=2$.
+For $\lambda=2,4,8$, $\Delta_{\mathrm{band}}$ was $-2,0,4$; at
+$K=52,\lambda=8$, however, $\max|h|=252$ exceeded the signed eight-bit
+range.  O11 reconciliation corrected a counting defect on one archived
+300-sample set to 8 legal samples and 8 hits; an explicit 30-seed run gave
+10 legal samples, 10 hits, and 9/30 hit batches.  The missing historical
+0/300 log remains \textbf{UNVERIFIED} and is not replaced by either rerun.
+Appendix~A.3 records the counter scope and batch definition.
 
 \subsection{Final-matrix SPQC-550 observations}
 
-In addition to the historical 17- and 30-variable short-list tasks, four
-final 104-variable matrices were submitted to SPQC-550.  Their task-level
-returns and timing fields are in Appendix Table~\ref{tab:spqc-final-results}.
-
-Three of four tasks returned at least one group proxy argmin among unequal
-returns of 10, 10, 7, and 5 samples.  This count is not a hardware success
-rate.  The NO2 Q3 task is
-retained as a zero-legal-sample counterexample rather than discarded.  The
-four submitted matrix hashes and complete task IDs are listed in the
-appendix.  The quota ledger records seven debits from a balance change of 31
-to 24; six task receipts are archived.  The additional \texttt{probe4\_01}
-entry lacks an original receipt, so its task fields remain NA.  Platform queue time, full execution time, and
-monetary billing remain NA.
+Four final 104-variable matrices were submitted to SPQC-550.  Three returned
+at least one group proxy argmin among unequal totals of 10, 10, 7, and 5
+samples; the Q3/$\mathrm{NO}_2$ task returned no legal sample.  This is not
+a hardware success rate.  Appendix Table~\ref{tab:spqc-final-results} gives
+the receipts and hashes.  The separate seven-debit quota ledger is not a
+seventh result, and unreceipted \texttt{probe4\_01} is excluded; queue,
+complete-execution, and monetary costs remain NA.
 
 \subsection{Evidence boundary}
 
-The solver statistics in Sections~\ref{sec:q2-qubo} and
-\ref{sec:q3-qubo} are Kaiwu SDK~1.4.3 CPU results.  The four SPQC
-submissions returned the samples listed in Table~\ref{tab:spqc-final-results},
-but their small and unequal sample counts do not support estimates of
-stability or speedup.  Blind-pool and projection experiments are also
-local comparisons.  Every reported candidate remains a proxy argmin,
-not a physically measured optimum.
+SDK results are CPU-local; blind-pool, projection, and reconciliation runs
+are also local.  The four small SPQC returns do not establish stability or
+speedup.  Every candidate remains a proxy argmin, not a measured optimum.

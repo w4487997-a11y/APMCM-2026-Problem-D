@@ -70,9 +70,10 @@ local simulated annealing with 300 samples.  This is independent matrix
 construction on the blind pools, not post-hoc filtering of the full-pool
 solution, and it is neither a Kaiwu SDK solve nor an SPQC-550 run.  The
 affine score range is computed from each blind prediction table itself; no
-enumerated winner identity is supplied to the encoding, and each matrix is
-frozen before sampling.  The procedure is an oracle-free search over the
-blind-pool proxy objective, not a physical-label validation, because
+enumerated optimum identity is supplied to the encoding, and each matrix is
+frozen before sampling.  Thus the search does not inject the enumerated
+optimum identity, but it does use the complete within-pool proxy-score range
+for scaling.  It is not a physical-label validation, because
 files~11/12 remain unlabeled.
 
 Model inputs contain only $A$, $B$, $X$, and deterministic composition

@@ -46,7 +46,7 @@ The generated manuscript is `build/main.pdf`. Intermediate files remain under `b
 - Q1 / Data sections: `OWNER-A-PLACEHOLDER`
 - Q2 / Q3 formulation: `OWNER-B-PLACEHOLDER`
 - Kaiwu / precision / integration: `OWNER-C-PLACEHOLDER`
-- Team number: `TEAM-NUMBER-PLACEHOLDER`
+- Team number: `apmcm26312030`
 
 Replace placeholders only with verified team information. Do not submit a PDF that still contains placeholders.
 

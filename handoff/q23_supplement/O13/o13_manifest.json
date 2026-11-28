@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-28T16:32:43",
+  "generated_at": "2026-11-28T20:13:29",
   "note": "O-13 真机验证：矩阵、凭证截图、平台原始回执、逐样本解码与汇总",
   "tasks": {
     "c249dca66bcd4c55a49114a37f4ebf2a": "q2_NO2.csv_01",
@@ -94,9 +94,13 @@
       "sha256": "0384b73eb10372674e5108463ec3cf7a0a144d0c3931ee23175a3c79bf451c6c",
       "bytes": 146344
     },
+    "probe4_01_gap.md": {
+      "sha256": "34de43994343259968db83d26b9e4ea865e813251636550ace099d3d14924dde",
+      "bytes": 2138
+    },
     "README.md": {
-      "sha256": "909f52b19b3a64dbec904c57ae26bdaa9d01726fa67ff4c6097956eb168d790a",
-      "bytes": 8283
+      "sha256": "b40b3251f8dfc8841ae253bacf60b366e3208bef7b1ae137e827eac98e43c104",
+      "bytes": 8521
     },
     "receipt_template.csv": {
       "sha256": "aef9fc856b27d0e40b8525857a26950c4d21b24df966eee255f54719c3b1e006",
