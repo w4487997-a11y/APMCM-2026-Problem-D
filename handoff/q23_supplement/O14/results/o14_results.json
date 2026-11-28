@@ -12,7 +12,7 @@
           "problem": "q2",
           "group": "NO2",
           "encoding": "float",
-          "build_s": 0.0005740000051446259,
+          "build_s": 0.0005151000077603385,
           "mode": "float",
           "variables": 104,
           "n_candidates": 529,
@@ -35,14 +35,14 @@
           "seed_hit_ratio": 0.8333333333333334,
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
-          "wall_s": 44.45999829999346,
+          "wall_s": 39.47333529999014,
           "matrix_sha256": "eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311"
         },
         {
           "problem": "q2",
           "group": "NO2",
           "encoding": "integer",
-          "build_s": 0.0005473999917740002,
+          "build_s": 0.000495300002512522,
           "mode": "integer",
           "variables": 104,
           "n_candidates": 529,
@@ -65,7 +65,7 @@
           "seed_hit_ratio": 0.5333333333333333,
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
-          "wall_s": 90.94041949999519,
+          "wall_s": 40.83288450000691,
           "matrix_sha256": "5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2"
         }
       ]
@@ -81,7 +81,7 @@
           "problem": "q3",
           "group": "O3",
           "encoding": "float",
-          "build_s": 0.0006560000038007274,
+          "build_s": 0.0004645000008167699,
           "mode": "float",
           "variables": 104,
           "n_candidates": 529,
@@ -104,14 +104,14 @@
           "seed_hit_ratio": 0.9,
           "best_returned_material": "Ca|Sn|O3",
           "best_returned_V_hat": 1.1850815319299866,
-          "wall_s": 117.29132690001279,
+          "wall_s": 41.043674000000465,
           "matrix_sha256": "9749bb7e518086153893c2dde780ea3c3e7f18d85f0bb4ad134b1e2ae4d6f346"
         },
         {
           "problem": "q3",
           "group": "O3",
           "encoding": "integer",
-          "build_s": 0.0006551999977091327,
+          "build_s": 0.0006014999962644652,
           "mode": "integer",
           "variables": 104,
           "n_candidates": 529,
@@ -134,14 +134,14 @@
           "seed_hit_ratio": 0.43333333333333335,
           "best_returned_material": "Ca|Sn|O3",
           "best_returned_V_hat": 1.1850815319299866,
-          "wall_s": 99.60508419999678,
+          "wall_s": 48.53569269999571,
           "matrix_sha256": "aee1caab0b86d0420f8d93ef62f5674bb48e91320037feaffb15b2cd7671af49"
         },
         {
           "problem": "q3",
           "group": "NO2",
           "encoding": "float",
-          "build_s": 0.0005308999971020967,
+          "build_s": 0.00044920000073034316,
           "mode": "float",
           "variables": 104,
           "n_candidates": 529,
@@ -164,14 +164,14 @@
           "seed_hit_ratio": 0.8333333333333334,
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
-          "wall_s": 95.0346503000037,
+          "wall_s": 40.45536520000314,
           "matrix_sha256": "eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311"
         },
         {
           "problem": "q3",
           "group": "NO2",
           "encoding": "integer",
-          "build_s": 0.000636800003121607,
+          "build_s": 0.0004919999919366091,
           "mode": "integer",
           "variables": 104,
           "n_candidates": 529,
@@ -194,14 +194,14 @@
           "seed_hit_ratio": 0.5333333333333333,
           "best_returned_material": "Y|Ti|NO2",
           "best_returned_V_hat": 1.4919281724855757,
-          "wall_s": 638.2066261,
+          "wall_s": 38.53252030001022,
           "matrix_sha256": "5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2"
         },
         {
           "problem": "q3",
           "group": "FO2",
           "encoding": "float",
-          "build_s": 0.00044889999844599515,
+          "build_s": 0.00044380000326782465,
           "mode": "float",
           "variables": 104,
           "n_candidates": 529,
@@ -224,14 +224,14 @@
           "seed_hit_ratio": 0.8666666666666667,
           "best_returned_material": "Rb|Ti|FO2",
           "best_returned_V_hat": 1.5909216703885978,
-          "wall_s": 786.2306319999916,
+          "wall_s": 39.1214495000022,
           "matrix_sha256": "aea073fccfa831b8078992776cf30d2dcadc57ea4889569cc31c13f974f6ee21"
         },
         {
           "problem": "q3",
           "group": "FO2",
           "encoding": "integer",
-          "build_s": 0.0003391999925952405,
+          "build_s": 0.000342100000125356,
           "mode": "integer",
           "variables": 104,
           "n_candidates": 529,
@@ -254,7 +254,7 @@
           "seed_hit_ratio": 0.36666666666666664,
           "best_returned_material": "Rb|Ti|FO2",
           "best_returned_V_hat": 1.5909216703885978,
-          "wall_s": 44.7988658999966,
+          "wall_s": 38.916933600004995,
           "matrix_sha256": "50ae41a234c75887e52298c137c597b50c3a9d926aa22fc40d7d707cfab359f1"
         }
       ],
