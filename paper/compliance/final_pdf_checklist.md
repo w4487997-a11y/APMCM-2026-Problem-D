@@ -1,3 +1,15 @@
+# Current source status after language polish
+
+The manuscript source was updated in commit `c22f779` on
+2026-11-28.  The PDF SHA and successful build checks recorded below belong
+to the previous source revision; the tracked `paper/build/main.pdf` is
+therefore stale relative to the current `main.tex` and chapter files.
+Rebuild with `./scripts/build.sh` and rerun the page/format checks before
+treating any PDF-related checkbox below as current.  Team number and signed
+Control Sheet remain separate release blockers.
+
+---
+
 # Final PDF Checklist
 
 Full-draft status on 2026-11-28.
