@@ -30,10 +30,17 @@ OUT = ROOT / "O15"
 OUT.mkdir(parents=True, exist_ok=True)
 RES = FIX / "results"
 
+BUILD_CALLS = {"n": 0}   # 用于证明计时段内确实执行了构建
+
 
 def write_csv(name, rows):
+    keys = []
+    for r in rows:
+        for k in r:
+            if k not in keys:
+                keys.append(k)
     with open(OUT / name, "w", encoding="utf-8-sig", newline="") as fh:
-        w = csv.DictWriter(fh, list(rows[0]))
+        w = csv.DictWriter(fh, keys, restval="")
         w.writeheader()
         w.writerows(rows)
 
@@ -59,12 +66,6 @@ def build_models():
     }
 
 
-def pipeline(model):
-    M, _, _, _ = S7.ising_matrix(model["q"], model["offset"])
-    adj, _ = S7.adapt_8bit(M)
-    S7.post_adapt_audit(adj, model)
-
-
 def enumerate_model(model):
     q, off, i, j = model["q"], model["offset"], model["i"], model["j"]
     e = q[i, i] + q[j, j] + q[i, j]
@@ -78,9 +79,17 @@ def main():
     models = build_models()
 
     def build_call(scope):
+        BUILD_CALLS["n"] += 1
         if scope.startswith("q3"):
             return S7.build_partition(rows_q3, scope.split("_")[-1])
         return S7.build_q2(rows_q2)
+
+    def pipeline_scope(scope):
+        """完整流水线：构建 → 转换 → 适配 → 自检（构建在计时段内）。"""
+        model = build_call(scope)
+        M, _, _, _ = S7.ising_matrix(model["q"], model["offset"])
+        adj, _ = S7.adapt_8bit(M)
+        S7.post_adapt_audit(adj, model)
     timing_rows, enum_rows = [], []
     for name, m in models.items():
         q, off, i, j = m["q"], m["offset"], m["i"], m["j"]
@@ -93,18 +102,23 @@ def main():
                             **timeit(lambda: S7.adapt_8bit(M))})
         timing_rows.append({"scope": name, "stage": "适配后自检",
                             **timeit(lambda: S7.post_adapt_audit(M, m))})
+        BUILD_CALLS["n"] = 0
+        t_pipeline = timeit(lambda: pipeline_scope(name), repeat=20)
+        assert BUILD_CALLS["n"] == 20, f"计时段内构建次数异常: {BUILD_CALLS['n']} != 20"
         timing_rows.append({"scope": name, "stage": "完整流水线（构建→转换→适配→自检）",
-                            **timeit(lambda: pipeline(m), repeat=20)})
+                            **t_pipeline, "build_calls_per_call": 1})
         timing_rows.append({"scope": name, "stage": f"精确枚举（{len(m['block'])} 合法态能量+排序）",
                             **timeit(lambda: enumerate_model(m))})
         enum_rows.append({"scope": name, "candidates": len(m["block"]),
                           "enumeration_ms": None})
     # Q3 三组合并的总耗时（口径：三组矩阵各跑一次，含构建）
     q3_models = [models["q3_O3"], models["q3_NO2"], models["q3_FO2"]]
-    q3_total = timeit(lambda: [pipeline(m) for m in q3_models], repeat=20)
+    BUILD_CALLS["n"] = 0
+    q3_total = timeit(lambda: [pipeline_scope(s) for s in ("q3_O3", "q3_NO2", "q3_FO2")], repeat=20)
+    assert BUILD_CALLS["n"] == 60, f"三组合并计时段构建次数异常: {BUILD_CALLS['n']} != 60"
     q3_enum = timeit(lambda: [enumerate_model(m) for m in q3_models])
     timing_rows.append({"scope": "q3_三组合并(8,112)", "stage": "完整流水线（三组各构建→…→自检）",
-                        **q3_total})
+                        **q3_total, "build_calls_per_call": 3})
     timing_rows.append({"scope": "q3_三组合并(8,112)", "stage": "精确枚举（三组 2,704×3 逐组能量+排序）",
                         **q3_enum})
     write_csv("timings.csv", timing_rows)
