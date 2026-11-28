@@ -11,9 +11,11 @@ $X=\mathrm{NO}_2$, while Q3 repeats the optimization for
 $X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ and compares the three
 winners on the original proxy scale.  The key outcomes are: Q1 MAE $2.4715$
 and 20 true Top-50 records on file~03; Q2 candidate Y--Ti--NO2
-($\widehat V=1.491928$); and Q3 candidate Na--Nb--O3
-($\widehat V=0.540023$).  File~03 participated in selection, file~04 is
-unlabeled, and the Q2/Q3 values are CPU-local proxy-optimization results.
+($\widehat V_{23}=1.491928$); and Q3 candidate Na--Nb--O3
+($\widehat V_{23}=0.540023$).  Their runner-up gaps are $0.313819$ and
+$0.013123$.  The unlabeled Q2/Q3 pools have no independent error estimate.
+Q1's low-tail MAE $8.2654$ is not a Q2/Q3 confidence interval, but it shows
+why these small proxy gaps cannot establish statistical or physical separation.
 
 The Q1 metrics expose an important objective trade-off.  The frozen mixture
 improved global MAE and low-tail retrieval relative to direct HGB, but its
@@ -38,7 +40,7 @@ file~03, not a success probability for the unlabeled pool or for a new
 chemical domain.
 
 Figure~\ref{fig:q23-run-comparison} compares the two local solvers on the
-same four formal matrices.  Across 1,200 samples each, Kaiwu SDK 1.4.3 on
+same four adopted matrices.  Across 1,200 samples each, Kaiwu SDK 1.4.3 on
 CPU returned 99 legal states ($8.25\%$), hit the optimum in 99/120 seeded
 runs, and used 83.413~s.  Local simulated annealing returned 907 legal states
 ($75.58\%$) and hit the optimum in all 120 recorded chain groups.  Two
@@ -54,98 +56,64 @@ quantum-advantage test.
 The four error layers are not additive because they have different units and
 conditioning events.  First, surrogate prediction has file~03 MAE $2.4715$,
 RMSE $4.5827$, Spearman $0.9383$, and low-tail MAE $8.2654$; true Q2/Q3
-candidate error is NA without labels.  Second, the mapping audit found
-formula--matrix coefficient differences of $2.13\times10^{-14}$ (Q2) and
-$9.95\times10^{-14}$ (208-variable Q3), with energy residuals
-$1.42\times10^{-12}$ and $4.57\times10^{-12}$.  These values verify the
-offset-corrected conversion within floating-point precision, not the
-material.
+candidate error is NA without labels.  Second, Table~\ref{tab:mapping-audit}
+separates exact integer checks from floating controls.  Adopted 104-variable
+integer energies reproduce exactly in discrete checks.  The
+$2.13\times10^{-14}$/$1.42\times10^{-12}$ Q2 and
+$9.95\times10^{-14}$/$4.57\times10^{-12}$ Q3 residuals belong to floating
+104- and 208-variable controls, respectively, and agree within numerical
+tolerance.  A comparable 1.4.4 residual for the adopted 104 matrices is NA.
 
 Third, uniform integerization retained the raw optimum within the lowest
 tier but created six Q2 and 21--24 Q3 ties; selecting by ID then incurred
-proxy-score losses 0.6474 and 0.6451.  The formal two-level matrices retain
+proxy-score losses 0.6474 and 0.6451.  The adopted two-level matrices retain
 the known group winners with $\max|h|=102$, $\max|J|=1$, and a lowest
 illegal-minus-winner gap of 2, but they are oracle-assisted and do not retain
 non-winner ordering.  Fourth, SDK--CPU, local-SA, and SPQC-550 sampling are
 reported separately.  The final hardware jobs had legal rates 10\%, 40\%,
-0\%, and 20\% and returned the group winner in three of four tasks.  These
+0\%, and 20\%; three tasks returned at least one group argmin among unequal
+sample counts of 10, 10, 7, and 5.  This is not a hardware success rate.  These
 four heterogeneous layers have different units and conditioning events and
 are not added into a synthetic total error.
 
 \subsection{Pipeline robustness and measured cost boundary}
 
-The archived intake tests injected 13 defect classes: external identifiers,
-wrong compositions, wrong pool and source-pool fields, a wrong source field
-alone, missing pool/source columns, duplicates, missing rows, NaN and
-negative scores, mixed model versions, and constant prediction tables.  Q2
-and Q3 rejected all 13 classes.  Regression R1 returns
-\texttt{solver\_failed} and no winner when every sample is illegal; R2
-surfaces a missing SDK licence consistently; R3 retains Q2's 2,704 and each
-Q3 group's 2,704 candidates through the joint entry point; and R4 rejects
-invalid source fields.  These checks support pipeline integrity, not
-material accuracy.
+The intake audit rejected all 13 injected defect classes, and regression
+tests R1--R4 covered illegal-only solver output, missing SDK licence, complete
+Q2/Q3 entry domains, and source-field validation.  These checks support
+pipeline integrity, not material accuracy; the complete defect list is in
+Appendix~\ref{sec:appendix-cost-audit}.
 
-The measured build--convert--adapt--check pipeline took 6.551~ms for Q2 and
-7.430, 7.524, and 7.591~ms for the three Q3 groups (23.197~ms combined).
-These CSV/JSON values supersede stale README figures but describe local
-matrix preparation, not solving.  The formal SDK~1.4.3 solves took
-20.81--20.96~s per group, 83.413~s in total.  A separate supplement reports
-0.48--0.69~s for nominally 30 SDK calls without a confirmed timing boundary;
-we therefore exclude that range from the formal end-to-end total.
-
-The latest verified local-SA record totals 178.14~s, while the earlier paper
-archive totals 162.556~s; both remain in the ledger pending run-ID alignment.
-For SPQC-550, the four final 104-variable tasks had creation-to-finish
-intervals 22, 74, 112, and 16~s and reported single-evolution times 15.0116,
-9.7488, 0.6991, and 7.3587~ms.  Neither field isolates queueing or complete
-execution.  The balance changed from 31 to 24 for seven one-credit entries,
-but \texttt{probe4\_01} lacks its original task receipt.  Monetary billing,
-queue time, complete execution time, and comparable CPU--device end-to-end
-cost remain NA.
+Raw CSV/JSON records give 6.551~ms for Q2 matrix preparation and 23.197~ms
+combined for Q3, while SDK~1.4.3 solves took 20.81--20.96~s per group
+(83.413~s total).  Conflicting README and short-SDK timing fields, the two
+local-SA totals of 162.556 and 178.14~s, and the incomplete SPQC receipt ledger
+remain UNVERIFIED and are not collapsed into a speed ratio.  Their full
+provenance and the still-NA queue, complete-execution, and monetary-cost
+fields are reported in Appendix~\ref{sec:appendix-cost-audit}.
 
 \subsection{Stability, contribution, and limitations}
 
-Q1 stability tests held the ordered-pair folds fixed while changing the HGB
-seed from 42 to 1729 and 31415; the compared metrics were unchanged.  With
-two alternative group allocations, the mixture screening score was
-$40.2\%$ and $42.6\%$, versus $28.0\%$ and $26.0\%$ for direct HGB.  These
-tests support robustness to the sampled seeds and partitions, not a
-distribution-free guarantee.  For Q2/Q3, exhaustive enumeration makes the
-formal group winner insensitive to solver stochasticity whenever at least
-one optimum sample is returned; sensitivity to the integer design is more
-limited because non-winner score differences are deliberately discarded.
+With fixed folds, changing the HGB seed left Q1 metrics unchanged; under two
+alternative group allocations, mixture screening was $40.2\%$ and $42.6\%$
+versus $28.0\%$ and $26.0\%$ for direct HGB.  This describes only the tested
+partitions because the fixed-fold estimator is effectively deterministic.
+For Q2/Q3, enumeration fixes the adopted group argmin when an optimum sample
+is returned, but the integer design deliberately discards non-winner scores.
 
-Composition-based descriptors and machine-learning screening are well
-established in materials informatics \cite{Ward2016Magpie,Chen2024PerovskiteML}.
-Likewise, one-hot QUBO formulations are standard tools for discrete
-optimization \cite{Lucas2014IsingNP,Glover2019QUBOTutorial}.  The practical
-contribution here is narrower and auditable: a low-tail-oriented surrogate
-is connected to an exactly enumerable, eight-bit-compatible QUBO; proxy,
-mapping, precision, and sampling errors are reported separately; and solver
-outputs are decoded back to the original score before scientific
-interpretation.  We do not claim a new universal surrogate, a new annealing
-algorithm, or a quantum advantage.
+Composition-based screening and one-hot QUBO are established methods
+\cite{Ward2016Magpie,Chen2024PerovskiteML,Lucas2014IsingNP,Glover2019QUBOTutorial}.
+Our narrower contribution is an auditable link from low-tail screening to an
+enumerable, eight-bit-compatible encoding, with proxy, mapping, precision,
+and sampling errors kept separate and decoded on the original score scale.
+It is not a new universal surrogate, annealing algorithm, or quantum advantage.
 
-The method is appropriate for prioritizing a finite number of candidates
-from the supplied categorical domain.  It is not a substitute for
-first-principles calculation or laboratory validation, and it is not
-validated for unseen elements.  File~03 was involved in model selection;
-file~04 and the blind pools remain unlabeled.  Dedicated local-SA blind-pool
-models were completed for all four Q2/Q3 groups.  They retained Y--Ti--NO2
-for Q2/NO2, but the Q3 blind O3 and FO2 winners changed to Ca--Sn--O3 and
-Rb--Ti--FO2 because the 529-pair sparse domain differs from the full pool.
-Integer encodings increased the blind minimum-tier ties to 11, 19, 11, and
-34 and reduced optimum-seed hits relative to their floating counterparts.
-This supports a resolution limitation, not a conclusion about hidden
-physical labels.
-
-The 107-variable projection and final 104-variable SPQC tasks are now
-completed comparisons, but neither closes external validity: the projection
-changed the low-tail optimum, and the four hardware jobs are too small to
-characterize stability.  Future work should add independent physical or
-high-fidelity labels, reconcile the outstanding timing and budget-scan
-records, test non-oracle multilevel encodings, recover the missing probe
-receipt, and collect repeated hardware batches with a documented cost
-boundary.  The present contribution remains a reproducible screening and
-encoded-proxy optimization study, not physical proof of the proposed
-materials or quantum advantage.
+The method prioritizes candidates only within the supplied categorical
+domain; file~03 informed selection, while file~04 and the blind pools remain
+unlabeled.  Sparse blind-pool winners changed in two Q3 groups, integer tiers
+contained 11--34 ties, the 107-variable projection changed the optimum, and
+four hardware jobs cannot characterize stability.  Future work therefore
+needs independent labels, reconciled timing and budget records, non-oracle
+multilevel encodings, the missing probe receipt, and repeated hardware batches
+with a documented cost boundary.  The present result remains an encoded-proxy
+screening study, not physical proof of candidates or quantum advantage.

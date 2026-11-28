@@ -1,4 +1,4 @@
-\section{Q3: Joint-State QUBO}
+\section{Q3: Groupwise QUBO over Joint Candidate States}
 \label{sec:q3-qubo}
 
 \subsection{Groupwise formulation over the complete Q3 pool}
@@ -49,25 +49,27 @@ The integer energy is not an alternative physical metric.
 
 \subsection{Matrix construction and enumeration audit}
 
-For each group, the generator sorted the frozen file~08 predictions,
-constructed the complete $52\times52$ A--B interaction block, and archived
+For each group, the frozen file~08 predictions were enumerated first.  The
+generator then constructed the complete $52\times52$ A--B interaction block and archived
 the QUBO, offset, variable names, candidate identifiers, legal-state index
 map, raw scores, and adapted Ising matrix.  Exhaustive enumeration of the
 2,704 legal states in each group gave one minimum-energy state.  Formula,
-QUBO, and independently recomputed energies agreed exactly for all archived
-solver samples; the maximum signed discrepancy was zero.
+integer QUBO, and independently recomputed discrete energies agreed exactly
+for all archived solver samples; floating conversion audits are reported
+separately in Section~\ref{sec:hardware-precision}.
 
-The group minima on the original surrogate scale were Na--Nb--O3,
-Y--Ti--NO2, and Na--Ti--FO2.  Their raw gaps to the second-ranked candidates
-were respectively $0.013123$, $0.313819$, and $0.028903$.  Each gap is
+The group minima on the original surrogate scale were Na--Nb--$\mathrm O_3$,
+Y--Ti--$\mathrm{NO}_2$, and Na--Ti--$\mathrm{FO}_2$.  Their runners-up were
+Sn--Ti--$\mathrm O_3$, Y--Zr--$\mathrm{NO}_2$, and Sr--In--$\mathrm{FO}_2$;
+the gaps were respectively $0.013123$, $0.313819$, and $0.028903$.  Each gap is
 large enough for the accepted two-level integer mapping to retain a unique
-zero-energy legal state.  The enumeration is exact over the frozen
-candidate table, but it remains an optimization of $\widehat V_{23}$ rather
-than an enumeration of measured physical feasibility.
+zero-energy legal state.  These are numerical proxy argmins.  The unlabeled
+Q2/Q3 pools provide no independent $\widehat V_{23}$ error estimate, so the
+small margins do not establish statistically separated physical winners.
 
 \subsection{CPU-local Kaiwu SDK results}
 
-All three formal Q3 runs used the same Kaiwu SDK~1.4.3 CPU-local settings
+All three recorded Q3 runs used the same Kaiwu SDK~1.4.3 CPU-local settings
 as Q2: 30 seeds, at most 10 returned samples per seed, 300 iterations per
 temperature, and $\alpha=0.99$.  Table~\ref{tab:q3-sdk-results} reports the
 original-scale result after legal decoding.  Solver time is the recorded
@@ -101,7 +103,7 @@ file~08 optimum is zero.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/q23_run_comparison.png}
-\caption{Returned-sample quality for the accepted Q2 and Q3 matrices.  The
+\caption{Returned-sample quality for the adopted Q2 and Q3 matrices.  The
 Kaiwu SDK bars use 30 independent SDK seeds with at most ten samples per
 seed.  The local simulated-annealing comparison uses 300 chains divided
 into 30 groups of ten, so an ``attempt'' has a different operational meaning
@@ -116,7 +118,7 @@ hit every group optimum in all 30 chain groups.  Its implementation and
 attempt definition differ from the SDK run, so the observed counts and wall
 times are not used to claim a backend speed advantage.
 
-\subsection{Relation to the earlier 208-variable plan}
+\subsection{Comparison of 107-, 208-, and 104-variable encodings}
 
 An alternative exact design represented the joint $(A,X)$ state with
 $52\times3=156$ variables and B with 52 variables, producing one
@@ -133,22 +135,20 @@ the reported Q3 solve.  The final groupwise method uses three 104-variable
 matrices and performs the anion decision after decoding on the raw surrogate
 scale.
 
-The adopted route has three practical advantages.  It halves the logical
-variables in each solve, keeps the accepted integer coefficients inside the
-recorded eight-bit bounds, and makes every group amenable to direct
-2,704-state legal enumeration.  Its main limitation is that three solves
-and an external raw-score comparison replace one joint optimization.  It
-also does not model cross-group transitions inside a single energy
-landscape.  The 107-variable second-order projection was evaluated as a
-counterexample to replacing the groupwise route.  Across 8,112 candidates
-its MAE, RMSE, and Spearman correlation were 1.100009, 1.847176, and
-0.978891, yet its projected optimum was Rb--Ta--O3, whose original-scale
-score was 0.676651, rather than the raw proxy optimum Na--Nb--O3 at
-0.540023.  Top-1 and Top-5 overlap were both zero, and the scaled Ising
-field reached $\max|h|=254$, outside the signed eight-bit range.  In 300
-local-SA samples the raw proxy optimum appeared only twice.  Thus high
-global rank correlation did not preserve the low-tail optimum; the
-projection is a completed adverse comparison, not the adopted Q3 model.
+The 107-variable control uses separate A, B, and X one-hot blocks with main,
+A--B, A--X, and B--X terms.  It has no A--B--X interaction and fits a global
+least-squares objective with ridge $10^{-8}$ over all 8,112 scores.  Its MAE,
+RMSE, and Spearman correlation were 1.100009, 1.847176, and 0.978891, yet its
+projected optimum was Rb--Ta--$\mathrm O_3$ (original-scale score 0.676651),
+not Na--Nb--$\mathrm O_3$ (0.540023); Top-1 and Top-5 overlap were zero.
+Because the low tail is a small part of the global loss, this model structure
+is consistent with the observed winner change.  Without an interaction
+ablation it is not established as the unique cause.
+
+Table~\ref{tab:q3-encoding-comparison} aligns objective equivalence, oracle
+dependence, variable count, coefficient range, ranking retention, legal-state
+coverage, solve count, and role for the 107-, 208-, and 104-variable designs.
+It is placed in the appendix to keep the main-text comparison compact.
 
 \subsection{Evidence boundary and future work}
 
@@ -159,17 +159,18 @@ measured.  File~12 was subsequently modeled independently rather than
 filtered after a full-pool solve.  Local simulated annealing of dedicated
 floating/integer 104-variable blind matrices returned Ca--Sn--O3
 ($\widehat V_{23}=1.185082$), Y--Ti--NO2 (1.491928), and Rb--Ti--FO2
-(1.590922).  All eight Q2/Q3 blind runs returned 300/300 legal samples, but
-integerization reduced optimum-seed hits from 27 to 13 for O3, 25 to 16 for
-NO2, and 26 to 11 for FO2.  These are local-SA proxy results with no blind
+(1.590922).  All eight Q2/Q3 blind runs returned 300/300 legal samples.
+The recorded integer runs had fewer optimum-hit seed groups: 13 versus 27 for
+O3, 16 versus 25 for NO2, and 11 versus 26 for FO2.  A single stochastic
+comparison does not establish integerization as the cause.  These are local-SA proxy results with no blind
 physical labels, not SDK or SPQC evidence.
 
 Four final 104-variable matrices were submitted to SPQC-550.  For Q3, the
 O3 task returned 4/10 legal samples and the proxy winner Na--Nb--O3; the NO2
 task returned 0/7 legal samples; and the FO2 task returned 1/5 legal samples
-and Na--Ti--FO2.  Together with Q2, three of four final tasks returned their
-group proxy winner.  The samples are too few to establish hardware
-stability.  A separate historical 30-variable task returned Ge--Ti--O3 and
+and Na--Ti--FO2.  Together with Q2, three of four final tasks returned at
+least one group proxy argmin among unequal returns of 10, 10, 7, and 5 samples.
+This task count is not a hardware success-rate estimate.  A separate historical 30-variable task returned Ge--Ti--O3 and
 remains only a reduced short-list comparison.  Accordingly, this chapter
 claims neither physical feasibility, hardware global optimality, speedup,
 nor quantum advantage.

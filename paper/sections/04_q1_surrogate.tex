@@ -109,7 +109,10 @@ Development uses five folds on file~02.  Its 1,608 ordered $(A,B)$ pairs are
 kept intact, so all seven $X$ variants of a pair enter the same fold.  Every
 candidate model is evaluated on the same partitions.  Besides MAE, RMSE,
 and Spearman correlation, we report MAE on the observed $V<5$ subset and
-ranking-based screening metrics.  If $T_K$ and $\widehat T_K$ denote the
+ranking-based screening metrics.  Here $V<5$ is a project-defined operational
+low-tail threshold chosen to yield a rare but nonempty subset in both labeled
+files; it is not an official feasibility condition.  If $T_K$ and
+$\widehat T_K$ denote the
 true and predicted lowest-$K$ sets, respectively, the overlap is
 \begin{equation}
   R_K=\frac{|T_K\cap\widehat T_K|}{K},\qquad
@@ -146,29 +149,13 @@ the trade-off between pointwise low-tail error and Top-$K$ recovery.
 
 \subsection{File~03 validation and low-tail screening}
 
-The frozen comparison is shown in Table~\ref{tab:q1-validation}.  The
+The frozen comparison is documented in Appendix
+Table~\ref{tab:q1-validation}.  The
 tail-weighted direct model had the largest screening score, $38\%$, but its
 MAE of $2.8655$ exceeded the predeclared $2.8432$ limit.  The penalty
 mixture passed the limit and achieved the lowest MAE and RMSE among the four
 frozen candidates, together with a screening score of $36\%$.  It was
 therefore selected without revising the rule after observing the results.
-
-\begin{table}[!htbp]
-\centering
-\caption{Frozen-model results on the 3,969 labeled rows of file~03.}
-\label{tab:q1-validation}
-\small
-\begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
-\toprule
-Model & MAE & RMSE & Spearman & $\mathrm{MAE}_{V<5}$ & Top-25 & Top-50 \\
-\midrule
-Direct HGB                & 2.7078 & 4.6876 & 0.9267 & 11.2603 & 4 & 13 \\
-Tail-weighted direct HGB  & 2.8655 & 4.7992 & 0.9223 &  8.3598 & 10 & 18 \\
-Mean-gap property HGB     & 2.5278 & 4.6885 & 0.9377 &  6.3517 & 7 & 19 \\
-Penalty-mixture HGB       & 2.4715 & 4.5827 & 0.9383 &  8.2654 & 8 & 20 \\
-\bottomrule
-\end{tabularx}
-\end{table}
 
 At budgets $K=10,25,50,100$, the selected model recovered respectively
 1, 8, 20, and 41 members of the true lowest-$K$ sets.  The minimum observed
@@ -202,8 +189,10 @@ With the original ordered-pair folds fixed, changing the HGB estimator seed
 from 42 to 1729 or 31415 left the compared metrics unchanged.  With the
 estimator seed fixed at 42 and two alternative group allocations, the
 mixture achieved screening scores of $40.2\%$ and $42.6\%$; direct HGB
-obtained $28.0\%$ and $26.0\%$.  This supports stability with respect to the
-tested seeds and partitions, but it is not a distribution-free guarantee.
+obtained $28.0\%$ and $26.0\%$.  The unchanged fixed-fold seed results provide
+limited information because this HGB configuration is effectively deterministic
+under those inputs.  The two alternative group allocations show partition
+sensitivity over the tested splits, not a distribution-free stability guarantee.
 
 To measure value under a finite verification budget, we replayed the frozen
 file~03 ranking against uniform sampling without replacement.  For a pool
@@ -213,28 +202,14 @@ expected low-tail hits
   \mathrm{E}[Y]=\frac{KH}{N}.
   \label{eq:q1-random-hits}
 \end{equation}
-The exact hypergeometric distribution was used rather than Monte Carlo
-sampling.  Table~\ref{tab:q1-budget} shows that the surrogate found the
+sampling.  Appendix Table~\ref{tab:q1-budget} shows that the surrogate found the
 validation-set minimum at every tested budget and concentrated many more
 $V<5$ records than the random expectation.
 
-\begin{table}[!htbp]
-\centering
-\caption{Finite-budget replay on all 3,969 rows of file~03.  Random minima
-are exact distributional medians for sampling without replacement.}
-\label{tab:q1-budget}
-\small
-\begin{tabularx}{\textwidth}{@{}r*{5}{>{\centering\arraybackslash}X}@{}}
-\toprule
-$K$ & Proxy $V<5$ hits & Random mean hits & Enrichment & Proxy min. $V$ & Random median min. $V$ \\
-\midrule
-10  &  6 & 0.1764 & 34.02 & 0.0196 & 12.6431 \\
-25  & 13 & 0.4409 & 29.48 & 0.0196 & 10.9103 \\
-50  & 23 & 0.8818 & 26.08 & 0.0196 &  3.4175 \\
-100 & 34 & 1.7637 & 19.28 & 0.0196 &  1.2500 \\
-\bottomrule
-\end{tabularx}
-\end{table}
+For $K=50$, the exact probability that uniform sampling attains a minimum no
+larger than $0.0196$ is $1.26\%$, while the exact probability of at least 23
+low-tail hits is $6.64\times10^{-29}$.  These within-pool probabilities do not
+correct for file~03 having participated in model selection.
 
 The same retrospective calculation was repeated under the Q2-like
 $X=\mathrm{NO}_2$ subset and the Q3-like

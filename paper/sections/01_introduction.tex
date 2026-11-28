@@ -46,16 +46,16 @@ winners are then compared using the original surrogate score.  This
 groupwise route covers all 8,112 candidates while avoiding the precision
 failure of a directly quantized 208-variable joint model.
 
-Every stage has an independent check.  Data roles and hashes prevent leakage
+Each reported stage has an archived check within its stated scope.  Data roles and hashes limit leakage
 between development, validation, unlabeled, and blind pools.  Legal-state
 enumeration verifies the QUBO matrices.  QUBO--Ising conversion is checked
-with the constant term restored exactly.  Eight-bit coefficients, decoded
+with the constant term restored.  Eight-bit coefficients, decoded
 one-hot feasibility, original-score regret, and stochastic sampling are
-reported separately.  The formal solver evidence uses Kaiwu SDK~1.4.3 on a
+reported separately.  The recorded solver evidence uses Kaiwu SDK~1.4.3 on a
 CPU.  Four final 104-variable matrices were additionally submitted to
-SPQC-550; three returned their group proxy winner and one returned no legal
+SPQC-550; three tasks returned at least one group proxy argmin and one returned no legal
 sample.  These small hardware jobs are reported separately from both the
-formal CPU solves and the historical reduced 17- and 30-variable tasks.
+recorded CPU solves and the historical reduced 17- and 30-variable tasks.
 
 \subsection{Contributions}
 
@@ -64,9 +64,9 @@ The evidence-supported contributions are:
 \begin{enumerate}[leftmargin=2em]
  \item an auditable composition-only surrogate that explicitly balances
        overall error and low-tail screening, with grouped validation,
-       stability checks, and an exact finite-budget random baseline;
- \item exact one-hot QUBO formulations for Q2 and groupwise Q3, together
-       with complete legal-state enumeration and original-scale decoding;
+       partition-sensitivity checks, and an exact finite-budget random baseline;
+ \item complete proxy-score enumeration for Q2 and groupwise Q3, followed
+       by exact one-hot mappings and original-scale decoding;
  \item an oracle-assisted, group-winner-preserving two-level integer
        encoding that fits the recorded eight-bit coefficient range, while
        explicitly sacrificing non-winner score differences and complete

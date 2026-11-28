@@ -20,7 +20,10 @@ refitted on files~02 and~03.  Its inputs remain the ordered composition
 fields $(A,B,X)$ and the deterministic composition features used by the
 frozen model.  The resulting file~07 scores are optimization inputs rather
 than new validation observations: no physical labels from files~07, 11, or
-the hidden pool enter the fit.
+the hidden pool enter the fit.  We first enumerate this frozen table to obtain
+the numerical proxy argmin and runner-up.  The integer QUBO then tests whether
+that already identified argmin can be represented and sampled under the
+recorded coefficient limit.
 
 \subsection{One-hot encoding and accepted integer cost}
 
@@ -38,12 +41,12 @@ $m_X=\min_{i,j}\widehat V_{23}(A_i,B_j,X)$ and forms
  \qquad c_{ij}^{(X)}\in\{0,4\},
  \label{eq:q23-integer-cost}
 \end{equation}
-where $\operatorname{nint}$ is the nearest-integer operation used in the
-matrix generator.  Thus 0.02 is a cap on the score difference before
-normalization, not a claim that $\widehat V$ is measured to 0.02 precision.
-The factor four maps the rounded level to an integer coefficient.  The raw
-score and candidate identifier are retained beside the matrix for decoding
-and scientific reporting.
+where $\operatorname{nint}$ is NumPy's \texttt{rint}, which uses ties-to-even.
+Thus 0.02 is a cap, not a score precision.  For a nonnegative gap
+$d_{ij}=\widehat V_{23}-m_X$, zero is assigned when $d_{ij}<0.01$; at the
+exact half-step $d_{ij}=0.01$, ties-to-even also returns zero.  A unique zero
+level therefore requires the second-smallest gap to be strictly greater than
+0.01.  The raw score and identifier are retained for scientific reporting.
 
 With $\lambda=2$, the implemented energy is
 \begin{equation}
@@ -74,10 +77,11 @@ The offset does not change the optimizer, but it makes the stored legal-state
 energy equal to the integer cost and removes ambiguity when matrix and
 formula energies are compared.
 
-The construction deliberately preserves the group winner rather than every
-raw score difference.  For Q2, the raw gap from the best to the second-best
-file~07 candidate is $0.313819$, so the accepted integer mapping has a
-unique zero-energy legal state.  Because all cost coefficients are
+The construction deliberately maps the already enumerated group argmin rather
+than preserving every raw-score difference.  Y--Ti--$\mathrm{NO}_2$ scores
+$1.491928$, while the runner-up Y--Zr--$\mathrm{NO}_2$ scores $1.805747$,
+a gap of $0.313819$.  The integer mapping therefore has one zero-energy legal
+state.  Because all cost coefficients are
 nonnegative, any violation of at least one one-hot constraint incurs at
 least $\lambda=2$.  The lowest illegal energy is therefore separated from
 the legal minimum by two integer units.
@@ -108,7 +112,7 @@ energy audits of the stored model, not a claim about hardware precision.
 
 \subsection{Kaiwu SDK experiment and Q2 result}
 
-The formal run used Kaiwu SDK~1.4.3 on a local CPU.  Thirty fixed random
+The recorded run used Kaiwu SDK~1.4.3 on a local CPU.  Thirty fixed random
 seeds were used; each seed requested at most ten returned samples, giving
 300 samples.  The simulated-annealing settings were 300 iterations per
 temperature, cooling factor $\alpha=0.99$, initial temperature twice the
@@ -124,30 +128,36 @@ configuration, not the probability that the physical material is feasible.
 
 \subsection{Interpretation and limitations}
 
-The fixed-$X$ construction gives a compact, auditable link from every
-ordered composition to a 104-bit state.  Integer coefficients eliminate
-additional coefficient rounding in the recorded eight-bit interface, and
-enumeration supplies an exact oracle over all legal states.  Y--Ti--NO2 is
-therefore the Q2 optimum under the frozen $\widehat V_{23}$ objective and
-the accepted integer mapping.  It is a screening recommendation, not an
-experimental materials claim: $\widehat V_{23}$ is a model prediction,
-not a measured violation score.
+The fixed-$X$ construction gives a compact link from every ordered composition
+to a 104-bit state.  Integer coefficients avoid another rounding step in the
+recorded eight-bit interface.  Y--Ti--$\mathrm{NO}_2$ is the numerical argmin
+of the frozen $\widehat V_{23}$ table and a priority candidate.  The QUBO
+result confirms its oracle-assisted mapping; it is not an independent discovery
+or a measured violation score.
 
 File~11 was subsequently modeled independently over its 529 sparse legal
-pairs.  The floating-point and integer 104-variable blind-pool matrices both
+pairs.  If $\mathcal L$ denotes these allowed A--B edges, the implementation
+sets the cross-block coefficient to the scaled cost on $(i,j)\in\mathcal L$
+and leaves it at $2\lambda$ otherwise:
+\begin{equation}
+ \widetilde c_{ij}=\begin{cases}c_{ij},&(i,j)\in\mathcal L,\\
+ 2\lambda,&(i,j)\notin\mathcal L.\end{cases}
+ \label{eq:blind-sparse-mask}
+\end{equation}
+The one-hot terms remain, and the decoder additionally requires the selected
+edge to belong to $\mathcal L$.  The floating-point and integer matrices both
 returned Y--Ti--NO2 with $\widehat V_{23}=1.491928$.  Local simulated
 annealing produced 300/300 legal samples for each encoding; the winning
 candidate occurred in 25/30 seed groups for the floating-point matrix and
 16/30 for the integer matrix, with wall times 39.473 and 40.833~s.  The
-integer ground tier contained 11 candidates rather than one, demonstrating
-that blind-pool integerization reduced resolution even though it retained
-the best proxy candidate.  These are local-SA results, not SDK or hardware
-measurements.
+integer ground tier contained 11 candidates rather than one.  In this recorded
+run the integer matrix had fewer optimum-hit seed groups; the single comparison
+does not identify integerization as the cause.  These are local-SA results.
 
-The final 104-variable Q2 matrix was also submitted to SPQC-550 as task
-\texttt{c249dca66bcd4c55a49114a37f4ebf2a}.  One of ten returned samples was
+The final 104-variable Q2 matrix was also submitted to SPQC-550 under the
+task ID listed in the appendix.  One of ten returned samples was
 legal and decoded to Y--Ti--NO2; the creation-to-finish interval was 22~s
 and the platform reported 15.0116~ms evolution time.  This single small
-return supports executable mapping of the archived matrix, not hardware
-stability, physical feasibility, speedup, or quantum advantage.  The formal
-optimization result remains the Kaiwu SDK~1.4.3 CPU experiment above.
+return shows that this submission produced a platform return for the archived
+matrix.  It does not estimate hardware stability.  The formal solver result
+remains the Kaiwu SDK~1.4.3 CPU experiment above.

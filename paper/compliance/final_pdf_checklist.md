@@ -9,6 +9,7 @@ Full-draft status on 2026-11-28.
 - [x] No internal task placeholders remain apart from the explicit team-number placeholder.
 - [x] Build log contains no Fatal Error, undefined reference, or Overfull box; representative Summary Sheet, contents, chapter, figure, reference, and appendix pages were visually checked.
 - [x] Figures, tables, equations, and citations cross-checked against the archived evidence used in Chapters 4--8.
-- [x] Main-body page limit verified: body plus references end on numbered page 24.
-- [x] Draft PDF: `paper/build/main.pdf`; SHA-256 `0693595793bf663b067a442d34d3143edd02c7ecea6b1797033cc1b1a1466459`.
+- [x] Main-body page limit verified: the conclusion ends on numbered page 25; references are page 26 and Appendix A occupies pages 27--31.
+- [x] Final draft has 34 physical A4 pages: 3 front-matter, 25 body, 1 reference, and 5 appendix pages.
+- [x] Draft PDF: `paper/build/main.pdf`; SHA-256 `66423c5a860da77630b3f4204ef549e689f4bd1bdb8d6bfd58ef3def85a6b71c`.
 - [ ] Signed Control Sheet compiled/scanned and checked separately.

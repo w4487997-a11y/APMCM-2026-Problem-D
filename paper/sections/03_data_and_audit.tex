@@ -38,8 +38,9 @@ validation rows ($1.76\%$) have $V<5$, with minima 0.0004 and 0.0196.
 Positive gaps occur in 432 and 141 rows, of which 139 and 40 lie in
 $1.4\le E_g\le3.1$.  Within the observed $V<5$ subsets, formation-energy
 and CBM penalties contribute 80.7\% and 77.5\% of total penalty in 02 and
-03.  This association is not causal, but it explains why majority-regime
-accuracy alone can miss the low tail and motivates the mixture in
+03.  This association is consistent with the observed difficulty of low-tail
+prediction; it does not identify a causal mechanism.  Majority-regime
+accuracy alone can therefore miss the low tail, motivating the mixture in
 Section~\ref{sec:q1-surrogate}.
 
 \subsection{Training protocols and leakage controls}
@@ -47,7 +48,7 @@ Section~\ref{sec:q1-surrogate}.
 For Q1, all seven X variants of an ordered pair remain together.  The 1,608
 file~02 groups are deterministically split into five folds (seed 42; 321 or
 322 validation groups), with preprocessing refitted inside each fold.
-File~03 is used once for formal selection after candidate specifications are
+File~03 is used once for frozen selection after candidate specifications are
 frozen; the released \texttt{q1\_final} then fits file~02 only.  File~04
 predictions are blind outputs, not validation results.
 

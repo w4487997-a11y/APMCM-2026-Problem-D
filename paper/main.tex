@@ -14,38 +14,34 @@
 \begin{abstract}
 \begin{center}
 \Large\bfseries Evidence-Audited Surrogate Screening and Precision-Aware
-QUBO Optimization for Inorganic Perovskites
+QUBO Mapping for Inorganic Perovskites
 \end{center}
 
-We develop an evidence-audited pipeline for predicting and minimizing the
-five-term violation score in APMCM 2026 Problem~D.  For Q1, composition
-features drive separate formation-energy, band-edge, and two-stage band-gap
-models.  The frozen mixture balances global error with low-tail retrieval:
-on the labeled file~03 it achieved MAE $2.4715$, RMSE $4.5827$, Spearman
-correlation $0.9383$, and recovered 20 of the true Top-50 records.  Under a
-budget of 50 evaluations it found 23 records with $V<5$, compared with a
-random-sampling expectation of $0.8818$.
+We develop an auditable pipeline for the five-term violation score in APMCM
+2026 Problem~D.  The Q1 mixture combines formation-energy and band-edge
+regressors with a two-stage band-gap model.  On labeled file~03 it achieved
+MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$, and 20 Top-50 hits.  A
+retrospective replay on this selection-involved file found 23 records with
+$V<5$ at budget 50, versus a random expectation of $0.8818$; it is not an
+independent validation.
 
-For Q2, 52 A-site and 52 B-site one-hot variables encode all 2,704 candidates
-at fixed $X=\mathrm{NO}_2$.  For Q3, three independent 104-variable QUBOs
-cover the 8,112 candidates for $\mathrm{O}_3$, $\mathrm{NO}_2$, and
-$\mathrm{FO}_2$; group winners are compared on the original surrogate scale.
-CPU-local Kaiwu SDK~1.4.3 runs returned Y--Ti--NO2 for Q2 with
-$\widehat V=1.491928$, and Na--Nb--O3 for Q3 with
-$\widehat V=0.540023$, both matching exhaustive legal-state enumeration.
+For Q2 and Q3, exhaustive frozen-proxy enumeration identified
+Y--Ti--$\mathrm{NO}_2$ ($\widehat V_{23}=1.491928$) and
+Na--Nb--$\mathrm O_3$ ($\widehat V_{23}=0.540023$).  Their runner-up gaps are
+$0.313819$ and $0.013123$.  The unlabeled pools provide no independent
+$\widehat V_{23}$ error estimate, so these are priority candidates rather
+than statistically separated physical winners.
 
-The accepted two-level integer encoding fits the recorded eight-bit limits
-($\max|h|=102$, $\max|J|=1$) and preserves the already identified unique
-winner in each group; because its two levels use the known group minimum,
-this is an oracle-assisted hardware-mapping test rather than an independent
-discovery mechanism.  Four final 104-variable SPQC-550 jobs returned a
-legal group winner in three cases, while one job returned no legal sample.
-These small jobs complement, but do not replace, the formal CPU-local SDK
-results.  Independent blind-pool simulated annealing and a 107-variable
-projection further expose integer-tie and low-tail distortion.  We report
-surrogate, QUBO-mapping, coefficient, and sampling errors separately and
-make no claim of physical validation, hardware stability, quantum advantage,
-or complete end-to-end cost.
+The groupwise 104-variable two-level QUBOs fit the recorded eight-bit limits
+($\max|h|=102$, $\max|J|=1$) and map each known proxy argmin to a unique
+integer minimum.  Because the mapping uses the group minimum, it is an
+oracle-assisted precision experiment, not an independent discovery method.
+CPU-local Kaiwu SDK~1.4.3 returned the mapped argmins.  Of four final
+SPQC-550 tasks with 10, 10, 7, and 5 returned samples, three contained at
+least one group argmin; the fourth had no legal sample.  Blind-pool local-SA
+and a 107-variable projection expose tie and low-tail distortion.  We keep
+surrogate, mapping, precision, and sampling errors separate and claim neither
+physical validation, repeatable hardware performance, nor quantum advantage.
 
 \keywords{inorganic perovskites\quad low-tail screening\quad surrogate modeling\quad QUBO\quad Ising model\quad coefficient precision}
 \end{abstract}

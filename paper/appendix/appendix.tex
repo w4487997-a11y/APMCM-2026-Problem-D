@@ -1,18 +1,54 @@
+\clearpage
 \appendix
 \titleformat{\section}
 {\centering\normalfont\Large\bfseries}{\Alph{section}.}{.5em}{}
 \renewcommand\thesubsection{\Alph{section}.\arabic{subsection}}
 \section{Reproducibility and Evidence Inventory}
 
-\subsection{Frozen models and formal matrices}
+\subsection{Frozen models and adopted matrices}
 
 The Q1-only and Q2/Q3 scoring artifacts are identified by the manifests in
-\path{handoff/v1_2/}.  Formal Q2/Q3 matrices, raw samples, summaries, and
+\path{handoff/v1_2/}.  Adopted Q2/Q3 matrices, raw samples, summaries, and
 verification records are archived in
 \path{handoff/Q123_v1/Q123_v1_integrated.zip}.  The public paper tables are
 reproduced from \path{q23_experiment_table.csv}; independent energy checks
 are recorded in \path{sdk_verification.json}.  Source-code entry points and
 their roles are listed in \path{appendix/source_code_inventory.md}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Frozen-model results on the 3,969 labeled rows of file~03.}
+\label{tab:q1-validation}
+\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
+\toprule
+Model & MAE & RMSE & Spearman & $\mathrm{MAE}_{V<5}$ & Top-25 & Top-50 \\
+\midrule
+Direct HGB                & 2.7078 & 4.6876 & 0.9267 & 11.2603 & 4 & 13 \\
+Tail-weighted direct HGB  & 2.8655 & 4.7992 & 0.9223 &  8.3598 & 10 & 18 \\
+Mean-gap property HGB     & 2.5278 & 4.6885 & 0.9377 &  6.3517 & 7 & 19 \\
+Penalty-mixture HGB       & 2.4715 & 4.5827 & 0.9383 &  8.2654 & 8 & 20 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Retrospective finite-budget replay on selection-involved file~03.
+Random minima are exact distributional medians without replacement.}
+\label{tab:q1-budget}
+\small
+\begin{tabularx}{\textwidth}{@{}r*{5}{>{\centering\arraybackslash}X}@{}}
+\toprule
+$K$ & Proxy $V<5$ hits & Random mean hits & Enrichment & Proxy min. $V$ & Random median min. $V$ \\
+\midrule
+10  &  6 & 0.1764 & 34.02 & 0.0196 & 12.6431 \\
+25  & 13 & 0.4409 & 29.48 & 0.0196 & 10.9103 \\
+50  & 23 & 0.8818 & 26.08 & 0.0196 &  3.4175 \\
+100 & 34 & 1.7637 & 19.28 & 0.0196 &  1.2500 \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Precision comparisons and negative tests}
 
@@ -30,7 +66,7 @@ The main machine-readable records used in Sections~\ref{sec:q3-qubo}--
  \item Stage 1 SDK--Ising record: QUBO--Ising round-trip,
        reference-spin dimensions, offsets, and energy residuals;
  \item Stage 2 quantization record: direct quantization
-       failures and the three accepted 104-variable partitions;
+       failures and the three adopted 104-variable partitions;
  \item Stage 3 hit-rate record: short-list size,
        penalty, and local annealing-budget controls;
  \item Stage 8 negative-validation and Stage 9 regression records: rejected corrupt inputs and
@@ -40,8 +76,44 @@ The main machine-readable records used in Sections~\ref{sec:q3-qubo}--
 The negative-input audit rejects 13 defect classes for both Q2 and Q3.
 Regression R1--R4 cover the no-legal-sample failure, SDK-probe failure,
 complete Q2/Q3 entry domains, and source-field validation.  The mapping
-recheck uses Kaiwu~1.4.4 without a solve licence; the formal CPU solves use
-Kaiwu SDK~1.4.3.
+recheck uses Kaiwu~1.4.4 without a solve licence; the recorded CPU solves use
+Kaiwu SDK~1.4.3.  The floating Q2 and joint-Q3 control QUBO SHA prefixes are
+\texttt{967b13d1957b} and \texttt{f3b447a1edb6}.  Full hashes are recorded in
+\path{appendix/source_code_inventory.md} and the raw manifests.  Their
+floating residuals are not attributed to the adopted 104-variable matrices.
+
+\begin{table}[!htbp]
+\centering
+\caption{Aligned scope of the three Q3 encodings.}
+\label{tab:q3-encoding-comparison}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}lXXXX@{}}
+\toprule
+Encoding & Objective and oracle dependence & Variables and range & Ranking and legal coverage & Solves and role \\
+\midrule
+107 projection & Global pairwise fit; no known-winner input & 107; $\max|h|=254$ & Approximate; 8,112 states, Top-5 overlap 0 & One; adverse low-tail control \\
+208 joint & Exact floating proxy cost; no known-winner input & 208; $\max|h|=161.187$, $\max|J|=1$ & Exact before quantization; 8,112 states & One; floating precision control \\
+104 groupwise & Two-level cost uses known group argmin & 104/group; $\max|h|=102$, $\max|J|=1$ & Retains argmin only; 2,704 states/group & Three plus raw-score comparison; adopted mapping \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Unified mapping audit.  SHA prefixes identify the audited QUBO.}
+\label{tab:mapping-audit}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}lXXXXX@{}}
+\toprule
+Object & Version & Matrix & Comparison & Offset & Maximum discrepancy / scope \\
+\midrule
+Adopted 104 integer Q2/Q3 & SDK 1.4.3 archive & final hashes below & formula--QUBO samples & $+4$ & 0 integer units; exact discrete check \\
+Q2 floating control & Kaiwu 1.4.4 & \texttt{967b13d1} & SDK coefficient / energy chain & $+4$ & $2.13\times10^{-14}$ / $1.42\times10^{-12}$; numerical tolerance \\
+Q3 joint 208 control & Kaiwu 1.4.4 & \texttt{f3b447a1} & SDK coefficient / energy chain & $+4$ & $9.95\times10^{-14}$ / $4.57\times10^{-12}$; numerical tolerance \\
+Adopted 104 under 1.4.4 & NA & NA & comparable floating residual & NA & NA; 208 values not substituted \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Projection and blind-pool evidence}
 
@@ -56,14 +128,14 @@ Dedicated file~11/12 evidence is under
 samples with bits and spins.  The matrix SHA-256 values are:
 
 \begin{itemize}[leftmargin=2em]
- \item Q2/NO2 float: \path{eeef8d05f7d4c5234401c40275f5952b94d5d63d69b9472d40116c6b21938311};
-       integer: \path{5ba756450c57f3651882a96da7c7266ebab0a3abad277953a4108c0febd797a2}.
- \item Q3/O3 float: \path{9749bb7e518086153893c2dde780ea3c3e7f18d85f0bb4ad134b1e2ae4d6f346};
-       integer: \path{aee1caab0b86d0420f8d93ef62f5674bb48e91320037feaffb15b2cd7671af49}.
+ \item Q2/NO2 float: \texttt{eeef8d05f7d4...21938311};\par
+       integer: \texttt{5ba756450c57...bd797a2}.
+ \item Q3/O3 float: \texttt{9749bb7e5180...4d6f346};
+       integer: \texttt{aee1caab0b86...671af49}.
  \item Q3/NO2 uses the same float/integer hashes as Q2/NO2 because the
        candidate-score table and construction coincide for that group.
- \item Q3/FO2 float: \path{aea073fccfa831b8078992776cf30d2dcadc57ea4889569cc31c13f974f6ee21};
-       integer: \path{50ae41a234c75887e52298c137c597b50c3a9d926aa22fc40d7d707cfab359f1}.
+ \item Q3/FO2 float: \texttt{aea073fccfa8...74f6ee21};\par
+       integer: \texttt{50ae41a234c7...ab359f1}.
 \end{itemize}
 
 The float/integer optimum-seed counts are respectively 25/16 (Q2 NO2),
@@ -78,25 +150,68 @@ Four final 104-variable task receipts are archived under
 \path{handoff/q23_supplement/O13/}:
 
 \begin{itemize}[leftmargin=2em]
- \item Q2/NO2 task \path{c249dca66bcd4c55a49114a37f4ebf2a}, matrix
-       \path{fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c};
- \item Q3/O3 task \path{27a3df4616c74fa6ac87287f2dc1a59f}, matrix
-       \path{26d234efa34c11cde626801c353b6491aeaab07247a07140873566970a8a82ef};
- \item Q3/NO2 task \path{1e00e1fb34dc4a21ba1ee0520c9477d2}, matrix
-       \path{fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c};
- \item Q3/FO2 task \path{c528ea69a2094bc79ac4920f4e99ee8d}, matrix
-       \path{5b49510e78219db65b1a9eab7240f34222cc6a7b253f37ac95226f65c6fb7309}.
+ \item Q2/NO2 task \texttt{c249dca6...f4ebf2a}, matrix
+       \texttt{fee2320be719...81bee5c};
+ \item Q3/O3 task \texttt{27a3df46...dc1a59f}, matrix
+       \texttt{26d234efa34c...a8a82ef};
+ \item Q3/NO2 task \texttt{1e00e1fb...c9477d2}, matrix
+       \texttt{fee2320be719...81bee5c};
+ \item Q3/FO2 task \texttt{c528ea69...e99ee8d}, matrix
+       \texttt{5b49510e7821...6fb7309}.
 \end{itemize}
+
+\begin{table}[!htbp]
+\centering
+\caption{Final 104-variable SPQC-550 task returns.  Total denotes the
+creation-to-finish interval, not isolated execution time.}
+\label{tab:spqc-final-results}
+\small
+\begin{tabularx}{\textwidth}{@{}lXrrrr@{}}
+\toprule
+Task & Group & Returned & Legal & Argmin hit & Total / evolution \\
+\midrule
+Q2 & NO2 & 10 & 1 & yes & 22 s / 15.0116 ms \\
+Q3 & O3  & 10 & 4 & yes & 74 s / 9.7488 ms \\
+Q3 & NO2 & 7  & 0 & no  & 112 s / 0.6991 ms \\
+Q3 & FO2 & 5  & 1 & yes & 16 s / 7.3587 ms \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 Historical tasks \texttt{q2\_int\_01} and \texttt{q3\_int\_01} used 17
 and 30 variables and remain separate from these final matrices.  The credit
-ledger shows seven one-credit entries (balance 31 to 24), but the
-\texttt{probe4\_01} entry has no original task receipt.  Platform queue time,
+ledger shows seven debits (balance 31 to 24), while six task receipts are
+archived.  The \texttt{probe4\_01} entry has no original receipt and its task
+details remain NA.  Platform queue time,
 complete execution time, monetary billing, and physical labels for all proxy
 winners are NA.
 
-The audit also retains three unresolved numerical conflicts rather than
+The audit retains four \textbf{UNVERIFIED} provenance conflicts rather than
 selecting a favorable value: the $K=52,\lambda=2$, 30-iteration control is
 recorded as both 0/300 and 8/300 legal samples; local-SA totals are 162.556
-and 178.14~s in two run archives; and a 0.48--0.69~s SDK range has no timing
-boundary comparable to the formal 20.81--20.96~s per-group record.
+and 178.14~s in two run archives; the O-14/O-15 README time range conflicts
+with the raw CSV/JSON records; and a 0.48--0.69~s SDK range has no timing
+boundary comparable to the recorded 20.81--20.96~s per-group result.
+
+\subsection{Pipeline and resource-cost audit}
+\label{sec:appendix-cost-audit}
+
+The archived intake tests injected 13 defect classes: external identifiers,
+wrong compositions, wrong pool and source-pool fields, a wrong source field
+alone, missing pool/source columns, duplicates, missing rows, NaN and negative
+scores, mixed model versions, and constant prediction tables.  Q2 and Q3
+rejected all 13 classes.  Regression R1 returns \texttt{solver\_failed} and no
+winner when every sample is illegal; R2 surfaces a missing SDK licence; R3
+retains Q2's 2,704 and each Q3 group's 2,704 candidates through the joint
+entry point; and R4 rejects invalid source fields.
+
+The measured build--convert--adapt--check pipeline took 6.551~ms for Q2 and
+7.430, 7.524, and 7.591~ms for the three Q3 groups (23.197~ms combined).  The
+SDK~1.4.3 solves took 20.81--20.96~s per group, 83.413~s in total.  A separate
+supplement reports 0.48--0.69~s for nominally 30 SDK calls without a confirmed
+timing boundary, so that range is excluded from the end-to-end total.
+SPQC-550 creation-to-finish intervals were 22, 74, 112, and 16~s, while the
+reported single-evolution fields were 15.0116, 9.7488, 0.6991, and 7.3587~ms.
+Neither isolates queueing or complete execution.  Monetary billing, queue
+time, complete execution time, and a comparable CPU--device end-to-end cost
+remain NA.

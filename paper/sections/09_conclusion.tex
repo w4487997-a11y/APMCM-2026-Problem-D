@@ -1,41 +1,15 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This study answered the three parts of Problem~D through one evidence-audited
-pipeline.  For Q1, the frozen two-stage gap-mixture surrogate obtained MAE
-$2.4715$, RMSE $4.5827$, and Spearman correlation $0.9383$ on file~03.  It
-recovered 20 of the true Top-50 records and, at a verification budget of 50,
-found 23 records with $V<5$ compared with a random expectation of $0.8818$.
-The model is therefore useful for prioritization in the observed domain,
-although its low-tail MAE of $8.2654$, the reuse of file~03 in selection, and
-the absence of file~04 labels prevent a claim of verified discovery.
+On selection-involved file~03, Q1 achieved MAE $2.4715$, Spearman $0.9383$,
+and 20 Top-50 hits.  Its budget-50 replay found 23 records with $V<5$ versus
+a random expectation of $0.8818$; low-tail MAE $8.2654$ and unlabeled file~04
+restrict the result to prioritization.  The 104-variable mappings selected
+Y--Ti--NO2 for Q2 ($\widehat V_{23}=1.491928$) and Na--Nb--O3 for Q3
+($\widehat V_{23}=0.540023$), but the unlabeled pools give no independent
+error estimate.
 
-For Q2, the 104-variable fixed-$\mathrm{NO}_2$ QUBO returned Y--Ti--NO2
-(ID~15567) with $\widehat V=1.491928$.  For Q3, three 104-variable group
-models returned Na--Nb--O3, Y--Ti--NO2, and Na--Ti--FO2; comparison on the
-original surrogate scale selected Na--Nb--O3 (ID~4159) with
-$\widehat V=0.540023$.  Every reported winner matched exhaustive legal-state
-enumeration, so the solver-to-enumeration regret was zero.  These are optima
-of the frozen proxy objective, not measurements of physical performance.
-
-The final integer construction retained each already identified group winner
-with $\max|h|=102$, $\max|J|=1$, and a winner-to-lowest-illegal gap of two.
-Its two-level split uses the known group minimum, so it is an oracle-assisted
-mapping test and deliberately discards non-winner ordering.  Uniform
-quantization kept the raw optimum only inside a tied lowest tier, and a
-107-variable projection changed the Q3 optimum despite Spearman 0.978891.
-These controls show why global ranking quality and coefficient fit do not
-guarantee low-tail decision preservation.
-
-Dedicated local-SA blind-pool models over 529 sparse cation pairs completed
-the planned Q2/Q3 domain check, although the blind pools have no physical
-labels.  Four final 104-variable SPQC-550 tasks also supplied limited device
-evidence: three returned their group proxy winner and one returned no legal
-sample.  The small, unequal returns cannot establish stability or speedup.
-The main remaining limitations are surrogate uncertainty, no independent
-physical labels for the proposed winners, unresolved timing and budget-scan
-provenance, a missing \texttt{probe4\_01} receipt, and no complete queue,
-execution, or monetary-cost ledger.  Within these boundaries, the defensible
-outcome is a reproducible method for finite-budget ranking and constrained
-proxy optimization---not physical validation, hardware optimality, or
-quantum advantage.
+The eight-bit mapping separates its known winner from illegal states but is
+oracle-assisted and discards other ordering; uniform quantization tied minima,
+and the 107-variable projection changed the optimum.  The outcome remains
+auditable encoded-proxy screening, not physical validation or quantum advantage.

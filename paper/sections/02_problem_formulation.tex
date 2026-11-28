@@ -17,7 +17,7 @@ $\widehat V(A,B,X)$.  Q2 fixes $X=\mathrm{NO}_2$, whereas Q3 also chooses
 $X$ from $\mathcal X_3=\{\mathrm O_3,\mathrm{NO}_2,\mathrm{FO}_2\}$.
 Both optimization questions use the prescribed Kaiwu workflow.  To prevent
 backend ambiguity, every result below is tagged as one of three types:
-``SDK--CPU'' denotes the formal Kaiwu SDK~1.4.3 local-CPU solve; ``mapping
+``SDK--CPU'' denotes the recorded Kaiwu SDK~1.4.3 local-CPU solve; ``mapping
 audit'' denotes Kaiwu~1.4.4 conversion and field-compatibility checks without
 a licensed solve; and ``SPQC-550'' denotes an identified platform task with
 a task ID, submitted-matrix hash, and archived return.  A generic ``Kaiwu
@@ -65,7 +65,7 @@ $a_i,b_j\in\{0,1\}$ satisfying
  \label{eq:one-hot-constraints}
 \end{equation}
 For fixed $X$, let $c_{ij}^{(X)}$ be the traceable nonnegative integer cost
-derived from candidate $(i,j,X)$.  The accepted 104-variable model is
+derived from candidate $(i,j,X)$.  The adopted 104-variable mapping is
 \begin{align}
  E_X(\bm a,\bm b)={}&\sum_{i,j}c_{ij}^{(X)}a_i b_j
  +\lambda_A\left(\sum_i a_i-1\right)^2
@@ -81,11 +81,16 @@ common original scale,
  \widehat V_{23}(A_X^*,B_X^*,X).
  \label{eq:q3-group-comparison}
 \end{equation}
-This covers all 8,112 Q3 candidates and is distinct from the superseded
-208-variable joint plan.  Chapters~\ref{sec:q2-qubo}--\ref{sec:hardware-precision}
+The proxy enumeration covers all 8,112 Q3 candidates and is distinct from the
+earlier 208-variable joint control.  Chapters~\ref{sec:q2-qubo}--\ref{sec:hardware-precision}
 audit the cost transform, offset, coefficient bounds, and decoding.
 
 \subsection{Assumptions and evidence boundary}
+
+The main notation is as follows: $V$ is the observed official violation,
+$\widehat V$ is the Q1 surrogate, $\widehat V_{23}$ is the separately refitted
+Q2/Q3 surrogate, and $E_X$ is an encoded fixed-$X$ energy.  SDK--CPU, local-SA,
+mapping-audit, and SPQC-550 results retain these labels throughout.
 
 The official fields, thresholds, ordered sites, and pools define the domain;
 six-decimal storage does not relax strict inequalities.  Only composition
@@ -93,9 +98,10 @@ features are deployable: identifiers, row order, pool membership, and
 physical labels are excluded.  Encoders are fitted within grouped training
 folds, and the Q1 and Q2/Q3 fits remain separate.  Finally, surrogate error,
 QUBO equivalence, coefficient adaptation, solver sampling, and physical
-validation are different layers.  Enumeration can establish the encoded
-optimum, but neither material feasibility, hardware execution, nor quantum
-advantage follows from it.  The workflow therefore reports data audit,
+validation are different layers.  Proxy enumeration establishes a numerical
+argmin of the frozen candidate table, while encoded-state enumeration checks
+the corresponding mapping.  Neither establishes material feasibility or
+hardware advantage.  The workflow therefore reports data audit,
 grouped validation, scoring, QUBO construction, solving, decoding, and
 independent recomputation as separately traceable steps.  In particular,
 SPQC task output is a hardware sample from the encoded proxy objective; it
