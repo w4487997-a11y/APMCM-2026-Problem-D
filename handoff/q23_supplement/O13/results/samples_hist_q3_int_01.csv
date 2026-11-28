@@ -1,0 +1,11 @@
+﻿sample,n_ones,legal,material,V_hat,platform_qubo_value,recomputed_qubo_value
+0,2,True,Ge|Ti|O3,0.6039033526902742,-16,-16
+1,1,False,,,-8,-8
+2,3,False,,,-8,-8
+3,0,False,,,0,0
+4,12,False,,,768,768
+5,15,False,,,1120,1120
+6,18,False,,,2048,2048
+7,20,False,,,2728,2728
+8,21,False,,,2856,2856
+9,22,False,,,3200,3200
