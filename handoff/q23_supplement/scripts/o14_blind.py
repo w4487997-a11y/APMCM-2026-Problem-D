@@ -112,8 +112,10 @@ def verify(model, mode):
     e = q[i, i] + q[j, j] + q[i, j]
     best_raw = int(np.argmin(raw))
     ties_raw = int(np.sum(raw == raw.min()))
-    # 非法态最小能量：单侧只选 1 个
-    illegal = [off + q[a, a] for a in range(model["n_left"])]
+    # 统一按 H = xᵀQx + offset 比较：
+    #   合法最优 H = e.min() + off；非法（单侧只选 1 个）H = q[a,a] + off = λ
+    legal_H = e + off
+    illegal = [q[a, a] + off for a in range(model["n_left"])]
     integral = bool(np.allclose(h, np.rint(h)) and np.allclose(J, np.rint(J)))
     return {
         "mode": mode,
@@ -127,7 +129,7 @@ def verify(model, mode):
         "argmin_matches_raw": bool(int(np.argmin(e)) == best_raw),
         "ground_ties_energy": int(np.sum(np.abs(e - e.min()) < 1e-9)),
         "raw_min_ties": ties_raw,
-        "illegal_min_minus_legal_min": float(min(illegal) - e.min()),
+        "illegal_min_minus_legal_min": float(min(illegal) - legal_H.min()),
         "best_material": "|".join(C.key(model["block"][best_raw])),
     }
 
