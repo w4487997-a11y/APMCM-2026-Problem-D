@@ -1,0 +1,8 @@
+﻿sample,n_ones,legal,material,V_hat,platform_qubo_value,recomputed_qubo_value
+0,1,False,,,-2,-2
+1,0,False,,,0,0
+2,15,False,,,390,390
+3,38,False,,,2736,2736
+4,55,False,,,5826,5826
+5,93,False,,,16922,16922
+6,104,False,,,21212,21212

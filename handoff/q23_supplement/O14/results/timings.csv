@@ -1,0 +1,9 @@
+﻿problem,group,encoding,build_ms,solve_s
+q2,NO2,float,0.515,39.473
+q2,NO2,integer,0.495,40.833
+q3,O3,float,0.465,41.044
+q3,O3,integer,0.601,48.536
+q3,NO2,float,0.449,40.455
+q3,NO2,integer,0.492,38.533
+q3,FO2,float,0.444,39.121
+q3,FO2,integer,0.342,38.917

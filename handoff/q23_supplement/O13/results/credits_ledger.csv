@@ -1,0 +1,8 @@
+﻿task,matrix,credits,note
+probe4_01,probe_upper.csv（4 变量探针）,1,2026-11-27 精度/格式探针
+q2_int_01,qubo_q2_intising.csv（17 变量）,1,历史短名单
+q3_int_01,qubo_q3_intising.csv（30 变量）,1,历史短名单
+q2_NO2.csv_01,q2_NO2.csv（104 变量）,1,O-13
+22222_01,q3_O3.csv（104 变量）,1,O-13
+333333_01,q3_NO2.csv（104 变量）,1,O-13
+444444_01,q3_FO2.csv（104 变量）,1,O-13

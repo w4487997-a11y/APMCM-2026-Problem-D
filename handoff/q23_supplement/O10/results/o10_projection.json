@@ -1,0 +1,89 @@
+{
+  "projection": {
+    "variables": 107,
+    "n_candidates": 8112,
+    "n_parameters": 3124,
+    "fit_mae": 1.1000094677929886,
+    "fit_rmse": 1.8471760023580972,
+    "spearman": 0.9788914776871684,
+    "fit_time_s": 0.5036850000033155,
+    "best_raw_material": "Na|Nb|O3",
+    "best_raw_V": 0.5400229940675169,
+    "best_fit_material": "Rb|Ta|O3",
+    "best_fit_V_at_raw_scale": 0.6766506139207675,
+    "best_V_gap": 0.13662761985325067,
+    "topk": [
+      {
+        "K": 1,
+        "overlap": 0,
+        "ratio": 0.0
+      },
+      {
+        "K": 5,
+        "overlap": 0,
+        "ratio": 0.0
+      },
+      {
+        "K": 10,
+        "overlap": 4,
+        "ratio": 0.4
+      },
+      {
+        "K": 25,
+        "overlap": 10,
+        "ratio": 0.4
+      },
+      {
+        "K": 50,
+        "overlap": 21,
+        "ratio": 0.42
+      }
+    ],
+    "legal_energy_range": [
+      4.302004815791741,
+      66.70719965249609
+    ],
+    "negative_coefficients": 1510,
+    "lambda_empirical": 65.52545457853957,
+    "lambda_bound": 11817.7211650853,
+    "ising_h_max_abs": 1648.368856836515,
+    "ising_J_max_abs": 32.76272728926978,
+    "ising_spins": 108,
+    "quant_scale": 0.1540917246443656,
+    "quant_h_max_abs": 254.0,
+    "quant_J_max_abs": 6.0,
+    "quant_integral": true,
+    "fits_8bit": false,
+    "quant_ties_at_min": 22,
+    "solver": {
+      "backend": "local SA (非 SDK)",
+      "seeds": 30,
+      "samples": 300,
+      "legal_ratio": 1.0,
+      "sample_hit_rate": 0.006666666666666667,
+      "best_returned_V": 0.5400229940675169,
+      "wall_s": 49.614340999993146
+    },
+    "nnz_including_diag": 5778,
+    "nnz_offdiag": 5671
+  },
+  "joint_208": {
+    "variables": 208,
+    "nnz_including_diag": 21735,
+    "nnz_offdiag": 21527,
+    "max_abs_q": 4.0,
+    "h_max_abs": 161.18721837132927,
+    "J_max_abs": 1.0
+  },
+  "partition_104": {
+    "variables": 104,
+    "n_candidates": 2704,
+    "max_abs_q": 4.0,
+    "h_max_abs": 102.0,
+    "J_max_abs": 1.0,
+    "integral": true,
+    "fits_8bit": true,
+    "illegal_minus_legal": 2.0,
+    "ties_at_minimum": 1
+  }
+}

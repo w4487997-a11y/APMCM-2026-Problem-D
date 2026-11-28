@@ -1,0 +1,216 @@
+{
+  "backend": "local",
+  "args": {
+    "problem": "all",
+    "pred_q2": null,
+    "pred_q3": null,
+    "data_dir": null,
+    "pool": "full",
+    "backend": "local",
+    "scheme": "verified",
+    "shortlist_k": 24,
+    "seeds": 30,
+    "samples": 10,
+    "iters": 300,
+    "alpha": 0.99
+  },
+  "results": {
+    "q2": {
+      "intake": {
+        "rows": 2704,
+        "model_version": "q23_final_v1_hgb_gap_mix",
+        "first_gap": 0.31381863133865195,
+        "ties_at_minimum": 1,
+        "pool": "07",
+        "official_sha256": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe",
+        "prediction_sha256": "361c7ecd186634b320c5a91b3e781b89e0afa2fea3a7d859b0b61cbaa207fda2"
+      },
+      "models": [
+        {
+          "problem": "q2",
+          "group": "NO2",
+          "variables": 104,
+          "backend": "local",
+          "scheme": "verified",
+          "lambda": 2.0,
+          "n_candidates": 2704,
+          "adapt": {
+            "method": "local_identity_check",
+            "max_abs": 51.0,
+            "sdk_error": "AttributeError: module 'kaiwu' has no attribute 'preprocess'"
+          },
+          "audit": {
+            "matrix_integral": true,
+            "h_max_abs": 102.0,
+            "J_max_abs": 1.0,
+            "fits_8bit": true,
+            "legal_min_energy": -5255.0,
+            "legal_ties_at_min": 1,
+            "illegal_witness_min_energy": -5253.0,
+            "illegal_minus_legal": 2.0,
+            "passed": true
+          },
+          "enumeration_optimum": {
+            "material": "Y|Ti|NO2",
+            "V_hat": 1.4919281724855757
+          },
+          "solver": {
+            "samples": 300,
+            "legal_samples": 219,
+            "legal_ratio": 0.73,
+            "seeds_with_legal_hit": 30,
+            "seed_hit_ratio": 1.0,
+            "best_returned_material": "Y|Ti|NO2",
+            "best_returned_V_hat": 1.4919281724855757
+          },
+          "wall_s": 50.289327099999355,
+          "matrix_sha256": "1d0dde9a530d830e32e080208b7905a27983951403f55ce14589f8aef9c9694c",
+          "status": "ok"
+        }
+      ]
+    },
+    "q3": {
+      "intake": {
+        "rows": 8112,
+        "model_version": "q23_final_v1_hgb_gap_mix",
+        "first_gap": 0.013123245502714043,
+        "ties_at_minimum": 1,
+        "pool": "08",
+        "official_sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b",
+        "prediction_sha256": "840fd96bb6437d35d4878ad516e950119521626b1cef8f52e2f1a9f0942f72be"
+      },
+      "models": [
+        {
+          "problem": "q3",
+          "group": "O3",
+          "variables": 104,
+          "backend": "local",
+          "scheme": "verified",
+          "lambda": 2.0,
+          "n_candidates": 2704,
+          "adapt": {
+            "method": "local_identity_check",
+            "max_abs": 51.0,
+            "sdk_error": "AttributeError: module 'kaiwu' has no attribute 'preprocess'"
+          },
+          "audit": {
+            "matrix_integral": true,
+            "h_max_abs": 102.0,
+            "J_max_abs": 1.0,
+            "fits_8bit": true,
+            "legal_min_energy": -5255.0,
+            "legal_ties_at_min": 1,
+            "illegal_witness_min_energy": -5253.0,
+            "illegal_minus_legal": 2.0,
+            "passed": true
+          },
+          "enumeration_optimum": {
+            "material": "Na|Nb|O3",
+            "V_hat": 0.5400229940675169
+          },
+          "solver": {
+            "samples": 300,
+            "legal_samples": 236,
+            "legal_ratio": 0.7866666666666666,
+            "seeds_with_legal_hit": 30,
+            "seed_hit_ratio": 1.0,
+            "best_returned_material": "Na|Nb|O3",
+            "best_returned_V_hat": 0.5400229940675169
+          },
+          "wall_s": 41.84510959999898,
+          "matrix_sha256": "f746ad403f87997b241d69ce447f2ca986c6825456457a89be8c72cbe658362c",
+          "status": "ok"
+        },
+        {
+          "problem": "q3",
+          "group": "NO2",
+          "variables": 104,
+          "backend": "local",
+          "scheme": "verified",
+          "lambda": 2.0,
+          "n_candidates": 2704,
+          "adapt": {
+            "method": "local_identity_check",
+            "max_abs": 51.0,
+            "sdk_error": "AttributeError: module 'kaiwu' has no attribute 'preprocess'"
+          },
+          "audit": {
+            "matrix_integral": true,
+            "h_max_abs": 102.0,
+            "J_max_abs": 1.0,
+            "fits_8bit": true,
+            "legal_min_energy": -5255.0,
+            "legal_ties_at_min": 1,
+            "illegal_witness_min_energy": -5253.0,
+            "illegal_minus_legal": 2.0,
+            "passed": true
+          },
+          "enumeration_optimum": {
+            "material": "Y|Ti|NO2",
+            "V_hat": 1.4919281724855757
+          },
+          "solver": {
+            "samples": 300,
+            "legal_samples": 219,
+            "legal_ratio": 0.73,
+            "seeds_with_legal_hit": 30,
+            "seed_hit_ratio": 1.0,
+            "best_returned_material": "Y|Ti|NO2",
+            "best_returned_V_hat": 1.4919281724855757
+          },
+          "wall_s": 40.49995029999991,
+          "matrix_sha256": "1d0dde9a530d830e32e080208b7905a27983951403f55ce14589f8aef9c9694c",
+          "status": "ok"
+        },
+        {
+          "problem": "q3",
+          "group": "FO2",
+          "variables": 104,
+          "backend": "local",
+          "scheme": "verified",
+          "lambda": 2.0,
+          "n_candidates": 2704,
+          "adapt": {
+            "method": "local_identity_check",
+            "max_abs": 51.0,
+            "sdk_error": "AttributeError: module 'kaiwu' has no attribute 'preprocess'"
+          },
+          "audit": {
+            "matrix_integral": true,
+            "h_max_abs": 102.0,
+            "J_max_abs": 1.0,
+            "fits_8bit": true,
+            "legal_min_energy": -5255.0,
+            "legal_ties_at_min": 1,
+            "illegal_witness_min_energy": -5253.0,
+            "illegal_minus_legal": 2.0,
+            "passed": true
+          },
+          "enumeration_optimum": {
+            "material": "Na|Ti|FO2",
+            "V_hat": 0.8785262049668419
+          },
+          "solver": {
+            "samples": 300,
+            "legal_samples": 233,
+            "legal_ratio": 0.7766666666666666,
+            "seeds_with_legal_hit": 30,
+            "seed_hit_ratio": 1.0,
+            "best_returned_material": "Na|Ti|FO2",
+            "best_returned_V_hat": 0.8785262049668419
+          },
+          "wall_s": 45.497482099999615,
+          "matrix_sha256": "0d56d5b121f8400d5b30b0e170ae01b68cefba5ddeb57d94d2a44d3c6170e1b0",
+          "status": "ok"
+        }
+      ],
+      "winner": {
+        "status": "ok",
+        "group": "O3",
+        "material": "Na|Nb|O3",
+        "V_hat": 0.5400229940675169,
+        "basis": "solver-returned legal samples"
+      }
+    }
+  }
+}

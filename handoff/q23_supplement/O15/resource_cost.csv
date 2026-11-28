@@ -1,0 +1,43 @@
+﻿item,value,unit,config,source,status
+本地退火 q2/NO2,50.29,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
+本地退火 q3/O3,41.85,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
+本地退火 q3/NO2,40.5,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
+本地退火 q3/FO2,45.5,s,"it=300, α=0.99, 30 种子×10 样本",entry_all_local_verified_it300.json（本地退火，非 SDK）,measured（本地 CPU）
+q2_NO2 QUBO 构建（预测表已载入）,2.1821,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 QUBO→Ising 转换,0.0548,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 8 位适配,0.1681,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 适配后自检,3.6913,ms,50 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 完整流水线（构建→转换→适配→自检）,6.5507,ms,20 次取中位,O15/timings.csv,measured（本机）
+q2_NO2 精确枚举（2704 合法态能量+排序）,0.0264,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 QUBO 构建（预测表已载入）,2.6002,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 QUBO→Ising 转换,0.0509,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 8 位适配,0.1659,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 适配后自检,3.525,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_O3 完整流水线（构建→转换→适配→自检）,7.4304,ms,20 次取中位,O15/timings.csv,measured（本机）
+q3_O3 精确枚举（2704 合法态能量+排序）,0.0266,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 QUBO 构建（预测表已载入）,2.6362,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 QUBO→Ising 转换,0.0522,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 8 位适配,0.1536,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 适配后自检,3.5695,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 完整流水线（构建→转换→适配→自检）,7.5236,ms,20 次取中位,O15/timings.csv,measured（本机）
+q3_NO2 精确枚举（2704 合法态能量+排序）,0.0265,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 QUBO 构建（预测表已载入）,2.6598,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 QUBO→Ising 转换,0.0488,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 8 位适配,0.1681,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 适配后自检,3.5171,ms,50 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 完整流水线（构建→转换→适配→自检）,7.5909,ms,20 次取中位,O15/timings.csv,measured（本机）
+q3_FO2 精确枚举（2704 合法态能量+排序）,0.0265,ms,50 次取中位,O15/timings.csv,measured（本机）
+"q3_三组合并(8,112) 完整流水线（三组各构建→…→自检）",23.1973,ms,20 次取中位,O15/timings.csv,measured（本机）
+"q3_三组合并(8,112) 精确枚举（三组 2,704×3 逐组能量+排序）",0.0792,ms,50 次取中位,O15/timings.csv,measured（本机）
+SDK CPU 求解（正式 104 变量模型，每组）,20.81–20.96,s,30 次尝试，每次最多返回 10 样本,复审环境 Kaiwu 记录（非本机）；本包审计 SDK 运行记录同口径仅 0.48–0.69 s/30 次，两者统计范围不同，分别保留,外部实测（复审环境）
+SDK CPU 求解（历史配置，Q2 8 位适配）,20.04,ms（中位）,30 runs，单次运行中位,Kaiwu_Precheck_Phase1_Summary / 审计 results,外部实测（不同配置）
+真机 q2_NO2.csv_01（104 变量）,22,s,创建→结束；单次演化 15.0116 ms；样本 10，合法 1,O13/receipt_template.csv、O13/evidence/,平台记录
+真机 22222_01（q3_O3，104 变量）,74,s,创建→结束；单次演化 9.7488 ms；样本 10，合法 4,O13/receipt_template.csv、O13/evidence/,平台记录
+真机 333333_01（q3_NO2，104 变量）,112,s,创建→结束；单次演化 0.6991 ms；样本 7，合法 0（原始反例保留）,O13/receipt_template.csv、O13/evidence/,平台记录
+真机 444444_01（q3_FO2，104 变量）,16,s,创建→结束；单次演化 7.3587 ms；样本 5，合法 1,O13/receipt_template.csv、O13/evidence/,平台记录
+真机 q2_int_01（历史 17 变量）,4,s,创建→结束；单次演化 1.1228 ms；样本 10，合法 1,O13/evidence/q2_int_01_task_page.png,平台记录
+真机 q3_int_01（历史 30 变量）,19,s,创建→结束；单次演化 8.7755 ms；样本 10，合法 1,O13/evidence/q3_int_01_task_page.png,平台记录
+真机排队时间,,s,平台未单列；总耗时含排队与执行,O13 任务详情,NA（平台未单列）
+真机额度扣减（优化额度）,7,次,31（2026-11-27 18:31）→ 24（2026-11-28 16:32）；平台显示 7 个任务，每次 1 次；31−24=7,O13/evidence/credits_before_2026-11-27.png、credits_after_2026-11-28.png；O13/results/credits_ledger.csv,实测（起止均有凭证）
+真机任务平均运行时间（平台口径）,6.103,ms,平台“用量总览”对 7 个任务的统计，未说明是否含排队,O13/evidence/credits_after_2026-11-28.png,平台记录（口径未说明）
+真机总耗时 − 单次演化（推导）,21.99 / 73.99 / 111.99 / 15.99,s,q2_NO2 / q3_O3 / q3_NO2 / q3_FO2；仅说明总耗时中约 99.9% 不在单次演化内,O13/receipt_template.csv 由 total_seconds 与 evolve_ms 相减,推导值（含排队/调度/启动，非实测排队）

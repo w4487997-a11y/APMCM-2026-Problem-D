@@ -1,0 +1,174 @@
+{
+  "backend": "local",
+  "config": {
+    "problem": "all",
+    "pred": null,
+    "pool": "full",
+    "backend": "local",
+    "seeds": 30,
+    "samples": 10,
+    "iters": 30,
+    "alpha": 0.99,
+    "k": null
+  },
+  "results": {
+    "q2": [
+      {
+        "problem": "q2",
+        "group": "NO2",
+        "backend": "local",
+        "variables": 104,
+        "seeds": 30,
+        "samples": 300,
+        "legal_samples": 300,
+        "legal_ratio": 1.0,
+        "hit_samples": 4,
+        "sample_hit_ratio": 0.013333333333333334,
+        "seeds_with_hit": 4,
+        "seed_hit_ratio": 0.13333333333333333,
+        "best_V_hat": 1.4919281724855757,
+        "gap_to_float_optimum": 0.0,
+        "float_optimum_V_hat": 1.4919281724855757,
+        "material_at_float_optimum": "Y|Ti|NO2",
+        "config": {
+          "iters": 30,
+          "alpha": 0.99,
+          "k": null
+        },
+        "wall_s": 9.209750699999859,
+        "intake": {
+          "rows": 2704,
+          "unique_ids": 2704,
+          "model_version": "q23_final_v1_hgb_gap_mix",
+          "score_min": 1.4919281724855757,
+          "score_max": 67.89288329134759,
+          "first_gap": 0.31381863133865195,
+          "ties_at_minimum": 1,
+          "official_pool": "07_castelli_q2_pool.csv",
+          "pool_sha256": "a0cd72b4b0ca52269277d4e8287da92d8d8751a291733586fba8a08d8d3f91fe"
+        },
+        "model_sha256": "967b13d1957b40dd720de006f26ece2900b2dbaefd8bde793936e635bad6d95a"
+      }
+    ],
+    "q3": [
+      {
+        "problem": "q3",
+        "group": "O3",
+        "backend": "local",
+        "variables": 104,
+        "seeds": 30,
+        "samples": 300,
+        "legal_samples": 300,
+        "legal_ratio": 1.0,
+        "hit_samples": 3,
+        "sample_hit_ratio": 0.01,
+        "seeds_with_hit": 3,
+        "seed_hit_ratio": 0.1,
+        "best_V_hat": 0.5400229940675169,
+        "gap_to_float_optimum": 0.0,
+        "float_optimum_V_hat": 0.5400229940675169,
+        "material_at_float_optimum": "Na|Nb|O3",
+        "config": {
+          "iters": 30,
+          "alpha": 0.99,
+          "k": null
+        },
+        "wall_s": 8.636650100001134,
+        "intake": {
+          "rows": 8112,
+          "unique_ids": 8112,
+          "model_version": "q23_final_v1_hgb_gap_mix",
+          "score_min": 0.5400229940675169,
+          "score_max": 67.89288329134759,
+          "first_gap": 0.013123245502714043,
+          "ties_at_minimum": 1,
+          "official_pool": "08_castelli_q3_pool.csv",
+          "pool_sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b"
+        },
+        "model_sha256": "09d8483d28fa23ec79d71b56cda35f1db4c54e38be092d09d5d25e98718c2fb7"
+      },
+      {
+        "problem": "q3",
+        "group": "NO2",
+        "backend": "local",
+        "variables": 104,
+        "seeds": 30,
+        "samples": 300,
+        "legal_samples": 300,
+        "legal_ratio": 1.0,
+        "hit_samples": 3,
+        "sample_hit_ratio": 0.01,
+        "seeds_with_hit": 3,
+        "seed_hit_ratio": 0.1,
+        "best_V_hat": 1.4919281724855757,
+        "gap_to_float_optimum": 0.0,
+        "float_optimum_V_hat": 1.4919281724855757,
+        "material_at_float_optimum": "Y|Ti|NO2",
+        "config": {
+          "iters": 30,
+          "alpha": 0.99,
+          "k": null
+        },
+        "wall_s": 9.133702700004505,
+        "intake": {
+          "rows": 8112,
+          "unique_ids": 8112,
+          "model_version": "q23_final_v1_hgb_gap_mix",
+          "score_min": 0.5400229940675169,
+          "score_max": 67.89288329134759,
+          "first_gap": 0.013123245502714043,
+          "ties_at_minimum": 1,
+          "official_pool": "08_castelli_q3_pool.csv",
+          "pool_sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b"
+        },
+        "model_sha256": "0f4cb04509febde7e38fb182bffdcf8c51dbf77762421cffa79171c29177e49b"
+      },
+      {
+        "problem": "q3",
+        "group": "FO2",
+        "backend": "local",
+        "variables": 104,
+        "seeds": 30,
+        "samples": 300,
+        "legal_samples": 300,
+        "legal_ratio": 1.0,
+        "hit_samples": 6,
+        "sample_hit_ratio": 0.02,
+        "seeds_with_hit": 6,
+        "seed_hit_ratio": 0.2,
+        "best_V_hat": 0.8785262049668419,
+        "gap_to_float_optimum": 0.0,
+        "float_optimum_V_hat": 0.8785262049668419,
+        "material_at_float_optimum": "Na|Ti|FO2",
+        "config": {
+          "iters": 30,
+          "alpha": 0.99,
+          "k": null
+        },
+        "wall_s": 8.900393100004294,
+        "intake": {
+          "rows": 8112,
+          "unique_ids": 8112,
+          "model_version": "q23_final_v1_hgb_gap_mix",
+          "score_min": 0.5400229940675169,
+          "score_max": 67.89288329134759,
+          "first_gap": 0.013123245502714043,
+          "ties_at_minimum": 1,
+          "official_pool": "08_castelli_q3_pool.csv",
+          "pool_sha256": "d09da16984ab90b110c934bdd51e129818d5d527d75854f74acf8c98d73b941b"
+        },
+        "model_sha256": "e1195edaa3919f754c254983cc0a0af9a21b53cf52a332348179ecb2e7e323f8"
+      }
+    ],
+    "q3_winner": {
+      "group": "O3",
+      "material": "Na|Nb|O3",
+      "V_hat": 0.5400229940675169,
+      "group_minima": {
+        "O3": 0.5400229940675169,
+        "NO2": 1.4919281724855757,
+        "FO2": 0.8785262049668419
+      }
+    }
+  }
+}

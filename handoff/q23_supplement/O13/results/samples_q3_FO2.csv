@@ -1,0 +1,6 @@
+﻿sample,n_ones,legal,material,V_hat,platform_qubo_value,recomputed_qubo_value
+0,2,True,Na|Ti|FO2,0.8785262049668419,-4,-4
+1,0,False,,,0,0
+2,16,False,,,444,444
+3,38,False,,,2736,2736
+4,42,False,,,3360,3360

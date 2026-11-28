@@ -1,0 +1,608 @@
+{
+  "q2_NO2": {
+    "matrix": "q2_NO2",
+    "variables": 104,
+    "matrix_sha256": "fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c",
+    "match_max_abs_diff": 0.0,
+    "samples_returned": 10,
+    "legal_samples": 1,
+    "legal_ratio": 0.1,
+    "hit_samples_true_optimum": 1,
+    "sample_hit_ratio": 0.1,
+    "enumeration_best_material": "Y|Ti|NO2",
+    "enumeration_best_V_hat": 1.4919281724855757,
+    "best_returned_V_hat": 1.4919281724855757,
+    "best_returned_gap": 0.0,
+    "samples": [
+      {
+        "sample": 0,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Y|Ti|NO2",
+        "V_hat": 1.4919281724855757,
+        "platform_qubo_value": -4,
+        "recomputed_qubo_value": -4
+      },
+      {
+        "sample": 1,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 2,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 3,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 4,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 5,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 6,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 7,
+        "n_ones": 2,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 8,
+        "n_ones": 2,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 9,
+        "n_ones": 2,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      }
+    ],
+    "task_name": "q2_NO2.csv_01",
+    "task_id": "c249dca66bcd4c55a49114a37f4ebf2a",
+    "created": "2026-11-28 15:46:10",
+    "finished": "2026-11-28 15:46:32",
+    "evolve_ms": 15.0116,
+    "total_seconds": 22,
+    "credits": "inferred 1 per task"
+  },
+  "q3_O3": {
+    "matrix": "q3_O3",
+    "variables": 104,
+    "matrix_sha256": "26d234efa34c11cde626801c353b6491aeaab07247a07140873566970a8a82ef",
+    "match_max_abs_diff": 0.0,
+    "samples_returned": 10,
+    "legal_samples": 4,
+    "legal_ratio": 0.4,
+    "hit_samples_true_optimum": 1,
+    "sample_hit_ratio": 0.1,
+    "enumeration_best_material": "Na|Nb|O3",
+    "enumeration_best_V_hat": 0.5400229940675169,
+    "best_returned_V_hat": 0.5400229940675169,
+    "best_returned_gap": 0.0,
+    "samples": [
+      {
+        "sample": 0,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Na|Nb|O3",
+        "V_hat": 0.5400229940675169,
+        "platform_qubo_value": -4,
+        "recomputed_qubo_value": -4
+      },
+      {
+        "sample": 1,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 2,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 3,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 4,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 5,
+        "n_ones": 0,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 6,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Ag|Zr|O3",
+        "V_hat": 15.909478811231866,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 7,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Ag|Nb|O3",
+        "V_hat": 6.040786531428735,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 8,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Ag|K|O3",
+        "V_hat": 25.101621871686714,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 9,
+        "n_ones": 3,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2,
+        "recomputed_qubo_value": 2
+      }
+    ],
+    "task_name": "22222_01",
+    "task_id": "27a3df4616c74fa6ac87287f2dc1a59f",
+    "created": "2026-11-28 15:47:25",
+    "finished": "2026-11-28 15:48:39",
+    "evolve_ms": 9.7488,
+    "total_seconds": 74,
+    "credits": "inferred 1 per task"
+  },
+  "q3_NO2": {
+    "matrix": "q3_NO2",
+    "variables": 104,
+    "matrix_sha256": "fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c",
+    "match_max_abs_diff": 0.0,
+    "samples_returned": 7,
+    "legal_samples": 0,
+    "legal_ratio": 0.0,
+    "hit_samples_true_optimum": 0,
+    "sample_hit_ratio": 0.0,
+    "enumeration_best_material": "Y|Ti|NO2",
+    "enumeration_best_V_hat": 1.4919281724855757,
+    "best_returned_V_hat": null,
+    "best_returned_gap": null,
+    "samples": [
+      {
+        "sample": 0,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -2,
+        "recomputed_qubo_value": -2
+      },
+      {
+        "sample": 1,
+        "n_ones": 0,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 2,
+        "n_ones": 15,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 390,
+        "recomputed_qubo_value": 390
+      },
+      {
+        "sample": 3,
+        "n_ones": 38,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2736,
+        "recomputed_qubo_value": 2736
+      },
+      {
+        "sample": 4,
+        "n_ones": 55,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 5826,
+        "recomputed_qubo_value": 5826
+      },
+      {
+        "sample": 5,
+        "n_ones": 93,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 16922,
+        "recomputed_qubo_value": 16922
+      },
+      {
+        "sample": 6,
+        "n_ones": 104,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 21212,
+        "recomputed_qubo_value": 21212
+      }
+    ],
+    "task_name": "333333_01",
+    "task_id": "1e00e1fb34dc4a21ba1ee0520c9477d2",
+    "created": "2026-11-28 15:47:46",
+    "finished": "2026-11-28 15:49:38",
+    "evolve_ms": 0.6991,
+    "total_seconds": 112,
+    "credits": "inferred 1 per task"
+  },
+  "q3_FO2": {
+    "matrix": "q3_FO2",
+    "variables": 104,
+    "matrix_sha256": "5b49510e78219db65b1a9eab7240f34222cc6a7b253f37ac95226f65c6fb7309",
+    "match_max_abs_diff": 0.0,
+    "samples_returned": 5,
+    "legal_samples": 1,
+    "legal_ratio": 0.2,
+    "hit_samples_true_optimum": 1,
+    "sample_hit_ratio": 0.2,
+    "enumeration_best_material": "Na|Ti|FO2",
+    "enumeration_best_V_hat": 0.8785262049668419,
+    "best_returned_V_hat": 0.8785262049668419,
+    "best_returned_gap": 0.0,
+    "samples": [
+      {
+        "sample": 0,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Na|Ti|FO2",
+        "V_hat": 0.8785262049668419,
+        "platform_qubo_value": -4,
+        "recomputed_qubo_value": -4
+      },
+      {
+        "sample": 1,
+        "n_ones": 0,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 2,
+        "n_ones": 16,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 444,
+        "recomputed_qubo_value": 444
+      },
+      {
+        "sample": 3,
+        "n_ones": 38,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2736,
+        "recomputed_qubo_value": 2736
+      },
+      {
+        "sample": 4,
+        "n_ones": 42,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 3360,
+        "recomputed_qubo_value": 3360
+      }
+    ],
+    "task_name": "444444_01",
+    "task_id": "c528ea69a2094bc79ac4920f4e99ee8d",
+    "created": "2026-11-28 15:48:17",
+    "finished": "2026-11-28 15:48:33",
+    "evolve_ms": 7.3587,
+    "total_seconds": 16,
+    "credits": "inferred 1 per task"
+  },
+  "hist_q2_int_01": {
+    "matrix": "q2_intising_17vars",
+    "variables": 17,
+    "samples_returned": 10,
+    "legal_samples": 1,
+    "legal_ratio": 0.1,
+    "hit_samples_true_optimum": 1,
+    "sample_hit_ratio": 0.1,
+    "enumeration_best_material": "Y|Ti",
+    "enumeration_best_V_hat": 1.4919281724855757,
+    "best_returned_V_hat": 1.4919281724855757,
+    "best_returned_gap": 0.0,
+    "samples": [
+      {
+        "sample": 0,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Y|Ti",
+        "V_hat": 1.4919281724855757,
+        "platform_qubo_value": -40,
+        "recomputed_qubo_value": -40
+      },
+      {
+        "sample": 1,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -20,
+        "recomputed_qubo_value": -20
+      },
+      {
+        "sample": 2,
+        "n_ones": 0,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 3,
+        "n_ones": 8,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 628,
+        "recomputed_qubo_value": 628
+      },
+      {
+        "sample": 4,
+        "n_ones": 12,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 1696,
+        "recomputed_qubo_value": 1696
+      },
+      {
+        "sample": 5,
+        "n_ones": 15,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2724,
+        "recomputed_qubo_value": 2724
+      },
+      {
+        "sample": 6,
+        "n_ones": 15,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2764,
+        "recomputed_qubo_value": 2764
+      },
+      {
+        "sample": 7,
+        "n_ones": 16,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 3164,
+        "recomputed_qubo_value": 3164
+      },
+      {
+        "sample": 8,
+        "n_ones": 16,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 3164,
+        "recomputed_qubo_value": 3164
+      },
+      {
+        "sample": 9,
+        "n_ones": 16,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 3192,
+        "recomputed_qubo_value": 3192
+      }
+    ],
+    "task_name": "q2_int_01",
+    "task_id": "76ac237a1e124cb29a064a022f8c4e98",
+    "created": "2026-11-27 18:58:05",
+    "finished": "2026-11-27 18:58:09",
+    "evolve_ms": 1.1228,
+    "total_seconds": 4
+  },
+  "hist_q3_int_01": {
+    "matrix": "q3_intising_30vars",
+    "variables": 30,
+    "samples_returned": 10,
+    "legal_samples": 1,
+    "legal_ratio": 0.1,
+    "hit_samples_true_optimum": 0,
+    "sample_hit_ratio": 0.0,
+    "enumeration_best_material": "Na|Nb|O3",
+    "enumeration_best_V_hat": 0.5400229940675169,
+    "best_returned_V_hat": 0.6039033526902742,
+    "best_returned_gap": 0.06388035862275732,
+    "samples": [
+      {
+        "sample": 0,
+        "n_ones": 2,
+        "legal": true,
+        "material": "Ge|Ti|O3",
+        "V_hat": 0.6039033526902742,
+        "platform_qubo_value": -16,
+        "recomputed_qubo_value": -16
+      },
+      {
+        "sample": 1,
+        "n_ones": 1,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -8,
+        "recomputed_qubo_value": -8
+      },
+      {
+        "sample": 2,
+        "n_ones": 3,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": -8,
+        "recomputed_qubo_value": -8
+      },
+      {
+        "sample": 3,
+        "n_ones": 0,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 0,
+        "recomputed_qubo_value": 0
+      },
+      {
+        "sample": 4,
+        "n_ones": 12,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 768,
+        "recomputed_qubo_value": 768
+      },
+      {
+        "sample": 5,
+        "n_ones": 15,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 1120,
+        "recomputed_qubo_value": 1120
+      },
+      {
+        "sample": 6,
+        "n_ones": 18,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2048,
+        "recomputed_qubo_value": 2048
+      },
+      {
+        "sample": 7,
+        "n_ones": 20,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2728,
+        "recomputed_qubo_value": 2728
+      },
+      {
+        "sample": 8,
+        "n_ones": 21,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 2856,
+        "recomputed_qubo_value": 2856
+      },
+      {
+        "sample": 9,
+        "n_ones": 22,
+        "legal": false,
+        "material": null,
+        "V_hat": null,
+        "platform_qubo_value": 3200,
+        "recomputed_qubo_value": 3200
+      }
+    ],
+    "task_name": "q3_int_01",
+    "task_id": "7ab4ca3648d24cb3823668cc92f92869",
+    "created": "2026-11-27 19:06:51",
+    "finished": "2026-11-27 19:07:10",
+    "evolve_ms": 8.7755,
+    "total_seconds": 19
+  }
+}

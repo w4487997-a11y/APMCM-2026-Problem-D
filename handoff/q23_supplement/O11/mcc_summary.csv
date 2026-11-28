@@ -1,0 +1,32 @@
+﻿source,kind,problem,config,parameters,samples,legal_samples,legal_ratio,hits,hit_rate,min_tier_ties,note
+stage2/hitrate,本地退火基线,q3,O3_base,"seeds=30, samples=10, it=30, alpha=0.9, λ=2 两档分区",300,0,0.0,0,0.0,,wall=0.4s
+stage2/hitrate,本地退火基线,q3,NO2_base,"seeds=30, samples=10, it=30, alpha=0.9, λ=2 两档分区",300,0,0.0,0,0.0,,wall=0.4s
+stage2/hitrate,本地退火基线,q3,FO2_base,"seeds=30, samples=10, it=30, alpha=0.9, λ=2 两档分区",300,0,0.0,0,0.0,,wall=0.4s
+stage2/hitrate_sweep,退火预算扫描,q3,O3_it30_a0.9,"seeds=30, samples=10, λ=2 两档分区",300,0,0.0,0,0.0,,wall=0.4s
+stage2/hitrate_sweep,退火预算扫描,q3,O3_it30_a0.99,"seeds=30, samples=10, λ=2 两档分区",300,0,0.0,0,0.0,,wall=4.4s
+stage2/hitrate_sweep,退火预算扫描,q3,O3_it100_a0.9,"seeds=30, samples=10, λ=2 两档分区",300,0,0.0,0,0.0,,wall=1.4s
+stage2/hitrate_sweep,退火预算扫描,q3,O3_it100_a0.99,"seeds=30, samples=10, λ=2 两档分区",300,0,0.0,0,0.0,,wall=13.7s
+stage2/hitrate_sweep,退火预算扫描,q3,O3_it300_a0.9,"seeds=30, samples=10, λ=2 两档分区",300,0,0.0,0,0.0,,wall=3.8s
+stage2/hitrate_sweep,退火预算扫描,q3,O3_it300_a0.99,"seeds=30, samples=10, λ=2 两档分区",300,0,0.0,0,0.0,,wall=41.4s
+stage3/scan,K×λ 模型扫描,q3,"K=8, λ=2.0","vars=16, |h|=14.0, |J|=1.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=-2.0
+stage3/scan,K×λ 模型扫描,q3,"K=8, λ=4.0","vars=16, |h|=20.0, |J|=2.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=0.0
+stage3/scan,K×λ 模型扫描,q3,"K=8, λ=8.0","vars=16, |h|=32.0, |J|=4.0, integral=True, fits8=True, strict_sep=True",,,,,,1,组内最优保留=True；非法间隙=4.0
+stage3/scan,K×λ 模型扫描,q3,"K=12, λ=2.0","vars=24, |h|=22.0, |J|=1.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=-2.0
+stage3/scan,K×λ 模型扫描,q3,"K=12, λ=4.0","vars=24, |h|=32.0, |J|=2.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=0.0
+stage3/scan,K×λ 模型扫描,q3,"K=12, λ=8.0","vars=24, |h|=52.0, |J|=4.0, integral=True, fits8=True, strict_sep=True",,,,,,1,组内最优保留=True；非法间隙=4.0
+stage3/scan,K×λ 模型扫描,q3,"K=16, λ=2.0","vars=32, |h|=30.0, |J|=1.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=-2.0
+stage3/scan,K×λ 模型扫描,q3,"K=16, λ=4.0","vars=32, |h|=44.0, |J|=2.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=0.0
+stage3/scan,K×λ 模型扫描,q3,"K=16, λ=8.0","vars=32, |h|=72.0, |J|=4.0, integral=True, fits8=True, strict_sep=True",,,,,,1,组内最优保留=True；非法间隙=4.0
+stage3/scan,K×λ 模型扫描,q3,"K=20, λ=2.0","vars=40, |h|=38.0, |J|=1.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=-2.0
+stage3/scan,K×λ 模型扫描,q3,"K=20, λ=4.0","vars=40, |h|=56.0, |J|=2.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=0.0
+stage3/scan,K×λ 模型扫描,q3,"K=20, λ=8.0","vars=40, |h|=92.0, |J|=4.0, integral=True, fits8=True, strict_sep=True",,,,,,1,组内最优保留=True；非法间隙=4.0
+stage3/scan,K×λ 模型扫描,q3,"K=24, λ=2.0","vars=48, |h|=46.0, |J|=1.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=-2.0
+stage3/scan,K×λ 模型扫描,q3,"K=24, λ=4.0","vars=48, |h|=68.0, |J|=2.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=0.0
+stage3/scan,K×λ 模型扫描,q3,"K=24, λ=8.0","vars=48, |h|=112.0, |J|=4.0, integral=True, fits8=True, strict_sep=True",,,,,,1,组内最优保留=True；非法间隙=4.0
+stage3/scan,K×λ 模型扫描,q3,"K=52, λ=2.0","vars=104, |h|=102.0, |J|=1.0, integral=True, fits8=True, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=-2.0
+stage3/scan,K×λ 模型扫描,q3,"K=52, λ=4.0","vars=104, |h|=152.0, |J|=2.0, integral=True, fits8=False, strict_sep=False",,,,,,1,组内最优保留=True；非法间隙=0.0
+stage3/scan,K×λ 模型扫描,q3,"K=52, λ=8.0","vars=104, |h|=252.0, |J|=4.0, integral=True, fits8=False, strict_sep=True",,,,,,1,组内最优保留=True；非法间隙=4.0
+stage3/runs,本地退火（K24/λ8 与基线对比）,q3,baseline_K52_l2__it30_a0.9,"seeds=30, samples=10",300,8,0.0267,8,0.0267,,wall=0.4s
+stage3/runs,本地退火（K24/λ8 与基线对比）,q3,baseline_K52_l2__it300_a0.99,"seeds=30, samples=10",300,236,0.7867,236,0.7867,,wall=39.1s
+stage3/runs,本地退火（K24/λ8 与基线对比）,q3,fixed_K24_l8__it30_a0.9,"seeds=30, samples=10",300,300,1.0,6,0.02,,wall=0.2s
+stage3/runs,本地退火（K24/λ8 与基线对比）,q3,fixed_K24_l8__it300_a0.99,"seeds=30, samples=10",300,300,1.0,127,0.4233,,wall=21.1s

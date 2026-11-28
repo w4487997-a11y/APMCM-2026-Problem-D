@@ -1,0 +1,5 @@
+﻿problem,group,backend,variables,seeds,samples,legal_samples,legal_ratio,hit_samples,sample_hit_ratio,seeds_with_hit,seed_hit_ratio,best_V_hat,gap_to_float_optimum,float_optimum_V_hat,material_at_float_optimum,config,wall_s,model_sha256
+q2,NO2,local,104,30,300,300,1.0,8,0.02666666666666667,6,0.2,1.4919281724855757,0.0,1.4919281724855757,Y|Ti|NO2,"{'iters': 300, 'alpha': 0.99, 'k': None}",93.91042830000515,967b13d1957b40dd720de006f26ece2900b2dbaefd8bde793936e635bad6d95a
+q3,O3,local,104,30,300,300,1.0,24,0.08,18,0.6,0.5400229940675169,0.0,0.5400229940675169,Na|Nb|O3,"{'iters': 300, 'alpha': 0.99, 'k': None}",93.36301330000424,09d8483d28fa23ec79d71b56cda35f1db4c54e38be092d09d5d25e98718c2fb7
+q3,NO2,local,104,30,300,300,1.0,20,0.06666666666666667,18,0.6,1.4919281724855757,0.0,1.4919281724855757,Y|Ti|NO2,"{'iters': 300, 'alpha': 0.99, 'k': None}",85.89839270000084,0f4cb04509febde7e38fb182bffdcf8c51dbf77762421cffa79171c29177e49b
+q3,FO2,local,104,30,300,300,1.0,27,0.09,15,0.5,0.8785262049668419,0.0,0.8785262049668419,Na|Ti|FO2,"{'iters': 300, 'alpha': 0.99, 'k': None}",78.06381600000168,e1195edaa3919f754c254983cc0a0af9a21b53cf52a332348179ecb2e7e323f8
