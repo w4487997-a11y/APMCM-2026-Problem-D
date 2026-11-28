@@ -6,7 +6,7 @@
     "fit_mae": 1.1000094677929886,
     "fit_rmse": 1.8471760023580972,
     "spearman": 0.9788914776871684,
-    "fit_time_s": 0.4668360999930883,
+    "fit_time_s": 0.5036850000033155,
     "best_raw_material": "Na|Nb|O3",
     "best_raw_V": 0.5400229940675169,
     "best_fit_material": "Rb|Ta|O3",
@@ -62,7 +62,7 @@
       "legal_ratio": 1.0,
       "sample_hit_rate": 0.006666666666666667,
       "best_returned_V": 0.5400229940675169,
-      "wall_s": 40.37325960000453
+      "wall_s": 49.614340999993146
     },
     "nnz_including_diag": 5778,
     "nnz_offdiag": 5671
