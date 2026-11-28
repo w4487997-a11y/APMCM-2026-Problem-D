@@ -1,0 +1,15 @@
+{
+  "files": {
+    "decode_platform.py": "f3a6771eccee5577be4b379e051e66a618694c6dc45d580ca247ce761e9458d7",
+    "matrices/q2_NO2.csv": "fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c",
+    "matrices/q2_NO2_meta.json": "2361f8ab61779c950e95835a156a481e492353aaccd806f9d2473e60af7d25fc",
+    "matrices/q3_FO2.csv": "5b49510e78219db65b1a9eab7240f34222cc6a7b253f37ac95226f65c6fb7309",
+    "matrices/q3_FO2_meta.json": "91ee62b87674c0a52e4b3925c27ec1069c3ede1b321dc461d4edcc6f2c890ec7",
+    "matrices/q3_NO2.csv": "fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c",
+    "matrices/q3_NO2_meta.json": "0dd065cda914de506220b4da0588570511ed6899ee08448a236425275d8311e8",
+    "matrices/q3_O3.csv": "26d234efa34c11cde626801c353b6491aeaab07247a07140873566970a8a82ef",
+    "matrices/q3_O3_meta.json": "0384b73eb10372674e5108463ec3cf7a0a144d0c3931ee23175a3c79bf451c6c",
+    "receipt_template.csv": "ac39fadb3470c896353e33505335a0f8aed0737873c426e33b29126071b7514b",
+    "upload_steps.md": "e0ddf0fc3774e69db9424a83504800a396f7f680f386d0061bb3ea4c24874c38"
+  }
+}
