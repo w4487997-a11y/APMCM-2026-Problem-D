@@ -1,5 +1,5 @@
-﻿problem,model,variables,config,wall_s,per_sample_ms,source
-q2,NO2,104,"it=300, α=0.99, 30 种子×10 样本",50.29,167.631,entry_all_local_verified_it300.json（本地退火，非 SDK）
-q3,O3,104,"it=300, α=0.99, 30 种子×10 样本",41.85,139.484,entry_all_local_verified_it300.json（本地退火，非 SDK）
-q3,NO2,104,"it=300, α=0.99, 30 种子×10 样本",40.5,135.0,entry_all_local_verified_it300.json（本地退火，非 SDK）
-q3,FO2,104,"it=300, α=0.99, 30 种子×10 样本",45.5,151.658,entry_all_local_verified_it300.json（本地退火，非 SDK）
+﻿problem,model,variables,seeds,samples,config,wall_s,wall_s_unrounded,run_id,per_sample_ms,timing_scope,source,status
+q2,NO2,104,30,300,"it=300, alpha=0.99, 30 种子 x 10 样本",50.29,50.289327,O15-R01,167.631,本地退火调用墙钟（t0 在调用前，结束在返回后）,q23_fix/results/entry_all_local_verified_it300.json,VERIFIED（本包运行，原始 JSON 为记录）
+q3,O3,104,30,300,"it=300, alpha=0.99, 30 种子 x 10 样本",41.85,41.845110,O15-R02,139.484,本地退火调用墙钟（t0 在调用前，结束在返回后）,q23_fix/results/entry_all_local_verified_it300.json,VERIFIED（本包运行，原始 JSON 为记录）
+q3,NO2,104,30,300,"it=300, alpha=0.99, 30 种子 x 10 样本",40.50,40.499950,O15-R03,135.000,本地退火调用墙钟（t0 在调用前，结束在返回后）,q23_fix/results/entry_all_local_verified_it300.json,VERIFIED（本包运行，原始 JSON 为记录）
+q3,FO2,104,30,300,"it=300, alpha=0.99, 30 种子 x 10 样本",45.50,45.497482,O15-R04,151.658,本地退火调用墙钟（t0 在调用前，结束在返回后）,q23_fix/results/entry_all_local_verified_it300.json,VERIFIED（本包运行，原始 JSON 为记录）
