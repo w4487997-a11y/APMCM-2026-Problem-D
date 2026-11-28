@@ -131,7 +131,23 @@ enumeration supplies an exact oracle over all legal states.  Y--Ti--NO2 is
 therefore the Q2 optimum under the frozen $\widehat V_{23}$ objective and
 the accepted integer mapping.  It is a screening recommendation, not an
 experimental materials claim: $\widehat V_{23}$ is a model prediction,
-not a measured violation score.  File~11 has been scored, but a dedicated
-blind-pool matrix and independent solve have not been completed (O-14).
-A historical 17-variable SPQC short-list task also returned Y--Ti, but it is
-not a run of the final 104-variable matrix; no quantum advantage is claimed.
+not a measured violation score.
+
+File~11 was subsequently modeled independently over its 529 sparse legal
+pairs.  The floating-point and integer 104-variable blind-pool matrices both
+returned Y--Ti--NO2 with $\widehat V_{23}=1.491928$.  Local simulated
+annealing produced 300/300 legal samples for each encoding; the winning
+candidate occurred in 25/30 seed groups for the floating-point matrix and
+16/30 for the integer matrix, with wall times 39.473 and 40.833~s.  The
+integer ground tier contained 11 candidates rather than one, demonstrating
+that blind-pool integerization reduced resolution even though it retained
+the best proxy candidate.  These are local-SA results, not SDK or hardware
+measurements.
+
+The final 104-variable Q2 matrix was also submitted to SPQC-550 as task
+\texttt{c249dca66bcd4c55a49114a37f4ebf2a}.  One of ten returned samples was
+legal and decoded to Y--Ti--NO2; the creation-to-finish interval was 22~s
+and the platform reported 15.0116~ms evolution time.  This single small
+return supports executable mapping of the archived matrix, not hardware
+stability, physical feasibility, speedup, or quantum advantage.  The formal
+optimization result remains the Kaiwu SDK~1.4.3 CPU experiment above.

@@ -18,23 +18,24 @@ $\widehat V=0.540023$.  Every reported winner matched exhaustive legal-state
 enumeration, so the solver-to-enumeration regret was zero.  These are optima
 of the frozen proxy objective, not measurements of physical performance.
 
-The final integer construction retained each unique group winner with
-$\max|h|=102$, $\max|J|=1$, and a minimum legal-to-illegal ground-energy
-separation of two.  Independent recomputation matched all 1,200 archived
-CPU-local SDK samples exactly.  The representation deliberately collapses
-non-winning costs and cannot preserve their complete ordering.  Direct
-eight-bit quantization of the floating-point full-pool models failed, while
-historical 17- and 30-variable SPQC-550 short-list runs supplied only
-reduced-model hardware evidence.  Thus no conclusion about final-matrix
-hardware speedup or quantum advantage is warranted.
+The final integer construction retained each already identified group winner
+with $\max|h|=102$, $\max|J|=1$, and a winner-to-lowest-illegal gap of two.
+Its two-level split uses the known group minimum, so it is an oracle-assisted
+mapping test and deliberately discards non-winner ordering.  Uniform
+quantization kept the raw optimum only inside a tied lowest tier, and a
+107-variable projection changed the Q3 optimum despite Spearman 0.978891.
+These controls show why global ranking quality and coefficient fit do not
+guarantee low-tail decision preservation.
 
+Dedicated local-SA blind-pool models over 529 sparse cation pairs completed
+the planned Q2/Q3 domain check, although the blind pools have no physical
+labels.  Four final 104-variable SPQC-550 tasks also supplied limited device
+evidence: three returned their group proxy winner and one returned no legal
+sample.  The small, unequal returns cannot establish stability or speedup.
 The main remaining limitations are surrogate uncertainty, no independent
-labels for the proposed winners, no dedicated blind-pool solve, no
-107-variable projection comparison, no final-104-variable SPQC return, and
-no complete billed-resource ledger.  Future work should prioritize new
-physical or high-fidelity labels, calibrated tail uncertainty, independent
-blind-pool matrices, and traceable full-size hardware jobs.  Within the
-current evidence, the defensible outcome is a reproducible method for using
-a limited budget to rank candidates and solve the associated constrained
-proxy optimization without confusing numerical optimality with material
-validation.
+physical labels for the proposed winners, unresolved timing and budget-scan
+provenance, a missing \texttt{probe4\_01} receipt, and no complete queue,
+execution, or monetary-cost ledger.  Within these boundaries, the defensible
+outcome is a reproducible method for finite-budget ranking and constrained
+proxy optimization---not physical validation, hardware optimality, or
+quantum advantage.

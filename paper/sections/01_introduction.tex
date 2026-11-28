@@ -52,8 +52,10 @@ enumeration verifies the QUBO matrices.  QUBO--Ising conversion is checked
 with the constant term restored exactly.  Eight-bit coefficients, decoded
 one-hot feasibility, original-score regret, and stochastic sampling are
 reported separately.  The formal solver evidence uses Kaiwu SDK~1.4.3 on a
-CPU.  Historical SPQC-550 results exist only for reduced 17- and 30-variable
-short lists and are not presented as final-model hardware runs.
+CPU.  Four final 104-variable matrices were additionally submitted to
+SPQC-550; three returned their group proxy winner and one returned no legal
+sample.  These small hardware jobs are reported separately from both the
+formal CPU solves and the historical reduced 17- and 30-variable tasks.
 
 \subsection{Contributions}
 
@@ -65,9 +67,10 @@ The evidence-supported contributions are:
        stability checks, and an exact finite-budget random baseline;
  \item exact one-hot QUBO formulations for Q2 and groupwise Q3, together
        with complete legal-state enumeration and original-scale decoding;
- \item an optimum-preserving two-level integer encoding that fits the
-       recorded eight-bit coefficient range, while explicitly sacrificing
-       non-winner score differences and complete ranking information;
+ \item an oracle-assisted, group-winner-preserving two-level integer
+       encoding that fits the recorded eight-bit coefficient range, while
+       explicitly sacrificing non-winner score differences and complete
+       ranking information;
  \item a reproducible CPU-local SDK and simulated-annealing comparison with
        raw feasibility, optimum-hit, timing, negative-test, and regression
        evidence; and
@@ -77,5 +80,5 @@ The evidence-supported contributions are:
 
 These contributions establish a traceable screening and optimization
 pipeline within the supplied candidate domain.  They do not establish the
-true physical feasibility of the selected materials, final-104-variable
-hardware performance, or quantum advantage.
+true physical feasibility of the selected materials, repeatable hardware
+performance, or quantum advantage.

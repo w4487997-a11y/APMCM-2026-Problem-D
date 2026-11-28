@@ -139,22 +139,37 @@ recorded eight-bit bounds, and makes every group amenable to direct
 2,704-state legal enumeration.  Its main limitation is that three solves
 and an external raw-score comparison replace one joint optimization.  It
 also does not model cross-group transitions inside a single energy
-landscape.  The proposed 107-variable second-order projection is still an
-uncompleted comparison (O-10); no projection accuracy or solver result is
-reported here.
+landscape.  The 107-variable second-order projection was evaluated as a
+counterexample to replacing the groupwise route.  Across 8,112 candidates
+its MAE, RMSE, and Spearman correlation were 1.100009, 1.847176, and
+0.978891, yet its projected optimum was Rb--Ta--O3, whose original-scale
+score was 0.676651, rather than the raw proxy optimum Na--Nb--O3 at
+0.540023.  Top-1 and Top-5 overlap were both zero, and the scaled Ising
+field reached $\max|h|=254$, outside the signed eight-bit range.  In 300
+local-SA samples the raw proxy optimum appeared only twice.  Thus high
+global rank correlation did not preserve the low-tail optimum; the
+projection is a completed adverse comparison, not the adopted Q3 model.
 
 \subsection{Evidence boundary and future work}
 
 The Q3 conclusion is restricted to the frozen surrogate and the complete
 file~08 pool.  Na--Nb--O3 is the minimum returned and enumerated candidate
 under $\widehat V_{23}$, not a material whose true violation score has been
-measured.  File~12 predictions exist, but selecting file~12 rows after a
-full-pool solve would not constitute an independent blind-pool experiment.
-A dedicated blind matrix and solve remain pending under O-14.  The recorded
-formal run used the Kaiwu SDK on a CPU.  A separate historical SPQC-550
-experiment used a 30-variable, 144-candidate short-list matrix and returned
-Ge--Ti--O3.  It supports only the anion-level conclusion $X=\mathrm{O}_3$:
-its 0.15 score resolution could not distinguish the leading A--B pairs, and
-it is not a hardware execution of the final 104-variable model.  Accordingly,
-this chapter makes no claim of final-matrix real-device execution, physical
-feasibility, global hardware optimality, or quantum advantage.
+measured.  File~12 was subsequently modeled independently rather than
+filtered after a full-pool solve.  Local simulated annealing of dedicated
+floating/integer 104-variable blind matrices returned Ca--Sn--O3
+($\widehat V_{23}=1.185082$), Y--Ti--NO2 (1.491928), and Rb--Ti--FO2
+(1.590922).  All eight Q2/Q3 blind runs returned 300/300 legal samples, but
+integerization reduced optimum-seed hits from 27 to 13 for O3, 25 to 16 for
+NO2, and 26 to 11 for FO2.  These are local-SA proxy results with no blind
+physical labels, not SDK or SPQC evidence.
+
+Four final 104-variable matrices were submitted to SPQC-550.  For Q3, the
+O3 task returned 4/10 legal samples and the proxy winner Na--Nb--O3; the NO2
+task returned 0/7 legal samples; and the FO2 task returned 1/5 legal samples
+and Na--Ti--FO2.  Together with Q2, three of four final tasks returned their
+group proxy winner.  The samples are too few to establish hardware
+stability.  A separate historical 30-variable task returned Ge--Ti--O3 and
+remains only a reduced short-list comparison.  Accordingly, this chapter
+claims neither physical feasibility, hardware global optimality, speedup,
+nor quantum advantage.

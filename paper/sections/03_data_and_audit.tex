@@ -9,8 +9,11 @@ The official data form a complete $52\times52\times7$ factorial grid of
 development and the Q2/Q3 refit.  File~04 contains the remaining 3,703
 unlabeled rows (529 groups).  Composition pools are file~06 (15,225 rows),
 Q2 file~07 (2,704), Q3 file~08 (8,112), and blind-pair subsets files~11
-(529) and~12 (1,587).  Thus each ordered pair contributes all seven X values
-to exactly one of 02--04; files~11/12 add no labels.
+(529) and~12 (1,587).  The 529 blind pairs are a sparse subset of the
+$52\times52$ cation grid, not a $23\times23$ Cartesian product; file~12
+contains the same 529 ordered pairs for each of three anion groups.  Thus
+each ordered pair contributes all seven X values to exactly one of 02--04;
+files~11/12 add no physical labels.
 
 All CSVs were read as UTF-8 with optional byte-order marks, using ordered
 $(A,B,X)$ as the composition key.  The audit retained source order and text,
@@ -51,9 +54,16 @@ predictions are blind outputs, not validation results.
 Q2/Q3 instead require candidate scores.  Their \texttt{q23\_final} reuses
 the frozen architecture but fits 02+03, then scores files~07, 08, 11, and 12
 without physical labels.  Its full-pool 07/08 scores feed the reported QUBOs;
-03 is never reused as unseen evidence.  Filtering a full-pool solution into
-11/12 would not be an independent blind-pool optimization, so that task
-remains pending.
+03 is never reused as unseen evidence.  Files~11/12 were also used in a
+separate blind-pool audit: four tasks (Q2--NO2 and Q3--O3/NO2/FO2) were each
+encoded in floating-point and integer form, producing eight dedicated
+104-variable matrices over the sparse legal mask.  Each model was solved by
+local simulated annealing with 300 samples.  This is independent matrix
+construction on the blind pools, not post-hoc filtering of the full-pool
+solution, and it is neither a Kaiwu SDK solve nor an SPQC-550 run.  The score
+range used for affine scaling comes from the blind prediction table itself;
+no winning candidate identity was injected, but the procedure is not a
+physical-label validation because files~11/12 remain unlabeled.
 
 Model inputs are restricted to A, B, X and deterministic composition
 features.  Identifiers, positions, pool labels, and targets are excluded;

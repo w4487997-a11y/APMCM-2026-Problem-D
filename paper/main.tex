@@ -34,16 +34,18 @@ CPU-local Kaiwu SDK~1.4.3 runs returned Y--Ti--NO2 for Q2 with
 $\widehat V=1.491928$, and Na--Nb--O3 for Q3 with
 $\widehat V=0.540023$, both matching exhaustive legal-state enumeration.
 
-The accepted two-level integer encoding preserves each unique group winner
-while fitting the recorded eight-bit limits
-($\max|h|=102$, $\max|J|=1$); it does not preserve all non-winning score
-differences or rankings.  We separately audit surrogate error, QUBO mapping,
-coefficient precision, and solver sampling.  Historical SPQC-550 tests used
-only reduced 17- and 30-variable short lists, so the formal results are not
-claimed as final-model hardware execution, physical validation, or quantum
-advantage.  The resulting method is a reproducible finite-budget screening
-and constrained proxy-optimization framework whose conclusions remain
-explicitly bounded by the available labels and hardware evidence.
+The accepted two-level integer encoding fits the recorded eight-bit limits
+($\max|h|=102$, $\max|J|=1$) and preserves the already identified unique
+winner in each group; because its two levels use the known group minimum,
+this is an oracle-assisted hardware-mapping test rather than an independent
+discovery mechanism.  Four final 104-variable SPQC-550 jobs returned a
+legal group winner in three cases, while one job returned no legal sample.
+These small jobs complement, but do not replace, the formal CPU-local SDK
+results.  Independent blind-pool simulated annealing and a 107-variable
+projection further expose integer-tie and low-tail distortion.  We report
+surrogate, QUBO-mapping, coefficient, and sampling errors separately and
+make no claim of physical validation, hardware stability, quantum advantage,
+or complete end-to-end cost.
 
 \keywords{inorganic perovskites\quad low-tail screening\quad surrogate modeling\quad QUBO\quad Ising model\quad coefficient precision}
 \end{abstract}

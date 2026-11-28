@@ -41,48 +41,67 @@ Figure~\ref{fig:q23-run-comparison} compares the two local solvers on the
 same four formal matrices.  Across 1,200 samples each, Kaiwu SDK 1.4.3 on
 CPU returned 99 legal states ($8.25\%$), hit the optimum in 99/120 seeded
 runs, and used 83.413~s.  Local simulated annealing returned 907 legal states
-($75.58\%$), hit the optimum in 120/120 recorded chain groups, and used
-162.556~s.  Every group nevertheless returned the correct best legal
-candidate.  Attempt definitions, code paths, and overheads differ, so the
-times are a resource ledger, not a speedup or quantum-advantage test.
+($75.58\%$) and hit the optimum in all 120 recorded chain groups.  Two
+archives give 162.556 and 178.14~s for the four local-SA controls; their run
+versions have not been reconciled, so neither is substituted for the other
+or used in a speed ratio.  Every group nevertheless returned the correct
+best legal candidate.  Attempt definitions, code paths, and overheads differ,
+so these times form a provenance ledger rather than a backend-speed or
+quantum-advantage test.
 
 \subsection{Four-layer error audit}
 
 The four error layers are not additive because they have different units and
 conditioning events.  First, surrogate prediction has file~03 MAE $2.4715$,
 RMSE $4.5827$, Spearman $0.9383$, and low-tail MAE $8.2654$; true Q2/Q3
-candidate error is NA without labels.  Second, exhaustive enumeration gives
-zero winner regret and the maximum signed-energy reconstruction residual is
-zero over 1,200 SDK samples, verifying the mapping but not the material.
-Third, integerization retains every formal winner with $\max|h|=102$,
-$\max|J|=1$, and winner-to-lowest-illegal gap 2, while full score distortion
-is intentionally not preserved and hence NA as one scalar.  Fourth, the
-sampling statistics above quantify local-solver variability; final-matrix
-SPQC variability is NA.  Thus zero QUBO regret does not remove the dominant
-unknown---the selected candidate's unobserved physical label---and a low
-legal sampling rate does not change the constrained minimizer.
+candidate error is NA without labels.  Second, the mapping audit found
+formula--matrix coefficient differences of $2.13\times10^{-14}$ (Q2) and
+$9.95\times10^{-14}$ (208-variable Q3), with energy residuals
+$1.42\times10^{-12}$ and $4.57\times10^{-12}$.  These values verify the
+offset-corrected conversion within floating-point precision, not the
+material.
+
+Third, uniform integerization retained the raw optimum within the lowest
+tier but created six Q2 and 21--24 Q3 ties; selecting by ID then incurred
+proxy-score losses 0.6474 and 0.6451.  The formal two-level matrices retain
+the known group winners with $\max|h|=102$, $\max|J|=1$, and a lowest
+illegal-minus-winner gap of 2, but they are oracle-assisted and do not retain
+non-winner ordering.  Fourth, SDK--CPU, local-SA, and SPQC-550 sampling are
+reported separately.  The final hardware jobs had legal rates 10\%, 40\%,
+0\%, and 20\% and returned the group winner in three of four tasks.  These
+four heterogeneous layers have different units and conditioning events and
+are not added into a synthetic total error.
 
 \subsection{Pipeline robustness and measured cost boundary}
 
-The archived intake tests injected nine defect classes, including external
-or duplicated identifiers, missing rows, mismatched compositions or source
-pools, non-finite and negative scores, mixed model versions, and constant
-prediction tables.  Both Q2 and Q3 rejected every injected defect.  The
-regression suite also verified that an all-illegal solver return produces no
-winner, that a missing SDK licence is reported rather than hidden, and that
-the joint entry point retains all 2,704 candidates in each Q3 group.  These
-tests support pipeline integrity; they are not additional material-accuracy
-experiments.
+The archived intake tests injected 13 defect classes: external identifiers,
+wrong compositions, wrong pool and source-pool fields, a wrong source field
+alone, missing pool/source columns, duplicates, missing rows, NaN and
+negative scores, mixed model versions, and constant prediction tables.  Q2
+and Q3 rejected all 13 classes.  Regression R1 returns
+\texttt{solver\_failed} and no winner when every sample is illegal; R2
+surfaces a missing SDK licence consistently; R3 retains Q2's 2,704 and each
+Q3 group's 2,704 candidates through the joint entry point; and R4 rejects
+invalid source fields.  These checks support pipeline integrity, not
+material accuracy.
 
-The local cost ledger contains 83.413~s for the four CPU SDK solves and
-162.556~s for the four local-SA controls.  Historical SPQC-550 short-list logs add
-one Q2 task (17 variables, 4~s creation-to-end, 1.1228~ms evolution) and one
-Q3 task (30 variables, 19~s creation-to-end, 8.7755~ms evolution), each
-recorded as one optimization quota.  They show that reduced matrices were
-executed on the device, but a two-task observation cannot estimate sustained
-throughput, queueing at contest load, or the cost of the final 104-variable
-models.  Monetary billing, final-matrix resource consumption, and comparable
-CPU-versus-device end-to-end timing are therefore NA.
+The measured build--convert--adapt--check pipeline took 6.551~ms for Q2 and
+7.430, 7.524, and 7.591~ms for the three Q3 groups (23.197~ms combined).
+These CSV/JSON values supersede stale README figures but describe local
+matrix preparation, not solving.  The formal SDK~1.4.3 solves took
+20.81--20.96~s per group, 83.413~s in total.  A separate supplement reports
+0.48--0.69~s for nominally 30 SDK calls without a confirmed timing boundary;
+we therefore exclude that range from the formal end-to-end total.
+
+The latest verified local-SA record totals 178.14~s, while the earlier paper
+archive totals 162.556~s; both remain in the ledger pending run-ID alignment.
+For SPQC-550, the four final 104-variable tasks had creation-to-finish
+intervals 22, 74, 112, and 16~s and reported single-evolution times 15.0116,
+9.7488, 0.6991, and 7.3587~ms.  Neither field isolates queueing or complete
+execution.  The balance changed from 31 to 24 for seven one-credit entries,
+but \texttt{probe4\_01} lacks its original task receipt.  Monetary billing,
+queue time, complete execution time, and comparable CPU--device end-to-end
+cost remain NA.
 
 \subsection{Stability, contribution, and limitations}
 
@@ -111,12 +130,22 @@ The method is appropriate for prioritizing a finite number of candidates
 from the supplied categorical domain.  It is not a substitute for
 first-principles calculation or laboratory validation, and it is not
 validated for unseen elements.  File~03 was involved in model selection;
-file~04 remains unlabeled; independent blind-pool optimization for files~11
-and~12, the 107-variable projection comparison, and final 104-variable SPQC
-runs are pending.  Future work should add genuinely independent labels,
-calibrate the positive-gap component, compare richer optimum-preserving
-integer levels, and obtain traceable hardware receipts and billed-resource
-records.  These additions would improve external validity and cost analysis
-without changing the present conclusion: the current pipeline is a
-reproducible screening and encoded-optimization study, not physical proof of
-the proposed materials.
+file~04 and the blind pools remain unlabeled.  Dedicated local-SA blind-pool
+models were completed for all four Q2/Q3 groups.  They retained Y--Ti--NO2
+for Q2/NO2, but the Q3 blind O3 and FO2 winners changed to Ca--Sn--O3 and
+Rb--Ti--FO2 because the 529-pair sparse domain differs from the full pool.
+Integer encodings increased the blind minimum-tier ties to 11, 19, 11, and
+34 and reduced optimum-seed hits relative to their floating counterparts.
+This supports a resolution limitation, not a conclusion about hidden
+physical labels.
+
+The 107-variable projection and final 104-variable SPQC tasks are now
+completed comparisons, but neither closes external validity: the projection
+changed the low-tail optimum, and the four hardware jobs are too small to
+characterize stability.  Future work should add independent physical or
+high-fidelity labels, reconcile the outstanding timing and budget-scan
+records, test non-oracle multilevel encodings, recover the missing probe
+receipt, and collect repeated hardware batches with a documented cost
+boundary.  The present contribution remains a reproducible screening and
+encoded-proxy optimization study, not physical proof of the proposed
+materials or quantum advantage.

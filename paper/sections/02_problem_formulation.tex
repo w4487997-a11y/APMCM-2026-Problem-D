@@ -15,9 +15,13 @@ domain therefore has $52^2\times7=18{,}928$ candidates
 \cite{apmcm2026problemD}.  Q1 learns a composition-only surrogate
 $\widehat V(A,B,X)$.  Q2 fixes $X=\mathrm{NO}_2$, whereas Q3 also chooses
 $X$ from $\mathcal X_3=\{\mathrm O_3,\mathrm{NO}_2,\mathrm{FO}_2\}$.
-Both optimization questions use the prescribed Kaiwu workflow.  Unless a
-historical hardware task is explicitly identified, a ``Kaiwu result'' below
-means a CPU-local Kaiwu SDK run.
+Both optimization questions use the prescribed Kaiwu workflow.  To prevent
+backend ambiguity, every result below is tagged as one of three types:
+``SDK--CPU'' denotes the formal Kaiwu SDK~1.4.3 local-CPU solve; ``mapping
+audit'' denotes Kaiwu~1.4.4 conversion and field-compatibility checks without
+a licensed solve; and ``SPQC-550'' denotes an identified platform task with
+a task ID, submitted-matrix hash, and archived return.  A generic ``Kaiwu
+result'' is never used to transfer evidence between these three types.
 
 \subsection{Violation score and optimization objectives}
 
@@ -93,4 +97,6 @@ validation are different layers.  Enumeration can establish the encoded
 optimum, but neither material feasibility, hardware execution, nor quantum
 advantage follows from it.  The workflow therefore reports data audit,
 grouped validation, scoring, QUBO construction, solving, decoding, and
-independent recomputation as separately traceable steps.
+independent recomputation as separately traceable steps.  In particular,
+SPQC task output is a hardware sample from the encoded proxy objective; it
+is not a measurement of $V$ and does not certify the selected material.

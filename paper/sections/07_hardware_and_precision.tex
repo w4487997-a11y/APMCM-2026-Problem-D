@@ -71,7 +71,10 @@ the group winner, not the complete raw-score geometry: non-winning values
 collapse onto the same integer level, so their pairwise differences and
 full ordering cannot be recovered from QUBO energies.  Cross-group selection
 must therefore use the original-scale $\widehat V$ as specified in
-Equation~\eqref{eq:q3-original-scale-comparison}.
+Equation~\eqref{eq:q3-original-scale-comparison}.  Moreover, the level
+boundary is defined using the already known group minimum $m_X$.  The formal
+two-level construction is therefore an oracle-assisted mapping and solver
+test, not an independent method for discovering the proxy optimum.
 
 \subsection{Coefficient and energy verification}
 
@@ -86,12 +89,16 @@ found
 \end{equation}
 The coefficients therefore fit a signed eight-bit range without lossy
 rescaling.  The minimum legal energy was zero and the minimum illegal energy
-was two for Q2 and for all three Q3 groups.  Across the 1,200 archived SDK
-samples, the maximum discrepancy between independently recomputed signed
-Ising energy and the adapted matrix energy was exactly zero.  These checks
-verify coefficient conversion, offset handling, and constraint separation
-for the archived formal runs; they do not establish a margin under every
-possible future hardware transformation.
+was two for Q2 and for all three Q3 groups.  In the Kaiwu~1.4.4 mapping
+recheck, the maximum formula--matrix coefficient differences were
+$2.13\times10^{-14}$ for Q2 and $9.95\times10^{-14}$ for the 208-variable
+Q3 control; the corresponding energy-chain residuals were
+$1.42\times10^{-12}$ and $4.57\times10^{-12}$.  These are floating-point
+roundoff rather than exact symbolic zeros.  They verify conversion and the
+restored offset within numerical precision, but do not establish a margin
+under every future platform transformation.  Kaiwu~1.4.4 was used only for
+this mapping recheck because no solve licence was available; the formal CPU
+sampling results used SDK~1.4.3.
 
 The accepted workflow was: generate the versioned QUBO, convert it with the
 documented SDK convention, confirm the coefficient range, solve with Kaiwu
@@ -102,38 +109,72 @@ $\alpha=0.99$ for each matrix.  No solver-reported energy was accepted as a
 material result without this independent decoding.  Sections~\ref{sec:q2-qubo}
 and~\ref{sec:q3-qubo} report the resulting candidates and sample statistics.
 
-\subsection{Precision controls and historical short-list hardware runs}
+\subsection{Projection, quantization, and ranking controls}
 
-The archived controls confirm why the formal route is necessary.  Exact
-floating-point Q2/Q3 matrices matched all legal costs after the previously
-omitted offset $o=4$ was restored, but direct eight-bit scaling produced six
-minimum ties for Q2, 21--24 for Q3, and sampled illegal states below the best
-legal integer state.  A capped $0.4$, $\lambda=1.02$ control retained unique
-winners; a $K=24$, $\lambda=8$ short list made all samples legal, while its
-optimum rate increased from $2.0\%$ to $42.3\%$ when the local-SA budget rose
-from 30 to 300 iterations.  Detailed parameters are retained in the
-appendix evidence inventory because these controls use different objectives,
-domains, or back ends from the formal runs.
+Three controls show why coefficient range alone is insufficient.  First, the
+107-variable second-order Q3 projection achieved Spearman 0.978891 over all
+8,112 candidates but changed the optimum from Na--Nb--O3
+($\widehat V=0.540023$) to Rb--Ta--O3 (0.676651), had zero Top-5 overlap,
+and produced $\max|h|=254$ after scaling.  Its global fit therefore did not
+preserve the decision-relevant low tail.
 
-Two historical SPQC-550 tasks provide limited real-device evidence.  Q2 used
-17 variables and returned the legal Y--Ti optimum in one of ten samples
-(4~s creation-to-end; 1.1228~ms evolution).  Q3 used 30 variables and
-returned Ge--Ti--O3 (19~s; 8.7755~ms), supporting only the O3 group because
-its 0.15 resolution could not distinguish the leading A--B pairs.  Neither
-task used a final 104-variable matrix.
+Second, uniform full-pool quantization retained the raw optimum inside the
+minimum energy tier but not as a unique selected candidate.  The tier held
+six candidates for Q2 and 21 or 24 for Q3; breaking the tie by candidate ID
+selected scores worse by 0.647403 and 0.645059, respectively.  Pairwise
+order among distinguishable levels was 1, while overall pairwise retention
+fell to about 0.918 for Q2 and 0.924--0.926 for Q3 because of ties.  Thus
+``the optimum is in the lowest tier'' and ``the quantized model returns the
+unique original optimum'' are different claims.
+
+Third, the 18-point $K\times\lambda$ scan exposed a feasibility--range
+trade-off.  For $\lambda=2,4,8$ the lowest illegal-minus-legal gaps were
+$-2,0,4$; at $K=52,\lambda=8$, however, $\max|h|=252$ exceeded the signed
+eight-bit range.  One nominal $K=52,\lambda=2$, 30-iteration configuration
+is recorded as both 0/300 and 8/300 legal samples in separate stage-2 and
+stage-3 records.  Because the code/seed provenance is unresolved, both are
+retained and neither is used as a single performance estimate.
+
+\subsection{Final-matrix SPQC-550 observations}
+
+In addition to the historical 17- and 30-variable short-list tasks, four
+final 104-variable matrices were submitted to SPQC-550.  Their small-sample
+returns are summarized in Table~\ref{tab:spqc-final-results}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Final 104-variable SPQC-550 tasks.  Times are platform
+creation-to-finish intervals and single-evolution reports, not isolated
+queue or end-to-end computation times.}
+\label{tab:spqc-final-results}
+\small
+\begin{tabularx}{\textwidth}{@{}lXrrrr@{}}
+\toprule
+Task & Matrix/group & Returned & Legal & Winner hit & Total / evolution \\
+\midrule
+Q2 & NO2 & 10 & 1 & yes & 22 s / 15.0116 ms \\
+Q3 & O3  & 10 & 4 & yes & 74 s / 9.7488 ms \\
+Q3 & NO2 & 7  & 0 & no  & 112 s / 0.6991 ms \\
+Q3 & FO2 & 5  & 1 & yes & 16 s / 7.3587 ms \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Three of four tasks returned their group proxy winner.  The NO2 Q3 task is
+retained as a zero-legal-sample counterexample rather than discarded.  The
+four submitted matrix hashes and complete task IDs are listed in the
+appendix.  The quota ledger records seven one-credit tasks from a balance
+change of 31 to 24, but the additional \texttt{probe4\_01} entry lacks an
+original task receipt.  Platform queue time, full execution time, and
+monetary billing remain NA.
 
 \subsection{Evidence boundary}
 
-All formal full-pool results in this chapter are local CPU executions of the
-Kaiwu SDK, not SPQC hardware measurements.  The historical 17- and
-30-variable hardware tasks validate only their reduced short-list matrices;
-they cannot be transferred to the final 104-variable construction.  A later
-web preview of a full-size task was explicitly not submitted.  The final
-104-variable matrices therefore have no verified hardware job in the present
-evidence set, and we make no claim of quantum advantage, final-matrix
-hardware speedup, or complete end-to-end hardware cost.
-Independent blind-pool matrices for files~11 and~12 and the planned
-107-variable projection comparison also remain outside the completed
-evidence.  Most importantly, preserving the proxy optimum is a statement
-about the encoded surrogate objective; it is not evidence that the selected
-composition satisfies the physical constraints in experiment.
+The formal optimization statistics in Sections~\ref{sec:q2-qubo} and
+\ref{sec:q3-qubo} remain Kaiwu SDK~1.4.3 CPU results.  The SPQC observations
+verify that the archived matrices were executable and show substantial
+sample variability, but four small jobs cannot estimate hardware stability,
+speedup, or quantum advantage.  The blind-pool experiments use local
+simulated annealing, and the projection is also a local comparison.  Most
+importantly, every winner is a proxy optimum: neither enumeration nor
+hardware sampling measures the composition's physical violation score.
