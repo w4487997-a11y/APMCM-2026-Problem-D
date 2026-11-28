@@ -213,26 +213,34 @@ def main():
     spins = anneal_ising_batch(M, 300, iterations_per_t=300, alpha=0.99)
     solve_s = time.perf_counter() - t0
     bits = ((spins[:, :-1] * spins[:, -1:] + 1) // 2).astype(int)
+    key_index = {C.key(r): t for t, r in enumerate(rows)}
+    keyset = {f"{r['A']}|{r['B']}|{r['X']}" for r in rows}
+    samples = []
     legal = hits = 0
     best_ret = None
-    for b in bits:
+    for sid, (b, sv) in enumerate(zip(bits, spins)):
         ones = np.flatnonzero(b)
         ok = (ones < nA).sum() == 1 and ((ones >= nA) & (ones < nA + nB)).sum() == 1 \
             and (ones >= nA + nB).sum() == 1
-        if not ok:
-            continue
-        legal += 1
-        a = int(ones[ones < nA][0])
-        bb = int(ones[(ones >= nA) & (ones < nA + nB)][0] - nA)
-        xx = int(ones[ones >= nA + nB][0] - nA - nB)
-        key = (A[a], B[bb], X[xx])
-        idx = next((t for t, r in enumerate(rows) if C.key(r) == key), None)
-        if idx is None:
-            continue
-        v = raw[idx]
-        best_ret = v if best_ret is None else min(best_ret, v)
-        if abs(v - raw.min()) < 1e-12:
-            hits += 1
+        material = score = energy = None
+        if ok:
+            a = int(ones[ones < nA][0])
+            bb = int(ones[(ones >= nA) & (ones < nA + nB)][0] - nA)
+            xx = int(ones[ones >= nA + nB][0] - nA - nB)
+            material = f"{A[a]}|{B[bb]}|{X[xx]}"
+            idx = key_index.get((A[a], B[bb], X[xx]))
+            if idx is not None:
+                score = float(raw[idx])
+                energy = float(e[idx])
+                legal += 1
+                best_ret = score if best_ret is None else min(best_ret, score)
+                if abs(score - raw.min()) < 1e-12:
+                    hits += 1
+        samples.append({"sample": sid, "legal": bool(ok and material in keyset),
+                        "material": material, "V_hat": score,
+                        "energy_projection": energy,
+                        "spin": "".join(str(int(v)) for v in sv),
+                        "bits": "".join(str(int(v)) for v in b)})
     hit_rate = hits / len(bits)
     feasible = legal / len(bits)
 
@@ -291,10 +299,18 @@ def main():
     summary["projection"]["nnz_including_diag"] = int(np.count_nonzero(Q))
     summary["projection"]["nnz_offdiag"] = int(np.count_nonzero(np.triu(Q, 1)))
     C.write_json(RES / "o10_projection.json", summary)
-    np.savez_compressed(MAT / "q3_projection_107.npz", qubo=q, offset=np.array(offset),
+    np.savez_compressed(MAT / "q3_projection_107.npz",
+                        qubo=q, offset=np.array(offset),
+                        penalized_qubo=Q, penalized_offset=np.array(Qoff),
+                        ising_matrix=M, ising_constant=np.array(K),
+                        lambda_empirical=np.array(lam_emp),
                         var_names=np.array([f"a:{a}" for a in A] + [f"b:{b}" for b in B]
                                            + [f"x:{x}" for x in X]),
                         weights=w, feature_offset=np.array(off))
+    with open(RES / "o10_samples.csv", "w", encoding="utf-8-sig", newline="") as fh:
+        wcsv = csv.DictWriter(fh, list(samples[0]))
+        wcsv.writeheader()
+        wcsv.writerows(samples)
     rows_csv = []
     for name, pack in (("107 投影", summary["projection"]), ("104 分组", summary["partition_104"]),
                        ("208 联合", summary["joint_208"])):
