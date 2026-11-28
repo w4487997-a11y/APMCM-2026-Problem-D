@@ -1,5 +1,7 @@
 ﻿task_name,task_id,device,matrix_file,matrix_sha256,created,finished,queue_seconds,exec_seconds,total_seconds,evolve_ms,credits_used,samples_returned,legal_samples,best_material,best_qubo_value
-o13_q2_NO2,,SPQC-550,q2_NO2.csv,fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c,,,,,,,1,,,,
-o13_q3_O3,,SPQC-550,q3_O3.csv,26d234efa34c11cde626801c353b6491aeaab07247a07140873566970a8a82ef,,,,,,,1,,,,
-o13_q3_NO2,,SPQC-550,q3_NO2.csv,fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c,,,,,,,1,,,,
-o13_q3_FO2,,SPQC-550,q3_FO2.csv,5b49510e78219db65b1a9eab7240f34222cc6a7b253f37ac95226f65c6fb7309,,,,,,,1,,,,
+q2_NO2,NA（未提供）,SPQC-550,q2_NO2.csv,fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c,NA,NA,NA,NA,NA,NA,1,10,1,Y|Ti|NO2,-4
+22222_01,NA（未提供）,SPQC-550,q3_O3.csv,26d234efa34c11cde626801c353b6491aeaab07247a07140873566970a8a82ef,NA,NA,NA,NA,NA,NA,1,10,4,Na|Nb|O3,-4
+333333_01,NA（未提供）,SPQC-550,q3_NO2.csv,fee2320be71979ba3dad4283ed917d957758e0b3f9966141c33a51d2c81bee5c,NA,NA,NA,NA,NA,NA,1,7,0,,-2
+444444_01,NA（未提供）,SPQC-550,q3_FO2.csv,5b49510e78219db65b1a9eab7240f34222cc6a7b253f37ac95226f65c6fb7309,NA,NA,NA,NA,NA,NA,1,5,1,Na|Ti|FO2,-4
+hist_q2_int_01,历史任务（早期记录）,SPQC-550,q2_intising（17 变量）,见 q2_project/platform_upload,NA,NA,NA,NA,NA,NA,1,10,1,Y|Ti,-40
+hist_q3_int_01,历史任务（早期记录）,SPQC-550,q3_intising（30 变量）,见 q2_project/platform_upload,NA,NA,NA,NA,NA,NA,1,10,1,Ge|Ti|O3,-16
