@@ -1,14 +1,148 @@
 \section{Results and Discussion}
+\label{sec:results-discussion}
 
-\subsection{Evidence structure}
-Final results will separate surrogate error, floating-point mapping error, coefficient-precision distortion, and sampling error. Each number must identify its pool, model version, matrix hash, solver mode, and evidence level.
+\subsection{Integrated answers to Q1--Q3}
 
-\begin{figure}[!ht]
+The three questions form a sequential evidence chain rather than three
+independent predictors.  Q1 establishes a composition-only surrogate and
+tests whether it is useful for low-tail screening.  Q2 then minimizes the
+Q2/Q3 scoring model over the 2,704 legal $(A,B)$ combinations at fixed
+$X=\mathrm{NO}_2$, while Q3 repeats the optimization for
+$X\in\{\mathrm{O}_3,\mathrm{NO}_2,\mathrm{FO}_2\}$ and compares the three
+winners on the original proxy scale.  Table~\ref{tab:integrated-results}
+summarizes what is supported by the archived evidence.
+
+\begin{table}[!htbp]
 \centering
-\fbox{\parbox{0.82\textwidth}{\centering L1 placeholder: the final evidence-backed workflow or precision figure will be generated under task O-16.}}
-\caption{Reserved figure location; no experimental result is asserted at L1.}
-\label{fig:l1-placeholder}
-\end{figure}
+\caption{Integrated results.  All $\widehat V$ values are surrogate scores,
+not measured material properties.}
+\label{tab:integrated-results}
+\small
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Question & Main result & Evidence boundary \\
+\midrule
+Q1 & File~03 MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$; 20 true Top-50 records recovered. & File~03 participated in selection; file~04 has no labels. \\
+Q2 & Y--Ti--NO2 (ID~15567), $\widehat V=1.491928$; zero gap to legal enumeration. & CPU-local SDK optimization of the proxy objective. \\
+Q3 & Na--Nb--O3 (ID~4159), $\widehat V=0.540023$; lower than the NO2 and FO2 group winners. & Three separate 104-variable matrices; comparison is on raw $\widehat V$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-\subsection{Pending result gates}
-\textbf{[TO BE COMPLETED --- O-15]} The four-layer error attribution requires traceable evidence. The resource-cost ledger must use measured timing and resource records. Missing hardware quantities must be marked NA rather than estimated. Figure~\ref{fig:l1-placeholder} is not a release artifact and must be replaced or removed before L6.
+The Q1 metrics expose an important objective trade-off.  The frozen mixture
+improved global MAE and low-tail retrieval relative to direct HGB, but its
+MAE on the 70 validation records with $V<5$ was still $8.2654$.  It recovered
+8 of the true Top-25 and 20 of the true Top-50 records, compared with 4 and
+13 for direct HGB.  A post-freeze direct expected-penalty model obtained a
+slightly lower file~03 MAE ($2.4624$) and screening score $41\%$, whereas the
+frozen mixture scored $36\%$ on that file but was stronger in the original
+grouped development folds ($39.8\%$ versus $35.2\%$).  We therefore retain
+the frozen model and interpret small differences in the predicted tail
+cautiously rather than selecting retrospectively on one metric.
+
+\subsection{Finite-budget value and solver sampling}
+
+The retrospective budget replay in Table~\ref{tab:q1-budget} gives the most
+direct operational interpretation of Q1.  At budgets 10, 25, 50, and 100,
+the proxy ranking found 6, 13, 23, and 34 records with observed $V<5$;
+uniform sampling without replacement had expected counts only 0.1764,
+0.4409, 0.8818, and 1.7637.  The proxy also included the validation-set
+minimum at every tested budget.  These enrichment factors quantify value on
+file~03, not a success probability for the unlabeled pool or for a new
+chemical domain.
+
+Figure~\ref{fig:q23-run-comparison} and Table~\ref{tab:solver-aggregate}
+compare the two local solvers on the same four formal matrices.  Aggregation
+is used to avoid repeating the group-level tables in Sections~\ref{sec:q2-qubo}
+and~\ref{sec:q3-qubo}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Aggregate local solver evidence over Q2-NO2 and the three Q3 groups.
+The two attempt types are not identical and the times are not a speedup test.}
+\label{tab:solver-aggregate}
+\small
+\begin{tabularx}{\textwidth}{@{}l*{5}{>{\centering\arraybackslash}X}@{}}
+\toprule
+Backend & Samples & Legal & Legal rate & Optimum attempts & Solver time (s) \\
+\midrule
+Kaiwu SDK 1.4.3, CPU & 1200 & 99  & $8.25\%$  & 99/120 seed runs & 83.413 \\
+Local simulated annealing & 1200 & 907 & $75.58\%$ & 120/120 chain groups & 162.556 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The SDK produced fewer legal samples and missed the enumerated optimum in 21
+of 120 seed runs, although every group returned the correct best legal
+candidate.  Local simulated annealing achieved a much higher legal rate and
+hit the optimum in every recorded chain group, but took longer in these
+particular implementations.  The attempt definitions, code paths, and
+overheads differ, so the measured times support a reproducibility and
+resource ledger only; they do not demonstrate algorithmic or quantum
+advantage.
+
+\subsection{Four-layer error audit}
+
+Table~\ref{tab:four-layer-error} keeps the error sources separate.  Adding
+these quantities would be meaningless because they have different units,
+domains, and conditioning events.
+
+\begin{table}[!htbp]
+\centering
+\caption{Four-layer error audit for the current evidence release.}
+\label{tab:four-layer-error}
+\small
+\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}p{0.34\textwidth}X@{}}
+\toprule
+Layer & Observed evidence & Missing quantity / interpretation \\
+\midrule
+Surrogate prediction & File~03 MAE $2.4715$, RMSE $4.5827$, Spearman $0.9383$; low-tail MAE $8.2654$. & Q2/Q3 candidates have no physical labels; their true prediction errors are NA. \\
+QUBO mapping & Exhaustive legal enumeration; zero solver-to-enumeration winner gap; maximum signed-energy reconstruction residual $0$ on 1,200 SDK samples. & This verifies the encoded objective, not the surrogate or the material. \\
+Integer precision & Formal winner retained in all four groups; $\max|h|=102$, $\max|J|=1$, legal/illegal gap $2$. & Full raw-score and ranking distortion is intentionally not preserved; a scalar distortion metric is NA. \\
+Solver sampling & SDK: 99/1,200 legal and 99/120 optimum-hit seed runs; local SA: 907/1,200 legal and 120/120 optimum-hit groups. & Final-matrix SPQC sampling error and device variability are NA. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The audit clarifies why zero QUBO regret does not remove model uncertainty.
+The optimization layer exactly identifies the best encoded proxy candidate,
+but the dominant unknown for that candidate is its unobserved physical
+label.  Conversely, the SDK's low legal rate is a sampling-quality issue,
+not evidence that the underlying constrained minimizer changed.
+
+\subsection{Stability, contribution, and limitations}
+
+Q1 stability tests held the ordered-pair folds fixed while changing the HGB
+seed from 42 to 1729 and 31415; the compared metrics were unchanged.  With
+two alternative group allocations, the mixture screening score was
+$40.2\%$ and $42.6\%$, versus $28.0\%$ and $26.0\%$ for direct HGB.  These
+tests support robustness to the sampled seeds and partitions, not a
+distribution-free guarantee.  For Q2/Q3, exhaustive enumeration makes the
+formal group winner insensitive to solver stochasticity whenever at least
+one optimum sample is returned; sensitivity to the integer design is more
+limited because non-winner score differences are deliberately discarded.
+
+Composition-based descriptors and machine-learning screening are well
+established in materials informatics \cite{Ward2016Magpie,Chen2024PerovskiteML}.
+Likewise, one-hot QUBO formulations are standard tools for discrete
+optimization \cite{Lucas2014IsingNP,Glover2019QUBOTutorial}.  The practical
+contribution here is narrower and auditable: a low-tail-oriented surrogate
+is connected to an exactly enumerable, eight-bit-compatible QUBO; proxy,
+mapping, precision, and sampling errors are reported separately; and solver
+outputs are decoded back to the original score before scientific
+interpretation.  We do not claim a new universal surrogate, a new annealing
+algorithm, or a quantum advantage.
+
+The method is appropriate for prioritizing a finite number of candidates
+from the supplied categorical domain.  It is not a substitute for
+first-principles calculation or laboratory validation, and it is not
+validated for unseen elements.  File~03 was involved in model selection;
+file~04 remains unlabeled; independent blind-pool optimization for files~11
+and~12, the 107-variable projection comparison, and final 104-variable SPQC
+runs are pending.  Future work should add genuinely independent labels,
+calibrate the positive-gap component, compare richer optimum-preserving
+integer levels, and obtain traceable hardware receipts and billed-resource
+records.  These additions would improve external validity and cost analysis
+without changing the present conclusion: the current pipeline is a
+reproducible screening and encoded-optimization study, not physical proof of
+the proposed materials.
