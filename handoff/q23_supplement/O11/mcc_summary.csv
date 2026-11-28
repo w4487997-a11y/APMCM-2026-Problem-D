@@ -1,0 +1,11 @@
+﻿source,problem,config,metric,value,note
+stage2/precision_rules,q2,exact_127_over_4,ties_at_min,6,scale=31.75
+stage2/precision_rules,q2,floor_127_over_4,ties_at_min,6,scale=31.0
+stage2/direct_ising,q2,scale_to_127,illegal_minus_legal,-56.0,负值表示非法态更优
+stage2/precision_rules,q3,exact_127_over_4,ties_at_min,21,scale=31.75
+stage2/precision_rules,q3,floor_127_over_4,ties_at_min,24,scale=31.0
+stage2/direct_ising,q3,scale_to_127,illegal_minus_legal,-96.0,负值表示非法态更优
+stage3/hitrate,q3,baseline_K52_l2__it30_a0.9,seed_hit_ratio,0.26666666666666666,legal_ratio=0.027
+stage3/hitrate,q3,baseline_K52_l2__it300_a0.99,seed_hit_ratio,1.0,legal_ratio=0.787
+stage3/hitrate,q3,fixed_K24_l8__it30_a0.9,seed_hit_ratio,0.16666666666666666,legal_ratio=1.000
+stage3/hitrate,q3,fixed_K24_l8__it300_a0.99,seed_hit_ratio,1.0,legal_ratio=1.000
