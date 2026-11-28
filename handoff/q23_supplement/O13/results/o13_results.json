@@ -104,7 +104,14 @@
         "platform_qubo_value": 0,
         "recomputed_qubo_value": 0
       }
-    ]
+    ],
+    "task_name": "q2_NO2.csv_01",
+    "task_id": "c249dca66bcd4c55a49114a37f4ebf2a",
+    "created": "2026-11-28 15:46:10",
+    "finished": "2026-11-28 15:46:32",
+    "evolve_ms": 15.0116,
+    "total_seconds": 22,
+    "credits": "inferred 1 per task"
   },
   "q3_O3": {
     "matrix": "q3_O3",
@@ -211,7 +218,14 @@
         "platform_qubo_value": 2,
         "recomputed_qubo_value": 2
       }
-    ]
+    ],
+    "task_name": "22222_01",
+    "task_id": "27a3df4616c74fa6ac87287f2dc1a59f",
+    "created": "2026-11-28 15:47:25",
+    "finished": "2026-11-28 15:48:39",
+    "evolve_ms": 9.7488,
+    "total_seconds": 74,
+    "credits": "inferred 1 per task"
   },
   "q3_NO2": {
     "matrix": "q3_NO2",
@@ -291,7 +305,14 @@
         "platform_qubo_value": 21212,
         "recomputed_qubo_value": 21212
       }
-    ]
+    ],
+    "task_name": "333333_01",
+    "task_id": "1e00e1fb34dc4a21ba1ee0520c9477d2",
+    "created": "2026-11-28 15:47:46",
+    "finished": "2026-11-28 15:49:38",
+    "evolve_ms": 0.6991,
+    "total_seconds": 112,
+    "credits": "inferred 1 per task"
   },
   "q3_FO2": {
     "matrix": "q3_FO2",
@@ -353,7 +374,14 @@
         "platform_qubo_value": 3360,
         "recomputed_qubo_value": 3360
       }
-    ]
+    ],
+    "task_name": "444444_01",
+    "task_id": "c528ea69a2094bc79ac4920f4e99ee8d",
+    "created": "2026-11-28 15:48:17",
+    "finished": "2026-11-28 15:48:33",
+    "evolve_ms": 7.3587,
+    "total_seconds": 16,
+    "credits": "inferred 1 per task"
   },
   "hist_q2_int_01": {
     "matrix": "q2_intising_17vars",
@@ -458,7 +486,13 @@
         "platform_qubo_value": 3192,
         "recomputed_qubo_value": 3192
       }
-    ]
+    ],
+    "task_name": "q2_int_01",
+    "task_id": "76ac237a1e124cb29a064a022f8c4e98",
+    "created": "2026-11-27 18:58:05",
+    "finished": "2026-11-27 18:58:09",
+    "evolve_ms": 1.1228,
+    "total_seconds": 4
   },
   "hist_q3_int_01": {
     "matrix": "q3_intising_30vars",
@@ -563,6 +597,12 @@
         "platform_qubo_value": 3200,
         "recomputed_qubo_value": 3200
       }
-    ]
+    ],
+    "task_name": "q3_int_01",
+    "task_id": "7ab4ca3648d24cb3823668cc92f92869",
+    "created": "2026-11-27 19:06:51",
+    "finished": "2026-11-27 19:07:10",
+    "evolve_ms": 8.7755,
+    "total_seconds": 19
   }
 }
